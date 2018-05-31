@@ -1,5 +1,5 @@
 # Node Bucks
-> The difference is measurable
+> Master of your own nodes.
 ---
 
 Node Bucks is a web application with a Rails API only backend and React/Redux front end.
