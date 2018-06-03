@@ -8,9 +8,20 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'jbuilder', '~> 2.5'
 gem 'typhoeus'
-gem 'nokogiri'
 
-# gem 'bcrypt', '~> 3.1.7'
+# For scraping
+gem 'selenium-webdriver'
+gem 'phantomjs'
+gem 'watir'
+
+# Auth
+gem 'bcrypt', '~> 3.1.7'
+gem 'jwt'
+gem 'simple_command'
+
+# job scheduling
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

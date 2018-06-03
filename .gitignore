@@ -40,3 +40,6 @@ yarn-error.log*
 *.xml
 .idea/rency.iml
 /config/database_docker.yml
+
+# Rails 5.2 new way handling environment variables
+config/master.key

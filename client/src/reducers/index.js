@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
-import mnodes from './mnodes'
+import cryptos from './cryptos'
 import user from './user'
-import users from './users'
 
 export default combineReducers({
-  mnodes,
+  cryptos,
   router: routerReducer,
-  user,
-  users
+  user
 })

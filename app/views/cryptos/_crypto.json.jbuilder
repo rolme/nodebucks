@@ -1,0 +1,9 @@
+json.annualRoi crypto.annual_roi
+json.name crypto.name
+json.nodePrice crypto.node_price
+json.nodes crypto.nodes
+json.price crypto.price
+json.slug crypto.slug
+json.status crypto.status
+json.symbol crypto.symbol
+json.url crypto.url

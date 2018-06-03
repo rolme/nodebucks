@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
-export const FETCH = 'mnodes/FETCH'
-export const FETCH_ERROR = 'mnodes/FETCH_ERROR'
-export const FETCH_SUCCESS = 'mnodes/FETCH_SUCCESS'
-export const FETCH_LIST = 'mnodes/FETCH_LIST'
-export const FETCH_LIST_ERROR = 'mnodes/FETCH_LIST_ERROR'
-export const FETCH_LIST_SUCCESS = 'mnodes/FETCH_LIST_SUCCESS'
-export const UPDATE = 'mnodes/UPDATE'
-export const UPDATE_ERROR = 'mnodes/UPDATE_ERROR'
-export const UPDATE_SUCCESS = 'mnodes/UPDATE_SUCCESS'
+export const FETCH = 'cryptos/FETCH'
+export const FETCH_ERROR = 'cryptos/FETCH_ERROR'
+export const FETCH_SUCCESS = 'cryptos/FETCH_SUCCESS'
+export const FETCH_LIST = 'cryptos/FETCH_LIST'
+export const FETCH_LIST_ERROR = 'cryptos/FETCH_LIST_ERROR'
+export const FETCH_LIST_SUCCESS = 'cryptos/FETCH_LIST_SUCCESS'
+export const UPDATE = 'cryptos/UPDATE'
+export const UPDATE_ERROR = 'cryptos/UPDATE_ERROR'
+export const UPDATE_SUCCESS = 'cryptos/UPDATE_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -79,8 +79,7 @@ export default (state = initialState, action) => {
 export function fetchCrypto(slug) {
   return dispatch => {
     dispatch({ type: FETCH })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.get(`/api/mnodes/${slug}`)
+    axios.get(`/api/cryptos/${slug}`)
       .then((response) => {
         dispatch({ type: FETCH_SUCCESS, payload: response.data })
       })
@@ -94,7 +93,7 @@ export function fetchCrypto(slug) {
 export function fetchCryptos() {
   return dispatch => {
     dispatch({ type: FETCH_LIST })
-    axios.get('/api/mnodes')
+    axios.get('/api/cryptos')
       .then((response) => {
         dispatch({ type: FETCH_LIST_SUCCESS, payload: response.data })
       })
@@ -108,8 +107,8 @@ export function fetchCryptos() {
 export function updateCrypto(slug, data) {
   return dispatch => {
     dispatch({ type: UPDATE })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/mnodes/${slug}`, { crypto: data })
+    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/cryptos/${slug}`, { crypto: data })
       .then((response) => {
       dispatch({ type: UPDATE_SUCCESS, payload: response.data })
       }).catch((error) => {

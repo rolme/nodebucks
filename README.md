@@ -14,7 +14,9 @@ This section assumes you have MacOS. If not, replicate steps appropriate for you
 
 ### Install required packages
 ```
+$ brew tap homebrew/cask
 $ brew install rbenv ruby-build node postgresql watchman
+$ brew cask install chromedriver
 ```
 
 ### Update your ruby version

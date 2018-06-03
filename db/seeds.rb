@@ -1,15 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+User.create([
+  { first: 'Ron', last: 'Parnaso', email: 'ron.parnaso@gmail.com', password: 'test', password_confirmation: 'test' },
+  { first: 'Jay', last: 'Severson', email: 'jay.severson@gmail.com', password: 'test', password_confirmation: 'test' },
+  { first: 'Rick', last: 'Jackman', email: 'jackmanrick@gmail.com', password: 'test', password_confirmation: 'test' }
+])
 
 Crypto.create([
-  { name: 'Dash', symbol: 'dash', status: 'active' },
-  { name: 'ZCoin', symbol: 'xzc', status: 'active' },
-  { name: 'Stipend', symbol: 'spd', status: 'active' },
-  { name: 'Polis', symbol: 'polis', status: 'active' },
-  { name: 'PIVX', symbol: 'pivx', status: 'active' }
+  { name: 'Dash', symbol: 'dash', status: 'active', url: 'https://www.dash.org/' },
+  { name: 'ZCoin', symbol: 'xzc', status: 'active', url: 'https://zcoin.io/' },
+  { name: 'Stipend', symbol: 'spd', status: 'active', url: 'https://pivxmasternode.org/' },
+  { name: 'Polis', symbol: 'polis', status: 'active', url: 'https://polispay.org/' },
+  { name: 'PIVX', symbol: 'pivx', status: 'active', url: 'https://stipend.me/' }
 ])

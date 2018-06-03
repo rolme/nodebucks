@@ -1,0 +1,15 @@
+---
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - [critical, 2]
+  - default
+  - low
+  - mailers
+:schedule:
+  crypto_scraper_worker:
+    cron: '12 3 * * *' # Run at 3:12AM everyday
+    class: CryptoScraperWorker

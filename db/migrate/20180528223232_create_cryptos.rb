@@ -6,6 +6,9 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.string :symbol
       t.string :url
       t.string :status
+      t.integer :nodes
+      t.decimal :node_price
+      t.decimal :annual_roi
       t.decimal :price
 
       t.timestamps

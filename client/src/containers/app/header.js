@@ -6,8 +6,6 @@ import { connect } from 'react-redux'
 
 import { Collapse, NavbarToggler } from 'reactstrap'
 
-import { fetchUsers } from '../../reducers/users'
-
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -16,14 +14,6 @@ class Header extends Component {
     };
     this.toggle = this.toggle.bind(this)
     this.toggleNavbar = this.toggleNavbar.bind(this)
-  }
-
-  componentWillMount(nextProps) {
-    let { users, user } = this.props
-
-    if (users.length === 0 && user !== null) {
-      this.props.fetchUsers()
-    }
   }
 
   toggle(name) {
@@ -54,25 +44,23 @@ class Header extends Component {
   }
 
   displayLoginLink() {
-    const { user, users } = this.props
+    const { user } = this.props
 
     let navigation = []
     if ( !!user ) {
-      navigation.push(<NavLink key="users" onClick={() => this.toggleNavbar(true)} to="/users" exact={true} className="headerMenuItem nav-item nav-link">Users ({users.length})</NavLink>)
       navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/logout" className="nav-link nav-item" activeClassName="active">Logout</NavLink>)
-      return (navigation)
+    } else {
+      navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/signup" className="nav-link nav-item" activeClassName="active">Sign Up</NavLink>)
     }
-    return (<div></div>)
+    return (navigation)
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user.data,
-  users: state.users.list
+  user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchUsers
 }, dispatch)
 
 export default withRouter(connect(

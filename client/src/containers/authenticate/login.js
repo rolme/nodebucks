@@ -59,7 +59,7 @@ class Login extends Component {
   render() {
     let { email, password, redirect } = this.state
 
-    if (redirect) { return <Redirect to='/reports' /> }
+    if (redirect) { return <Redirect to='/' /> }
 
     return(
       <Row className="mt-5">
