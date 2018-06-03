@@ -11,5 +11,5 @@ production:
   - mailers
 :schedule:
   crypto_scraper_worker:
-    cron: '12 3 * * *' # Run at 3:12AM everyday
+    cron: '24,54 * * * *' # Run every 30 mins starting at minute 24.
     class: CryptoScraperWorker
