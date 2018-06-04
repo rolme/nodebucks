@@ -12,7 +12,7 @@ class CryptoScraper
       Selenium::WebDriver::Chrome.path = ENV['GOOGLE_CHROME_BIN']
     end
 
-    browser = Watir::Browser.new({ options: {} })
+    browser = Watir::Browser.new
     cryptos.each do |crypto|
       begin
         browser.goto "https://masternodes.pro/stats/#{crypto.symbol}/statistics"

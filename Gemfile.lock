@@ -87,6 +87,7 @@ GEM
       raabro (~> 1.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    headless (2.3.1)
     heroku-deflater (0.6.3)
       rack (>= 1.4.5)
     i18n (1.0.1)
@@ -240,6 +241,7 @@ DEPENDENCIES
   database_cleaner
   factory_bot_rails
   foreman (~> 0.84.0)
+  headless
   heroku-deflater
   jbuilder (~> 2.5)
   jwt

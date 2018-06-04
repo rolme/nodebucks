@@ -10,8 +10,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'typhoeus'
 
 # For scraping
-gem 'selenium-webdriver'
+gem 'headless'
 gem 'chromedriver-helper'
+gem 'selenium-webdriver'
 gem 'phantomjs'
 gem 'watir'
 
