@@ -11,6 +11,7 @@ gem 'typhoeus'
 
 # For scraping
 gem 'selenium-webdriver'
+gem 'chromedriver-helper'
 gem 'phantomjs'
 gem 'watir'
 

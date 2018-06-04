@@ -6,7 +6,13 @@ class CryptoScraper
 
   def self.scrape(a_crypto=nil)
     cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.all
-    browser = Watir::Browser.new
+
+    if Rails.env != 'Development'
+      Selenium::WebDriver::Chrome.driver_path = ENV['GOOGLE_CHROME_SHIM']
+      Selenium::WebDriver::Chrome.path = ENV['GOOGLE_CHROME_BIN']
+    end
+
+    browser = Watir::Browser.new({ options: {} })
     cryptos.each do |crypto|
       begin
         browser.goto "https://masternodes.pro/stats/#{crypto.symbol}/statistics"
