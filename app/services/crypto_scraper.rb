@@ -7,7 +7,7 @@ class CryptoScraper
   def self.scrape(a_crypto=nil)
     cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.all
 
-    if Rails.env != 'Development'
+    if Rails.env != 'development'
       Selenium::WebDriver::Chrome.driver_path = ENV['GOOGLE_CHROME_SHIM']
       Selenium::WebDriver::Chrome.path = ENV['GOOGLE_CHROME_BIN']
     end
