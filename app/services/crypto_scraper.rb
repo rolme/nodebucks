@@ -28,6 +28,7 @@ class CryptoScraper
         crypto.node_price  = browser.find_elements(tag_name: 'mnp-data-box')[0].text.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
         crypto.nodes       = browser.find_elements(tag_name: 'mnp-data-box')[1].text.split(/\n/).first.gsub(/\D/,'').to_i
         crypto.price       = browser.find_elements(tag_name: 'mnp-data-box')[4].text.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
+        crypto.stake       = browser.find_elements(tag_name: 'mnp-data-box')[2].text.split(/\s/).first.gsub(/\D/,'').to_i
         crypto.url         = browser.find_elements(tag_name: 'a').find{ |a| a.attribute('title') == 'WebSite' }.attribute('href').split("r=")[1]
         crypto.save
       rescue => error
@@ -48,8 +49,8 @@ class CryptoScraper
         crypto.node_price  = browser.wd.find_elements(tag_name: 'mnp-data-box')[0].text.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
         crypto.nodes       = browser.wd.find_elements(tag_name: 'mnp-data-box')[1].text.split(/\n/).first.gsub(/\D/,'').to_i
         crypto.price       = browser.wd.find_elements(tag_name: 'mnp-data-box')[4].text.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
+        crypto.stake       = browser.wd.find_elements(tag_name: 'mnp-data-box')[2].text.split(/\s/).first.gsub(/\D/,'').to_i
         crypto.url         = browser.a(title: 'WebSite').href.split("r=")[1]
-
         crypto.save
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"

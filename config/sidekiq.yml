@@ -13,3 +13,7 @@ production:
   crypto_scraper_worker:
     cron: '24,54 * * * *' # Run every 30 mins starting at minute 24.
     class: CryptoScraperWorker
+
+  node_pricer_worker:
+    cron: '13,28,43,58 * * * *' # Run every 15 mins starting at minute 13.
+    class: CryptoScraperWorker
