@@ -7,7 +7,6 @@ User.create([
 Crypto.create([
   { name: 'Dash', symbol: 'dash', status: 'active', url: 'https://www.dash.org/' },
   { name: 'ZCoin', symbol: 'xzc', status: 'active', url: 'https://zcoin.io/' },
-  { name: 'Stipend', symbol: 'spd', status: 'active', url: 'https://pivxmasternode.org/' },
   { name: 'Polis', symbol: 'polis', status: 'active', url: 'https://polispay.org/' },
   { name: 'PIVX', symbol: 'pivx', status: 'active', url: 'https://stipend.me/' }
 ])

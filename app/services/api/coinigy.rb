@@ -2,8 +2,8 @@ module Api
   class Coinigy
     # TODO: Move this into
     BASE_URI    = "https://api.coinigy.com/api/v2"
-    API_KEY     = "ea80901eba09b1197cbd500bba06af86"
-    API_SECRET  = "e6f836c6a63cd8ea94853c1918566993"
+    API_KEY     = (false) ? "ea80901eba09b1197cbd500bba06af86" : "e9d8fcb9d2494772bf8841a3cef76bc2"
+    API_SECRET  = (false) ? "e6f836c6a63cd8ea94853c1918566993" : "a0f4194192cc4367abbcae960b53af47"
     API_CHANNEL = "BF0EC6C2-8FCF-68BD-CBDB-D838D22892BB"
 
     def coins
@@ -29,7 +29,7 @@ module Api
     def markets
       return @markets if @markets.present?
 
-      response = Typhoeus::Request.get("#{BASE_URI}/public/markets/extract")
+      response = Typhoeus::Request.get("#{BASE_URI}/public/markets")
       @markets = (response.body['success']) ? parsed_response(response.body)['result'] : []
       @markets
     end
@@ -43,8 +43,8 @@ module Api
       response = Typhoeus::Request.get(
         "#{BASE_URI}/public/markets/extract/pricing",
         params: {
-          StartDate: Date.current - 1.day,
-          EndDate: Date.current,
+          StartDate: Date.current - 2.day,
+          EndDate: Date.current - 1.day,
           MarketId: market_id
         }
       )

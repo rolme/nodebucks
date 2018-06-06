@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { withRouter, NavLink } from 'react-router-dom'
 
-export default class CryptoTable extends Component {
+class CryptoTable extends Component {
   render() {
     let { list } = this.props
 
@@ -14,6 +15,7 @@ export default class CryptoTable extends Component {
                 <th>Coin</th>
                 <th>Nodes</th>
                 <th>Annual ROI</th>
+                <th>Purchasable Price</th>
                 <th>Node Price</th>
                 <th></th>
               </tr>
@@ -30,6 +32,7 @@ export default class CryptoTable extends Component {
   displayCryptos(list) {
     return list.map(item => {
       let nodes = (+item.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      let purchasablePrice = (+item.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       let nodePrice = (+item.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       let annualRoi = ((+item.annualRoi) * 100.0).toFixed(1)
       return(
@@ -39,6 +42,9 @@ export default class CryptoTable extends Component {
           </td>
           <td>{nodes}</td>
           <td>{annualRoi}%</td>
+          <td>
+            <NavLink to={`/debug/${item.slug}`}>${purchasablePrice} USD</NavLink>
+          </td>
           <td>${nodePrice} USD</td>
           <td><button className="btn btn-primary">Add Node</button></td>
         </tr>
@@ -54,3 +60,5 @@ export default class CryptoTable extends Component {
     return <img src={image}  alt="avatar" width="60" height="60" style={{borderRadius: '50%', paddingRight: '5px'}} />
   }
 }
+
+export default withRouter(CryptoTable)
