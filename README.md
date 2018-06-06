@@ -63,3 +63,12 @@ And run the following command:
 ```
 $ npm run test
 ```
+
+
+## Installing chromedriver on Windows
+
+1. [Download chromedriver_win32.zip](http://chromedriver.chromium.org/downloads)
+2. Create a folder and move there **chromedriver.exe** file from downloaded .zip
+3. In order to put ChromeDriver location in your PATH environment variable do as follows:
+    
+    **Right click computer > properties > system properties > Advanced > System properties > select Path below > edit > add the path of the folder, where you put chromedriver.exe**

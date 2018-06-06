@@ -1,26 +1,29 @@
 import React, { Component } from 'react'
-import { Route as PublicRoute } from 'react-router-dom'
-// import { Switch } from 'react-router-dom'
-// import Route from '../authenticate/route'
+import { Route as PublicRoute, Switch } from 'react-router-dom'
+import Loadable from 'react-loadable'
+import Loading from "../../components/loadingComponent"
 
-import Header from './header'
-import Login from '../authenticate/login'
-import Logout from '../authenticate/logout'
-import Home from './home'
 
-import { Container } from 'reactstrap'
+const Home = Loadable({ loader: () => import('../home'), loading: Loading })
+const Header = Loadable({ loader: () => import('./header'), loading: Loading })
+const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
+const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 
 export default class App extends Component {
   render() {
     return (
-      <Container fluid={true}>
+      <div id="appContainer" className="appContainer">
         <Header/>
-        <main>
-          <PublicRoute exact path="/login" component={Login}/>
-          <PublicRoute exact path="/logout" component={Logout}/>
-          <PublicRoute exact path="/" component={Home}/>
-        </main>
-      </Container>
+        <div className="pageContainer position-relative bg-light">
+          <main>
+            <Switch>
+              <PublicRoute exact path="/login" component={Login}/>
+              <PublicRoute exact path="/logout" component={Logout}/>
+              <PublicRoute exact path="/" component={Home}/>
+            </Switch>
+          </main>
+        </div>
+      </div>
     )
   }
 }

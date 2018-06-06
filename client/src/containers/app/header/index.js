@@ -4,7 +4,9 @@ import { NavHashLink as NavLink } from 'react-router-hash-link'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Collapse, NavbarToggler } from 'reactstrap'
+import { Navbar, Collapse, NavbarToggler, Col } from 'reactstrap'
+
+import './index.css'
 
 class Header extends Component {
   constructor(props) {
@@ -21,25 +23,27 @@ class Header extends Component {
     dropdownItems[ name ] = !dropdownItems[ name ]
     this.setState({ dropdownItems })
   }
+
   toggleNavbar(value) {
     value = (value && typeof(value) === 'boolean') || !this.state.collapsed
     this.setState({
       collapsed: value
     })
   }
+
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top pb-70">
-        <NavLink to="/" className="navbar-brand">
-          <img src="/assets/images/logo.png" alt="logo" width="40px" height="40px"/> Node Bucks
-        </NavLink>
-        <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-        <Collapse isOpen={!this.state.collapsed} navbar>
-          <div className="navbar-nav mr-auto">
-            {this.displayLoginLink()}
-          </div>
-        </Collapse>
-      </nav>
+      <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
+        <div ref="headerContainer" className="contentContainer">
+          <NavLink to="/" className="headerLogo"> Blockchain </NavLink>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'/>
+          <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
+            <Col xl={{size: 5, offset: 7}}  lg={{size: 5, offset: 7}}  md={{size: 12, offset: 0}} className="navbar-nav headerMenuAuthItemsContainer mr-auto justify-content-between">
+              {this.displayLoginLink()}
+            </Col>
+          </Collapse>
+        </div>
+      </Navbar>
     )
   }
 
@@ -50,7 +54,8 @@ class Header extends Component {
     if ( !!user ) {
       navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/logout" className="nav-link nav-item" activeClassName="active">Logout</NavLink>)
     } else {
-      navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/signup" className="nav-link nav-item" activeClassName="active">Sign Up</NavLink>)
+      navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuAuthItem background-color-white nav-link nav-item" activeClassName="active">Login</NavLink>)
+      navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/logup" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }
@@ -60,8 +65,7 @@ const mapStateToProps = state => ({
   user: state.user.data
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
