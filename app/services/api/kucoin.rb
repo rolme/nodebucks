@@ -41,7 +41,8 @@ module Api
         'KC-API-NONCE' => nonce,
         'KC-API-SIGNATURE' => signature(end_point, nonce, params)
       }, verbose: DEBUG)
-      @orders = (response.body['success']) ? to_orders(parsed_response(response.body)['data']) : []
+      orders = parsed_response(response.body)['data']
+      @orders = (response.body['success'] && orders.present?) ? to_orders(orders) : []
     end
 
     # symbol - String
@@ -56,6 +57,7 @@ module Api
     end
 
     def liquid?(orders, limit)
+      return false if orders.empty?
       orders.map{ |order| order[:volume] }.reduce(&:+) > limit.to_f
     end
 
@@ -69,6 +71,8 @@ module Api
     # limit  - Float
     # Returns Float
     def purchasable_price(orders, limit)
+      return 0 if orders.blank?
+
       total  = 0
       i      = 0
       value  = 0
@@ -99,24 +103,6 @@ module Api
           volume: order[1].to_f
         }
       end
-    end
-
-    # orders - Array of Hash [{ price: float, volume: float }, ...]
-    # limit  - Float
-    # Returns Float
-    def purchasable_price(orders, limit)
-      total  = 0
-      i      = 0
-      value  = 0
-      while (orders.count > i && limit > total) do
-        remaining_units = limit - total
-        volume = (remaining_units <= orders[i][:volume]) ? remaining_units : orders[i][:volume]
-        total += volume
-        value += orders[i][:price] * volume
-        i += 1
-      end
-      return value if liquid?(orders, limit)
-      value + orders.last[:price] * (limit - total)
     end
 
     def parsed_response(response)
