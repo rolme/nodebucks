@@ -1,25 +1,25 @@
 module Api
-  class Cryptopia < Base
-    BASE_URI    = "https://www.cryptopia.co.nz/api"
+  class Bittrex < Base
+    BASE_URI    = "https://bittrex.com/api"
     DEBUG       = false
-    EXCHANGE    = 'Cryptopia'
+    EXCHANGE    = 'Bittrex'
 
     attr_reader :btc_usdt
 
     def initialize
-      response  = Typhoeus::Request.get("#{BASE_URI}/GetMarketOrders/BTC_USDT", verbose: DEBUG)
-      data      = (response.body['Success']) ? parsed_response(response.body)['Data'] : []
-      orders    = to_orders(data['Sell'])
+      response  = Typhoeus::Request.get("#{BASE_URI}/v1.1/public/getorderbook?market=USDT-BTC&type=sell", verbose: DEBUG)
+      data      = (response.body['success']) ? parsed_response(response.body)['result'] : []
+      orders    = to_orders(data)
       @btc_usdt = purchasable_price(orders, 1.0)
     end
 
     def orders(symbol)
-      @path    = "#{BASE_URI}/GetMarketOrders/#{symbol.upcase}_BTC?orderCount=1000"
+      @path    = "#{BASE_URI}/v1.1/public/getorderbook?market=BTC-#{symbol.upcase}&type=sell"
       response = Typhoeus::Request.get(@path, verbose: DEBUG)
       data     = parsed_response(response.body)
-      return [] unless data["Success"]
+      return [] unless data["success"]
 
-      data = parsed_response(response.body)['Data']['Sell']
+      data = parsed_response(response.body)['result']
       to_orders(data)
     end
 
@@ -37,8 +37,8 @@ module Api
           id: id+=1,
           btc_ustd: @btc_usdt,
           exchange: EXCHANGE,
-          price: order['Price'].to_f,
-          volume: order['Volume'].to_f
+          price: order['Rate'].to_f,
+          volume: order['Quantity'].to_f
         }
       end.sort_by { |order| order [:price] }
     end
