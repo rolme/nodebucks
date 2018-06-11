@@ -11,9 +11,9 @@ gem 'typhoeus'
 
 # For scraping
 gem 'headless'
+gem 'phantomjs'
 gem 'chromedriver-helper'
 gem 'selenium-webdriver'
-gem 'phantomjs'
 gem 'watir'
 
 # Auth
