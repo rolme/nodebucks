@@ -30,7 +30,7 @@ class Debug extends Component {
 
   renderTable(crypto) {
     let nodes = (+crypto.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let purchasablePrice = (+crypto.latestPurchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let purchasablePrice = (+crypto.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     let nodePrice = (+crypto.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     let annualRoi = ((+crypto.annualRoi) * 100.0).toFixed(1)
 
@@ -54,16 +54,8 @@ class Debug extends Component {
             <td>{nodePrice}</td>
           </tr>
           <tr>
-            <th>Liquid? (Cryptopia)</th>
-            <td>{(crypto.isLiquid) ? 'Yes' : 'No' }</td>
-          </tr>
-          <tr>
             <th>Purchasable Price (Order Base)</th>
             <td>{purchasablePrice}</td>
-          </tr>
-          <tr>
-            <th>Orders URL (Cryptopia)</th>
-            <td>{crypto.path}</td>
           </tr>
         </tbody>
       </table>
@@ -85,6 +77,7 @@ class Debug extends Component {
               <tr key={order.id}>
                 <td>{order.price} BTC</td>
                 <td>{order.volume}</td>
+                <td>{order.exchange}</td>
               </tr>
             )
           }) }

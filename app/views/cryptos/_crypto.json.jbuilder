@@ -11,12 +11,10 @@ json.symbol crypto.symbol
 json.url crypto.url
 
 if @orders
-  json.isLiquid @liquid
-  json.latestPurchasablePrice @latest_pruchasable_price
-  json.path @path
   json.orders @orders.each do |order|
     json.id order[:id]
     json.price order[:price]
     json.volume order[:volume]
+    json.exchange order[:exchange]
   end
 end
