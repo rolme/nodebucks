@@ -7,11 +7,9 @@ class CryptosController < ApplicationController
 
   def show
     @crypto = Crypto.find_by(slug: params[:slug])
-    api = Api::Cryptopia.new
-    @latest_pruchasable_price = api.node_price(@crypto.symbol, @crypto.stake)
-    @orders = api.orders
-    @liquid = api.liquid?(@orders,  @crypto.stake)
-    @path   = api.path
+    np      = NodePricer.new
+    @prices = np.evaluate(@crypto)
+    @orders = np.orders
   end
 
   def update
