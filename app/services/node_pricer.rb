@@ -16,12 +16,14 @@ class NodePricer < Api::Base
     @bittrex      = Api::Bittrex.new
     @cryptopia    = Api::Cryptopia.new
     @kucoin       = Api::Kucoin.new
+    @poloniex     = Api::Poloniex.new
     @avg_btc_usdt = [
       @binance.btc_usdt,
       @bittrex.btc_usdt,
       @cryptopia.btc_usdt,
-      @kucoin.btc_usdt
-    ].reduce(&:+) / 4.0
+      @kucoin.btc_usdt,
+      @poloniex.btc_usdt
+    ].reduce(&:+) / 5.0
   end
 
   def evaluate(a_crypto=nil)
@@ -33,6 +35,7 @@ class NodePricer < Api::Base
       @orders << @bittrex.orders(crypto.symbol)
       @orders << @cryptopia.orders(crypto.symbol)
       @orders << @kucoin.orders(crypto.symbol)
+      @orders << @poloniex.orders(crypto.symbol)
 
       @orders = @orders.flatten.sort_by { |order| order[:price] }
       @prices[crypto.symbol] = {
@@ -40,7 +43,8 @@ class NodePricer < Api::Base
         binance: node_price(@orders, crypto.stake, Api::Binance::EXCHANGE),
         bittrex: node_price(@orders, crypto.stake, Api::Bittrex::EXCHANGE),
         cryptopia: node_price(@orders, crypto.stake, Api::Cryptopia::EXCHANGE),
-        kucoin: node_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE)
+        kucoin: node_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE),
+        poloniex: node_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
       }
       crypto.update_attribute(:purchasable_price, @prices[crypto.symbol][:all]) if !!persist
     end
