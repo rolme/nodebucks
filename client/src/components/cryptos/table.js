@@ -1,29 +1,66 @@
 import React, { Component } from 'react'
 import { withRouter, NavLink } from 'react-router-dom'
 
-class CryptoTable extends Component {
-  render() {
-    let { list } = this.props
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faAngleDown, faAngleUp } from '@fortawesome/fontawesome-free-solid'
+import { Table } from 'reactstrap'
+import './index.css'
 
-    return(
+class CryptoTable extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      sortedColumnName: '',
+      isDescending: true,
+      sortedList: null
+    }
+
+    this.sortTable = this.sortTable.bind(this)
+  }
+
+  sortTable(columnName) {
+    let { list } = this.props
+    let { sortedColumnName, isDescending } = this.state
+
+    isDescending = sortedColumnName === columnName && !isDescending
+
+    let sortedList = [].concat(list)
+
+    sortedList.sort((a, b) => {
+      if ( isDescending ) {
+        return a[ columnName ] > b[ columnName ]
+      }
+      return a[ columnName ] < b[ columnName ]
+    })
+
+    this.setState({ sortedList, sortedColumnName: columnName, isDescending })
+
+  }
+
+
+  render() {
+    let { sortedList, isDescending, sortedColumnName } = this.state
+
+    let list = !!sortedList ? sortedList : this.props.list
+
+    return (
       <div className="row">
-        <div className="offset-1 col-10">
-          <h2 className="mt-2">Cryptos ({list.length})</h2>
-          <table className="table table-striped">
+        <div className="col-12">
+          <Table responsive className="cryptosTable">
             <thead>
-              <tr>
-                <th>Coin</th>
-                <th>Nodes</th>
-                <th>Annual ROI</th>
-                <th>Purchasable Price</th>
-                <th>Node Price</th>
-                <th></th>
-              </tr>
+            <tr className="cryptosTableHeaderRow">
+              <th>Coin</th>
+              <th>Nodes <FontAwesomeIcon onClick={() => this.sortTable('nodes')} icon={sortedColumnName === 'nodes' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
+              <th>Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
+              <th>Purchasable Price <FontAwesomeIcon onClick={() => this.sortTable('price')} icon={sortedColumnName === 'price' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
+              <th>Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
+              <th></th>
+            </tr>
             </thead>
             <tbody>
-              {this.displayCryptos(list)}
+            {this.displayCryptos(list)}
             </tbody>
-          </table>
+          </Table>
         </div>
       </div>
     )
@@ -31,33 +68,27 @@ class CryptoTable extends Component {
 
   displayCryptos(list) {
     return list.map(item => {
-      let nodes = (+item.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      let purchasablePrice = (+item.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      let nodePrice = (+item.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      let annualRoi = ((+item.annualRoi) * 100.0).toFixed(1)
-      return(
+      let nodes = (!!item.nodes || item.nodes === '0') ? (+item.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : '-'
+      let purchasablePrice = (!!item.price || item.price === '0') ? '$' + (+item.price).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : '-'
+      return (
         <tr key={item.slug}>
-          <td style={{verticalAlign: 'middle'}}>
+          <td>
             <a href={item.url}>{item.name}</a>
           </td>
           <td>{nodes}</td>
-          <td>{annualRoi}%</td>
+          <td>{annualRoi}</td>
           <td>
-            <NavLink to={`/debug/${item.slug}`}>${purchasablePrice} USD</NavLink>
+            <NavLink to={`/debug/${item.slug}`}>{purchasablePrice}</NavLink>
           </td>
-          <td>${nodePrice} USD</td>
-          <td><button className="btn btn-primary">Add Node</button></td>
+          <td>{nodePrice}</td>
+          <td className="d-flex">
+            <button className="btn btn-primary addNodeButton">+ Add Node</button>
+          </td>
         </tr>
       )
     })
-  }
-
-  displayAvatar(image) {
-    if (image === null || image === '') {
-      return <img src="/assets/images/user.jpg" alt="avatar" style={{borderRadius: '50%', paddingRight: '5px'}} />
-    }
-
-    return <img src={image}  alt="avatar" width="60" height="60" style={{borderRadius: '50%', paddingRight: '5px'}} />
   }
 }
 

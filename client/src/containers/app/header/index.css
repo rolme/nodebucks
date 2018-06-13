@@ -25,19 +25,9 @@
 }
 
 .headerLogo {
-  padding: 35px 0 !important;
-  color: #3D58E7;
-  font-family: 'ProximaNova-Bold';
-  font-size: 30px;
-  line-height: 31px;
+  padding: 20px 0 !important;
   margin: 0;
-  text-decoration: none;
   cursor: pointer;
-}
-
-.headerLogo:hover {
-  color: #435efc;
-  text-decoration: none;
 }
 
 .headerMenuAuthItemsContainer {
@@ -51,21 +41,21 @@
 }
 
 .headerMenuAuthItem {
-  font-family: 'ProximaNova-Bold';
-  border: 1px solid #3F53EA;
+  font-family: 'DidactGothic-Regular';
+  border: 1px solid #3D58E7;
   border-radius: 50px;
   width: 160px;
   height: 50px;
   text-align: center;
   vertical-align: middle;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 32px;
   color: #ffff !important;
-  background-color: #3F53EA;;
+  background-color: #3D58E7;;
 }
 
 .headerMenuAuthItem.background-color-white {
-  color: #3F53EA !important;
+  color: #3D58E7 !important;
   background-color: #ffff !important;
 }
 

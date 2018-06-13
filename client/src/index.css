@@ -1,4 +1,31 @@
 @font-face {
+  font-family: 'Karla-Regular';
+  src: local('Karla-Regular'), local('Karla-Regular'),
+  url('./assets/fonts/karlaRegular/Karla-Regular.ttf') format('truetype'),
+  url('./assets/fonts/karlaRegular/Karla-Regular.svg#Karla-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Arimo-Regular';
+  src: local('Arimo-Regular'), local('Arimo-Regular'),
+  url('./assets/fonts/arimoRegular/Arimo-Regular.ttf') format('truetype'),
+  url('./assets/fonts/arimoRegular/Arimo-Regular.svg#Arimo-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DidactGothic-Regular';
+  src: local('DidactGothic-Regular'), local('DidactGothic-Regular'),
+  url('./assets/fonts/didactGothicRegular/DidactGothic-Regular.ttf') format('truetype'),
+  url('./assets/fonts/didactGothicRegular/DidactGothic-Regular.svg#DidactGothic-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'ProximaNova-Regular';
   src: local('ProximaNova-Regular'), local('ProximaNova-Regular'),
   url('./assets/fonts/proximaNovaRegular/ProximaNova-Regular.ttf') format('truetype'),
@@ -56,11 +83,10 @@ body {
   overflow: hidden;
   margin: 0 auto;
   min-height: calc(100% - 100px);
-  padding: 0 0 60px 0;
 }
 
 .contentContainer {
-  max-width: 1170px;
+  max-width: 1230px;
   padding: 0 30px;
   margin: 0 auto;
 }

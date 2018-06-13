@@ -35,7 +35,9 @@ class Header extends Component {
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer">
-          <NavLink to="/" className="headerLogo"> Blockchain </NavLink>
+          <NavLink to="/" className="headerLogo">
+            <img src="/assets/images/headerLogo.jpg" alt="logo"/>
+          </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'/>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
             <Col xl={{size: 5, offset: 7}}  lg={{size: 5, offset: 7}}  md={{size: 12, offset: 0}} className="navbar-nav headerMenuAuthItemsContainer mr-auto justify-content-between">
