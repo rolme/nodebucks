@@ -26,9 +26,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      RegistrationMailer.send_verify_email(@user).deliver_later
-      um = UserManager.new(@user)
-      um.setup_subscription
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
@@ -76,7 +73,6 @@ protected
     params.require(:user).permit(
       :avatar,
       :email,
-      :email_on_login,
       :facebook,
       :first,
       :google,
@@ -104,5 +100,23 @@ private
     else
       render json: { status: 'error', message: command.errors[:user_authentication] }, status: :unauthorized
     end
+  end
+
+  # TODO: This code also exists in authenticate_user.rb
+  def generate_token
+    JsonWebToken.encode({
+      avatar: @user.avatar,
+      confirmedAt: @user.confirmed_at&.to_formatted_s(:db),
+      createdAt: @user.created_at.to_formatted_s(:db),
+      email: @user.email,
+      first: @user.first,
+      fullName: @user.full_name,
+      last: @user.last,
+      location: @user.location,
+      newEmail: @user.new_email,
+      nickname: @user.nickname,
+      slug: @user.slug,
+      updatedAt: @user.updated_at.to_formatted_s(:db)
+    })
   end
 end
