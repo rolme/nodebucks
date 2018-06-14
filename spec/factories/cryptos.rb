@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :crypto do
-    slug "MyString"
-    name "MyString"
-    symbol "MyString"
-    url "MyString"
-    status "MyString"
-    price "9.99"
+    sequence(:symbol) { |n| "MN#{n}" }
+    sequence(:name) { |n| "Masternode Coin #{n}" }
+
+    factory :dash do
+      symbol "DASH"
+      name "Dash"
+    end
   end
 end
