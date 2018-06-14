@@ -10,4 +10,7 @@ Rails.application.routes.draw do
   end
 
   post 'auth/login', to: 'users#login'
+  post 'auth/admin', to: 'users#admin_login'
+
+  get '*path', to: 'application#index'
 end

@@ -10,6 +10,40 @@ class UsersController < ApplicationController
     authenticate params[:email], params[:password]
   end
 
+  def admin_login
+    user  = User.find_by(email: params[:email], admin: true)
+    @user = user&.authenticate(params[:password])
+    if @user.present?
+      render json: {
+        token: generate_token,
+        message: 'Login Successful'
+      }
+    else
+      render json: { status: 'error', message: 'Email/Password is incorrect.' }, status: :unauthorized
+    end
+  end
+
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      RegistrationMailer.send_verify_email(@user).deliver_later
+      um = UserManager.new(@user)
+      um.setup_subscription
+      render json: { status: :ok, token: generate_token, message: 'User account created.' }
+    else
+      render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
+    end
+  end
+
+  def verify
+    @user = User.find_by(slug: params[:user_slug])
+    if @user&.verify_email!
+      render json: { status: :ok, token: generate_token, message: 'User email has been verified.' }
+    else
+      render json: { status: 'error', message: (@user) ? @user.errors.full_messages.join(', ') : 'User cannot be found.' }
+    end
+  end
+
   def destroy
     if (current_user.slug == params[:slug])
       current_user.delete
