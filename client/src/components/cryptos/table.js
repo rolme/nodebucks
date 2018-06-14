@@ -15,7 +15,6 @@ class CryptoTable extends Component {
                 <th>Coin</th>
                 <th>Nodes</th>
                 <th>Annual ROI</th>
-                <th>Purchasable Price</th>
                 <th>Node Price</th>
                 <th></th>
               </tr>
@@ -43,9 +42,8 @@ class CryptoTable extends Component {
           <td>{nodes}</td>
           <td>{annualRoi}%</td>
           <td>
-            <NavLink to={`/debug/${item.slug}`}>${purchasablePrice} USD</NavLink>
+            <NavLink to={`/debug/${item.slug}`}>${nodePrice} USD</NavLink>
           </td>
-          <td>${nodePrice} USD</td>
           <td><button className="btn btn-primary">Add Node</button></td>
         </tr>
       )

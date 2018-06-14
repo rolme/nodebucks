@@ -19,7 +19,9 @@ class Debug extends Component {
     return (
       <div className="row">
         <div className="col-md-6">
-        { this.renderTable(crypto) }
+          { this.renderFees(crypto) }
+          <br/>
+          { this.renderScrapedTable(crypto) }
         </div>
         <div className="col-md-6">
           { this.renderOrders(crypto.orders) }
@@ -28,34 +30,82 @@ class Debug extends Component {
     )
   }
 
-  renderTable(crypto) {
+  renderScrapedTable(crypto) {
     let nodes = (+crypto.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let purchasablePrice = (+crypto.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let nodePrice = (+crypto.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let estimatedNodePrice = (+crypto.estimatedNodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let price = (+crypto.price).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     let annualRoi = ((+crypto.annualRoi) * 100.0).toFixed(1)
 
     return(
       <table className="table">
-        <tbody>
+        <thead>
           <tr>
-            <th>Name</th>
-            <td>{crypto.name} ({crypto.symbol})</td>
+            <th colSpan={2}>From Masternode.Pro</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
             <th>Stake</th>
             <td>{crypto.stake}</td>
           </tr>
           <tr>
-            <th>Annual ROI (Masternode.Pro)</th>
+            <th>Annual ROI</th>
             <td>{annualRoi}</td>
           </tr>
           <tr>
-            <th>Node Price (Masternode.Pro)</th>
-            <td>{nodePrice}</td>
+            <th>Coin Price</th>
+            <td>{price}</td>
           </tr>
           <tr>
-            <th>Purchasable Price (Order Base)</th>
-            <td>{purchasablePrice}</td>
+            <th>Estimated Price</th>
+            <td>{estimatedNodePrice}</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
+  renderFees(crypto) {
+    let purchasablePrice = (+crypto.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let nodePrice = (+crypto.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let percentageSetupFee = ((+crypto.percentageSetupFee) * 100.0).toFixed(0)
+    let percentageConversionFee = ((+crypto.percentageConversionFee) * 100.0).toFixed(0)
+    let percentageHostingFee = ((+crypto.percentageHostingFee) * 100.0).toFixed(0)
+    let flatSetupFee = (+crypto.flatSetupFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    let conversionFee = +crypto.purchasablePrice * +crypto.percentageConversionFee
+    conversionFee = (+conversionFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    let setupFee = (+crypto.purchasablePrice * +crypto.percentageSetupFee) + +crypto.flatSetupFee
+    setupFee = (+setupFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    return(
+      <table className="table">
+        <thead>
+          <tr>
+            <th colSpan={2}>{crypto.name} ({crypto.symbol}): Pricing Breakdown</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Purchasing Price</th>
+            <td style={{textAlign: 'right'}}>{purchasablePrice}</td>
+          </tr>
+          <tr>
+            <th>Setup Fee ({percentageSetupFee}% + {flatSetupFee})</th>
+            <td style={{textAlign: 'right'}}>{setupFee}</td>
+          </tr>
+          <tr>
+            <th>Conversion Fee ({percentageConversionFee}%)</th>
+            <td style={{textAlign: 'right'}}>{conversionFee}</td>
+          </tr>
+          <tr>
+            <th>Hosting Fee ({percentageHostingFee}%)</th>
+            <td style={{textAlign: 'right'}}>monthly</td>
+          </tr>
+          <tr>
+            <th>Total Price</th>
+            <td style={{textAlign: 'right'}}>{nodePrice}</td>
           </tr>
         </tbody>
       </table>
@@ -74,7 +124,7 @@ class Debug extends Component {
         <tbody>
           { !!orders && orders.map(order => {
             return(
-              <tr key={order.id}>
+              <tr key={`${order.exchange}-${order.id}`}>
                 <td>{order.price} BTC</td>
                 <td>{order.volume}</td>
                 <td>{order.exchange}</td>
