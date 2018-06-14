@@ -192,12 +192,14 @@
   color: #3D58E7;
   font-size: 36px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .testimonialPosition {
   font-family: 'DidactGothic-Regular';
   color: #7B7B7B;
   font-size: 22px;
+  text-align: center;
 }
 
 .testimonialMessageText {
@@ -231,6 +233,77 @@
   font-size: 20px !important;
 }
 
+/*Testimonials Part*/
+
+.homeWhatIsMasternodeContainer > .contentContainer {
+  padding: 120px 0;
+}
+
+.homeWhatIsMasternodeHeader {
+  font-family: DidactGothic-Regular;
+  color: #383838;
+  font-size: 36px;
+  text-align: center;
+}
+
+.homeWhatIsMasternodeContentPartContainer {
+  margin: 60px 0 0 0;
+}
+
+.homeWhatIsMasternodeText {
+  font-family: 'Arimo-Regular';
+  color: #7B7B7B;
+  font-size: 18px;
+}
+
+.homeWhatIsMasternodeFirstDotesImageContainer > img {
+  margin: 10px 0 10px 56px;
+}
+
+.homeWhatIsMasternodeSecondImageContainer {
+  margin-left: 30px;
+}
+
+.homeWhatIsMasternodeSecondDotesImageContainer > img {
+  margin: 10px 0 10px 70px;
+}
+
+/*Footer Part*/
+
+.homeFooterContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/assets/images/homeFooterBackground.jpg');
+  padding: 100px 0;
+}
+
+.homeFooterButton {
+  background-color: #43CDEA;
+  border-radius: 50px;
+  font-family: 'Karla-Regular';
+  font-size: 17px;
+  color: #FFFFFF;
+  padding: 25px 50px;
+  line-height: 22px;
+  border: none;
+  cursor: pointer;
+}
+
+.homeFooterButton:hover {
+  background-color: #47e2ff;
+}
+
+.homeFooterText {
+  font-family: 'DidactGothic-Regular';
+  font-size: 36px;
+  color: #FFFFFF;
+}
+
+.homeFooterText > span {
+  color: #49FFF4;
+}
+
 @media (max-width: 992px) {
   .homeAboutContainer > .contentContainer {
     padding: 50px 0;
@@ -238,6 +311,10 @@
 
   .homeAboutContainer > .contentContainer > .homeAboutTextPartContainer {
     margin-top: 50px;
+  }
+
+  .homeFooterContainer {
+    padding: 20px 0;
   }
 }
 
@@ -284,5 +361,11 @@
 
   .homeMainBannerButton {
     margin: 40px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .homeFooterText {
+    line-height: 40px;
   }
 }
