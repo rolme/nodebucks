@@ -50,6 +50,10 @@ class Debug extends Component {
         </thead>
         <tbody>
           <tr>
+            <th>Nodes</th>
+            <td style={{textAlign: 'right'}}>{nodes}</td>
+          </tr>
+          <tr>
             <th>Stake</th>
             <td style={{textAlign: 'right'}}>{crypto.stake}</td>
           </tr>
