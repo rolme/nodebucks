@@ -15,7 +15,12 @@ class Debug extends Component {
   }
 
   render() {
-    const { crypto } = this.props
+    const { match: { params }, crypto, pending } = this.props
+
+    if (!!pending) {
+      return <h4 className="pt-3">Loading {params.slug}... </h4>
+    }
+
     return (
       <div className="row">
         <div className="col-md-6">
@@ -46,19 +51,19 @@ class Debug extends Component {
         <tbody>
           <tr>
             <th>Stake</th>
-            <td>{crypto.stake}</td>
+            <td style={{textAlign: 'right'}}>{crypto.stake}</td>
           </tr>
           <tr>
             <th>Annual ROI</th>
-            <td>{annualRoi}</td>
+            <td style={{textAlign: 'right'}}>{annualRoi}%</td>
           </tr>
           <tr>
             <th>Coin Price</th>
-            <td>{price}</td>
+            <td style={{textAlign: 'right'}}>{price} USD</td>
           </tr>
           <tr>
             <th>Estimated Price</th>
-            <td>{estimatedNodePrice}</td>
+            <td style={{textAlign: 'right'}}>${estimatedNodePrice} USD</td>
           </tr>
         </tbody>
       </table>
@@ -83,7 +88,8 @@ class Debug extends Component {
       <table className="table">
         <thead>
           <tr>
-            <th colSpan={2}>{crypto.name} ({crypto.symbol}): Pricing Breakdown</th>
+            <th>{crypto.name} ({crypto.symbol}): Pricing Breakdown</th>
+            <th style={{textAlign: 'right'}}>${nodePrice} USD</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +98,7 @@ class Debug extends Component {
             <td style={{textAlign: 'right'}}>{purchasablePrice}</td>
           </tr>
           <tr>
-            <th>Setup Fee ({percentageSetupFee}% + {flatSetupFee})</th>
+            <th>Setup Fee ({percentageSetupFee}% + ${flatSetupFee})</th>
             <td style={{textAlign: 'right'}}>{setupFee}</td>
           </tr>
           <tr>
@@ -102,10 +108,6 @@ class Debug extends Component {
           <tr>
             <th>Hosting Fee ({percentageHostingFee}%)</th>
             <td style={{textAlign: 'right'}}>monthly</td>
-          </tr>
-          <tr>
-            <th>Total Price</th>
-            <td style={{textAlign: 'right'}}>{nodePrice}</td>
           </tr>
         </tbody>
       </table>
@@ -138,7 +140,10 @@ class Debug extends Component {
 }
 
 const mapStateToProps = state => ({
-  crypto: state.cryptos.data
+  crypto: state.cryptos.data,
+  error: state.cryptos.error,
+  message: state.cryptos.message,
+  pending: state.cryptos.pending
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
