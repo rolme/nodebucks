@@ -6,11 +6,13 @@ class CryptosController < ApplicationController
   end
 
   def show
-    @crypto = Crypto.find_by(slug: params[:slug])
+    @crypto       = Crypto.find_by(slug: params[:slug])
     @show_pricing = true
-    np      = NodePricer.new
-    @prices = np.evaluate(@crypto)
-    @orders = np.orders
+
+    # TODO: Figure out a way to store orders
+    np            = NodePricer.new
+    @prices       = np.evaluate(@crypto)
+    @orders       = np.orders
   end
 
   def update
