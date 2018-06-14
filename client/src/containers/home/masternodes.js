@@ -8,7 +8,8 @@ import {
   fetchCryptos
 } from '../../reducers/cryptos'
 
-class Home extends Component {
+class Masternodes extends Component {
+
   componentWillMount() {
     const { cryptos } = this.props
 
@@ -20,7 +21,12 @@ class Home extends Component {
   render() {
     const { cryptos, user } = this.props
     return (
-      <CryptoTable list={cryptos} user={user} />
+      <div className="homeMasternodesContainer bg-white">
+        <div className="contentContainer">
+          <h1 className="homeMasternodesHeader">Top Performing Masternodes</h1>
+          <CryptoTable list={cryptos} user={user} />
+        </div>
+      </div>
     )
   }
 }
@@ -37,4 +43,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(Masternodes)

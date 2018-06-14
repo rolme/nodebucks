@@ -1,0 +1,73 @@
+.headerNavBarContainer {
+  background-color: white !important;
+  padding: 0 !important;
+  margin: 0 auto;
+}
+
+.headerNavBarContainer > .contentContainer {
+  width: 100%;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.headerNavBar {
+  max-height: calc(100vh - 110px);
+}
+
+.headerNavBarToggler:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.headerLogo {
+  padding: 20px 0 !important;
+  margin: 0;
+  cursor: pointer;
+}
+
+.headerMenuAuthItemsContainer {
+  flex: 1;
+  padding: 0 !important;
+  max-width: 340px;
+}
+
+.headerNavBar.show ~ .contentContainer ~ .headerNavBarContainer ~ .appContainer {
+  overflow-y: hidden !important;
+}
+
+.headerMenuAuthItem {
+  font-family: 'DidactGothic-Regular';
+  border: 1px solid #3D58E7;
+  border-radius: 50px;
+  width: 160px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 17px;
+  line-height: 32px;
+  color: #ffff !important;
+  background-color: #3D58E7;;
+}
+
+.headerMenuAuthItem.background-color-white {
+  color: #3D58E7 !important;
+  background-color: #ffff !important;
+}
+
+@media (max-width: 992px) {
+  .headerMenuAuthItemsContainer {
+    max-width: none !important;
+    align-items: center !important;
+  }
+
+  .headerMenuAuthItem {
+    border: none !important;
+    background-color: #ffff !important;
+    color: #3F53EA !important;
+  }
+}
