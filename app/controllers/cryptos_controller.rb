@@ -7,6 +7,7 @@ class CryptosController < ApplicationController
 
   def show
     @crypto = Crypto.find_by(slug: params[:slug])
+    @show_pricing = true
     np      = NodePricer.new
     @prices = np.evaluate(@crypto)
     @orders = np.orders
