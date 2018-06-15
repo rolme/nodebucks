@@ -6,6 +6,7 @@ import Loading from "../../components/loadingComponent"
 const Home = Loadable({ loader: () => import('../home'), loading: Loading })
 const Header = Loadable({ loader: () => import('./header'), loading: Loading })
 const Debug = Loadable({ loader: () => import('./debug'), loading: Loading })
+const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 
@@ -21,6 +22,7 @@ export default class App extends Component {
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/" component={Home}/>
               <PublicRoute exact path="/debug/:slug" component={Debug}/>
+              <PublicRoute exact path="/sign-up" component={SignUp}/>
             </Switch>
           </main>
         </div>

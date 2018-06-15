@@ -1,0 +1,17 @@
+.signUpContainer{
+  padding: 40px 0;
+}
+
+.signUpStepNumber{
+  margin-top: 15px;
+  font-family: 'Arimo-Regular';
+  color: #4B5366;
+  font-size: 20px;
+}
+
+.signUpHeader{
+  margin: 10px 0 40px 0;
+  font-family: 'Arimo-Regular';
+  color: #3D58E7;
+  font-size: 32px;
+}
