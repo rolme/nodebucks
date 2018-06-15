@@ -48,6 +48,11 @@ group :development do
   gem "letter_opener"
 end
 
+group :test do
+  gem 'shoulda'
+  gem 'vcr'
+end
+
 group :staging, :production do
   gem 'rails_12factor'
 end

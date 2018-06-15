@@ -4,12 +4,12 @@ module Api
     DEBUG       = false
     EXCHANGE    = 'Binance'
 
-    if Rails.env == 'development'
-      API_KEY    = Rails.application.credentials.binance[:api_key]
-      API_SECRET = Rails.application.credentials.binance[:secret]
-    else
+    if Rails.env == 'production'
       API_KEY    = ENV['BINANCE_API_KEY']
       API_SECRET = ENV['BINANCE_API_SECRET']
+    else
+      API_KEY    = Rails.application.credentials.binance[:api_key]
+      API_SECRET = Rails.application.credentials.binance[:secret]
     end
 
     attr_reader :btc_usdt
