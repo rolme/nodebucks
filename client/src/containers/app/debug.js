@@ -27,6 +27,8 @@ class Debug extends Component {
           { this.renderFees(crypto) }
           <br/>
           { this.renderScrapedTable(crypto) }
+          <br/>
+          { this.renderRoi(crypto) }
         </div>
         <div className="col-md-6">
           { this.renderOrders(crypto.orders) }
@@ -39,7 +41,6 @@ class Debug extends Component {
     let nodes = (+crypto.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     let estimatedNodePrice = (+crypto.estimatedNodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     let price = (+crypto.price).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let annualRoi = ((+crypto.annualRoi) * 100.0).toFixed(1)
 
     return(
       <table className="table">
@@ -56,10 +57,6 @@ class Debug extends Component {
           <tr>
             <th>Stake</th>
             <td style={{textAlign: 'right'}}>{crypto.stake}</td>
-          </tr>
-          <tr>
-            <th>Annual ROI</th>
-            <td style={{textAlign: 'right'}}>{annualRoi}%</td>
           </tr>
           <tr>
             <th>Coin Price</th>
@@ -112,6 +109,43 @@ class Debug extends Component {
           <tr>
             <th>Hosting Fee ({percentageHostingFee}%)</th>
             <td style={{textAlign: 'right'}}>monthly</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
+  renderRoi(crypto) {
+    const monthlyRoiValue = (+crypto.monthlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const monthlyRoiPercentage = ((+crypto.monthlyRoiPercentage) * 100.0).toFixed(1)
+    const weeklyRoiValue = (+crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const weeklyRoiPercentage = ((+crypto.weeklyRoiPercentage) * 100.0).toFixed(1)
+    const yearlyRoiValue = (+crypto.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const yearlyRoiPercentage = ((+crypto.yearlyRoiPercentage) * 100.0).toFixed(1)
+
+    return(
+      <table className="table">
+        <thead>
+          <tr>
+            <th colSpan={3}>Projected ROI</th>
+          </tr>
+          <tr>
+            <th>Weekly</th>
+            <th>Montly</th>
+            <th>Yearly</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              ${weeklyRoiValue} USD ({weeklyRoiPercentage}%)
+            </td>
+            <td>
+              ${monthlyRoiValue} USD ({monthlyRoiPercentage}%)
+            </td>
+            <td>
+              ${yearlyRoiValue} USD ({yearlyRoiPercentage}%)
+            </td>
           </tr>
         </tbody>
       </table>
