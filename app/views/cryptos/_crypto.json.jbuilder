@@ -1,5 +1,6 @@
 json.annualRoi crypto.yearly_roi[:percentage]
 json.hostingFee crypto.percentage_hosting_fee
+json.masternodes crypto.masternodes
 json.name crypto.name
 json.nodePrice crypto.node_price
 json.slug crypto.slug
