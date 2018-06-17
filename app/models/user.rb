@@ -2,6 +2,8 @@ class User < ApplicationRecord
   include Sluggable
   include SoftDeletable
 
+  has_many :nodes
+
   TOKEN_AGE = 5.minutes
 
   has_secure_password

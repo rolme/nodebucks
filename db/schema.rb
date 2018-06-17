@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_200041) do
+ActiveRecord::Schema.define(version: 2018_06_15_212051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,28 @@ ActiveRecord::Schema.define(version: 2018_06_15_200041) do
     t.decimal "daily_reward"
   end
 
+  create_table "nodes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "crypto_id"
+    t.string "slug"
+    t.string "status", default: "new"
+    t.string "ip"
+    t.decimal "cost"
+    t.integer "created_by_admin_id"
+    t.datetime "online_at"
+    t.datetime "sold_at"
+    t.string "version"
+    t.datetime "last_upgraded_at"
+    t.string "vps_provider"
+    t.string "vps_url"
+    t.decimal "vps_monthly_cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
+    t.index ["slug"], name: "index_nodes_on_slug"
+    t.index ["user_id"], name: "index_nodes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first"
     t.string "last"
@@ -58,4 +80,6 @@ ActiveRecord::Schema.define(version: 2018_06_15_200041) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "nodes", "cryptos"
+  add_foreign_key "nodes", "users"
 end

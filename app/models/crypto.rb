@@ -7,6 +7,8 @@ class Crypto < ApplicationRecord
   PERCENTAGE = false
   VALUE      = true
 
+  has_many :nodes
+
   # This is run on :before_create as part of Sluggable
   def generate_slug(force=false)
     self.slug = name.parameterize if slug.nil? || force

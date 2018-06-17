@@ -2,7 +2,6 @@ json.annualRoi crypto.yearly_roi[:percentage]
 json.hostingFee crypto.percentage_hosting_fee
 json.name crypto.name
 json.nodePrice crypto.node_price
-json.nodes crypto.nodes
 json.slug crypto.slug
 json.stake crypto.stake
 json.symbol crypto.symbol
