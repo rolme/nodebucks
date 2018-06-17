@@ -3,6 +3,7 @@ class CreateNodes < ActiveRecord::Migration[5.2]
     create_table :nodes do |t|
       t.references :user, foreign_key: true
       t.references :crypto, foreign_key: true
+      t.string :slug, index: true
       t.string :status, default: :new
       t.string :ip
       t.decimal :cost

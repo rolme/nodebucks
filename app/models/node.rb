@@ -1,4 +1,8 @@
 class Node < ApplicationRecord
-  belongs_to :user
+  include Sluggable
+
   belongs_to :crypto
+  belongs_to :user
+
+  validates :cost, presence: true
 end

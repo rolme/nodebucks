@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_06_15_212051) do
   create_table "nodes", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "crypto_id"
+    t.string "slug"
     t.string "status", default: "new"
     t.string "ip"
     t.decimal "cost"
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 2018_06_15_212051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
+    t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
   end
 
