@@ -1,0 +1,12 @@
+json.avatar user.avatar
+json.confirmed? !!user.confirmed_at
+json.createdAt user.created_at.to_formatted_s(:db)
+json.deleted? !!user.deleted_at
+json.email user.email
+json.first user.first
+json.fullName user.full_name
+json.last user.last
+json.newEmail user.new_email
+json.nickname user.nickname
+json.slug user.slug
+json.updatedAt user.updated_at.to_formatted_s(:db)
