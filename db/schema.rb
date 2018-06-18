@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_06_002201) do
+ActiveRecord::Schema.define(version: 2018_06_18_170050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,14 +21,41 @@ ActiveRecord::Schema.define(version: 2018_06_06_002201) do
     t.string "symbol"
     t.string "url"
     t.string "status"
-    t.integer "nodes"
+    t.integer "masternodes"
     t.decimal "node_price"
-    t.decimal "annual_roi"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stake"
     t.float "purchasable_price"
+    t.decimal "estimated_node_price"
+    t.decimal "flat_setup_fee", default: "0.0"
+    t.decimal "percentage_setup_fee", default: "0.2"
+    t.decimal "percentage_hosting_fee", default: "0.01"
+    t.decimal "percentage_conversion_fee", default: "0.03"
+    t.decimal "daily_reward"
+  end
+
+  create_table "nodes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "crypto_id"
+    t.string "slug"
+    t.string "status", default: "new"
+    t.string "ip"
+    t.decimal "cost"
+    t.integer "created_by_admin_id"
+    t.datetime "online_at"
+    t.datetime "sold_at"
+    t.string "version"
+    t.datetime "last_upgraded_at"
+    t.string "vps_provider"
+    t.string "vps_url"
+    t.decimal "vps_monthly_cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
+    t.index ["slug"], name: "index_nodes_on_slug"
+    t.index ["user_id"], name: "index_nodes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,9 +75,15 @@ ActiveRecord::Schema.define(version: 2018_06_06_002201) do
     t.string "facebook"
     t.string "google"
     t.string "linkedin"
-    t.string "location"
+    t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "city"
+    t.string "state"
+    t.string "zipcode"
+    t.string "country"
   end
 
+  add_foreign_key "nodes", "cryptos"
+  add_foreign_key "nodes", "users"
 end

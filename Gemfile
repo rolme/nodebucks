@@ -9,17 +9,18 @@ gem 'puma', '~> 3.11'
 gem 'jbuilder', '~> 2.5'
 gem 'typhoeus'
 
+# Auth
+gem 'rack-cors'
+gem 'bcrypt', '~> 3.1.7'
+gem 'jwt'
+gem 'simple_command'
+
 # For scraping
 gem 'headless'
 gem 'phantomjs'
 gem 'chromedriver-helper'
 gem 'selenium-webdriver'
 gem 'watir'
-
-# Auth
-gem 'bcrypt', '~> 3.1.7'
-gem 'jwt'
-gem 'simple_command'
 
 # job scheduling
 gem 'sidekiq'
@@ -28,7 +29,8 @@ gem 'sidekiq-scheduler'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'rack-cors'
+# Payment processing
+gem 'stripe'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -46,11 +48,15 @@ group :development do
   gem "letter_opener"
 end
 
-group :staging, :production do
-  gem 'rails_12factor'
+group :test do
+  gem 'shoulda'
+  gem 'vcr'
 end
 
-gem 'heroku-deflater', :group => :production
+group :staging, :production do
+  gem 'heroku-deflater'
+  gem 'rails_12factor'
+end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

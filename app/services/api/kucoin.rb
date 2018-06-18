@@ -4,12 +4,12 @@ module Api
     DEBUG       = false
     EXCHANGE    = 'Kucoin'
 
-    if Rails.env == 'development'
-      API_KEY    = Rails.application.credentials.kucoin[:api_key]
-      API_SECRET = Rails.application.credentials.kucoin[:secret]
-    else
+    if Rails.env == 'production'
       API_KEY    = ENV['KUCOIN_API_KEY']
       API_SECRET = ENV['KUCOIN_API_SECRET']
+    else
+      API_KEY    = Rails.application.credentials.kucoin[:api_key]
+      API_SECRET = Rails.application.credentials.kucoin[:secret]
     end
 
     attr_reader :btc_usdt

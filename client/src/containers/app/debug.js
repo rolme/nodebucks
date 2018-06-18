@@ -15,11 +15,20 @@ class Debug extends Component {
   }
 
   render() {
-    const { crypto } = this.props
+    const { match: { params }, crypto, pending } = this.props
+
+    if (!!pending) {
+      return <h4 className="pt-3">Loading {params.slug}... </h4>
+    }
+
     return (
       <div className="row">
         <div className="col-md-6">
-        { this.renderTable(crypto) }
+          { this.renderFees(crypto) }
+          <br/>
+          { this.renderScrapedTable(crypto) }
+          <br/>
+          { this.renderRoi(crypto) }
         </div>
         <div className="col-md-6">
           { this.renderOrders(crypto.orders) }
@@ -28,34 +37,115 @@ class Debug extends Component {
     )
   }
 
-  renderTable(crypto) {
+  renderScrapedTable(crypto) {
     let nodes = (+crypto.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let purchasablePrice = (+crypto.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let nodePrice = (+crypto.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let annualRoi = ((+crypto.annualRoi) * 100.0).toFixed(1)
+    let estimatedNodePrice = (+crypto.estimatedNodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let price = (+crypto.price).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
     return(
       <table className="table">
+        <thead>
+          <tr>
+            <th colSpan={2}>From Masternode.Pro</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <th>Name</th>
-            <td>{crypto.name} ({crypto.symbol})</td>
+            <th>Nodes</th>
+            <td style={{textAlign: 'right'}}>{nodes}</td>
           </tr>
           <tr>
             <th>Stake</th>
-            <td>{crypto.stake}</td>
+            <td style={{textAlign: 'right'}}>{crypto.stake}</td>
           </tr>
           <tr>
-            <th>Annual ROI (Masternode.Pro)</th>
-            <td>{annualRoi}</td>
+            <th>Coin Price</th>
+            <td style={{textAlign: 'right'}}>{price} USD</td>
           </tr>
           <tr>
-            <th>Node Price (Masternode.Pro)</th>
-            <td>{nodePrice}</td>
+            <th>Estimated Price</th>
+            <td style={{textAlign: 'right'}}>${estimatedNodePrice} USD</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
+  renderFees(crypto) {
+    let purchasablePrice = (+crypto.purchasablePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let nodePrice = (+crypto.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    let percentageSetupFee = ((+crypto.percentageSetupFee) * 100.0).toFixed(0)
+    let percentageConversionFee = ((+crypto.percentageConversionFee) * 100.0).toFixed(0)
+    let percentageHostingFee = ((+crypto.percentageHostingFee) * 100.0).toFixed(0)
+    let flatSetupFee = (+crypto.flatSetupFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    let conversionFee = +crypto.purchasablePrice * +crypto.percentageConversionFee
+    conversionFee = (+conversionFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    let setupFee = (+crypto.purchasablePrice * +crypto.percentageSetupFee) + +crypto.flatSetupFee
+    setupFee = (+setupFee).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+
+    return(
+      <table className="table">
+        <thead>
+          <tr>
+            <th>{crypto.name} ({crypto.symbol}): Pricing Breakdown</th>
+            <th style={{textAlign: 'right'}}>${nodePrice} USD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Purchasing Price</th>
+            <td style={{textAlign: 'right'}}>{purchasablePrice}</td>
           </tr>
           <tr>
-            <th>Purchasable Price (Order Base)</th>
-            <td>{purchasablePrice}</td>
+            <th>Setup Fee ({percentageSetupFee}% + ${flatSetupFee})</th>
+            <td style={{textAlign: 'right'}}>{setupFee}</td>
+          </tr>
+          <tr>
+            <th>Conversion Fee ({percentageConversionFee}%)</th>
+            <td style={{textAlign: 'right'}}>{conversionFee}</td>
+          </tr>
+          <tr>
+            <th>Hosting Fee ({percentageHostingFee}%)</th>
+            <td style={{textAlign: 'right'}}>monthly</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
+  renderRoi(crypto) {
+    const monthlyRoiValue = (+crypto.monthlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const monthlyRoiPercentage = ((+crypto.monthlyRoiPercentage) * 100.0).toFixed(1)
+    const weeklyRoiValue = (+crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const weeklyRoiPercentage = ((+crypto.weeklyRoiPercentage) * 100.0).toFixed(1)
+    const yearlyRoiValue = (+crypto.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const yearlyRoiPercentage = ((+crypto.yearlyRoiPercentage) * 100.0).toFixed(1)
+
+    return(
+      <table className="table">
+        <thead>
+          <tr>
+            <th colSpan={3}>Projected ROI</th>
+          </tr>
+          <tr>
+            <th>Weekly</th>
+            <th>Montly</th>
+            <th>Yearly</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              ${weeklyRoiValue} USD ({weeklyRoiPercentage}%)
+            </td>
+            <td>
+              ${monthlyRoiValue} USD ({monthlyRoiPercentage}%)
+            </td>
+            <td>
+              ${yearlyRoiValue} USD ({yearlyRoiPercentage}%)
+            </td>
           </tr>
         </tbody>
       </table>
@@ -74,7 +164,7 @@ class Debug extends Component {
         <tbody>
           { !!orders && orders.map(order => {
             return(
-              <tr key={order.id}>
+              <tr key={`${order.exchange}-${order.id}`}>
                 <td>{order.price} BTC</td>
                 <td>{order.volume}</td>
                 <td>{order.exchange}</td>
@@ -88,7 +178,10 @@ class Debug extends Component {
 }
 
 const mapStateToProps = state => ({
-  crypto: state.cryptos.data
+  crypto: state.cryptos.data,
+  error: state.cryptos.error,
+  message: state.cryptos.message,
+  pending: state.cryptos.pending
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
