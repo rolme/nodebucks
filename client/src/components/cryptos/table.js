@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleUp } from '@fortawesome/fontawesome-free-solid'
@@ -52,7 +52,6 @@ class CryptoTable extends Component {
               <th>Coin</th>
               <th>Nodes <FontAwesomeIcon onClick={() => this.sortTable('nodes')} icon={sortedColumnName === 'nodes' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
               <th>Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
-              <th>Purchasable Price <FontAwesomeIcon onClick={() => this.sortTable('price')} icon={sortedColumnName === 'price' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
               <th>Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
               <th></th>
             </tr>
@@ -68,8 +67,7 @@ class CryptoTable extends Component {
 
   displayCryptos(list) {
     return list.map(item => {
-      let nodes = (!!item.nodes || item.nodes === '0') ? (+item.nodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : '-'
-      let purchasablePrice = (!!item.price || item.price === '0') ? '$' + (+item.price).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let masternodes = (!!item.masternodes || item.masternodes === '0') ? (+item.masternodes).toFixed(0).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : '-'
       let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
       let annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : '-'
       return (
@@ -77,11 +75,8 @@ class CryptoTable extends Component {
           <td>
             <a href={item.url}>{item.name}</a>
           </td>
-          <td>{nodes}</td>
+          <td>{masternodes}</td>
           <td>{annualRoi}</td>
-          <td>
-            <NavLink to={`/debug/${item.slug}`}>{purchasablePrice}</NavLink>
-          </td>
           <td>{nodePrice}</td>
           <td className="d-flex">
             <button className="btn btn-primary addNodeButton">+ Add Node</button>
