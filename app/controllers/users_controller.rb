@@ -71,18 +71,22 @@ protected
 
   def user_params
     params.require(:user).permit(
+      :address,
       :avatar,
+      :city,
+      :country,
       :email,
       :facebook,
       :first,
       :google,
       :last,
       :linkedin,
-      :location,
       :new_email,
       :nickname,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :state,
+      :zipcode
     )
   end
 
@@ -105,18 +109,22 @@ private
   # TODO: This code also exists in authenticate_user.rb
   def generate_token
     JsonWebToken.encode({
+      address: @user.address,
       avatar: @user.avatar,
+      city: @user.city,
       confirmedAt: @user.confirmed_at&.to_formatted_s(:db),
+      country: @user.country,
       createdAt: @user.created_at.to_formatted_s(:db),
       email: @user.email,
       first: @user.first,
       fullName: @user.full_name,
       last: @user.last,
-      location: @user.location,
       newEmail: @user.new_email,
       nickname: @user.nickname,
       slug: @user.slug,
-      updatedAt: @user.updated_at.to_formatted_s(:db)
+      state: @user.state,
+      updatedAt: @user.updated_at.to_formatted_s(:db),
+      zipcode: @user.zipcode
     })
   end
 end

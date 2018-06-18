@@ -7,11 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    if (Rails.env == 'production')
-      origins Rails.application.credentials.production_cors_origin
-    else
-      origins Rails.application.credentials.development_cors_origin
-    end
+    origins Rails.application.credentials.cors_origin[Rails.env.to_sym]
 
     resource '*',
       headers: :any,
