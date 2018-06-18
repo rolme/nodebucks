@@ -71,18 +71,22 @@ protected
 
   def user_params
     params.require(:user).permit(
+      :address,
       :avatar,
+      :city,
+      :country,
       :email,
       :facebook,
       :first,
       :google,
       :last,
       :linkedin,
-      :location,
       :new_email,
       :nickname,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :state,
+      :zipcode
     )
   end
 
