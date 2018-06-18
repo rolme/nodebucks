@@ -4,7 +4,7 @@
   justify-content: center;
   background-image: url('/assets/images/homeTopBackground.jpg');
   padding: 20px 0;
-  height: calc(100vh - 100px);
+  min-height: calc(100vh - 100px);
 }
 
 .homeMainBannerContainer > .contentContainer {
@@ -257,15 +257,16 @@
 }
 
 .homeWhatIsMasternodeFirstDotesImageContainer > img {
-  margin: 10px 0 10px 56px;
-}
-
-.homeWhatIsMasternodeSecondImageContainer {
-  margin-left: 30px;
+  margin: 10px 0 10px 69px;
 }
 
 .homeWhatIsMasternodeSecondDotesImageContainer > img {
   margin: 10px 0 10px 70px;
+}
+
+.homeWhatIsFirstSectionParagraph,
+.homeWhatIsSecondSectionParagraph {
+  min-width: 600px;
 }
 
 /*Footer Part*/
@@ -316,17 +317,39 @@
   .homeFooterContainer {
     padding: 20px 0;
   }
+
+  .homeWhatIsMasternodeFirstDotesImageContainer,
+  .homeWhatIsMasternodeSecondDotesImageContainer {
+    display: none;
+  }
+
+  .homeWhatIsMasternodeContentPartContainer {
+    margin-top: 20px;
+  }
+
+  .homeWhatIsFirstSectionParagraph,
+  .homeWhatIsSecondSectionParagraph {
+    min-width: unset;
+  }
+
+  .homeWhatIsMasternodeContainer > .contentContainer {
+    padding: 20px 0;
+  }
 }
 
 @media (max-width: 768px) {
   .homeMainBannerContainer {
     padding: 0;
-    height: calc(100vh - 120px);
+    min-height: calc(100vh - 120px);
   }
 
   .homeMainBannerPopUpMessagePartContainer {
     margin: 0;
     padding: 20px 40px;
+  }
+
+  .homeTestimonialsContainer > .contentContainer {
+    padding: 10px 10px 35px 10px !important;
   }
 
   .homeMainBannerHeaderText {
@@ -336,6 +359,10 @@
 
   .homeMainBannerText {
     font-size: 25px;
+  }
+
+  .homeFooterContainer > .contentContainer > div:nth-child(1) {
+    margin-bottom: 20px;
   }
 }
 
