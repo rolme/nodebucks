@@ -21,17 +21,6 @@
   top: 10px;
 }
 
-.inputFieldContainer > input,
-.inputFieldContainer > input:focus {
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  font-size: 17px;
-  line-height: 17px;
-  max-height: 17px;
-  font-family: 'Arimo-Regular';
-}
-
 .inputFieldContainer > input, ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #9D9D9D;
   font-family: 'DidactGothic-Regular';
@@ -52,6 +41,34 @@
   font-family: 'DidactGothic-Regular';
 }
 
+.inputFieldContainer > input,
+.inputFieldContainer > input:focus,
+.inputFieldContainer > .Select,
+.inputFieldContainer > .Select > .Select-control {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 17px;
+  line-height: 17px;
+  max-height: 17px;
+  font-family: 'Arimo-Regular';
+  color: #424242;
+}
+
+.inputFieldContainer > .Select > .Select-control {
+  max-height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: none !important;
+}
+
+.inputFieldContainer > .Select > .Select-control > span > .Select-value,
+.inputFieldContainer > .Select > .Select-control > span > .Select-placeholder {
+  padding: 0;
+  line-height: 20px;
+}
+
 .inputFieldContainer:focus-within {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
@@ -69,4 +86,34 @@
   color: #F2433D !important;
   font-size: 11px;
   margin-left: 21px;
+}
+
+.withAddonInputFieldGroup {
+  padding: 21px 30px 21px 20px;
+}
+
+.withAddonInputFieldGroup > input {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.withAddonInputFieldGroup > .input-group-append > .input-group-text {
+  background-color: white;
+  border: none;
+}
+
+.withAddonInputFieldGroup > .input-group-append {
+  position: absolute;
+  right: 0;
+  top: 18px;
+  z-index: 100;
+}
+
+.withAddonInputFieldGroup > input:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.inputFieldClickableAddon {
+  cursor: pointer;
 }

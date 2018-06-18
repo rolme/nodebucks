@@ -1,3 +1,7 @@
+.signUpPageContainer{
+  min-height: calc(100vh - 100px);
+}
+
 .signUpContainer{
   padding: 40px 0;
 }
