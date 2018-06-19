@@ -5,6 +5,7 @@ import Loading from "../../components/loadingComponent"
 
 const Home = Loadable({ loader: () => import('../home'), loading: Loading })
 const Header = Loadable({ loader: () => import('./header'), loading: Loading })
+const Footer = Loadable({ loader: () => import('./footer'), loading: Loading })
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 
@@ -22,6 +23,7 @@ export default class App extends Component {
             </Switch>
           </main>
         </div>
+        <Footer/>
       </div>
     )
   }
