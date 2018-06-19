@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
-import SelectField from '../../components/elements/selectField'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import './index.css'
@@ -43,14 +42,12 @@ class LogIn extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user, message, error } = nextProps
+    const { user, message } = nextProps
     if ( !!user ) {
       this.props.history.push('/')
-    } else if ( message === 'Email has already been taken' ) {
-      let messages = { ...this.state.messages }, errors = { ...this.state.errors }
-      messages.email = message
-      errors.email = error
-      this.setState({ stepNumber: 1, messages, errors })
+    } else if ( message === 'Email and/or password is invalid.' ) {
+      let messages = { email: '', password: '' }, errors = { email: true, password: true }
+      this.setState({ messages, errors })
     }
   }
 
@@ -69,7 +66,7 @@ class LogIn extends Component {
 
   validation() {
     const { email, password } = this.state
-    let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }
+    let isValid = true, messages = { email: '*Required', password: '*Required' }, errors = { email: false, password: false }
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'

@@ -195,7 +195,7 @@ export function login(data) {
   return dispatch => {
     dispatch({ type: LOGIN_USER })
 
-    axios.post(`/auth/admin`, data).then((response) => {
+    axios.post(`/auth/login`, data).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
