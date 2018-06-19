@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 import SelectField from '../../components/elements/selectField'
 import { Container, Col, Button, Alert } from 'reactstrap'
@@ -196,6 +197,25 @@ class SignUp extends Component {
     ]
     const { stepNumber, first, last, email, password, confirmPassword, zipcode, city, state, address, country, showPassword, showConfirmPassword, messages, errors } = this.state
     const { message, error, pending } = this.props
+
+    if ( pending ) {
+      return (
+        <Container fluid className="bg-white signUpPageContainer">
+          <div className="contentContainer d-flex justify-content-center">
+            <Col className="signUpContainer">
+              <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
+                <RingLoader
+                  size={150}
+                  color={'#3F89E8'}
+                  loading={pending}
+                />
+              </div>
+            </Col>
+          </div>
+        </Container>
+      )
+    }
+
     return (
       <Container fluid className="bg-white signUpPageContainer">
         <div className="contentContainer d-flex justify-content-center">
@@ -208,7 +228,7 @@ class SignUp extends Component {
             </Col>
             }
             {stepNumber === 1 &&
-            <Col xl={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
+            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpFirstStepIcon.png" alt="Step 1"/>
               <p className="signUpStepNumber">Step 1 of 2</p>
               <h2 className="signUpHeader">Let's get started.</h2>
