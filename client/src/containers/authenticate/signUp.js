@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import InputField from '../../components/elements/inputField'
 import SelectField from '../../components/elements/selectField'
-import { Container, Col, Button } from 'reactstrap'
+import { Container, Col, Button, Alert } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import './index.css'
 
-export default class SignUp extends Component {
+import { register, reset } from '../../reducers/user.js'
+
+class SignUp extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      firstName: '',
-      lastName: '',
+      first: '',
+      last: '',
       email: '',
       password: '',
       confirmPassword: '',
-      zip: '',
+      zipcode: '',
       city: '',
       state: '',
       address: '',
@@ -40,6 +45,31 @@ export default class SignUp extends Component {
     this.signUp = this.signUp.bind(this)
   }
 
+  componentWillMount() {
+    const { user } = this.props
+    if ( !!user ) {
+      this.props.history.push('/')
+      return
+    }
+    this.props.reset()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user, message, error } = nextProps
+    if ( !!user ) {
+      this.props.history.push('/')
+    } else if ( message === 'Email has already been taken' ) {
+      let messages = { ...this.state.messages }, errors = { ...this.state.errors }
+      messages.email = message
+      errors.email = error
+      this.setState({ stepNumber: 1, messages, errors })
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.reset()
+  }
+
   handleFieldValueChange(newValue, name) {
     this.setState({ [name]: newValue, })
   }
@@ -51,7 +81,7 @@ export default class SignUp extends Component {
 
   stepOneValidation() {
     const { email, password, confirmPassword } = this.state
-    let isValid = true, messages = [].concat(this.state.messages), errors = [].concat(this.state.errors), { stepNumber } = this.state
+    let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }, { stepNumber } = this.state
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'
@@ -87,9 +117,21 @@ export default class SignUp extends Component {
   }
 
   signUp() {
-    
-  }
+    const { first, last, email, password, confirmPassword, zipcode, city, state, address, country } = this.state
 
+    this.props.register({
+      first,
+      last,
+      email,
+      password,
+      password_confirmation: confirmPassword,
+      zipcode,
+      city,
+      state,
+      address,
+      country
+    })
+  }
 
   render() {
     const countryOptions = [
@@ -152,28 +194,36 @@ export default class SignUp extends Component {
         "label": "United States"
       }, { "value": "United States Minor Outlying Islands", "label": "United States Minor Outlying Islands" }, { "value": "Uruguay", "label": "Uruguay" }, { "value": "Uzbekistan", "label": "Uzbekistan" }, { "value": "Venezuela", "label": "Venezuela" }, { "value": "Vietnam", "label": "Vietnam" }, { "value": "Virgin Islands (US)", "label": "Virgin Islands (US)" }, { "value": "Yemen", "label": "Yemen" }, { "value": "Zambia", "label": "Zambia" }, { "value": "Zimbabwe", "label": "Zimbabwe" }
     ]
-    const { stepNumber, firstName, lastName, email, password, confirmPassword, zip, city, state, address, country, showPassword, showConfirmPassword, messages, errors } = this.state
+    const { stepNumber, first, last, email, password, confirmPassword, zipcode, city, state, address, country, showPassword, showConfirmPassword, messages, errors } = this.state
+    const { message, error, pending } = this.props
     return (
       <Container fluid className="bg-white signUpPageContainer">
         <div className="contentContainer d-flex justify-content-center">
           <Col className="signUpContainer">
+            {!!message &&
+            <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
+              <Alert color={error ? 'danger' : 'success'}>
+                {message}
+              </Alert>
+            </Col>
+            }
             {stepNumber === 1 &&
             <Col xl={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpFirstStepIcon.png" alt="Step 1"/>
               <p className="signUpStepNumber">Step 1 of 2</p>
               <h2 className="signUpHeader">Let's get started.</h2>
               <InputField label='First Name'
-                          name="firstName"
+                          name="first"
                           type='text'
-                          value={firstName}
+                          value={first}
                           message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
               <InputField label='Last Name'
-                          name="lastName"
+                          name="last"
                           type='text'
-                          value={lastName}
+                          value={last}
                           message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
@@ -219,16 +269,16 @@ export default class SignUp extends Component {
               <SelectField label='Country'
                            name="country"
                            value={country}
-                           message='*Required'
+                           message=''
                            error={false}
                            options={countryOptions}
                            handleFieldValueChange={this.handleFieldValueChange}
               />
               <InputField label='Zip Code'
-                          name="zip"
+                          name="zipcode"
                           type='text'
-                          value={zip}
-                          message='*Required'
+                          value={zipcode}
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -236,7 +286,7 @@ export default class SignUp extends Component {
                           name="city"
                           type='text'
                           value={city}
-                          message='*Required'
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -244,7 +294,7 @@ export default class SignUp extends Component {
                           name="state"
                           type='text'
                           value={state}
-                          message='*Required'
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -252,7 +302,7 @@ export default class SignUp extends Component {
                           name="address"
                           type='text'
                           value={address}
-                          message='*Required'
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -267,3 +317,18 @@ export default class SignUp extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.data,
+  signUpData: state.user.signUpData,
+  pending: state.user.pending,
+  error: state.user.error,
+  message: state.user.message
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({ register, reset }, dispatch)
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp))
