@@ -23,22 +23,23 @@ export const RESET_PASSWORD_FAILURE = 'user/RESET_PASSWORD_FAILURE'
 export const UPDATE_USER = 'user/UPDATE_USER'
 export const UPDATE_USER_SUCCESS = 'user/UPDATE_USER_SUCCESS'
 export const UPDATE_USER_FAILURE = 'user/UPDATE_USER_FAILURE'
+export const RESET = 'user/RESET'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
 // TODO: This smells, should probably be moved or figure out another way.
-let TOKEN      = localStorage.getItem('jwt-nodebucks')
+let TOKEN = localStorage.getItem('jwt-nodebucks')
 let TOKEN_USER = null
 
 try {
-  if (TOKEN !== '' && TOKEN !== null) {
+  if ( TOKEN !== '' && TOKEN !== null ) {
     TOKEN_USER = jwt_decode(TOKEN)
-    if (+TOKEN_USER.exp < +moment("","x")) {
+    if ( +TOKEN_USER.exp < +moment("", "x") ) {
       localStorage.setItem('jwt-nodebucks', '')
       TOKEN_USER = null
     }
   }
-} catch(err) {
+} catch ( err ) {
   localStorage.setItem('jwt-nodebucks', '')
   TOKEN_USER = null
 }
@@ -53,7 +54,16 @@ const initialState = {
 
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
-  switch (action.type) {
+  switch ( action.type ) {
+    case RESET:
+      return {
+        ...state,
+        error: false,
+        message: null,
+        pending: false,
+        signUpData: {}
+      }
+
     case LOGIN_USER:
       return {
         ...state,
@@ -75,6 +85,38 @@ export default (state = initialState, action) => {
       }
 
     case LOGIN_USER_FAILURE:
+      return {
+        ...state,
+        data: null,
+        error: true,
+        message: action.payload.message,
+        pending: false,
+        token: ''
+      }
+
+    case REGISTER_USER:
+      return {
+        ...state,
+        data: null,
+        error: false,
+        message: null,
+        pending: true,
+        token: ''
+      }
+
+    case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        data: jwt_decode(action.payload.token),
+        error: false,
+        message: 'Registration completed successfully.',
+        pending: false,
+        token: action.payload.token,
+        signUpData: {}
+      }
+
+
+    case REGISTER_USER_FAILURE:
       return {
         ...state,
         data: null,
@@ -130,16 +172,16 @@ export function isAuthenticated() {
   return dispatch => {
     let token = localStorage.getItem('jwt-nodebucks')
     let tokenUser = null
-    if (token !== '' && token !== null) {
+    if ( token !== '' && token !== null ) {
       try {
         tokenUser = jwt_decode(token)
-        if (+tokenUser.exp < +moment("","x")) {
+        if ( +tokenUser.exp < +moment("", "x") ) {
           localStorage.setItem('jwt-nodebucks', '')
           dispatch({ type: 'LOGOUT_USER_SUCCESS' })
           return false
         }
         return true
-      } catch(err) {
+      } catch ( err ) {
         localStorage.setItem('jwt-nodebucks', '')
         dispatch({ type: 'LOGOUT_USER_SUCCESS' })
         return false
@@ -149,15 +191,12 @@ export function isAuthenticated() {
   }
 }
 
-export function login(email, password) {
+export function login(data) {
   return dispatch => {
     dispatch({ type: LOGIN_USER })
 
-    axios.post(`/auth/admin`, {
-      email: email,
-      password: password
-    }).then((response) => {
-      if (response.data !== 'error') {
+    axios.post(`/auth/login`, data).then((response) => {
+      if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
         dispatch(push('/reports'))
@@ -165,9 +204,9 @@ export function login(email, password) {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
       }
     })
-    .catch((error) => {
-      dispatch({ type: LOGIN_USER_FAILURE, payload: { message: 'Email and/or password is invalid.' } })
-    })
+      .catch((error) => {
+        dispatch({ type: LOGIN_USER_FAILURE, payload: { message: 'Email and/or password is invalid.' } })
+      })
   }
 }
 
@@ -190,11 +229,15 @@ export function register(params) {
   return dispatch => {
     dispatch({ type: REGISTER_USER })
     axios.post('/api/users', { user: params }).then(response => {
+      if ( !!response.data && response.data.status === 'error' ) {
+        dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })
+        return
+      }
       dispatch({ type: REGISTER_USER_SUCCESS, payload: response.data })
     })
-    .catch((error) => {
-      dispatch({ type: REGISTER_USER_FAILURE, payload: error.message })
-    })
+      .catch((error) => {
+        dispatch({ type: REGISTER_USER_FAILURE, payload: error.message })
+      })
   }
 }
 
@@ -208,12 +251,12 @@ export function register(params) {
 export function updateUser(slug, currentPassword, params) {
   return dispatch => {
     dispatch({ type: UPDATE_USER })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/users/${slug}`, {
       current_password: currentPassword,
       user: params
     }).then(response => {
-      if (response.data.status !== 'error') {
+      if ( response.data.status !== 'error' ) {
         dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: UPDATE_USER_FAILURE, payload: response.data })
@@ -230,9 +273,9 @@ export function confirm(slug) {
     axios.get(`/api/users/${slug}/confirm`).then(response => {
       dispatch({ type: CONFIRM_REGISTRATION_SUCCESS, payload: response.data })
     })
-    .catch((error) => {
-      dispatch({ type: CONFIRM_REGISTRATION_FAILURE, payload: error.message })
-    })
+      .catch((error) => {
+        dispatch({ type: CONFIRM_REGISTRATION_FAILURE, payload: error.message })
+      })
   }
 }
 
@@ -242,9 +285,9 @@ export function requestReset(email) {
     axios.patch('/api/users/reset', { email }).then(response => {
       dispatch({ type: REQUEST_RESET_SUCCESS, payload: response.data })
     })
-    .catch((error) => {
-      dispatch({ type: REQUEST_RESET_FAILURE, payload: error.message })
-    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_RESET_FAILURE, payload: error.message })
+      })
   }
 }
 
@@ -257,11 +300,17 @@ export function resetPassword(resetToken, password, passwordConfirmation) {
         password_confirmation: passwordConfirmation
       }
     })
-    .then(response => {
-      dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data })
-    })
-    .catch((error) => {
-      dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message })
-    })
+      .then(response => {
+        dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data })
+      })
+      .catch((error) => {
+        dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function reset() {
+  return dispatch => {
+    dispatch({ type: RESET })
   }
 }

@@ -57,7 +57,7 @@ class Header extends Component {
       navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/logout" className="nav-link nav-item" activeClassName="active">Logout</NavLink>)
     } else {
       navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuAuthItem background-color-white nav-link nav-item" activeClassName="active">Login</NavLink>)
-      navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/logup" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+      navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }
