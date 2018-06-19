@@ -30,9 +30,9 @@ class SignUp extends Component {
       showConfirmPassword: false,
       stepNumber: 1,
       messages: {
-        email: '',
-        password: '',
-        confirmPassword: ''
+        email: '*Required',
+        password: '*Required',
+        confirmPassword: '*Required'
       },
       errors: {
         email: false,
