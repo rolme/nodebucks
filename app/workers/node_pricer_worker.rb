@@ -3,6 +3,6 @@ class NodePricerWorker
   sidekiq_options retry: false, backtrace: true
 
   def perform(*args)
-    NodePricer.run
+    NodeManager::Pricer.run
   end
 end

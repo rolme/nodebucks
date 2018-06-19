@@ -1,0 +1,17 @@
+json.address user.address
+json.avatar user.avatar
+json.city user.city
+json.confirmed? !!user.confirmed_at
+json.country user.country
+json.createdAt user.created_at.to_formatted_s(:db)
+json.deleted? !!user.deleted_at
+json.email user.email
+json.first user.first
+json.fullName user.full_name
+json.last user.last
+json.newEmail user.new_email
+json.nickname user.nickname
+json.slug user.slug
+json.state user.state
+json.updatedAt user.updated_at.to_formatted_s(:db)
+json.zipcode user.zipcode

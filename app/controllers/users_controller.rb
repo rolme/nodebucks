@@ -26,9 +26,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      RegistrationMailer.send_verify_email(@user).deliver_later
-      um = UserManager.new(@user)
-      um.setup_subscription
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
@@ -74,19 +71,22 @@ protected
 
   def user_params
     params.require(:user).permit(
+      :address,
       :avatar,
+      :city,
+      :country,
       :email,
-      :email_on_login,
       :facebook,
       :first,
       :google,
       :last,
       :linkedin,
-      :location,
       :new_email,
       :nickname,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :state,
+      :zipcode
     )
   end
 
@@ -104,5 +104,27 @@ private
     else
       render json: { status: 'error', message: command.errors[:user_authentication] }, status: :unauthorized
     end
+  end
+
+  # TODO: This code also exists in authenticate_user.rb
+  def generate_token
+    JsonWebToken.encode({
+      address: @user.address,
+      avatar: @user.avatar,
+      city: @user.city,
+      confirmedAt: @user.confirmed_at&.to_formatted_s(:db),
+      country: @user.country,
+      createdAt: @user.created_at.to_formatted_s(:db),
+      email: @user.email,
+      first: @user.first,
+      fullName: @user.full_name,
+      last: @user.last,
+      newEmail: @user.new_email,
+      nickname: @user.nickname,
+      slug: @user.slug,
+      state: @user.state,
+      updatedAt: @user.updated_at.to_formatted_s(:db),
+      zipcode: @user.zipcode
+    })
   end
 end
