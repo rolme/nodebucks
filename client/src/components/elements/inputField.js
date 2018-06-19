@@ -29,7 +29,7 @@ export default class InputField extends Component {
           <Input type={type} name={name} id={name} value={value} placeholder={label} onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)}/>
           {!!addonIcon &&
           <InputGroupAddon addonType="append">
-            <InputGroupText><img src={addonIcon} alt='psw' onClick={() => this.props.onAddonClick('showPassword')} className={!!this.props.onAddonClick ? "inputFieldClickableAddon" : ""}/></InputGroupText>
+            <InputGroupText><img src={addonIcon} alt='psw' onClick={() => this.props.onAddonClick(name)} className={!!this.props.onAddonClick ? "inputFieldClickableAddon" : ""}/></InputGroupText>
           </InputGroupAddon>
           }
         </Col>

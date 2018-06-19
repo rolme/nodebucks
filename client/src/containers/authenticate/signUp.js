@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import InputField from '../../components/elements/inputField'
 import SelectField from '../../components/elements/selectField'
 import { Container, Col, Button } from 'reactstrap'
+import { capitalize } from '../../lib/helpers'
 import './index.css'
 
 export default class SignUp extends Component {
@@ -22,11 +23,21 @@ export default class SignUp extends Component {
       showPassword: false,
       showConfirmPassword: false,
       stepNumber: 1,
+      messages: {
+        email: '',
+        password: '',
+        confirmPassword: ''
+      },
+      errors: {
+        email: false,
+        password: false,
+        confirmPassword: false
+      }
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
     this.stepOneValidation = this.stepOneValidation.bind(this)
-    this.stepTwoValidation = this.stepTwoValidation.bind(this)
+    this.signUp = this.signUp.bind(this)
   }
 
   handleFieldValueChange(newValue, name) {
@@ -34,14 +45,49 @@ export default class SignUp extends Component {
   }
 
   onAddonClick(name) {
+    name = 'show' + capitalize(name)
     this.setState({ [name]: !this.state[ name ] })
   }
 
   stepOneValidation() {
-    this.setState({ stepNumber: this.state.stepNumber + 1 })
+    const { email, password, confirmPassword } = this.state
+    let isValid = true, messages = [].concat(this.state.messages), errors = [].concat(this.state.errors), { stepNumber } = this.state
+    const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+    if ( !email ) {
+      messages.email = '*Required'
+      errors.email = true
+      isValid = false
+    } else if ( !re.test(email) ) {
+      messages.email = 'Please type valid email address'
+      errors.email = true
+      isValid = false
+    }
+
+    if ( !password ) {
+      messages.password = '*Required'
+      errors.password = true
+      isValid = false
+    }
+
+    if ( !confirmPassword ) {
+      messages.confirmPassword = '*Required'
+      errors.confirmPassword = true
+      isValid = false
+    }
+
+    if ( !!password && !!confirmPassword && confirmPassword !== password ) {
+      messages.confirmPassword = 'The password and confirmation password do not match'
+      errors.confirmPassword = true
+      isValid = false
+    }
+
+    stepNumber = isValid ? stepNumber + 1 : stepNumber
+
+    this.setState({ stepNumber, messages, errors })
   }
 
-  stepTwoValidation() {
+  signUp() {
+    
   }
 
 
@@ -106,7 +152,7 @@ export default class SignUp extends Component {
         "label": "United States"
       }, { "value": "United States Minor Outlying Islands", "label": "United States Minor Outlying Islands" }, { "value": "Uruguay", "label": "Uruguay" }, { "value": "Uzbekistan", "label": "Uzbekistan" }, { "value": "Venezuela", "label": "Venezuela" }, { "value": "Vietnam", "label": "Vietnam" }, { "value": "Virgin Islands (US)", "label": "Virgin Islands (US)" }, { "value": "Yemen", "label": "Yemen" }, { "value": "Zambia", "label": "Zambia" }, { "value": "Zimbabwe", "label": "Zimbabwe" }
     ]
-    const { stepNumber, firstName, lastName, email, password, confirmPassword, zip, city, state, address, country, showPassword, showConfirmPassword } = this.state
+    const { stepNumber, firstName, lastName, email, password, confirmPassword, zip, city, state, address, country, showPassword, showConfirmPassword, messages, errors } = this.state
     return (
       <Container fluid className="bg-white signUpPageContainer">
         <div className="contentContainer d-flex justify-content-center">
@@ -120,7 +166,7 @@ export default class SignUp extends Component {
                           name="firstName"
                           type='text'
                           value={firstName}
-                          message='*Required'
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -128,7 +174,7 @@ export default class SignUp extends Component {
                           name="lastName"
                           type='text'
                           value={lastName}
-                          message='*Required'
+                          message=''
                           error={false}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
@@ -136,27 +182,27 @@ export default class SignUp extends Component {
                           name="email"
                           type='email'
                           value={email}
-                          message='*Required'
-                          error={false}
+                          message={messages.email}
+                          error={errors.email}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
               <InputField label='Password'
                           name="password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
-                          message='*Required'
-                          error={false}
+                          message={messages.password}
+                          error={errors.password}
                           addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
               <InputField label='Confirm Password'
                           name="confirmPassword"
-                          type={showConfirmPassword ? 'text' : 'confirmPassword'}
+                          type={showConfirmPassword ? 'text' : 'password'}
                           value={confirmPassword}
-                          message='*Required'
-                          error={false}
-                          addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
+                          message={messages.confirmPassword}
+                          error={errors.confirmPassword}
+                          addonIcon={showConfirmPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
@@ -211,7 +257,7 @@ export default class SignUp extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
               />
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                <Button onClick={this.stepTwoValidation} className="submitButton w-100">Sign Up</Button>
+                <Button onClick={this.signUp} className="submitButton w-100">Sign Up</Button>
               </Col>
             </Col>
             }
