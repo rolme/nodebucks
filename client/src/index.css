@@ -55,6 +55,24 @@ body {
   margin: 0 auto;
 }
 
+.submitButton {
+  font-family: "DidactGothic-Regular";
+  color: #FFFFFF;
+  font-size: 17px;
+  line-height: 17px;
+  background-color: #43CDEA;
+  border: none;
+  padding: 20px;
+}
+
+.submitButton:hover,
+.submitButton:active,
+.submitButton:focus {
+  background-color: #49e0ff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 @media (max-width: 768px) {
   .contentContainer {
     padding: 10px !important;

@@ -11,9 +11,9 @@ class CryptosController < ApplicationController
     @show_roi     = true
 
     # TODO: Figure out a way to store orders
-    np            = NodePricer.new
-    @prices       = np.evaluate(@crypto)
-    @orders       = np.orders
+    np      = NodeManager::Pricer.new
+    @prices = np.evaluate(@crypto)
+    @orders = np.orders
   end
 
   def update
