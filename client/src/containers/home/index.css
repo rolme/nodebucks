@@ -85,6 +85,10 @@
   background-color: #47e2ff;
 }
 
+.homeMainBannerButton:focus {
+  outline: none;
+}
+
 .homeMainBannerScrollDownContainer {
   display: flex;
   flex-direction: column;

@@ -23,7 +23,7 @@ class Masternodes extends Component {
     return (
       <div className="homeMasternodesContainer bg-white">
         <div className="contentContainer">
-          <h1 className="homeMasternodesHeader">Top Performing Masternodes</h1>
+          <h1 className="homeMasternodesHeader">Select a Masternode</h1>
           <CryptoTable list={cryptos} user={user} />
         </div>
       </div>
