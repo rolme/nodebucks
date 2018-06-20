@@ -85,7 +85,7 @@ class CryptoTable extends Component {
         <tr key={item.slug}>
           <td>
             {item.name}
-            <a href="https://masternodes.pro/stats/dash/statistics" target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#3D58E7"/></a>
+            <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#3D58E7"/></a>
             <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#3D58E7"/></a>
           </td>
           <td>{annualRoi}</td>
