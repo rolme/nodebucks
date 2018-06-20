@@ -217,9 +217,9 @@ class SignUp extends Component {
     }
 
     return (
-      <Container fluid className="bg-white signUpPageContainer">
+      <Container fluid className="bg-white authPageContainer">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="signUpContainer">
+          <Col className="authContainer">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -230,8 +230,8 @@ class SignUp extends Component {
             {stepNumber === 1 &&
             <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpFirstStepIcon.png" alt="Step 1"/>
-              <p className="signUpStepNumber">Step 1 of 2</p>
-              <h2 className="signUpHeader">Let's get started.</h2>
+              <p className="authStepNumber">Step 1 of 2</p>
+              <h2 className="authHeader">Let's get started.</h2>
               <InputField label='First Name'
                           name="first"
                           type='text'
@@ -284,8 +284,8 @@ class SignUp extends Component {
             {stepNumber === 2 &&
             <Col xl={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpSecondStepIcon.png" alt="Step 1"/>
-              <p className="signUpStepNumber">Step 2 of 2</p>
-              <h2 className="signUpHeader">Where are you from?</h2>
+              <p className="authStepNumber">Step 2 of 2</p>
+              <h2 className="authHeader">Where are you from?</h2>
               <SelectField label='Country'
                            name="country"
                            value={country}

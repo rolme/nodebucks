@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
-import { Container, Col, Button, Alert } from 'reactstrap'
+import Checkbox from 'rc-checkbox'
+
+import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import './index.css'
+import 'rc-checkbox/assets/index.css'
 
 import { login, reset } from '../../reducers/user.js'
 
@@ -18,6 +21,7 @@ class LogIn extends Component {
       email: '',
       password: '',
       showPassword: false,
+      rememberMe: false,
       messages: {
         email: '*Required',
         password: '*Required',
@@ -29,6 +33,7 @@ class LogIn extends Component {
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
+    this.toggleElement = this.toggleElement.bind(this)
     this.validation = this.validation.bind(this)
   }
 
@@ -89,15 +94,19 @@ class LogIn extends Component {
     isValid && this.props.login({ email, password })
   }
 
+  toggleElement(name) {
+    this.setState({ [name]: !this.state[ name ] })
+  }
+
   render() {
-    const { email, password, showPassword, messages, errors } = this.state
+    const { email, password, showPassword, messages, errors, rememberMe } = this.state
     const { message, error, pending } = this.props
 
     if ( pending ) {
       return (
-        <Container fluid className="bg-white signUpPageContainer">
+        <Container fluid className="bg-white authPageContainer">
           <div className="contentContainer d-flex justify-content-center">
-            <Col className="signUpContainer">
+            <Col className="authContainer">
               <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
                 <RingLoader
                   size={150}
@@ -112,9 +121,9 @@ class LogIn extends Component {
     }
 
     return (
-      <Container fluid className="bg-white signUpPageContainer">
+      <Container fluid className="bg-white authPageContainer">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="signUpContainer">
+          <Col className="authContainer">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -122,8 +131,10 @@ class LogIn extends Component {
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
-              <h2 className="signUpHeader">Log In</h2>
+            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="justify-content-center d-flex flex-column align-items-center">
+              <img src="/assets/images/signInIcon.png" alt="sign in"/>
+              <p className="authStepNumber">Sign In</p>
+              <h2 className="authHeader">Please fill the form!</h2>
               <InputField label='Email Address'
                           name="email"
                           type='email'
@@ -142,8 +153,21 @@ class LogIn extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
+              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 flex-row justify-content-between">
+                <FormGroup className="rememberMeCheckboxContainer">
+                  <Label className="rememberMeCheckBox">
+                    <Checkbox
+                      className="nodebucksCheckbox"
+                      defaultChecked={rememberMe}
+                      onChange={(event) => this.toggleElement('rememberMe')}
+                    />
+                    &nbsp; Remember me
+                  </Label>
+                </FormGroup>
+                <NavLink to="/forgot_password" className="logInForgotPassword">Forgot Password?</NavLink>
+              </Col>
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                <Button onClick={this.validation} className="submitButton w-100">Log In</Button>
+                <Button onClick={this.validation} className="submitButton w-100">Sign In</Button>
               </Col>
             </Col>
           </Col>
