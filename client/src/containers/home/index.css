@@ -52,6 +52,10 @@
   background-color: #47e2ff;
 }
 
+.homeMainBannerButton:focus {
+  outline: none;
+}
+
 .homeMainBannerScrollDownContainer {
   position: absolute;
   bottom: 20px;

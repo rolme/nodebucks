@@ -6,7 +6,7 @@
 
 .cryptosTable > thead > tr > th > svg {
   float: right;
-  margin-top: 3.5px;
+  margin-top: 5px;
   cursor: pointer;
 
 }
@@ -17,7 +17,7 @@
 
 .cryptosTable > thead > tr > th,
 .cryptosTable > tbody > tr > td {
-  padding: 30px 0.75rem !important;
+  padding: 10px 0.75rem !important;
 }
 
 .cryptosTable > tbody > tr > td,
@@ -28,6 +28,15 @@
   color: #7B7B7B;
 }
 
+
+.cryptosTable > tbody > tr > td > a:hover {
+  text-decoration: none;
+}
+
+.cryptosTable > tbody > tr > td > a:hover > svg{
+  color: #4360ff !important;
+}
+
 .cryptosTableHeaderRow {
   background-color: #F2F2F2;
 }
@@ -35,20 +44,21 @@
 .cryptosTableHeaderRow > th {
   font-family: 'DidactGothic-Regular';
   color: #3D58E7;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .addNodeButton {
   border-radius: 50px;
   background-color: #3D58E7;
-  color: white;
-  font-family: 'Karla-Regular';
-  font-size: 17px;
-  padding: 15px 38px;
+  color: white !important;
+  font-family: 'Karla-Regular' !important;
+  font-size: 17px !important;
   margin: 0 auto;
   letter-spacing: 1px;
+  width: 155px;
 }
 
 .addNodeButton:hover {
   background-color: #415cff;
+  color: white !important;
 }
