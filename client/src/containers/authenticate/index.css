@@ -1,22 +1,42 @@
-.signUpPageContainer{
+.authPageContainer{
   min-height: calc(100vh - 100px);
 }
 
-.signUpContainer{
+.authContainer{
   min-height: 755px;
   padding: 40px 0;
 }
 
-.signUpStepNumber{
+.authStepNumber{
   margin-top: 15px;
   font-family: 'Arimo-Regular';
   color: #4B5366;
   font-size: 20px;
 }
 
-.signUpHeader{
+.authHeader{
   margin: 10px 0 40px 0;
   font-family: 'Arimo-Regular';
   color: #3D58E7;
   font-size: 32px;
+}
+
+.rememberMeCheckBox {
+  color: #9D9D9D;
+  font-family: 'Arimo-Regular';
+  font-size: 14px;
+}
+
+.rememberMeCheckboxContainer {
+  line-height: 15px;
+}
+
+.logInForgotPassword {
+  color: #43CEEA;
+  font-family: 'Arimo-Regular';
+  font-size: 14px;
+}
+
+.logInForgotPassword:hover {
+  color: #4ae1ff;
 }
