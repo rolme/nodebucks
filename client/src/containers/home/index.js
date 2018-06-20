@@ -30,16 +30,9 @@ export default class Home extends Component {
       <div className="homeContainer">
         <div className="homeMainBannerContainer">
           <div className="contentContainer">
-            <div className="homeMainBannerPopUpMessageContainer">
-              <div className="homeMainBannerPopUpMessagePartContainer">
-                <img src="/assets/images/exclamationIcon.png" alt="exclamation"/>
-                <p>Be one of <span>Nodebucks</span> first 500 users and receive 15% off your first node!</p>
-              </div>
-              <img className="homeMainBannerPopUpMessageCloseIcon" src="/assets/images/closeIcon.png" alt="close"/>
-            </div>
             <p className="homeMainBannerHeaderText">Invest in the <span>Blockchain</span></p>
             <p className="homeMainBannerText">Own your very own masternode and collect blockchain rewards.</p>
-            <button onClick={this.scrollToMasternodes} className="homeMainBannerButton"><img className="mr-1" src="/assets/images/masternode.png" alt='masternode'/>Setup a Masternode</button>
+            <button onClick={this.scrollToMasternodes} className="homeMainBannerButton"><img className="mr-3" src="/assets/images/masternode.png" alt='masternode'/>Setup a Masternode</button>
             <div className="homeMainBannerScrollDownContainer">
               <img className="scrollAnimation" src="/assets/images/mouse.png" alt="Scroll down"/>
               <p>Please Scroll Down</p>
@@ -108,7 +101,7 @@ export default class Home extends Component {
               <p className="homeFooterText mb-0">Owning a <span>masternode</span> has never been easier! </p>
             </Col>
             <Col xl={{ size: 4, offset: 1 }} lg={{ size: 4, offset: 1 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 10, offset: 1 }} className="d-flex justify-content-center mt-xl-0 mt-lg-0 mt-md-3 mt-sm-4 mt-xs-5">
-              <button onClick={this.scrollToMasternodes} className="homeFooterButton"><img src="/assets/images/masternode.png" alt='masternode'/>Setup a Masternode</button>
+              <button onClick={this.scrollToMasternodes} className="homeFooterButton"><img src="/assets/images/masternode.png" className="mr-3" alt='masternode'/>Setup a Masternode</button>
             </Col>
           </div>
         </div>
