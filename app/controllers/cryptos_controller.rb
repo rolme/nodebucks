@@ -1,5 +1,5 @@
 class CryptosController < ApplicationController
-  before_action :authenticate_admin_request, only: [:update]
+  before_action :authenticate_admin_request, only: [:show]
 
   def index
     @cryptos = Crypto.all
@@ -8,6 +8,7 @@ class CryptosController < ApplicationController
   def show
     @crypto       = Crypto.find_by(slug: params[:slug])
     @show_roi     = true
+    @show_pricing = true
 
     # TODO: Figure out a way to store orders
     np = NodeManager::Pricer.new
