@@ -55,6 +55,43 @@ body {
   margin: 0 auto;
 }
 
+.submitButton {
+  font-family: "DidactGothic-Regular";
+  color: #FFFFFF;
+  font-size: 17px;
+  line-height: 17px;
+  background-color: #43CDEA;
+  border: none;
+  padding: 20px;
+}
+
+.submitButton:hover,
+.submitButton:active,
+.submitButton:focus {
+  background-color: #49e0ff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+.rc-checkbox.nodebucksCheckbox > .rc-checkbox-inner {
+  width: 17px;
+  height: 17px;
+}
+
+.rc-checkbox.nodebucksCheckbox:hover .rc-checkbox-inner, .rc-checkbox-input:focus + .rc-checkbox-inner {
+  border-color: #43CEEA;
+}
+
+.rc-checkbox-checked .rc-checkbox-inner {
+  border-color: #43CEEA;
+  background-color: #43CEEA;
+}
+
+.rc-checkbox.nodebucksCheckbox .rc-checkbox-inner {
+  border: 2px solid #43CEEA;
+}
+
 @media (max-width: 768px) {
   .contentContainer {
     padding: 10px !important;
