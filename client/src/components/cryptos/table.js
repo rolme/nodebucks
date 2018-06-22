@@ -77,9 +77,9 @@ class CryptoTable extends Component {
 
   displayCryptos(list) {
     return list.map(item => {
-      let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
-      let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + (+item.monthlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
-      let yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + (+item.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + (+item.monthlyRoiValue).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+      let yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + (+item.yearlyRoiValue).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
       let annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : '-'
       return (
         <tr key={item.slug}>
