@@ -40,7 +40,7 @@ class LogIn extends Component {
   componentWillMount() {
     const { user } = this.props
     if ( !!user ) {
-      this.props.history.push('/')
+      this.props.history.push('/dashboard')
       return
     }
     this.props.reset()
@@ -49,7 +49,7 @@ class LogIn extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message } = nextProps
     if ( !!user ) {
-      this.props.history.push('/')
+      this.props.history.push('/dashboard')
     } else if ( message === 'Email and/or password is invalid.' ) {
       let messages = { email: '', password: '' }, errors = { email: true, password: true }
       this.setState({ messages, errors })

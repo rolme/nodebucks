@@ -49,7 +49,7 @@ class SignUp extends Component {
   componentWillMount() {
     const { user } = this.props
     if ( !!user ) {
-      this.props.history.push('/')
+      this.props.history.push('/dashboard')
       return
     }
     this.props.reset()
@@ -58,7 +58,7 @@ class SignUp extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message, error } = nextProps
     if ( !!user ) {
-      this.props.history.push('/')
+      this.props.history.push('/dashboard')
     } else if ( message === 'Email has already been taken' ) {
       let messages = { ...this.state.messages }, errors = { ...this.state.errors }
       messages.email = message
