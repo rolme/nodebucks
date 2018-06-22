@@ -37,6 +37,10 @@ body {
   font-family: sans-serif;
 }
 
+.appContainer{
+  overflow: hidden;
+}
+
 #root,
 #root > div {
   height: 100%;
@@ -44,9 +48,10 @@ body {
 }
 
 .pageContainer {
-  overflow: hidden;
+  overflow-x: hidden;
   margin: 0 auto;
-  min-height: calc(100% - 100px);
+  height: calc(100vh - 100px);
+  padding-bottom: 50px;
 }
 
 .contentContainer {
@@ -95,5 +100,8 @@ body {
 @media (max-width: 768px) {
   .contentContainer {
     padding: 10px !important;
+  }
+  .pageContainer {
+    padding-bottom: 100px;
   }
 }
