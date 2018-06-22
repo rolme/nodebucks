@@ -4,11 +4,14 @@
   min-width: 1170px !important;
 }
 
+.cryptosTable > thead > tr > th > p {
+  cursor: pointer;
+}
+
 .cryptosTable > thead > tr > th > svg {
   float: right;
   margin-top: 5px;
   cursor: pointer;
-
 }
 
 .cryptosTable > thead > tr > th > svg:hover {
