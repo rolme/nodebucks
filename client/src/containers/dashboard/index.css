@@ -2,11 +2,13 @@
   height: 100%;
 }
 
+/*Summary Part Style */
+
 .summaryContainer {
   max-width: 600px;
 }
 
-.summaryTableTitle{
+.summaryTableTitle {
   font-family: "DidactGothic-Regular";
   margin-bottom: 10px;
   font-size: 25px;
@@ -32,3 +34,19 @@
   font-family: 'Arimo-Regular';
   margin-bottom: 5px;
 }
+
+/*Dashboard Main Table Style*/
+
+.dashboardMainTable > thead > tr > th {
+  text-align: center;
+}
+
+.dashboardMainTable > thead > tr > th.emptyHeader {
+    border: none;
+}
+
+.dashboardMainTable > thead > tr > th.transparentBorder {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+

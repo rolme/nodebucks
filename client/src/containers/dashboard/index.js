@@ -13,8 +13,8 @@ export default class Dashboard extends Component {
       <Container fluid className="bg-white dashboardContainer">
         <div className="contentContainer">
           <h1>Dashboard</h1>
-          <Col className="d-flex">
-            <Col xl={8}>
+          <Col className="d-flex flex-column">
+            <Col xl={12} className="mb-5">
               <MainTable/>
             </Col>
             <Col>
