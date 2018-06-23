@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route as PublicRoute, Switch } from 'react-router-dom'
+import { Route as PublicRoute, Switch, Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 
@@ -11,6 +11,7 @@ const Login = Loadable({ loader: () => import('../authenticate/login'), loading:
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
+const ErrorPage = Loadable({ loader: () => import('../../components/error_page'), loading: Loading })
 
 export default class App extends Component {
   render() {
@@ -26,6 +27,8 @@ export default class App extends Component {
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
+              <PublicRoute path="/404" component={ErrorPage}/>
+              <Redirect from='*' to='/404'/>
             </Switch>
           </main>
         </div>
