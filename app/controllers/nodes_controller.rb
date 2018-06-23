@@ -1,9 +1,10 @@
 class NodesController < ApplicationController
-  before_action :authenticate_request, only: [:show, :create]
-  before_action :authenticate_admin_request, only: [:index, :update]
+  before_action :authenticate_request, only: [:create, :index, :show]
+  before_action :authenticate_admin_request, only: [:update]
 
   def index
-    @nodes = Node.all
+    @nodes   = Node.all if current_user.admin?
+    @nodes ||= Node.where(user_id: current_user.id)
   end
 
   def show
