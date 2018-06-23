@@ -51,7 +51,7 @@ body {
   overflow-x: hidden;
   margin: 0 auto;
   height: calc(100vh - 100px);
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 .contentContainer {
@@ -68,6 +68,7 @@ body {
   background-color: #43CDEA;
   border: none;
   padding: 20px;
+  cursor: pointer;
 }
 
 .submitButton:hover,
