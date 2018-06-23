@@ -1,0 +1,34 @@
+.dashboardContainer {
+  height: 100%;
+}
+
+.summaryContainer {
+  max-width: 600px;
+}
+
+.summaryTableTitle{
+  font-family: "DidactGothic-Regular";
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.summaryTableContainer {
+  border: 1px solid;
+}
+
+.summaryValuesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-grow: unset;
+}
+
+.summaryLabelsContainer > p {
+  font-family: 'Arimo-Regular';
+  margin-bottom: 5px;
+}
+
+.summaryValuesContainer > p {
+  font-family: 'Arimo-Regular';
+  margin-bottom: 5px;
+}

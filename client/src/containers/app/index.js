@@ -9,6 +9,7 @@ const Footer = Loadable({ loader: () => import('./footer'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
+const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 
 export default class App extends Component {
@@ -17,13 +18,14 @@ export default class App extends Component {
       <div id="appContainer" className="appContainer">
         <Header/>
         <div className="pageContainer position-relative bg-light">
-          <main>
+          <main className="h-100">
             <Switch>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/" component={Home}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
+              <PublicRoute exact path="/dashboard" component={Dashboard}/>
             </Switch>
           </main>
         </div>
