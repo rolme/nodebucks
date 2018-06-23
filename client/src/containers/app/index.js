@@ -11,7 +11,8 @@ const Login = Loadable({ loader: () => import('../authenticate/login'), loading:
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
-const ErrorPage = Loadable({ loader: () => import('../../components/error_page'), loading: Loading })
+const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
+const ErrorPage404 = Loadable({ loader: () => import('../../components/error_pages/404_error_page'), loading: Loading })
 
 export default class App extends Component {
   render() {
@@ -27,7 +28,8 @@ export default class App extends Component {
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
-              <PublicRoute path="/404" component={ErrorPage}/>
+              <PublicRoute path="/401" component={ErrorPage401}/>
+              <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>
             </Switch>
           </main>
