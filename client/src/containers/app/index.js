@@ -10,6 +10,7 @@ const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loadin
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
+const Legal = Loadable({ loader: () => import('../../components/legal'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 
 export default class App extends Component {
@@ -26,6 +27,7 @@ export default class App extends Component {
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
+              <PublicRoute exact path="/legal" component={Legal}/>
             </Switch>
           </main>
         </div>
