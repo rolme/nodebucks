@@ -32,7 +32,7 @@ class CryptoScraper
         crypto.stake                = browser.find_elements(tag_name: 'mnp-data-box')[4].text&.split(/\s/).first.gsub(/\D/,'').to_i
 
         el = browser.find_elements(tag_name: 'a')&.find{ |a| a.attribute('title') == 'WebSite' }
-        crypto.url = el.attribute('href').split("r=")[1]if el.exists?
+        crypto.url = el.attribute('href').split("r=")[1] unless el.present?
 
         crypto.save
       rescue => error
