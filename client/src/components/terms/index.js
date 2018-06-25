@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './index.css'
 import { Container, Row, Col } from 'reactstrap'
 
-export default class Legal extends Component {
+export default class Terms extends Component {
   componentDidMount() {
     // Reset to top of window.
     window.scrollTo(0, 0)
@@ -14,7 +14,7 @@ export default class Legal extends Component {
       <Container>
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} className="mb-5">
           <Row className="pt-4 flex-column">
-            <p className="termOfUseTitle">Legal Terms Of Service</p>
+            <p className="termOfUseTitle"> Terms Of Use</p>
             <p className="paragraphText">The use of services provided by Nodebucks (hereafter referred to as "NB") is subject to the following Terms and Conditions</p>
           </Row>
           <Row className="pt-4 flex-column">
