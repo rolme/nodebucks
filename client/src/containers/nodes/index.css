@@ -8,7 +8,8 @@
 }
 
 .summaryTableTitle,
-.historyTableTitle {
+.historyTableTitle,
+.rewardSettingsTitle {
   font-family: "DidactGothic-Regular";
   margin-bottom: 10px;
   font-size: 25px;

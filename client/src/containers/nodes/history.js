@@ -12,7 +12,7 @@ export default class History extends Component {
   render() {
     return (
       <div className="historyContainer">
-        <div className="contentContainer">
+        <div className="contentContainer px-0">
           <p className="historyTableTitle">History</p>
           <Col className="d-flex px-0 py-2 historyTableContainer">
            <Table striped hover>
