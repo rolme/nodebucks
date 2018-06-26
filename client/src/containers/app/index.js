@@ -21,7 +21,7 @@ export default class App extends Component {
       <div id="appContainer" className="appContainer">
         <Header/>
         <div className="pageContainer position-relative bg-light">
-          <main className="h-100">
+          <main>
             <Switch>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>

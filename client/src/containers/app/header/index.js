@@ -33,7 +33,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
+      <Navbar className="headerNavBarContainer navbar navbar-expand-lg fixed-top navbar-light">
         <div ref="headerContainer" className="contentContainer">
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.jpg" alt="logo"/>
