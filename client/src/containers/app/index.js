@@ -8,6 +8,7 @@ const Header = Loadable({ loader: () => import('./header'), loading: Loading })
 const Footer = Loadable({ loader: () => import('./footer'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
+const Disclaimer = Loadable({ loader: () => import('../../components/disclaimer'), loading: Loading })
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
@@ -31,6 +32,7 @@ export default class App extends Component {
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
               <PublicRoute exact path="/terms" component={Terms}/>
+              <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
