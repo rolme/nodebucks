@@ -10,7 +10,7 @@ export default class Privacy extends Component {
   render() {
     return (
       <Container>
-        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }}>
+        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} className="mb-5">
           <Row className="pt-4 flex-column">
             <p className="termOfUseTitle">Privacy Notice</p>
             <p className="paragraphText">This privacy notice discloses the privacy practices for Nodebucks.com. This privacy notice applies solely to information collected by this website. It will notify you of the following:</p>

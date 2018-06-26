@@ -31,6 +31,7 @@ export default class App extends Component {
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
               <PublicRoute exact path="/terms" component={Terms}/>
+              <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>
