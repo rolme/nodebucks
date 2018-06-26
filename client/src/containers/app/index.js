@@ -13,6 +13,7 @@ const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Load
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
 const ErrorPage404 = Loadable({ loader: () => import('../../components/error_pages/404_error_page'), loading: Loading })
+const Privacy = Loadable({ loader: () => import('../../components/privacy'), loading: Loading })
 
 export default class App extends Component {
   render() {
