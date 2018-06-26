@@ -1,0 +1,33 @@
+.nodePageContainer {
+  height: 100%;
+}
+
+.summaryContainer {
+  max-width: 400px;
+  width: 100%;
+}
+
+.summaryTableTitle,
+.historyTableTitle,
+.rewardSettingsTitle {
+  font-family: "DidactGothic-Regular";
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.summaryValuesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-grow: unset;
+}
+
+.summaryLabelsContainer > p {
+  font-family: 'Arimo-Regular';
+  margin-bottom: 5px;
+}
+
+.summaryValuesContainer > p {
+  font-family: 'Arimo-Regular';
+  margin-bottom: 5px;
+}

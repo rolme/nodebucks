@@ -11,6 +11,7 @@ const Login = Loadable({ loader: () => import('../authenticate/login'), loading:
 const Disclaimer = Loadable({ loader: () => import('../../components/disclaimer'), loading: Loading })
 const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
+const Nodes = Loadable({ loader: () => import('../nodes'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
@@ -31,6 +32,7 @@ export default class App extends Component {
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
+              <PublicRoute exact path="/nodes/:slug" component={Nodes}/>
               <PublicRoute exact path="/terms" component={Terms}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
