@@ -38,7 +38,8 @@ body {
 }
 
 .appContainer{
-  overflow: hidden;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 #root,
@@ -48,10 +49,10 @@ body {
 }
 
 .pageContainer {
-  overflow-x: hidden;
+  overflow-y: hidden;
   margin: 0 auto;
-  height: calc(100vh - 100px);
-  padding-bottom: 30px;
+  min-height: calc(100% - 30px);
+  padding: 100px 0 30px;
 }
 
 .contentContainer {
@@ -103,6 +104,6 @@ body {
     padding: 10px !important;
   }
   .pageContainer {
-    padding-bottom: 100px;
+    padding: 120px 0 50px;
   }
 }

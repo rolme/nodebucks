@@ -313,7 +313,7 @@
 @media (max-width: 768px) {
   .homeMainBannerContainer {
     padding: 0;
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 187px);
   }
 
   .homeMainBannerPopUpMessagePartContainer {
@@ -336,6 +336,10 @@
 
   .homeFooterContainer > .contentContainer > div:nth-child(1) {
     margin-bottom: 20px;
+  }
+
+  .homeMainBannerScrollDownContainer {
+    bottom: 0;
   }
 }
 
