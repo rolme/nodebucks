@@ -1,0 +1,59 @@
+.errorNumber {
+  font-family: 'DidactGothic-Regular';
+  font-weight: bold;
+  color: #BCBCBC;
+  font-size: 399px;
+  line-height: 520px;
+  margin-bottom: 0;
+}
+
+.errorMessage {
+  font-family: 'Arimo-Regular';
+  color: #262626;
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+.errorAdvise {
+  font-family: 'Arimo-Regular';
+  color: #747474;
+  font-size: 22px;
+}
+
+.mousesImage {
+  bottom: 50px;
+  width: 350px;
+}
+
+@media (max-width: 761px) {
+  .errorNumber {
+    font-size: 280px;
+  }
+
+  .errorMessage {
+    font-size: 22px;
+  }
+
+  .errorAdvise {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .errorNumber {
+    font-size: 200px;
+    line-height: 455px;
+  }
+
+  .mousesImage{
+    width: 270px;
+  }
+
+  .errorMessage {
+    font-size: 15px;
+  }
+
+  .errorAdvise {
+    font-size: 10px;
+  }
+}

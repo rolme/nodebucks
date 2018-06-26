@@ -199,7 +199,7 @@ export function login(data) {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
-        dispatch(push('/reports'))
+        dispatch(push('/dashboard'))
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
       }
