@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import { Container, Col } from 'reactstrap'
 import Summary from './summary'
@@ -6,7 +7,15 @@ import History from './history'
 import './index.css'
 
 
-export default class Nodes extends Component {
+class Nodes extends Component {
+
+  componentWillMount() {
+    const { user } = this.props
+
+    if (!user) {
+
+    }
+  }
 
   render() {
     return (
@@ -26,3 +35,12 @@ export default class Nodes extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.user
+})
+
+
+export default connect(
+  mapStateToProps,
+)(Nodes)
