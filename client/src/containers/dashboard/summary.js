@@ -30,7 +30,7 @@ export default class Summary extends Component {
               <p>$13,412.01</p>
             </Col>
           </Col>
-          <button className="submitButton mt-2 py-3">Add Node</button>
+          <button className="submitButton mt-2 py-3">+ Add Node</button>
         </div>
       </div>
     )
