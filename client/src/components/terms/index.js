@@ -19,8 +19,7 @@ export default class Terms extends Component {
           </Row>
           <Row className="pt-4 flex-column">
             <p className="termOfUseSectionTitle pb-2">Important Notice</p>
-            <p className="paragraphText">Terms of Service/AUP Violations: <a href="mailto:abuse@nodebucks.com">abuse@nodebucks.com</a> (customers will be copied on all reports)</p>
-            <p className="paragraphText">Other Legal and Law Enforcement Inquiries: <a href="mailto:legal@nodebucks.com">legal@nodebucks.com</a></p>
+            <p className="paragraphText">Please email <a href="mailto:support@nodebucks.com">support@nodebucks.com</a> for all inquires.</p>
             <p className="paragraphText"><b>Party Definitions and Introductory Terms</b> - The operative parties referred to in this Agreement are defined as follows:</p>
             <ol>
               <li>
@@ -34,20 +33,6 @@ export default class Terms extends Component {
             <p className="paragraphText text-uppercase">PLEASE READ THE FOLLOWING HOSTING SERVICES TERMS AND CONDITIONS. BY SUBSCRIBING TO NODEBUCKS’ SERVICES, YOU AGREE TO BE BOUND BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT (the "AGREEMENT"). IF YOU AGREE WITH THE TERMS AND CONDITIONS OF THIS AGREEMENT, CLICK "I ACCEPT," (OR SIMILAR SYNTAX) OR CHECK THE APPROPRIATE BOX MANIFESTING YOUR INTENT TO BE BOUND BY THESE TERMS AND CONDITIONS AND CONTINUE WITH THE ACCOUNT SET-UP PROCESS. YOU
               SHOULD PRINT-OUT OR OTHERWISE SAVE A COPY OF THIS AGREEMENT FOR FUTURE REFERENCE. IF YOU DO NOT AGREE WITH ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT, CLICK THE "BACK" BUTTON ON YOUR BROWSER AND DO NOT SUBSCRIBE TO NODEBUCKS’ SERVICES. NODEBUCKS AGREES TO PROVIDE SERVICES TO YOU ONLY IF YOU AGREE TO BE BOUND BY ALL OF THE TERMS AND CONDITIONS CONTAINED HEREIN. YOUR ELECTRONIC ACCEPTANCE OF THIS AGREEMENT IS PERMITTED BY THE ELECTRONIC SIGNATURES IN GLOBAL AND NATIONAL
               COMMERCE ACT (E-SIGN ACT) AND SIMILAR FEDERAL AND STATE LAWS. ANY USE OF VULTR'S SERVICES SHALL CONSTITUTE AN ACT OF ACCEPTANCE OF THE CURRENT HOSTING SERVICES TERMS AND CONDITIONS.</p>
-          </Row>
-          <Row className="pt-4 flex-column">
-            <p className="termOfUseSectionTitle pb-2">Incorporations by reference</p>
-            <p className="paragraphText">Although this Agreement represents the primary terms and conditions of service for NB’s Services, additional guidelines and rules are hereby incorporated by reference. For Clients residing outside the EEA, the documents which can be found on Our Site, and which are specifically incorporated by reference, and are therefore part and parcel of this Agreement are the following:</p>
-
-            <ul>
-              <li><p className="paragraphText">Our Privacy Policy (<a href="http://www.nodebucks.com/legal/privacy/" target="_blank" rel="noopener noreferrer">http://www.nodebucks.com/legal/privacy/</a>)</p></li>
-              <li><p className="paragraphText">Our Acceptable Use Policy (<a href="http://www.nodebucks.com/legal/use_policy/" target="_blank" rel="noopener noreferrer">http://www.nodebucks.com/legal/use_policy/</a>)
-                <br/>For Clients residing in the EEA, the document(s) that can be found on Our Site, and which are specifically incorporated by reference and therefore part and parcel of this Agreement, are the following:</p>
-              </li>
-              <li><p className="paragraphText">Our Acceptable Use Policy (<a href="http://www.nodebucks.com/legal/use_policy/" target="_blank" rel="noopener noreferrer">http://www.nodebucks.com/legal/use_policy/</a>)
-                <br/>Clients residing in the EEA are invited to read our GDPR Privacy Notice before registering for the Services.
-              </p></li>
-            </ul>
           </Row>
           <Row className="pt-4 flex-column">
             <p className="termOfUseTitle pb-2">1. SERVICES</p>
