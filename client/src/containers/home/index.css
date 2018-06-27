@@ -121,9 +121,16 @@
   font-size: 36px;
   color: #3A3A3A;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
+.homeMasternodeContactUsLink{
+  font-family: 'DidactGothic-Regular';
+  color: #3A3A3A;
+  text-align: center;
+  display: block;
+  margin: 20px auto 0 auto;
+}
 /*Testimonials Part*/
 
 .homeTestimonialsContainer > .contentContainer {
