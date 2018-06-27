@@ -1,0 +1,41 @@
+.contactPageContainer {
+  min-height: calc(100vh - 130px);
+  padding-top: 50px;
+}
+
+.contactMessage{
+  margin-top: 15px;
+  font-family: 'Arimo-Regular';
+  color: #4B5366;
+  font-size: 20px;
+}
+
+.contactHeader{
+  margin: 10px 0 20px 0;
+  font-family: 'Arimo-Regular';
+  color: #3D58E7;
+  font-size: 32px;
+}
+
+
+@media (max-width: 992px) {
+  .contactPageContainer {
+    min-height: calc(100vh - 150px);
+  }
+}
+
+@media (max-width: 768px) {
+  .contactPageContainer {
+    min-height: calc(100vh - 170px);
+    padding-top: 10px;
+  }
+
+  .contactMessage{
+    margin-top: 0;
+  }
+
+  .contactHeader{
+    margin: 10px 0;
+  }
+
+}
