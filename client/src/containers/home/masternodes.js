@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
 import CryptoTable from '../../components/cryptos/table'
 
@@ -25,6 +26,7 @@ class Masternodes extends Component {
         <div className="contentContainer">
           <h1 className="homeMasternodesHeader">Select a Masternode</h1>
           <CryptoTable list={cryptos} user={user} />
+          <NavLink to='/contactUs' className="homeMasternodeContactUsLink">Request a different masternode coin</NavLink>
         </div>
       </div>
     )

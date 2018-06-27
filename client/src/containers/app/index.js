@@ -17,6 +17,7 @@ const Logout = Loadable({ loader: () => import('../authenticate/logout'), loadin
 const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
 const ErrorPage404 = Loadable({ loader: () => import('../../components/error_pages/404_error_page'), loading: Loading })
 const Privacy = Loadable({ loader: () => import('../../components/privacy'), loading: Loading })
+const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 
 export default class App extends Component {
   render() {
@@ -36,6 +37,7 @@ export default class App extends Component {
               <PublicRoute exact path="/terms" component={Terms}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
+              <PublicRoute exact path="/contactUs" component={Contact}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>

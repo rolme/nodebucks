@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_170050) do
+ActiveRecord::Schema.define(version: 2018_06_27_173606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,9 +53,20 @@ ActiveRecord::Schema.define(version: 2018_06_18_170050) do
     t.decimal "vps_monthly_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "wallet"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "node_id"
+    t.datetime "timestamp"
+    t.string "txhash"
+    t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_rewards_on_node_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -86,4 +97,5 @@ ActiveRecord::Schema.define(version: 2018_06_18_170050) do
 
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
+  add_foreign_key "rewards", "nodes"
 end
