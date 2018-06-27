@@ -11,11 +11,11 @@ json.onlineAt node.online_at&.to_formatted_s(:db)
 json.owner do
   json.partial! 'users/owner', user: node.user
 end
-json.rewardTotal node.reward_total
+json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
-  json.week node.week_reward
-  json.month node.month_reward
-  json.year node.year_reward
+  json.week node.week_reward * node.crypto.price
+  json.month node.month_reward * node.crypto.price
+  json.year node.year_reward * node.crypto.price
 end
 json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
