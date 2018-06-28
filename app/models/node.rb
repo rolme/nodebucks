@@ -9,13 +9,21 @@ class Node < ApplicationRecord
   belongs_to :user
   belongs_to :creator, foreign_key: :created_by_admin_id, class_name: 'User', optional: true
 
+  has_many :events
   has_many :rewards
+
+  delegate :percentage_conversion_fee,
+           :percentage_hosting_fee,
+           :price,
+           :stake,
+           :symbol,
+           to: :crypto
 
   validates :cost, presence: true
 
   # TODO: More math needed here
   def reward_total
-    rewards.map(&:amount).reduce(&:+) || 0.0
+    rewards.map(&:total_amount).reduce(&:+) || 0.0
   end
 
   def week_reward
@@ -28,6 +36,10 @@ class Node < ApplicationRecord
 
   def year_reward
     reward_timeframe(YEAR)
+  end
+
+  def value
+    (stake + reward_total) * price
   end
 
 private
