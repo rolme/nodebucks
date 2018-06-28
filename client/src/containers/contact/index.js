@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 
-import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
+import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
 
 class Contact extends Component {
@@ -67,7 +67,7 @@ class Contact extends Component {
 
     this.setState({ messages, errors })
 
-    //isValid && this.props.send()
+   isValid && !!this.props.send && this.props.send()
   }
 
   render() {
