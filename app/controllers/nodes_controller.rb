@@ -19,14 +19,18 @@ class NodesController < ApplicationController
 
   def offline
     @node = Node.find_by(slug: params[:node_slug])
-    @node.update_attribute(:status, 'offline')
+    operator = NodeManager::Operator.new(@node)
+    operator.offline
+    @node.reload
     render :show
   end
 
   def online
     @node = Node.find_by(slug: params[:node_slug])
     if @node.ready?
-      @node.update_attribute(:status, 'online')
+      operator = NodeManager::Operator.new(@node)
+      operator.online
+      @node.reload
     end
     render :show
   end
