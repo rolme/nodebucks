@@ -18,7 +18,7 @@ class NodesController < ApplicationController
   end
 
   def offline
-    @node = Node.find_by(slug: params[:node_slug])
+    @node    = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
     operator.offline
     @node.reload
