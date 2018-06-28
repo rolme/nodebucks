@@ -52,7 +52,7 @@ body {
   overflow-y: hidden;
   margin: 0 auto;
   min-height: calc(100% - 30px);
-  padding: 100px 0 30px;
+  padding: 66px 0 30px;
 }
 
 .contentContainer {
@@ -99,11 +99,17 @@ body {
   border: 2px solid #43CEEA;
 }
 
+@media (max-width: 992px) {
+  .pageContainer {
+    padding: 60px 0 30px;
+  }
+}
+
 @media (max-width: 768px) {
   .contentContainer {
     padding: 10px !important;
   }
   .pageContainer {
-    padding: 120px 0 50px;
+    padding: 80px 0 50px;
   }
 }
