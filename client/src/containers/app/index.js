@@ -20,10 +20,12 @@ const Privacy = Loadable({ loader: () => import('../../components/privacy'), loa
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 
 export default class App extends Component {
+
   render() {
+    const showHeader = window.location.pathname !== "/login"
     return (
       <div id="appContainer" className="appContainer">
-        <Header/>
+        {showHeader && <Header/>}
         <div className="pageContainer position-relative bg-light">
           <main>
             <Switch>

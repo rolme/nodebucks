@@ -104,7 +104,7 @@ class LogIn extends Component {
 
     if ( pending ) {
       return (
-        <Container fluid className="bg-white authPageContainer">
+        <Container fluid className="bg-white authPageContainer logIn">
           <div className="contentContainer d-flex justify-content-center">
             <Col className="authContainer">
               <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
@@ -121,7 +121,7 @@ class LogIn extends Component {
     }
 
     return (
-      <Container fluid className="bg-white authPageContainer">
+      <Container fluid className="bg-white authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer">
             {!!message &&
