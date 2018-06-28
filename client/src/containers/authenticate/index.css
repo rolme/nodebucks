@@ -1,30 +1,38 @@
-.authPageContainer{
+.authPageContainer {
   min-height: calc(100vh - 100px);
 }
 
-.authPageContainer.logIn{
+.authPageContainer.logIn {
   position: absolute;
   top: 0;
   min-height: calc(100vh - 30px);
 }
 
-.authContainer{
+.authContainer {
   min-height: 755px;
   padding: 40px 0;
 }
 
-.authStepNumber{
+.authStepNumber {
   margin-top: 15px;
   font-family: 'Arimo-Regular';
   color: #4B5366;
   font-size: 20px;
 }
 
-.authHeader{
+.authHeader {
   margin: 10px 0 40px 0;
   font-family: 'Arimo-Regular';
   color: #3D58E7;
   font-size: 32px;
+}
+
+.logInHeader {
+  font-family: 'Arimo-Regular';
+  font-weight: 300;
+  line-height: 42px;
+  margin-top: 19px;
+  margin-bottom: 30px;
 }
 
 .rememberMeCheckBox {
@@ -38,11 +46,83 @@
 }
 
 .logInForgotPassword {
-  color: #43CEEA;
+  color: #1983ca;
   font-family: 'Arimo-Regular';
   font-size: 14px;
 }
 
 .logInForgotPassword:hover {
-  color: #4ae1ff;
+  color: #3c9cdd;
+}
+
+.facebookSocialButton {
+  width: 100%;
+  margin-bottom: 30px;
+  border: none;
+  background-color: #2284C6;
+  padding: 11px 40px 11px 80px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-family: 'Arimo-Regular';
+  text-transform: uppercase;
+  position: relative;
+  font-weight: bold;
+}
+
+.facebookSocialButton:hover {
+  background-color: #23a0ea;
+}
+
+.facebookSocialButton:hover > .socialButtonIcon {
+  background-color: #4873b8;
+}
+
+.facebookSocialButton > .socialButtonIcon {
+  position: absolute;
+  font-size: 25px;
+  padding: 4px 15px !important;
+  top: 0;
+  left: 0;
+  background-color: #3d5a94;
+}
+
+.dividerWithText {
+  border-bottom: 1px solid #e3e3e3;
+  text-align: center;
+  height: 10px;
+  margin: 10px 0 40px 0;
+}
+
+.dividerWithText > span {
+  height: 20px;
+  font-weight: 700;
+  background-color: white;
+  color: #a5a5a5;
+  padding: 0 12px;
+}
+
+.logInSubmitButton {
+  background-color: #1983ca !important;
+  font-weight: bold;
+}
+
+.logInSubmitButton:hover {
+  background-color: #3c9cdd !important;
+}
+
+@media (max-width: 450px) {
+  .logInHeader {
+    font-size: 22px;
+  }
+
+  .facebookSocialButton {
+    font-size: 15px;
+    padding: 11px 20px 11px 45px;
+  }
+
+  .facebookSocialButton > .socialButtonIcon {
+    font-size: 20px;
+    padding: 7px 15px !important;
+  }
 }

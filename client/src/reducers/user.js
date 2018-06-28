@@ -210,6 +210,36 @@ export function login(data) {
   }
 }
 
+export function socialMediaLogin(socialMedia, profile) {
+  return dispatch => {
+    dispatch({ type: LOGIN_USER })
+
+    const password = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10)
+    axios.post(`/auth/oauth`, {
+      user: {
+        [socialMedia]: profile.id,
+        email: profile.email,
+        first: profile.firstName,
+        last: profile.lastName,
+        avatar: profile.profilePicURL,
+        password: password,
+        password_confirmation: password
+      }
+    }).then((response) => {
+      if ( response.data !== 'error' ) {
+        localStorage.setItem('jwt-rency', response.data.token)
+        dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
+        dispatch(push('/dashboard'))
+      } else {
+        dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
+      }
+    })
+      .catch((error) => {
+        dispatch({ type: LOGIN_USER_FAILURE, payload: { message: 'Email and/or password is invalid.' } })
+      })
+  }
+}
+
 export function logout() {
   return dispatch => {
     localStorage.setItem('jwt-nodebucks', '')
