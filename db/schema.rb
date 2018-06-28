@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_27_173606) do
+ActiveRecord::Schema.define(version: 2018_06_28_173538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 2018_06_27_173606) do
     t.decimal "percentage_hosting_fee", default: "0.01"
     t.decimal "percentage_conversion_fee", default: "0.03"
     t.decimal "daily_reward"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "node_id"
+    t.string "event_type"
+    t.string "description"
+    t.decimal "value", default: "0.0"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_events_on_node_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -64,6 +75,7 @@ ActiveRecord::Schema.define(version: 2018_06_27_173606) do
     t.datetime "timestamp"
     t.string "txhash"
     t.decimal "amount"
+    t.decimal "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_rewards_on_node_id"
@@ -95,6 +107,7 @@ ActiveRecord::Schema.define(version: 2018_06_27_173606) do
     t.string "country"
   end
 
+  add_foreign_key "events", "nodes"
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
   add_foreign_key "rewards", "nodes"

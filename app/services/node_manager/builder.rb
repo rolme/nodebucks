@@ -13,11 +13,14 @@ module NodeManager
       )
     end
 
-    def save
-      return node if node.save
-
-      @error = @node.errors.full_messages.join(', ')
-      false
+    def save(timestamp=DateTime.current)
+      if node.save
+        node.events.create(event_type: 'ops', description: 'Server setup', timestamp: timestamp)
+        node
+      else
+        @error = @node.errors.full_messages.join(', ')
+        false
+      end
     end
   end
 end
