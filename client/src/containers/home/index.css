@@ -5,7 +5,7 @@
   justify-content: center;
   background-image: url('/assets/images/homeTopBackground.jpg');
   padding: 20px 0;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 66px);
 }
 
 .homeMainBannerContainer > .contentContainer {
@@ -124,13 +124,14 @@
   margin-bottom: 40px;
 }
 
-.homeMasternodeContactUsLink{
+.homeMasternodeContactUsLink {
   font-family: 'DidactGothic-Regular';
   color: #3A3A3A;
   text-align: center;
   display: block;
   margin: 20px auto 0 auto;
 }
+
 /*Testimonials Part*/
 
 .homeTestimonialsContainer > .contentContainer {
@@ -286,6 +287,11 @@
 }
 
 @media (max-width: 992px) {
+
+  .homeMainBannerContainer {
+    min-height: calc(100vh - 66px);
+  }
+
   .homeAboutContainer > .contentContainer {
     padding: 50px 0;
   }
@@ -320,7 +326,7 @@
 @media (max-width: 768px) {
   .homeMainBannerContainer {
     padding: 0;
-    min-height: calc(100vh - 187px);
+    min-height: calc(100vh - 147px);
   }
 
   .homeMainBannerPopUpMessagePartContainer {
