@@ -123,7 +123,7 @@ class LogIn extends Component {
     return (
       <Container fluid className="bg-white authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer">
+          <Col className="authContainer d-flex align-items-center">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -132,7 +132,7 @@ class LogIn extends Component {
             </Col>
             }
             <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="justify-content-center d-flex flex-column align-items-center">
-              <img src="/assets/images/signInIcon.png" alt="sign in"/>
+              <img src="/assets/images/headerLogo.png" alt="sign in"/>
               <p className="authStepNumber">Sign In</p>
               <h2 className="authHeader">Please fill the form!</h2>
               <InputField label='Email Address'
