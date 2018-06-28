@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   scope :api, defaults: { format: :json } do
     resources :cryptos, only: [:index, :show], param: :slug
-    resources :nodes, only: [:index, :show, :create, :update], param: :slug
-    resources :users, only: [:index, :show, :create, :update, :destroy], param: :slug do
+    resources :nodes, except: [:destroy, :edit, :new], param: :slug do
+      patch :online
+      patch :offline
+    end
+    resources :users, except: [:edit, :new], param: :slug do
       get :confirm
       get :verify
       patch :reset_password

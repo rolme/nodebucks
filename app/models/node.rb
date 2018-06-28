@@ -21,6 +21,14 @@ class Node < ApplicationRecord
 
   validates :cost, presence: true
 
+  def ready?
+    wallet.present? && ip.present?
+  end
+
+  def value
+    (stake + reward_total) * price
+  end
+
   # TODO: More math needed here
   def reward_total
     rewards.map(&:total_amount).reduce(&:+) || 0.0
@@ -36,10 +44,6 @@ class Node < ApplicationRecord
 
   def year_reward
     reward_timeframe(YEAR)
-  end
-
-  def value
-    (stake + reward_total) * price
   end
 
 private

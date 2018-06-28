@@ -18,6 +18,7 @@ json.onlineAt node.online_at&.to_formatted_s(:db)
 json.owner do
   json.partial! 'users/owner', user: node.user
 end
+json.isReady node.ready?
 json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
   json.week node.week_reward * node.crypto.price
