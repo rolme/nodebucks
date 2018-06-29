@@ -182,7 +182,7 @@ class LogIn extends Component {
               </Col>
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
                 <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign In</Button>
-                <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/sign-up">Sign Up Now</NavLink></p>
+                <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/signup">Sign Up Now</NavLink></p>
               </Col>
             </Col>
           </Col>

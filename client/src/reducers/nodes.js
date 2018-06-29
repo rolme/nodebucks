@@ -1,12 +1,15 @@
 import axios from 'axios'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
-export const FETCH = 'cryptos/FETCH'
-export const FETCH_ERROR = 'cryptos/FETCH_ERROR'
-export const FETCH_SUCCESS = 'cryptos/FETCH_SUCCESS'
-export const FETCH_LIST = 'cryptos/FETCH_LIST'
-export const FETCH_LIST_ERROR = 'cryptos/FETCH_LIST_ERROR'
-export const FETCH_LIST_SUCCESS = 'cryptos/FETCH_LIST_SUCCESS'
+export const FETCH = 'nodes/FETCH'
+export const FETCH_ERROR = 'nodes/FETCH_ERROR'
+export const FETCH_SUCCESS = 'nodes/FETCH_SUCCESS'
+export const FETCH_LIST = 'nodes/FETCH_LIST'
+export const FETCH_LIST_ERROR = 'nodes/FETCH_LIST_ERROR'
+export const FETCH_LIST_SUCCESS = 'nodes/FETCH_LIST_SUCCESS'
+export const UPDATE = 'nodes/UPDATE'
+export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
+export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -22,6 +25,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH:
     case FETCH_LIST:
+    case UPDATE:
       return {
         ...state,
         pending: true,
@@ -31,6 +35,7 @@ export default (state = initialState, action) => {
 
     case FETCH_ERROR:
     case FETCH_LIST_ERROR:
+    case UPDATE_ERROR:
       return {
         ...state,
         pending: false,
@@ -44,7 +49,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: 'Fetch cryptocurrency successful.'
+        message: 'Fetch node successful.'
       }
 
     case FETCH_LIST_SUCCESS:
@@ -53,7 +58,16 @@ export default (state = initialState, action) => {
         list: action.payload,
         pending: false,
         error: false,
-        message: 'Fetch cryptocurrency list successful.'
+        message: 'Fetch node list successful.'
+      }
+
+    case UPDATE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        pending: false,
+        error: false,
+        message: 'Update node successful.'
       }
 
     default:
@@ -62,10 +76,11 @@ export default (state = initialState, action) => {
 }
 
 // ACTIONS /////////////////////////////////////////////////////////////////////
-export function fetchCrypto(slug) {
+export function fetchNode(slug) {
   return dispatch => {
     dispatch({ type: FETCH })
-    axios.get(`/api/cryptos/${slug}`)
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get(`/api/nodes/${slug}`)
       .then((response) => {
         dispatch({ type: FETCH_SUCCESS, payload: response.data })
       })
@@ -76,15 +91,30 @@ export function fetchCrypto(slug) {
   }
 }
 
-export function fetchCryptos() {
+export function fetchNodes() {
   return dispatch => {
     dispatch({ type: FETCH_LIST })
-    axios.get('/api/cryptos')
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get('/api/nodes')
       .then((response) => {
         dispatch({ type: FETCH_LIST_SUCCESS, payload: response.data })
       })
       .catch((error) => {
         dispatch({ type: FETCH_LIST_ERROR, payload: {message: error.data} })
+        console.log(error)
+      })
+  }
+}
+
+export function updateNode(slug, data) {
+  return dispatch => {
+    dispatch({ type: UPDATE })
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/nodes/${slug}`, { node: data })
+      .then((response) => {
+        dispatch({ type: UPDATE_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: UPDATE_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }
