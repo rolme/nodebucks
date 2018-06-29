@@ -32,14 +32,14 @@ export default class App extends Component {
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/" component={Home}/>
-              <PublicRoute exact path="/sign-up" component={SignUp}/>
+              <PublicRoute exact path="/signup" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/dashboard" component={Dashboard}/>
               <PublicRoute exact path="/nodes/:slug" component={Nodes}/>
               <PublicRoute exact path="/terms" component={Terms}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
-              <PublicRoute exact path="/contactUs" component={Contact}/>
+              <PublicRoute exact path="/contact" component={Contact}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>
