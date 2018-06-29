@@ -134,7 +134,7 @@ class LogIn extends Component {
     return (
       <Container fluid className="bg-white authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer d-flex align-items-center">
+          <Col className="authContainer d-flex align-items-center flex-wrap">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -180,8 +180,9 @@ class LogIn extends Component {
                 </FormGroup>
                 <NavLink to="/forgot_password" className="logInForgotPassword">Forgot Password?</NavLink>
               </Col>
-              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
+              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
                 <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign In</Button>
+                <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/sign-up">Sign Up Now</NavLink></p>
               </Col>
             </Col>
           </Col>
