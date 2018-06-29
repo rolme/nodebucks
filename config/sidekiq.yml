@@ -17,3 +17,7 @@ production:
   node_pricer_worker:
     cron: '13,28,43,58 * * * *' # Run every 15 mins starting at minute 13.
     class: NodePricerWorker
+
+  node_scraper_worker:
+    cron: '16 2 * * *' # Run every day at 2:16 AM
+    class: NodePricerWorker

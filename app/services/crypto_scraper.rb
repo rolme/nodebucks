@@ -5,7 +5,7 @@ class CryptoScraper
   end
 
   def self.scrape(a_crypto=nil)
-    cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.all
+    cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.active
 
     if Rails.env != 'development'
       self.server_scrape(cryptos)

@@ -28,7 +28,7 @@ module NodeManager
     end
 
     def evaluate(a_crypto=nil)
-      cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.all
+      cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.active
 
       cryptos.each do |crypto|
         @orders = []

@@ -9,10 +9,11 @@ User.create([
 
 puts "Add cryptos"
 Crypto.create([
-  { name: 'Dash', symbol: 'dash', status: 'active', url: 'https://www.dash.org/' },
-  { name: 'ZCoin', symbol: 'xzc', status: 'active', url: 'https://zcoin.io/' },
-  { name: 'Polis', symbol: 'polis', status: 'active', url: 'https://polispay.org/' },
-  { name: 'PIVX', symbol: 'pivx', status: 'active', url: 'https://stipend.me/' }
+  { name: 'Dash', symbol: 'dash', status: 'active', url: 'https://www.dash.org/', explorer_url: 'https://explorer.dash.org/address/' },
+  { name: 'ZCoin', symbol: 'xzc', status: 'active', url: 'https://zcoin.io/', explorer_url: 'https://explorer.zcoin.io/address/' },
+  { name: 'Polis', symbol: 'polis', status: 'active', url: 'https://polispay.org/', explorer_url: 'https://explorer.polispay.org/address/' },
+  { name: 'PIVX', symbol: 'pivx', status: 'active', url: 'https://pivx.org/', explorer_url: 'http://www.presstab.pw/phpexplorer/PIVX/address.php?address=' },
+  { name: 'Stipend', symbol: 'spd', status: 'false', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/' }
 ])
 
 puts "  - Scrape crypto data..."
@@ -24,25 +25,20 @@ NodeManager::Pricer.run
 user = User.last
 puts "Create nodes for #{user.full_name}"
 puts "  - Dash node..."
-NodeManager::Builder.new(user, Crypto.first, Crypto.first.node_price).save
+node = NodeManager::Builder.new(user, Crypto.first, Crypto.first.node_price).save
+node.wallet = 'XdL3KXxRfzUmGj9QMA7i1W3M3fZdcjNnfw'
+node.save
 puts "  - Polis node..."
-NodeManager::Builder.new(user, Crypto.third, Crypto.third.node_price).save(DateTime.current - 25.days)
+node = NodeManager::Builder.new(user, Crypto.third, Crypto.third.node_price).save(DateTime.current - 3.months)
 node        = Node.last
 node.ip     = '127.0.0.1'
-node.wallet = 'ZXCVBNMASDFGHJJQWERT'
+node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
 node.save
 operator = NodeManager::Operator.new(node)
 puts "    - put online..."
-operator.online(DateTime.current - 23.days)
-puts "    - adding rewards..."
-operator.reward(DateTime.current - 20.days, 14.04, '05f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fea')
-operator.reward(DateTime.current - 18.days, 14.04, '15f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe0')
-operator.reward(DateTime.current - 16.days, 14.04, '25f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe1')
-operator.reward(DateTime.current - 14.days, 14.04, '35f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe2')
-operator.reward(DateTime.current - 12.days, 14.04, '45f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe3')
-operator.reward(DateTime.current - 10.days, 14.04, '55f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe4')
-operator.reward(DateTime.current - 8.days, 14.04, '65f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe5')
-operator.reward(DateTime.current - 6.days, 14.04, '75f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe6')
-operator.reward(DateTime.current - 4.days, 14.04, '85f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe7')
-operator.reward(DateTime.current - 2.days, 14.04, '95f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe8')
-operator.reward(DateTime.current, 14.04, 'a5f53a826051556393aa9e3e00c254835abd60bde577a49d4ba01747e5758fe9')
+operator.online(DateTime.current - (3.months - 2.days))
+
+puts "Gather rewards..."
+NodeScraper.run
+
+puts "DONE"

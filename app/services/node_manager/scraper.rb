@@ -1,0 +1,112 @@
+module NodeManager
+  class Scraper
+    attr_accessor :node
+    attr_reader :operator
+
+    def initialize(node)
+      @node = node
+      @operator = NodeManager::Operator.new(node)
+    end
+
+    def scrape
+      browser = Watir::Browser.new
+      begin
+        browser.goto node.wallet_url
+        sleep 1
+        case node.symbol
+        when 'polis'; scrape_polis(browser)
+        when 'dash'; scrape_dash(browser)
+        when 'xzc'; scrape_zcoin(browser)
+        when 'pivx'; scrape_pivx(browser)
+        when 'spd'; scrape_stipend(browser)
+        end
+      rescue => error
+        Rails.logger.error "SCRAPE ERROR: #{error}"
+        Rails.logger.error "SCRAPE ERROR PATH: #{path}"
+      end
+    end
+
+    def scrape_polis(browser)
+      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        timestamp = data[0].text
+        txhash    = data[1].find_element(tag_name: 'a').text
+        amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_dash(browser)
+      rows = browser.wd.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
+      rows.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        txhash    = data[0].find_element(tag_name: 'a').attribute('href').split("/")[-1]
+        timestamp = data[2].text
+        amount    = data[3].text&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_zcoin(browser)
+      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        timestamp = data[0].text
+        txhash    = data[1].find_element(tag_name: 'a').text
+        amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_pivx(browser)
+      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        timestamp = data[0].text
+        txhash    = data[1].find_element(tag_name: 'a').text
+        amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_stipend(browser)
+      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        timestamp = data[0].text
+        txhash    = data[1].find_element(tag_name: 'a').text
+        amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+  private
+
+    def has_new_rewards?(timestamp)
+      last_reward = node.rewards.last
+      return true if last_reward.blank?
+
+      last_reward.timestamp < DateTime.parse(timestamp)
+    end
+
+    def stake_amount?(amount)
+      amount == node.stake
+    end
+  end
+end
