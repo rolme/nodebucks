@@ -1,6 +1,6 @@
 class CryptosController < ApplicationController
   def index
-    @cryptos = Crypto.all
+    @cryptos = Crypto.active
   end
 
   def show

@@ -9,6 +9,8 @@ class Crypto < ApplicationRecord
 
   has_many :nodes
 
+  scope :active, -> { where(status: 'active') }
+
   # This is run on :before_create as part of Sluggable
   def generate_slug(force=false)
     self.slug = name.parameterize if slug.nil? || force

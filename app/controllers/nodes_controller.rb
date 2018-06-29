@@ -1,15 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :show]
-  before_action :authenticate_admin_request, only: [:update]
-
-  def index
-    @nodes   = Node.all if current_user.admin?
-    @nodes ||= Node.where(user_id: current_user.id)
-  end
-
-  def show
-    @node = Node.find_by(slug: params[:slug])
-  end
+  before_action :authenticate_admin_request, only: [:offline, :online, :update]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -21,11 +12,48 @@ class NodesController < ApplicationController
     end
   end
 
+  def index
+    @nodes   = Node.all if current_user.admin?
+    @nodes ||= Node.where(user_id: current_user.id)
+  end
+
+  def offline
+    @node    = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    operator.offline
+    @node.reload
+    render :show
+  end
+
+  def online
+    @node = Node.find_by(slug: params[:node_slug])
+    if @node.ready?
+      operator = NodeManager::Operator.new(@node)
+      operator.online
+      @node.reload
+    end
+    render :show
+  end
+
+  def show
+    @node = Node.find_by(slug: params[:slug])
+  end
+
+  def update
+    @node = Node.find_by(slug: params[:slug])
+    if @node.update(node_params)
+      render :show
+    else
+      render json: { status: 'error', message: builder.error }
+    end
+  end
+
 protected
 
   def node_params
     params.require(:node).permit(
       :ip,
+      :wallet,
       :version,
       :vps_provider,
       :vps_url,

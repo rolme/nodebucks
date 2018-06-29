@@ -18,6 +18,7 @@ module Api
       response = Typhoeus::Request.get(@path, verbose: DEBUG)
       data     = parsed_response(response.body)
       return [] unless data["Success"]
+      return [] if parsed_response(response.body)['Data'].nil?
 
       data = parsed_response(response.body)['Data']['Sell']
       to_orders(data)
