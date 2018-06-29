@@ -38,9 +38,13 @@ module NodeManager
     end
 
     def scrape_polis(browser)
+      if Rails.env != 'development'
+        rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      else
+        rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      end
 
-      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-      rows.each do |row|
+      rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
@@ -56,7 +60,7 @@ module NodeManager
 
     def scrape_dash(browser)
       rows = browser.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
-      rows.each do |row|
+      rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
@@ -71,8 +75,12 @@ module NodeManager
     end
 
     def scrape_zcoin(browser)
-      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-      rows.each do |row|
+      if Rails.env != 'development'
+        rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      else
+        rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      end
+      rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
@@ -88,7 +96,7 @@ module NodeManager
 
     def scrape_pivx(browser)
       rows = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
-      rows.each do |row|
+      rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
@@ -103,8 +111,13 @@ module NodeManager
     end
 
     def scrape_stipend(browser)
-      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-      rows.each do |row|
+      if Rails.env != 'development'
+        rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      else
+        rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      end
+
+      rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
