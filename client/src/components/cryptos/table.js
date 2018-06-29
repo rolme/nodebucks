@@ -94,7 +94,7 @@ class CryptoTable extends Component {
           <td>{yearlyRoiValue}</td>
           <td className="d-flex">
             {+item.nodePrice < 50000 &&
-            <button className="btn btn-primary addNodeButton">+ Add Node</button>
+            <NavLink to={`/nodes/${item.slug}/new`}><button className="btn btn-primary addNodeButton">+ Add Node</button></NavLink>
             }
             {+item.nodePrice > 50000 &&
             <NavLink to='/contact' className="btn btn-primary addNodeButton">Contact Sales</NavLink>
