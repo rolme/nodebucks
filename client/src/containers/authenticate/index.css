@@ -111,6 +111,13 @@
   background-color: #3c9cdd !important;
 }
 
+.dontHaveAnAccountMessage{
+  text-align: center;
+  margin-top: 10px;
+  font-family: "Arimo-Regular";
+  font-size: 15px;
+}
+
 @media (max-width: 450px) {
   .logInHeader {
     font-size: 22px;
