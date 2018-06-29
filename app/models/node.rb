@@ -12,7 +12,8 @@ class Node < ApplicationRecord
   has_many :events
   has_many :rewards
 
-  delegate :percentage_conversion_fee,
+  delegate :explorer_url,
+           :percentage_conversion_fee,
            :percentage_hosting_fee,
            :price,
            :stake,
@@ -21,12 +22,18 @@ class Node < ApplicationRecord
 
   validates :cost, presence: true
 
+  scope :online, -> { where(status: 'online') }
+
   def ready?
     wallet.present? && ip.present?
   end
 
   def value
     (stake + reward_total) * price
+  end
+
+  def wallet_url
+    @_wallet_url ||= "#{explorer_url}#{wallet}"
   end
 
   # TODO: More math needed here
