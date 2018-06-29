@@ -14,13 +14,16 @@ module NodeManager
         options.binary = ENV['GOOGLE_CHROME_SHIM']
         options.add_argument('--headless')
         browser = Selenium::WebDriver.for :chrome, options: options
+        browser.navigate.to node.wallet_url
+        sleep 1
       else
-        browser = Watir::Browser.new
+        driver = Watir::Browser.new
+        driver.goto node.wallet_url
+        sleep 1
+        browser = driver.wd
       end
 
       begin
-        browser.goto node.wallet_url
-        sleep 1
         case node.symbol
         when 'polis'; scrape_polis(browser)
         when 'dash'; scrape_dash(browser)
@@ -35,7 +38,8 @@ module NodeManager
     end
 
     def scrape_polis(browser)
-      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+
+      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
         timestamp = data[0].text
@@ -49,7 +53,7 @@ module NodeManager
     end
 
     def scrape_dash(browser)
-      rows = browser.wd.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
+      rows = browser.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
         txhash    = data[0].find_element(tag_name: 'a').attribute('href').split("/")[-1]
@@ -63,7 +67,7 @@ module NodeManager
     end
 
     def scrape_zcoin(browser)
-      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
         timestamp = data[0].text
@@ -77,7 +81,7 @@ module NodeManager
     end
 
     def scrape_pivx(browser)
-      rows = browser.wd.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
+      rows = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
@@ -93,7 +97,7 @@ module NodeManager
     end
 
     def scrape_stipend(browser)
-      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
         timestamp = data[0].text
