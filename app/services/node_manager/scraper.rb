@@ -42,6 +42,8 @@ module NodeManager
       rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
         timestamp = data[0].text
         txhash    = data[1].find_element(tag_name: 'a').text
         amount    = data[2].text&.split(/\s/)[1]&.to_f
@@ -56,6 +58,8 @@ module NodeManager
       rows = browser.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
         txhash    = data[0].find_element(tag_name: 'a').attribute('href').split("/")[-1]
         timestamp = data[2].text
         amount    = data[3].text&.to_f
@@ -70,6 +74,8 @@ module NodeManager
       rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
         timestamp = data[0].text
         txhash    = data[1].find_element(tag_name: 'a').text
         amount    = data[2].text&.split(/\s/)[1]&.to_f
@@ -100,6 +106,8 @@ module NodeManager
       rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
         timestamp = data[0].text
         txhash    = data[1].find_element(tag_name: 'a').text
         amount    = data[2].text&.split(/\s/)[1]&.to_f
