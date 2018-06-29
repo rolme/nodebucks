@@ -33,7 +33,7 @@ module NodeManager
         end
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"
-        Rails.logger.error "SCRAPE ERROR PATH: #{path}"
+        Rails.logger.error "SCRAPE ERROR PATH: #{node.wallet_url}"
       end
     end
 
