@@ -69,14 +69,16 @@ module NodeManager
     end
 
     def scrape_pivx(browser)
-      rows = browser.wd.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      rows = browser.wd.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
       rows.each do |row|
         data = row.find_elements(tag_name: 'td')
-        timestamp = data[0].text
-        txhash    = data[1].find_element(tag_name: 'a').text
-        amount    = data[2].text&.split(/\s/)[1]&.to_f
+        next if data.blank?
 
-        if has_new_rewards?(timestamp)
+        timestamp = data[0].text
+        txhash    = data[2].text
+        amount    = data[5].text&.split(/\s/)[0]&.to_f
+
+        if has_new_rewards?(timestamp) && amount > 0.0
           operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
         end
       end

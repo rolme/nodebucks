@@ -25,20 +25,53 @@ NodeManager::Pricer.run
 user = User.last
 puts "Create nodes for #{user.full_name}"
 puts "  - Dash node..."
-node = NodeManager::Builder.new(user, Crypto.first, Crypto.first.node_price).save
+crypto = Crypto.find_by(name: 'Dash')
+node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 6.months)
 node.wallet = 'XdL3KXxRfzUmGj9QMA7i1W3M3fZdcjNnfw'
 node.save
+
+puts "  - ZCoin node..."
+crypto = Crypto.find_by(name: 'ZCoin')
+node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 1.month)
+node.ip     = '127.0.0.1'
+node.wallet = 'aLeviMejPb6mJqYbAX5ULibCZN9JwiViMb'
+node.save
+operator = NodeManager::Operator.new(node)
+puts "    - put online..."
+operator.online(DateTime.current - (1.month - 1.day))
+
+puts "  - PIVX node..."
+crypto = Crypto.find_by(name: 'PIVX')
+node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 1.month)
+node.ip     = '127.0.0.1'
+node.wallet = 'DBp1yapipgMNoh9mT6sMdYTn9m4ZJW4hP3'
+node.save
+operator = NodeManager::Operator.new(node)
+puts "    - put online..."
+operator.online(DateTime.current - (1.month - 2.day))
+
+# TODO: Need another API to pull orders for Stipend
+# puts "  - Stipend node..."
+# crypto = Crypto.find_by(name: 'Stipend')
+# node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 6.months)
+# node.ip     = '127.0.0.1'
+# node.wallet = ''
+# node.save
+# operator = NodeManager::Operator.new(node)
+# puts "    - put online..."
+# operator.online(DateTime.current - (6.months - 2.days))
+
 puts "  - Polis node..."
-node = NodeManager::Builder.new(user, Crypto.third, Crypto.third.node_price).save(DateTime.current - 3.months)
+node = NodeManager::Builder.new(user, Crypto.third, Crypto.third.node_price).save(DateTime.current - 4.months)
 node        = Node.last
 node.ip     = '127.0.0.1'
 node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
 node.save
 operator = NodeManager::Operator.new(node)
 puts "    - put online..."
-operator.online(DateTime.current - (3.months - 2.days))
+operator.online(DateTime.current - (4.months - 2.days))
 
-puts "Gather rewards..."
+puts "Gather rewards"
 NodeScraper.run
 
 puts "DONE"
