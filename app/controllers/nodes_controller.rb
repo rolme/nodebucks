@@ -4,17 +4,18 @@ class NodesController < ApplicationController
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
-    builder = NodeManager::Builder.new(@current_user, crypto, crypto&.node_price)
+    builder = NodeManager::Builder.new(@current_user, crypto)
     if builder.save
       @node = builder.node
+      render :show
     else
       render json: { status: 'error', message: builder.error }
     end
   end
 
   def index
-    @nodes   = Node.all if current_user.admin?
-    @nodes ||= Node.where(user_id: current_user.id)
+    @nodes   = Node.unreserved if current_user.admin?
+    @nodes ||= Node.unreserved.where(user_id: current_user.id)
   end
 
   def offline
@@ -32,6 +33,14 @@ class NodesController < ApplicationController
       operator.online
       @node.reload
     end
+    render :show
+  end
+
+  def purchase
+    @node    = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    operator.purchase
+    @node.reload
     render :show
   end
 

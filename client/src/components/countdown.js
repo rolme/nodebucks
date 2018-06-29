@@ -7,7 +7,7 @@ export default class Countdown extends Component {
 
     this.state = {
       display: this.props.display || 'Countdown starting...',
-      timer: this.props.timer || 3
+      timer: this.props.timer || 180
     }
   }
 
@@ -15,7 +15,7 @@ export default class Countdown extends Component {
     const { timer } = this.props
 
     const start = new moment()
-    const end   = start.add(timer, 'minutes')
+    const end   = start.add(timer, 'seconds')
 
     const interval = setInterval(() => {
       const now      = new moment()
@@ -28,8 +28,19 @@ export default class Countdown extends Component {
       if (distance < 0) {
         clearInterval(interval)
         this.setState({ display: 'EXPIRED' })
+        this.handleExpire()
       }
     })
+
+    this.setState({ interval: interval })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval)
+  }
+
+  handleExpire() {
+    this.props.onExpire()
   }
 
   render() {

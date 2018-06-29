@@ -1,41 +1,95 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
-import { Container, Col, Row } from 'reactstrap'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleUp, faChartLine, faGlobe } from '@fortawesome/fontawesome-free-solid'
+import { Button, Container, Col, Row } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
 
 import { fetchCrypto } from '../../reducers/cryptos'
+import {
+  purchaseNode,
+  reserveNode
+} from '../../reducers/nodes'
 
 
 class NewNode extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      validPrice: true
+    }
+  }
+
   componentWillMount() {
-    let { match: { params } } = this.props
-    console.log(this.props)
-    this.props.fetchCrypto(params.crypto)
+    let { match: { params }, user } = this.props
+
+    if (!!user) {
+      this.props.reserveNode(params.crypto)
+    } else {
+      this.props.fetchCrypto(params.crypto)
+    }
+  }
+
+  convertToMasternode(item) {
+    let masternode = {}
+    if (item.crypto === undefined) {
+      masternode.annualRoi   = item.annualRoi
+      masternode.cryptoSlug  = item.slug
+      masternode.name        = item.name
+      masternode.nodePrice   = item.nodePrice
+      masternode.url         = item.url
+      masternode.masternodes = item.masternodes
+    } else {
+      masternode.annualRoi   = item.crypto.annualRoi
+      masternode.cryptoSlug  = item.crypto.slug
+      masternode.name        = item.crypto.name
+      masternode.nodePrice   = item.cost
+      masternode.nodeSlug    = item.slug
+      masternode.url         = item.crypto.url
+      masternode.masternodes = item.crypto.masternodes
+    }
+
+    return masternode
+  }
+
+  handleExpire() {
+    this.setState({ validPrice: false })
+  }
+
+  handlePurchase(slug) {
+    this.props.purchaseNode(slug)
+  }
+
+  handleReload() {
+    window.location.reload()
   }
 
   render() {
-    const { crypto, pending } = this.props
+    const { crypto, cryptoPending, history, node, nodeMessage, nodePending, user } = this.props
 
-    if (pending || crypto.name === undefined) {
+    if (nodeMessage === 'Purchase node successful.') {
+      history.push('/dashboard')
+    }
+
+    if (cryptoPending || nodePending || (!!user && node.slug === undefined) || (!user && crypto.name === undefined)) {
       return <h4>Loading..</h4>
     }
 
+    const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
       <Container fluid className="bg-white nodePageContainer">
         <div className="contentContainer">
           <h1 className="pt-3">
-            <img alt="logo" src={`/assets/images/logos/${crypto.name}.png`} height="55px" width="55px" className="p-1"/>
-            Purchase {crypto.name} Masternode
+            <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} height="55px" width="55px" className="p-1"/>
+            Purchase {masternode.name} Masternode
           </h1>
-          <a href={crypto.url} target="_new">Homepage</a> | <a href={`https://coinmarketcap.com/currencies/${crypto.slug}/`} target="_new">Market Info</a>
+          <a href={masternode.url} target="_new">Homepage</a> | <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new">Market Info</a>
           <Col xl={12} className="d-flex px-0">
-            {this.displayCryptoData(crypto)}
+            {this.displayCryptoData(masternode)}
             {this.displayPricingInfo()}
           </Col>
         </div>
@@ -45,11 +99,16 @@ class NewNode extends Component {
 
   displayCryptoData(item) {
     const { user } = this.props
+    const { validPrice } = this.state
 
-    const nodePrice      = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
-    const yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + (+item.yearlyRoiValue).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
+    let nodePrice        = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
     const annualRoi      = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : '-'
     const priceHeader    = (!!user) ? 'Price' : 'Est. Price'
+
+    if (!!user) {
+      nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
+    }
+
     return(
       <Col xl={8} className="px-0 pt-2">
         <Row>
@@ -62,20 +121,46 @@ class NewNode extends Component {
           <Col xl={4}>{nodePrice}</Col>
           <Col xl={4}>{item.masternodes}</Col>
         </Row>
+        {!!user && (
+          <Row>
+            <Col xl={12} className="py-4 text-center">
+              Credit Card Form Here
+            </Col>
+            <Col xl={12} className="py-2 text-center">
+              {validPrice && <Button color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
+              {!validPrice && <Button color="secondary" className="btn-outline-secondary" onClick={this.handleReload}>Reload Page</Button>}
+            </Col>
+          </Row>
+        )}
+        {!user && (
+          <Row>
+            <Col xl={12} className="py-4 text-center">
+              Login Form Here
+            </Col>
+            <Col xl={12} className="py-4 text-center">
+              Registration Here
+            </Col>
+          </Row>
+        )}
+
       </Col>
     )
   }
 
-  displayPricingInfo() {
+  displayPricingInfo(masternode) {
     const { user } = this.props
+    const { validPrice } = this.state
 
     let info = 'Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.'
     if (!user) {
       info = 'Node prices fluctuate frequently please login or register to gaurantee a price.'
+    } else if (!validPrice) {
+      info = 'Price displayed is no longer valid. Please reload to get latest pricing.'
     }
+
     return(
       <Col xl={4} className="px-0">
-        { !!user && <Countdown timer="3"/> }
+        { !!user && <Countdown timer="180" onExpire={this.handleExpire.bind(this)}/> }
         <p>{info}</p>
       </Col>
     )
@@ -84,17 +169,23 @@ class NewNode extends Component {
 
 const mapStateToProps = state => ({
   crypto: state.cryptos.data,
-  error: state.cryptos.error,
-  message: state.cryptos.message,
-  pending: state.cryptos.pending,
+  cryptoError: state.cryptos.error,
+  cryptoMessage: state.cryptos.message,
+  cryptoPending: state.cryptos.pending,
+  node: state.nodes.data,
+  nodeError: state.nodes.error,
+  nodeMessage: state.nodes.message,
+  nodePending: state.nodes.pending,
   user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchCrypto
+  fetchCrypto,
+  purchaseNode,
+  reserveNode
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewNode)
+)(NewNode))

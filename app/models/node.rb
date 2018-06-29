@@ -10,8 +10,8 @@ class Node < ApplicationRecord
   belongs_to :user
   belongs_to :creator, foreign_key: :created_by_admin_id, class_name: 'User', optional: true
 
-  has_many :events
-  has_many :rewards
+  has_many :events, dependent: :destroy
+  has_many :rewards, dependent: :destroy
 
   delegate :explorer_url,
            :percentage_conversion_fee,
@@ -23,7 +23,9 @@ class Node < ApplicationRecord
 
   validates :cost, presence: true
 
-  scope :online, -> { where(status: 'online') }
+  scope :online,     -> { where(status: 'online') }
+  scope :reserved,   -> { where(status: 'reserved') }
+  scope :unreserved, -> { where.not(status: 'reserved') }
 
   def ready?
     wallet.present? && ip.present?

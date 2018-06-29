@@ -7,6 +7,12 @@ export const FETCH_SUCCESS = 'nodes/FETCH_SUCCESS'
 export const FETCH_LIST = 'nodes/FETCH_LIST'
 export const FETCH_LIST_ERROR = 'nodes/FETCH_LIST_ERROR'
 export const FETCH_LIST_SUCCESS = 'nodes/FETCH_LIST_SUCCESS'
+export const PURCHASE = 'nodes/PURCHASE'
+export const PURCHASE_ERROR = 'nodes/PURCHASE_ERROR'
+export const PURCHASE_SUCCESS = 'nodes/PURCHASE_SUCCESS'
+export const RESERVE = 'nodes/RESERVE'
+export const RESERVE_ERROR = 'nodes/RESERVE_ERROR'
+export const RESERVE_SUCCESS = 'nodes/RESERVE_SUCCESS'
 export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
@@ -25,6 +31,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH:
     case FETCH_LIST:
+    case PURCHASE:
+    case RESERVE:
     case UPDATE:
       return {
         ...state,
@@ -35,6 +43,8 @@ export default (state = initialState, action) => {
 
     case FETCH_ERROR:
     case FETCH_LIST_ERROR:
+    case PURCHASE_ERROR:
+    case RESERVE_ERROR:
     case UPDATE_ERROR:
       return {
         ...state,
@@ -70,6 +80,24 @@ export default (state = initialState, action) => {
         message: 'Update node successful.'
       }
 
+    case RESERVE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        pending: false,
+        error: false,
+        message: 'Reserve node successful.'
+      }
+
+    case PURCHASE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        pending: false,
+        error: false,
+        message: 'Purchase node successful.'
+      }
+
     default:
       return state
   }
@@ -101,6 +129,34 @@ export function fetchNodes() {
       })
       .catch((error) => {
         dispatch({ type: FETCH_LIST_ERROR, payload: {message: error.data} })
+        console.log(error)
+      })
+  }
+}
+
+export function reserveNode(cryptoSlug) {
+  return dispatch => {
+    dispatch({ type: RESERVE })
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post(`/api/nodes`, { crypto: cryptoSlug })
+      .then((response) => {
+        dispatch({ type: RESERVE_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: RESERVE_ERROR, payload: {message: error.data} })
+        console.log(error)
+      })
+  }
+}
+
+export function purchaseNode(slug) {
+  return dispatch => {
+    dispatch({ type: PURCHASE })
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/nodes/${slug}/purchase`)
+      .then((response) => {
+        dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: PURCHASE_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }
