@@ -1,9 +1,10 @@
 class Node < ApplicationRecord
   include Sluggable
 
-  WEEK  = 7.days
-  MONTH = 30.days
-  YEAR  = 365.days
+  WEEK    = 7.days
+  MONTH   = 30.days
+  QUARTER = 90.days
+  YEAR    = 365.days
 
   belongs_to :crypto
   belongs_to :user
@@ -28,8 +29,12 @@ class Node < ApplicationRecord
     wallet.present? && ip.present?
   end
 
+  def amount
+    stake + reward_total
+  end
+
   def value
-    (stake + reward_total) * price
+    amount * price
   end
 
   def wallet_url
@@ -49,6 +54,10 @@ class Node < ApplicationRecord
     reward_timeframe(MONTH)
   end
 
+  def quarter_reward
+    reward_timeframe(QUARTER)
+  end
+
   def year_reward
     reward_timeframe(YEAR)
   end
@@ -58,6 +67,6 @@ private
   def reward_timeframe(timeframe)
     now   = DateTime.current
     range = ((now-timeframe)..now)
-    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:amount).reduce(&:+) || 0.0
+    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:total_amount).reduce(&:+) || 0.0
   end
 end

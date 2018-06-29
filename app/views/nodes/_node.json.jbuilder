@@ -1,4 +1,6 @@
+json.amount node.amount
 json.cost node.cost
+json.createdAt node.created_at.to_formatted_s(:db)
 json.creator do
   json.partial! 'users/creator', user: node.creator if node.creator.present?
 end
@@ -22,6 +24,7 @@ json.isReady node.ready?
 json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
   json.week node.week_reward * node.crypto.price
+  json.quarter node.quarter_reward * node.crypto.price
   json.month node.month_reward * node.crypto.price
   json.year node.year_reward * node.crypto.price
 end
