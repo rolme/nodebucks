@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   scope :api, defaults: { format: :json } do
     resources :cryptos, only: [:index, :show], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
+      patch :purchase
       patch :online
       patch :offline
     end

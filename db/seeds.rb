@@ -26,13 +26,13 @@ user = User.last
 puts "Create nodes for #{user.full_name}"
 puts "  - Dash node..."
 crypto = Crypto.find_by(name: 'Dash')
-node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 6.months)
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
 node.wallet = 'XdL3KXxRfzUmGj9QMA7i1W3M3fZdcjNnfw'
 node.save
 
 puts "  - ZCoin node..."
 crypto = Crypto.find_by(name: 'ZCoin')
-node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 1.month)
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 1.month)
 node.ip     = '127.0.0.1'
 node.wallet = 'aLeviMejPb6mJqYbAX5ULibCZN9JwiViMb'
 node.save
@@ -42,7 +42,7 @@ operator.online(DateTime.current - (1.month - 1.day))
 
 puts "  - PIVX node..."
 crypto = Crypto.find_by(name: 'PIVX')
-node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 1.month)
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 1.month)
 node.ip     = '127.0.0.1'
 node.wallet = 'DBp1yapipgMNoh9mT6sMdYTn9m4ZJW4hP3'
 node.save
@@ -53,7 +53,7 @@ operator.online(DateTime.current - (1.month - 2.day))
 # TODO: Need another API to pull orders for Stipend
 # puts "  - Stipend node..."
 # crypto = Crypto.find_by(name: 'Stipend')
-# node = NodeManager::Builder.new(user, crypto, crypto.node_price).save(DateTime.current - 6.months)
+# node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
 # node.ip     = '127.0.0.1'
 # node.wallet = ''
 # node.save
@@ -62,7 +62,8 @@ operator.online(DateTime.current - (1.month - 2.day))
 # operator.online(DateTime.current - (6.months - 2.days))
 
 puts "  - Polis node..."
-node = NodeManager::Builder.new(user, Crypto.third, Crypto.third.node_price).save(DateTime.current - 4.months)
+crypto = Crypto.find_by(name: 'Polis')
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 4.months)
 node        = Node.last
 node.ip     = '127.0.0.1'
 node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
