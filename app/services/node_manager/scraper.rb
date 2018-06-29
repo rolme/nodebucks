@@ -9,7 +9,15 @@ module NodeManager
     end
 
     def scrape
-      browser = Watir::Browser.new
+      if Rails.env != 'development'
+        options = Selenium::WebDriver::Chrome::Options.new
+        options.binary = ENV['GOOGLE_CHROME_SHIM']
+        options.add_argument('--headless')
+        browser = Selenium::WebDriver.for :chrome, options: options
+      else
+        browser = Watir::Browser.new
+      end
+
       begin
         browser.goto node.wallet_url
         sleep 1
