@@ -51,13 +51,13 @@ class Header extends Component {
 
   displayLoginLink() {
     const { user } = this.props
-
+    const isSignUpPage = window.location.pathname === "/sign-up"
     let navigation = []
     if ( !!user ) {
       navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/logout" className="nav-link nav-item" activeClassName="active">Logout</NavLink>)
     } else {
       navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Login</NavLink>)
-      navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/signup" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }
