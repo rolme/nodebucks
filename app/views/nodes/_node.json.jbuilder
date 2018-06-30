@@ -21,6 +21,7 @@ json.owner do
   json.partial! 'users/owner', user: node.user
 end
 json.isReady node.ready?
+json.rewardSetting node.reward_setting
 json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
   json.week node.week_reward * node.crypto.price
@@ -32,6 +33,7 @@ json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
 json.status node.status
 json.wallet node.wallet
+json.withdrawWallet node.withdraw_wallet
 json.value node.value
 json.version node.version
 json.vpsMonthlyCost node.vps_monthly_cost

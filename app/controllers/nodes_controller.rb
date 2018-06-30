@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
-  before_action :authenticate_request, only: [:create, :index, :purchase, :show]
-  before_action :authenticate_admin_request, only: [:offline, :online, :update]
+  before_action :authenticate_request, only: [:create, :index, :purchase, :show, :update]
+  before_action :authenticate_admin_request, only: [:offline, :online]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -51,7 +51,7 @@ class NodesController < ApplicationController
 
   def update
     @node = Node.find_by(slug: params[:slug])
-    if @node.update(node_params)
+    if @node.update(current_user.admin? ? node_params : node_user_params)
       render :show
     else
       render json: { status: 'error', message: builder.error }
@@ -60,10 +60,18 @@ class NodesController < ApplicationController
 
 protected
 
+  def node_user_params
+    params.require(:node).permit(
+      :reward_setting,
+      :withdraw_wallet
+    )
+  end
+
   def node_params
     params.require(:node).permit(
       :ip,
       :wallet,
+      :withdraw_wallet,
       :version,
       :vps_provider,
       :vps_url,

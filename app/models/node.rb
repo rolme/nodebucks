@@ -6,6 +6,10 @@ class Node < ApplicationRecord
   QUARTER = 90.days
   YEAR    = 365.days
 
+  REWARD_AUTO_NONE       = 0
+  REWARD_AUTO_BUILD      = 10
+  REWARD_AUTO_WITHDRAWAL = 20
+
   belongs_to :crypto
   belongs_to :user
   belongs_to :creator, foreign_key: :created_by_admin_id, class_name: 'User', optional: true
