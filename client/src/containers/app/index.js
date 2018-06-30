@@ -36,7 +36,7 @@ export default class App extends Component {
               <PublicRoute exact path="/" component={Home}/>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
-              <PublicRoute exact path="/signup" component={SignUp}/>
+              <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/terms" component={Terms}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
