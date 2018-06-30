@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
+import { NavLink } from 'react-router-dom'
 
 import moment from 'moment'
 
@@ -27,7 +28,11 @@ export default class MainTable extends Component {
           <td className="text-right">{week}</td>
           <td className="text-right">{month}</td>
           <td className="text-right">{year}</td>
-          <td></td>
+          <td>
+            <NavLink to={`/nodes/${item.slug}`}>
+              <button className="btn btn-sm btn-outline-secondary">View</button>
+            </NavLink>
+          </td>
         </tr>
       )
     })
@@ -58,7 +63,7 @@ export default class MainTable extends Component {
               <th>Week</th>
               <th>Month</th>
               <th>Year</th>
-              <th>View</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
