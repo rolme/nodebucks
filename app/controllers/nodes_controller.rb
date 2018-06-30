@@ -1,5 +1,5 @@
 class NodesController < ApplicationController
-  before_action :authenticate_request, only: [:create, :index, :show]
+  before_action :authenticate_request, only: [:create, :index, :purchase, :show]
   before_action :authenticate_admin_request, only: [:offline, :online, :update]
 
   def create
@@ -14,7 +14,7 @@ class NodesController < ApplicationController
   end
 
   def index
-    @nodes   = Node.unreserved if current_user.admin?
+    @nodes   = Node.unreserved if current_user.admin? && params.has_key?(:all)
     @nodes ||= Node.unreserved.where(user_id: current_user.id)
   end
 
@@ -37,7 +37,7 @@ class NodesController < ApplicationController
   end
 
   def purchase
-    @node    = Node.find_by(slug: params[:node_slug])
+    @node    = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
     operator = NodeManager::Operator.new(@node)
     operator.purchase
     @node.reload
@@ -45,7 +45,8 @@ class NodesController < ApplicationController
   end
 
   def show
-    @node = Node.find_by(slug: params[:slug])
+    @node   = Node.find_by(slug: params[:slug], user_id: current_user.id)
+    @node ||= Node.find_by(slug: params[:slug]) if current_user.admin?
   end
 
   def update
