@@ -25,5 +25,11 @@ module NodeManager
       node.update_attribute(:status, 'offline')
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server offline for maintenance")
     end
+
+    def purchase(timestamp=DateTime.current)
+      return false if node.status != 'reserved'
+      node.update_attribute(:status, 'new')
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+    end
   end
 end

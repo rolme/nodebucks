@@ -7,9 +7,6 @@ export const FETCH_SUCCESS = 'cryptos/FETCH_SUCCESS'
 export const FETCH_LIST = 'cryptos/FETCH_LIST'
 export const FETCH_LIST_ERROR = 'cryptos/FETCH_LIST_ERROR'
 export const FETCH_LIST_SUCCESS = 'cryptos/FETCH_LIST_SUCCESS'
-export const UPDATE = 'cryptos/UPDATE'
-export const UPDATE_ERROR = 'cryptos/UPDATE_ERROR'
-export const UPDATE_SUCCESS = 'cryptos/UPDATE_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -25,7 +22,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH:
     case FETCH_LIST:
-    case UPDATE:
       return {
         ...state,
         pending: true,
@@ -35,7 +31,6 @@ export default (state = initialState, action) => {
 
     case FETCH_ERROR:
     case FETCH_LIST_ERROR:
-    case UPDATE_ERROR:
       return {
         ...state,
         pending: false,
@@ -59,15 +54,6 @@ export default (state = initialState, action) => {
         pending: false,
         error: false,
         message: 'Fetch cryptocurrency list successful.'
-      }
-
-    case UPDATE_SUCCESS:
-      return {
-        ...state,
-        data: action.payload,
-        pending: false,
-        error: false,
-        message: 'Update cryptocurrency successful.'
       }
 
     default:
@@ -99,20 +85,6 @@ export function fetchCryptos() {
       })
       .catch((error) => {
         dispatch({ type: FETCH_LIST_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
-  }
-}
-
-export function updateCrypto(slug, data) {
-  return dispatch => {
-    dispatch({ type: UPDATE })
-    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/cryptos/${slug}`, { crypto: data })
-      .then((response) => {
-      dispatch({ type: UPDATE_SUCCESS, payload: response.data })
-      }).catch((error) => {
-        dispatch({ type: UPDATE_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }

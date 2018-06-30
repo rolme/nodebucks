@@ -3,19 +3,35 @@ module NodeManager
     attr_accessor :node
     attr_reader :crypto, :error, :user
 
-    def initialize(user, crypto, cost)
-      @crypto = crypto
-      @user   = user
-      @node   = Node.new(
+    def initialize(user, crypto)
+      @crypto   = crypto
+      @user     = user
+      @node     = Node.find_by(user_id: user.id, crypto_id: crypto.id, status: 'reserved')
+      @node   ||= Node.new(
         user_id: user.id,
         crypto_id: crypto.id,
-        cost: cost.to_f
+        cost: crypto.node_price,
+        status: 'reserved'
       )
     end
 
+    def latest_pricing
+      np = NodeManager::Pricer.new
+      np.evaluate(@crypto)
+      @crypto.reload
+    end
+
     def save(timestamp=DateTime.current)
+      latest_pricing
+      if node.id.present?
+        node.reload
+        node.update_attribute(:cost, node.crypto.node_price)
+        return node
+      end
+
+      node.cost = crypto.node_price
       if node.save
-        node.events.create(event_type: 'ops', description: 'Server setup', timestamp: timestamp)
+        node.events.create(event_type: 'ops', description: 'Server price reserved', timestamp: timestamp)
         node
       else
         @error = @node.errors.full_messages.join(', ')
