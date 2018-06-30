@@ -1,4 +1,7 @@
-json.amount node.amount
+json.balance do
+  json.coin node.balance
+  json.usd node.balance * node.crypto.price
+end
 json.cost node.cost
 json.createdAt node.created_at.to_formatted_s(:db)
 json.creator do

@@ -19,8 +19,10 @@ class Dashboard extends Component {
   render() {
     const { nodes } = this.props
 
+    if (nodes.length <= 0) { return(<span>Pending...</span>) }
+
     return (
-      <Container fluid className="bg-white dashboardContainer">
+      <Container fluid className="bg-white">
         <div className="contentContainer">
           <h1>Dashboard</h1>
           <Row>
@@ -28,11 +30,58 @@ class Dashboard extends Component {
               <MainTable list={nodes}/>
             </Col>
             <Col xl={4}>
+              {this.displayBalances(nodes)}
               <Summary list={nodes}/>
             </Col>
           </Row>
         </div>
       </Container>
+    )
+  }
+
+  // TODO: This should be moved into its own file
+  displayBalances(nodes) {
+    let balances = {}
+    nodes.forEach(n => {
+      if (!balances[n.crypto.name]) { balances[n.crypto.name] = {} }
+      balances[n.crypto.name]["name"] = n.crypto.name
+
+      if (!balances[n.crypto.name]["coin"]) { balances[n.crypto.name]["coin"] = 0.0 }
+      if (!balances[n.crypto.name]["usd"]) { balances[n.crypto.name]["usd"] = 0.0 }
+      balances[n.crypto.name]["coin"] += +n.balance.coin
+      balances[n.crypto.name]["usd"] += +n.balance.usd
+    })
+
+    return(
+      <div className="card mb-2">
+        <div className="card-header">
+          Balance(s)
+        </div>
+        <div className="card-body">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th className="text-left">Crypto</th>
+                <th className="text-right">Coins</th>
+                <th className="text-right">USD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!!balances && Object.keys(balances).sort().map(key => {
+                const coin = balances[key].coin.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+                const usd  = balances[key].usd.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+                return(
+                  <tr key={balances[key].name}>
+                    <td className="text-left">{balances[key].name}</td>
+                    <td className="text-right">{coin}</td>
+                    <td className="text-right">{usd}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     )
   }
 }

@@ -35,12 +35,9 @@ class Node < ApplicationRecord
     wallet.present? && ip.present?
   end
 
-  def amount
-    stake + reward_total
-  end
-
+  # TODO: Should value of the node be; stake or balance
   def value
-    amount * price
+    stake * price
   end
 
   def wallet_url

@@ -43,7 +43,7 @@ class Node extends Component {
     }
 
     return(
-      <Container fluid className="bg-white dashboardContainer">
+      <Container fluid className="bg-white">
         <div className="contentContainer">
           {this.displayHeader(node)}
           <div className="row pt-3">
@@ -82,7 +82,7 @@ class Node extends Component {
     const cost             = (+node.cost).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     const rewardTotal      = (+node.rewardTotal).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     const rewardPercentage = (node.rewardTotal/node.cost).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-
+    const balance          = (+node.balance.usd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     return(
       <div className="card mb-2">
         <div className="card-header">
@@ -98,6 +98,9 @@ class Node extends Component {
 
             <dt className="col-sm-6">Total Rewards</dt>
             <dd className="col-sm-6 text-right">$ {rewardTotal} ({rewardPercentage}%)</dd>
+
+            <dt className="col-sm-6">Balance (USD)</dt>
+            <dd className="col-sm-6 text-right">$ {balance}</dd>
 
             <dt className="col-sm-6">Status</dt>
             <dd className="col-sm-6 text-right"><span className={`badge badge-${(node.status === 'online') ? 'success' : 'danger'}`}>{node.status}</span></dd>

@@ -38,6 +38,9 @@ module NodeManager
     end
 
     def scrape_polis(browser)
+      balance = browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f
+      node.update_attribute(:balance, balance)
+
       if Rails.env != 'development'
         rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       else
@@ -59,6 +62,9 @@ module NodeManager
     end
 
     def scrape_dash(browser)
+      balance = browser.find_element(tag_name: 'pre').text.split(/\s/)[1].to_f
+      node.update_attribute(:balance, balance)
+
       rows = browser.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
       rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
@@ -75,6 +81,9 @@ module NodeManager
     end
 
     def scrape_zcoin(browser)
+      balance = browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f
+      node.update_attribute(:balance, balance)
+
       if Rails.env != 'development'
         rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       else
@@ -95,6 +104,9 @@ module NodeManager
     end
 
     def scrape_pivx(browser)
+      balance = browser.find_elements(tag_name: 'tbody')[0].find_elements(tag_name: 'tr')[2].text.split(/\s/)[1].to_f
+      node.update_attribute(:balance, balance)
+
       rows = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
       rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
@@ -111,6 +123,9 @@ module NodeManager
     end
 
     def scrape_stipend(browser)
+      balance = browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f
+      node.update_attribute(:balance, balance)
+
       if Rails.env != 'development'
         rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       else

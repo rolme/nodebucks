@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_30_190557) do
+ActiveRecord::Schema.define(version: 2018_06_30_212600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2018_06_30_190557) do
     t.string "wallet"
     t.string "withdraw_wallet"
     t.integer "reward_setting", default: 0
+    t.decimal "balance", default: "0.0"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
