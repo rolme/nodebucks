@@ -32,6 +32,7 @@ json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
 json.status node.status
 json.wallet node.wallet
+json.withdrawWallet node.withdraw_wallet
 json.value node.value
 json.version node.version
 json.vpsMonthlyCost node.vps_monthly_cost
