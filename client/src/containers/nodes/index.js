@@ -5,6 +5,11 @@ import moment from 'moment'
 
 import { Button, Col, Container, Row} from 'reactstrap'
 import Editable from 'react-x-editable'
+import './index.css'
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/fontawesome-free-solid'
+
 
 import {
   fetchNode,
@@ -17,12 +22,17 @@ class Node extends Component {
     this.props.fetchNode(params.slug)
   }
 
-  handleSubmit(name, el) {
+  handleEditableSubmit(name, el) {
     const { node } = this.props
     let data   = {}
     data[name] = el.value
 
     this.props.updateNode(node.slug, data)
+  }
+
+  handleRewardSettingClick(value) {
+    const { node } = this.props
+    this.props.updateNode(node.slug, { reward_setting: value })
   }
 
   render() {
@@ -40,6 +50,7 @@ class Node extends Component {
             {this.displayHistory(node)}
             <div className="col-md-4">
               {this.displaySummary(node)}
+              {this.displayRewardSettings(node)}
               {this.displayActions(node)}
             </div>
           </div>
@@ -97,6 +108,61 @@ class Node extends Component {
     )
   }
 
+  displayRewardSettings(node) {
+    return(
+      <div className="card mb-2">
+        <div className="card-header">
+          Reward Settings
+        </div>
+        <div className="card-body">
+          <Row>
+            <Col className={`my-2 ${(node.rewardSetting === 0) ? 'selected': ''}`}>
+              <dl className="mt-2 clickable" onClick={this.handleRewardSettingClick.bind(this, 0)}>
+                <dt>Store on Nodebucks {this.displayCheck(node.rewardSetting === 0)}</dt>
+                <dd>Withdraw manually at any time.</dd>
+              </dl>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={`my-2 ${(node.rewardSetting === 10) ? 'selected': ''}`}>
+              <dl className="mt-2 clickable" onClick={this.handleRewardSettingClick.bind(this, 10)}>
+                <dt>Auto-Launch Node {this.displayCheck(node.rewardSetting === 10)}</dt>
+                <dd>Your rewards will automatically be used to buy another Node</dd>
+              </dl>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={`my-2 ${(node.rewardSetting === 20) ? 'selected': ''}`}>
+              <dl className="mt-2">
+                <dt className="clickable" onClick={this.handleRewardSettingClick.bind(this, 20)}>Auto-Pay Wallet Address {this.displayCheck(node.rewardSetting === 20)}</dt>
+                <dd>
+                  Provide an address and we will send rewards automatically.
+                  <Editable
+                    dataType="text"
+                    mode="inline"
+                    name="wallet"
+                    showButtons={false}
+                    value={node.withdrawWallet}
+                    display={value => {
+                      return(<span style={{borderBottom: "1px dashed", textDecoration: "none"}}>{value}</span>)
+                    }}
+                    handleSubmit={this.handleEditableSubmit.bind(this, 'withdraw_wallet')}
+                  />
+                </dd>
+              </dl>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    )
+  }
+
+  displayCheck(show) {
+    if (show) {
+      return <FontAwesomeIcon icon={faCheck} color="#28a745" className="ml-2"/>
+    }
+  }
+
   displayActions(node) {
     return(
       <div className="card">
@@ -106,27 +172,10 @@ class Node extends Component {
         <div className="card-body">
           <Row><Col className="text-center my-2"><Button color="danger">Sell Node</Button></Col></Row>
           <Row><Col className="text-center my-2"><Button color="primary">Add Node</Button></Col></Row>
-          <Row>
-            <Col className="text-center my-2 p-1" style={{"border": "1px dashed lightgray"}}>
-              Auto-Pay Wallet Address<br/>
-              <Editable
-                dataType="text"
-                mode="inline"
-                name="wallet"
-                showButtons={false}
-                value={node.withdrawWallet}
-                display={value => {
-                  return(<span style={{borderBottom: "1px dashed", textDecoration: "none"}}>{value}</span>)
-                }}
-                handleSubmit={this.handleSubmit.bind(this, 'withdraw_wallet')}
-              />
-            </Col>
-          </Row>
         </div>
       </div>
     )
   }
-
 
   displayHistory(node) {
     let total = node.events.map(e => e.value).reduce((t, v) => +t + +v)

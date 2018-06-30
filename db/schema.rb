@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2018_06_30_190557) do
     t.datetime "updated_at", null: false
     t.string "wallet"
     t.string "withdraw_wallet"
+    t.integer "reward_setting", default: 0
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"

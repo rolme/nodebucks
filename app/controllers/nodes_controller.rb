@@ -62,6 +62,7 @@ protected
 
   def node_user_params
     params.require(:node).permit(
+      :reward_setting,
       :withdraw_wallet
     )
   end
