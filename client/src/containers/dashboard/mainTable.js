@@ -6,7 +6,11 @@ import moment from 'moment'
 
 export default class MainTable extends Component {
   displayTableData(list) {
-    return list.map(item => {
+    return list.sort((a,b) => {
+      if(a.crypto.name < b.crypto.name) return -1
+      if(a.crypto.name > b.crypto.name) return 1
+      return 0
+    }).map(item => {
       const uptime          = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
       const annualRoi       = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
       const weeklyRoiValue  = (+item.crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
