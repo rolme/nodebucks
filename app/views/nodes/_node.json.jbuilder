@@ -1,6 +1,6 @@
 json.balance do
-  json.coin node.balance
-  json.usd node.balance * node.crypto.price
+  json.coin (node.balance != 0.0) ? node.balance - node.stake : 0.0
+  json.usd (node.balance != 0.0) ? (node.balance - node.stake) * node.crypto.price : 0.0
 end
 json.cost node.cost
 json.createdAt node.created_at.to_formatted_s(:db)
@@ -18,12 +18,12 @@ json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do 
   json.value event.value
 end
 json.ip node.ip
+json.isReady node.ready?
 json.lastUpgradedAt node.last_upgraded_at&.to_formatted_s(:db)
 json.onlineAt node.online_at&.to_formatted_s(:db)
 json.owner do
   json.partial! 'users/owner', user: node.user
 end
-json.isReady node.ready?
 json.rewardSetting node.reward_setting
 json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
@@ -32,9 +32,14 @@ json.rewards do
   json.month node.month_reward * node.crypto.price
   json.year node.year_reward * node.crypto.price
 end
+json.sellBitcoinWallet node.sell_bitcoin_wallet
+json.sellPrice node.sell_price
+json.sellSetting node.sell_setting
 json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
 json.status node.status
+json.stripe node.stripe
+json.timeLimit Node::TIME_LIMIT.to_i
 json.wallet node.wallet
 json.withdrawWallet node.withdraw_wallet
 json.value node.value

@@ -11,7 +11,8 @@ module NodeManager
         user_id: user.id,
         crypto_id: crypto.id,
         cost: crypto.node_price,
-        status: 'reserved'
+        status: 'reserved',
+        buy_priced_at: DateTime.current
       )
     end
 
@@ -25,7 +26,10 @@ module NodeManager
       latest_pricing
       if node.id.present?
         node.reload
-        node.update_attribute(:cost, node.crypto.node_price)
+        node.update_attributes(
+          cost: node.crypto.node_price,
+          buy_priced_at: DateTime.current
+        )
         return node
       end
 

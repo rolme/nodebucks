@@ -33,7 +33,7 @@ export default class Summary extends Component {
         </div>
         <div className="card-body">
           <dl className="row">
-            <dt className="col-sm-7">Reward Balance</dt>
+            <dt className="col-sm-7">Total Rewards</dt>
             <dd className="col-sm-5 text-right">$ {rewardTotal}</dd>
 
             <dt className="col-sm-7">Total Node(s) Value</dt>

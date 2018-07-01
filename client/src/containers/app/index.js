@@ -6,22 +6,23 @@ import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 
 
-const Home = Loadable({ loader: () => import('../home'), loading: Loading })
-const Header = Loadable({ loader: () => import('./header'), loading: Loading })
-const Footer = Loadable({ loader: () => import('./footer'), loading: Loading })
-const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
-const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
-const Disclaimer = Loadable({ loader: () => import('../../components/disclaimer'), loading: Loading })
-const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
+const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
-const NewNode = Loadable({ loader: () => import('../nodes/new'), loading: Loading })
-const Nodes = Loadable({ loader: () => import('../nodes'), loading: Loading })
-const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
-const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
+const Disclaimer = Loadable({ loader: () => import('../../components/disclaimer'), loading: Loading })
 const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
 const ErrorPage404 = Loadable({ loader: () => import('../../components/error_pages/404_error_page'), loading: Loading })
+const FAQ = Loadable({ loader: () => import('../../components/faq'), loading: Loading })
+const Footer = Loadable({ loader: () => import('./footer'), loading: Loading })
+const Header = Loadable({ loader: () => import('./header'), loading: Loading })
+const Home = Loadable({ loader: () => import('../home'), loading: Loading })
+const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
+const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
+const NewNode = Loadable({ loader: () => import('../nodes/new'), loading: Loading })
+const Node = Loadable({ loader: () => import('../nodes/show'), loading: Loading })
 const Privacy = Loadable({ loader: () => import('../../components/privacy'), loading: Loading })
-const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
+const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Loading })
+const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
+const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 
 export default class App extends Component {
 
@@ -43,7 +44,8 @@ export default class App extends Component {
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute exact path="/contact" component={Contact}/>
               <PublicRoute exact path="/nodes/:crypto/new" component={NewNode}/>
-              <Route exact path="/nodes/:slug" component={Nodes}/>
+              <Route exact path="/nodes/:slug/sell" component={SellNode}/>
+              <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>

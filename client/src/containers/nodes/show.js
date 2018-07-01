@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import moment from 'moment'
+import { NavLink } from 'react-router-dom'
 
-import { Button, Col, Container, Row} from 'reactstrap'
+import moment from 'moment'
+import { Col, Container, Row} from 'reactstrap'
 import Editable from 'react-x-editable'
 import './index.css'
 
@@ -167,16 +168,19 @@ class Node extends Component {
   }
 
   displayActions(node) {
+    const value = (+node.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const sellable = (node.status !== 'sold')
     return(
-      <div className="card">
-        <div className="card-header">
-          Actions
-        </div>
-        <div className="card-body">
-          <Row><Col className="text-center my-2"><Button color="danger">Sell Node</Button></Col></Row>
-          <Row><Col className="text-center my-2"><Button color="primary">Add Node</Button></Col></Row>
-        </div>
-      </div>
+        <Row>
+          {sellable && (
+            <Col xl={12} className="text-center my-2">
+              <NavLink to={`/nodes/${node.slug}/sell`}><button className="btn btn-danger col-sm-7">Sell Server for ${value}</button></NavLink>
+            </Col>
+          )}
+          <Col xl={12} className="text-center my-2">
+            <NavLink to={`/nodes/${node.crypto.slug}/new`}><button className="btn btn-primary col-sm-7">Add {node.crypto.name} Node</button></NavLink>
+          </Col>
+        </Row>
     )
   }
 

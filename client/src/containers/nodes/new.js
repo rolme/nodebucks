@@ -39,18 +39,19 @@ class NewNode extends Component {
     if (item.crypto === undefined) {
       masternode.annualRoi   = item.annualRoi
       masternode.cryptoSlug  = item.slug
+      masternode.masternodes = item.masternodes
       masternode.name        = item.name
       masternode.nodePrice   = item.nodePrice
       masternode.url         = item.url
-      masternode.masternodes = item.masternodes
     } else {
       masternode.annualRoi   = item.crypto.annualRoi
       masternode.cryptoSlug  = item.crypto.slug
+      masternode.masternodes = item.crypto.masternodes
       masternode.name        = item.crypto.name
       masternode.nodePrice   = item.cost
       masternode.nodeSlug    = item.slug
+      masternode.timeLimit   = item.timeLimit
       masternode.url         = item.crypto.url
-      masternode.masternodes = item.crypto.masternodes
     }
 
     return masternode
@@ -90,7 +91,7 @@ class NewNode extends Component {
           <a href={masternode.url} target="_new">Homepage</a> | <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new">Market Info</a>
           <Col xl={12} className="d-flex px-0">
             {this.displayCryptoData(masternode)}
-            {this.displayPricingInfo()}
+            {this.displayPricingInfo(masternode)}
           </Col>
         </div>
       </Container>
@@ -160,7 +161,7 @@ class NewNode extends Component {
 
     return(
       <Col xl={4} className="px-0">
-        { !!user && <Countdown timer="180" onExpire={this.handleExpire.bind(this)}/> }
+        { !!user && <h2 className="text-center"><Countdown timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2> }
         <p>{info}</p>
       </Col>
     )

@@ -44,6 +44,6 @@ export default class Countdown extends Component {
   }
 
   render() {
-    return <h2 className="text-center">{this.state.display}</h2>
+    return this.state.display
   }
 }
