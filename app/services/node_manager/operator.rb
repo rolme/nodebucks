@@ -48,7 +48,6 @@ module NodeManager
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server sold")
     end
 
-
   protected
 
      def within_timeframe?(datetime)
