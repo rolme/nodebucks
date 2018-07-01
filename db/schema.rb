@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_30_212600) do
+ActiveRecord::Schema.define(version: 2018_07_01_183958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,12 @@ ActiveRecord::Schema.define(version: 2018_06_30_212600) do
     t.string "withdraw_wallet"
     t.integer "reward_setting", default: 0
     t.decimal "balance", default: "0.0"
+    t.integer "sell_setting", default: 0
+    t.string "sell_bitcoin_wallet"
+    t.decimal "sell_price"
+    t.string "stripe"
+    t.datetime "sell_priced_at"
+    t.datetime "buy_priced_at"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"

@@ -1,5 +1,5 @@
 class NodesController < ApplicationController
-  before_action :authenticate_request, only: [:create, :index, :purchase, :show, :update]
+  before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
   before_action :authenticate_admin_request, only: [:offline, :online]
 
   def create
@@ -22,6 +22,23 @@ class NodesController < ApplicationController
     @node    = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
     operator.offline
+    @node.reload
+    render :show
+  end
+
+  def sell
+    @node    = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    operator.sell
+    @node.reload
+    render :show
+  end
+
+  # INFO: Reserve the sell price of existing node
+  def reserve
+    @node    = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    operator.reserve_sell_price
     @node.reload
     render :show
   end
@@ -63,6 +80,9 @@ protected
   def node_user_params
     params.require(:node).permit(
       :reward_setting,
+      :sell_setting,
+      :sell_bitcoin_wallet,
+      :stripe,
       :withdraw_wallet
     )
   end
@@ -70,6 +90,10 @@ protected
   def node_params
     params.require(:node).permit(
       :ip,
+      :reward_setting,
+      :sell_setting,
+      :sell_bitcoin_wallet,
+      :stripe,
       :wallet,
       :withdraw_wallet,
       :version,

@@ -21,17 +21,22 @@ class Dashboard extends Component {
 
     if (nodes.length <= 0) { return(<span>Pending...</span>) }
 
+    // Do not display sold nodes
+    const filteredNodes = nodes.filter(node => {
+      return node.status !== 'sold'
+    })
+
     return (
       <Container fluid className="bg-white">
         <div className="contentContainer">
           <h1>Dashboard</h1>
           <Row>
             <Col xl={8}>
-              <MainTable list={nodes}/>
+              <MainTable list={filteredNodes}/>
             </Col>
             <Col xl={4}>
-              {this.displayBalances(nodes)}
-              <Summary list={nodes}/>
+              {this.displayBalances(filteredNodes)}
+              <Summary list={filteredNodes}/>
             </Col>
           </Row>
         </div>

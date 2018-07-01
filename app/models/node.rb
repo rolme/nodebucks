@@ -1,6 +1,8 @@
 class Node < ApplicationRecord
   include Sluggable
 
+  TIME_LIMIT = 180.seconds
+
   WEEK    = 7.days
   MONTH   = 30.days
   QUARTER = 90.days
@@ -10,6 +12,9 @@ class Node < ApplicationRecord
   REWARD_AUTO_BUILD      = 10
   REWARD_AUTO_WITHDRAWAL = 20
 
+  SELL_BITCOIN_WALLET    = 0
+  SELL_STRIPE            = 10
+
   belongs_to :crypto
   belongs_to :user
   belongs_to :creator, foreign_key: :created_by_admin_id, class_name: 'User', optional: true
@@ -18,6 +23,7 @@ class Node < ApplicationRecord
   has_many :rewards, dependent: :destroy
 
   delegate :explorer_url,
+           :name,
            :percentage_conversion_fee,
            :percentage_hosting_fee,
            :price,
@@ -35,9 +41,9 @@ class Node < ApplicationRecord
     wallet.present? && ip.present?
   end
 
-  # TODO: Should value of the node be; stake or balance
+  # TODO: This should be based on buy order books, for now, use stake
   def value
-    stake * price
+    stake * price * (1.0 - percentage_conversion_fee)
   end
 
   def wallet_url

@@ -13,6 +13,12 @@ export const PURCHASE_SUCCESS = 'nodes/PURCHASE_SUCCESS'
 export const RESERVE = 'nodes/RESERVE'
 export const RESERVE_ERROR = 'nodes/RESERVE_ERROR'
 export const RESERVE_SUCCESS = 'nodes/RESERVE_SUCCESS'
+export const SELL = 'nodes/SELL'
+export const SELL_ERROR = 'nodes/SELL_ERROR'
+export const SELL_SUCCESS = 'nodes/SELL_SUCCESS'
+export const SELL_RESERVE = 'nodes/SELL_RESERVE'
+export const SELL_RESERVE_ERROR = 'nodes/SELL_RESERVE_ERROR'
+export const SELL_RESERVE_SUCCESS = 'nodes/SELL_RESERVE_SUCCESS'
 export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
@@ -33,6 +39,8 @@ export default (state = initialState, action) => {
     case FETCH_LIST:
     case PURCHASE:
     case RESERVE:
+    case SELL:
+    case SELL_RESERVE:
     case UPDATE:
       return {
         ...state,
@@ -45,6 +53,8 @@ export default (state = initialState, action) => {
     case FETCH_LIST_ERROR:
     case PURCHASE_ERROR:
     case RESERVE_ERROR:
+    case SELL_ERROR:
+    case SELL_RESERVE_ERROR:
     case UPDATE_ERROR:
       return {
         ...state,
@@ -89,6 +99,15 @@ export default (state = initialState, action) => {
         message: 'Reserve node successful.'
       }
 
+    case SELL_RESERVE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        pending: false,
+        error: false,
+        message: 'Reserve sell price successful.'
+      }
+
     case PURCHASE_SUCCESS:
       return {
         ...state,
@@ -96,6 +115,15 @@ export default (state = initialState, action) => {
         pending: false,
         error: false,
         message: 'Purchase node successful.'
+      }
+
+    case SELL_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        pending: false,
+        error: false,
+        message: 'Node sold successful.'
       }
 
     default:
@@ -171,6 +199,34 @@ export function updateNode(slug, data) {
         dispatch({ type: UPDATE_SUCCESS, payload: response.data })
       }).catch((error) => {
         dispatch({ type: UPDATE_ERROR, payload: {message: error.data} })
+        console.log(error)
+      })
+  }
+}
+
+export function sellReserveNode(slug) {
+  return dispatch => {
+    dispatch({ type: SELL_RESERVE })
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/nodes/${slug}/reserve`)
+      .then((response) => {
+        dispatch({ type: SELL_RESERVE_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: SELL_RESERVE_ERROR, payload: {message: error.data} })
+        console.log(error)
+      })
+  }
+}
+
+export function sellNode(slug) {
+  return dispatch => {
+    dispatch({ type: SELL })
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/nodes/${slug}/sell`)
+      .then((response) => {
+        dispatch({ type: SELL_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: SELL_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }
