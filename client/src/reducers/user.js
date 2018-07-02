@@ -48,7 +48,13 @@ const initialState = {
   data: TOKEN_USER,
   error: false,
   message: null,
-  pending: false,
+  pending: true,
+  logInError: false,
+  signUpError: false,
+  logInMessage: null,
+  signUpMessage: null,
+  logInPending: false,
+  signUpPending: false,
   token: TOKEN
 }
 
@@ -58,9 +64,12 @@ export default (state = initialState, action) => {
     case RESET:
       return {
         ...state,
-        error: false,
-        message: null,
-        pending: false,
+        logInError: false,
+        signUpError: false,
+        logInMessage: null,
+        signUpMessage: null,
+        logInPending: false,
+        signUpPending: false,
         signUpData: {}
       }
 
@@ -68,9 +77,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: null,
-        error: false,
-        message: null,
-        pending: true,
+        logInError: false,
+        logInMessage: null,
+        logInPending: true,
         token: ''
       }
 
@@ -78,9 +87,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: jwt_decode(action.payload.token),
-        error: false,
-        message: null,
-        pending: false,
+        logInError: false,
+        logInMessage: null,
+        logInPending: false,
         token: action.payload.token
       }
 
@@ -88,9 +97,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: null,
-        error: true,
-        message: action.payload.message,
-        pending: false,
+        logInError: true,
+        logInMessage: action.payload.message,
+        logInPending: false,
         token: ''
       }
 
@@ -98,9 +107,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: null,
-        error: false,
-        message: null,
-        pending: true,
+        signUpError: false,
+        signUpMessage: null,
+        signUpPending: true,
         token: ''
       }
 
@@ -108,9 +117,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: jwt_decode(action.payload.token),
-        error: false,
-        message: 'Registration completed successfully.',
-        pending: false,
+        signUpError: false,
+        signUpMessage: 'Registration completed successfully.',
+        signUpPending: false,
         token: action.payload.token,
         signUpData: {}
       }
@@ -120,9 +129,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: null,
-        error: true,
-        message: action.payload.message,
-        pending: false,
+        signUpError: true,
+        signUpMessage: action.payload.message,
+        signUpPending: false,
         token: ''
       }
 

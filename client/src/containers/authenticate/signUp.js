@@ -58,7 +58,7 @@ class SignUp extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message, error } = nextProps
     if ( !!user ) {
-      this.props.history.push('/dashboard')
+      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/dashboard')
     } else if ( message === 'Email has already been taken' ) {
       let messages = { ...this.state.messages }, errors = { ...this.state.errors }
       messages.email = message
@@ -82,7 +82,7 @@ class SignUp extends Component {
 
   stepOneValidation() {
     const { email, password, confirmPassword } = this.state
-    let isValid = true, messages = {...this.state.messages }, errors = { ...this.state.errors }, { stepNumber } = this.state
+    let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }, { stepNumber } = this.state
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'
@@ -219,7 +219,7 @@ class SignUp extends Component {
     return (
       <Container fluid className="bg-white authPageContainer">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer">
+          <Col className="authContainer align-items-center flex-wrap justify-content-center d-flex">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -228,7 +228,7 @@ class SignUp extends Component {
             </Col>
             }
             {stepNumber === 1 &&
-            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
+            <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpFirstStepIcon.png" alt="Step 1"/>
               <p className="authStepNumber">Step 1 of 2</p>
               <h2 className="authHeader">Let's get started.</h2>
@@ -282,7 +282,7 @@ class SignUp extends Component {
             </Col>
             }
             {stepNumber === 2 &&
-            <Col xl={{ size: 4, offset: 4 }} className="justify-content-center d-flex flex-column align-items-center">
+            <Col xl={{ size: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <img src="/assets/images/signUpSecondStepIcon.png" alt="Step 1"/>
               <p className="authStepNumber">Step 2 of 2</p>
               <h2 className="authHeader">Where are you from?</h2>
@@ -341,9 +341,9 @@ class SignUp extends Component {
 const mapStateToProps = state => ({
   user: state.user.data,
   signUpData: state.user.signUpData,
-  pending: state.user.pending,
-  error: state.user.error,
-  message: state.user.message
+  pending: state.user.signUpPending,
+  error: state.user.signUpError,
+  message: state.user.signUpMessage
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ register, reset }, dispatch)

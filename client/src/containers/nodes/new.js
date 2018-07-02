@@ -141,7 +141,7 @@ class NewNode extends Component {
               <LogIn isOnlyForm={true} onSuccess={this.handleReload}/>
             </Col>
             <Col xl={12}>
-             <SignUp/>
+             <SignUp onSuccess={this.handleReload}/>
             </Col>
           </Row>
         )}
