@@ -7,6 +7,7 @@ import { Button, Container, Col, Row } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
+import LogIn from '../authenticate/login'
 
 import { fetchCrypto } from '../../reducers/cryptos'
 import {
@@ -136,7 +137,7 @@ class NewNode extends Component {
         {!user && (
           <Row>
             <Col xl={12} className="py-4 text-center">
-              Login Form Here
+              <LogIn isOnlyForm={true} onSuccess={this.handleReload}/>
             </Col>
             <Col xl={12} className="py-4 text-center">
               Registration Here

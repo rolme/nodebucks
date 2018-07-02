@@ -31,7 +31,7 @@ export default class App extends Component {
     return (
       <div id="appContainer" className="appContainer">
         {showHeader && <Header/>}
-        <div className="pageContainer position-relative bg-light">
+        <div className="pageContainer position-relative bg-white">
           <main>
             <Switch>
               <PublicRoute exact path="/" component={Home}/>

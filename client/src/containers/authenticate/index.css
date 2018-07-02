@@ -9,8 +9,11 @@
 }
 
 .authContainer {
-  min-height: 755px;
   padding: 40px 0;
+}
+
+.authContainer > div {
+  min-width: 350px;
 }
 
 .authStepNumber {
@@ -111,7 +114,7 @@
   background-color: #3c9cdd !important;
 }
 
-.dontHaveAnAccountMessage{
+.dontHaveAnAccountMessage {
   text-align: center;
   margin-top: 10px;
   font-family: "Arimo-Regular";
