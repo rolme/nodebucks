@@ -8,6 +8,7 @@ import './index.css'
 
 import Countdown from '../../components/countdown'
 import LogIn from '../authenticate/login'
+import SignUp from '../authenticate/signUp'
 
 import { fetchCrypto } from '../../reducers/cryptos'
 import {
@@ -136,11 +137,11 @@ class NewNode extends Component {
         )}
         {!user && (
           <Row>
-            <Col xl={12} className="py-4 text-center">
+            <Col xl={12}>
               <LogIn isOnlyForm={true} onSuccess={this.handleReload}/>
             </Col>
-            <Col xl={12} className="py-4 text-center">
-              Registration Here
+            <Col xl={12}>
+             <SignUp/>
             </Col>
           </Row>
         )}
