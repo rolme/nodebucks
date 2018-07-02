@@ -1,11 +1,3 @@
-.authPageContainer {
-  min-height: calc(100vh - 100px);
-}
-
-.authPageContainer.logIn {
-  min-height: calc(100vh - 30px);
-}
-
 .authContainer {
   padding: 40px 0;
 }
