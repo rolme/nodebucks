@@ -5,6 +5,8 @@ import {NavLink} from 'react-router-dom'
 
 import CryptoTable from '../../components/cryptos/table'
 
+import './index.css'
+
 import {
   fetchCryptos
 } from '../../reducers/cryptos'
@@ -22,11 +24,11 @@ class Masternodes extends Component {
   render() {
     const { cryptos, user } = this.props
     return (
-      <div className="homeMasternodesContainer bg-white">
+      <div className="masternodesContainer bg-white">
         <div className="contentContainer">
-          <h1 className="homeMasternodesHeader">Select a Masternode</h1>
+          <h1 className="masternodesHeader">Select a Masternode</h1>
           <CryptoTable list={cryptos} user={user} />
-          <NavLink to='/contact' className="homeMasternodeContactLink">Request a different masternode coin</NavLink>
+          <NavLink to='/contact' className="masternodeContactLink">Request a different masternode coin</NavLink>
         </div>
       </div>
     )

@@ -74,7 +74,7 @@ export default class MainTable extends Component {
             {this.displayTableData(list)}
             </tbody>
           </Table>
-          <button className="submitButton mt-2 py-3 mx-auto d-block">+ Add Node</button>
+          <NavLink to={`/masternodes`} className="btn submitButton mt-2 py-3 mx-auto d-table">+ Add Node</NavLink>
         </div>
       </div>
     )
