@@ -50,7 +50,7 @@ class LogIn extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message } = nextProps
     if ( !!user ) {
-      this.props.history.push('/dashboard')
+      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/dashboard')
     } else if ( message === 'Email and/or password is invalid.' ) {
       let messages = { email: '', password: '' }, errors = { email: true, password: true }
       this.setState({ messages, errors })
@@ -111,7 +111,7 @@ class LogIn extends Component {
 
   render() {
     const { email, password, showPassword, messages, errors, rememberMe } = this.state
-    const { message, error, pending } = this.props
+    const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
       return (
@@ -134,7 +134,7 @@ class LogIn extends Component {
     return (
       <Container fluid className="bg-white authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer d-flex align-items-center flex-wrap">
+          <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -142,9 +142,9 @@ class LogIn extends Component {
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="justify-content-center d-flex flex-column align-items-center">
-              <img src="/assets/images/headerLogo.png" alt="sign in"/>
-              <h2 className="logInHeader mt-4">Welcome to Nodebucks</h2>
+            <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 6 }} className="justify-content-center d-flex flex-column align-items-center">
+              {!isOnlyForm && <img src="/assets/images/headerLogo.png" alt="sign in"/>}
+              {!isOnlyForm && <h2 className="logInHeader mt-4">Welcome to Nodebucks</h2>}
               <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i> Sign In Via Facebook</SocialButton>
               <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="dividerWithText">
                 <span>OR</span>
@@ -182,7 +182,7 @@ class LogIn extends Component {
               </Col>
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
                 <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign In</Button>
-                <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/signup">Sign Up Now</NavLink></p>
+                {!isOnlyForm && <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/signup">Sign Up Now</NavLink></p>}
               </Col>
             </Col>
           </Col>
