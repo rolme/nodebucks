@@ -194,9 +194,9 @@ class LogIn extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
-  pending: state.user.pending,
-  error: state.user.error,
-  message: state.user.message
+  pending: state.user.logInPending,
+  error: state.user.logInError,
+  message: state.user.logInMessage
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ login, reset, socialMediaLogin }, dispatch)
