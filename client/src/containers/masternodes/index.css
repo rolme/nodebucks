@@ -1,0 +1,19 @@
+.masternodesContainer > .contentContainer {
+  padding: 120px 0;
+}
+
+.masternodesHeader {
+  font-family: 'DidactGothic-Regular';
+  font-size: 36px;
+  color: #3A3A3A;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.masternodeContactLink {
+  font-family: 'DidactGothic-Regular';
+  color: #3A3A3A;
+  text-align: center;
+  display: block;
+  margin: 20px auto 0 auto;
+}

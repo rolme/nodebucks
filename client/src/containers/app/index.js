@@ -23,6 +23,7 @@ const Privacy = Loadable({ loader: () => import('../../components/privacy'), loa
 const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
+const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 
 export default class App extends Component {
 
@@ -31,7 +32,7 @@ export default class App extends Component {
     return (
       <div id="appContainer" className="appContainer">
         {showHeader && <Header/>}
-        <div className="pageContainer position-relative bg-light">
+        <div className="pageContainer position-relative bg-white">
           <main>
             <Switch>
               <PublicRoute exact path="/" component={Home}/>
@@ -47,6 +48,7 @@ export default class App extends Component {
               <Route exact path="/nodes/:slug/sell" component={SellNode}/>
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
+              <PublicRoute exact path="/masternodes" component={Masternodes}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>

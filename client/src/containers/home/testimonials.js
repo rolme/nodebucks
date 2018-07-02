@@ -17,7 +17,7 @@ export default class Testimonials extends Component {
       slidesToScroll: 1
     };
     return (
-      <div className="homeTestimonialsContainer">
+      <div className="homeTestimonialsContainer bg-light">
         <div className="contentContainer">
           <h1 className="homeTestimonialsHeader">Testimonials</h1>
           <Slider {...settings}>

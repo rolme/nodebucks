@@ -110,28 +110,6 @@
   margin-bottom: 40px;
 }
 
-/*Masternodes Table Part*/
-
-.homeMasternodesContainer > .contentContainer {
-  padding: 120px 0;
-}
-
-.homeMasternodesHeader {
-  font-family: 'DidactGothic-Regular';
-  font-size: 36px;
-  color: #3A3A3A;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.homeMasternodeContactLink {
-  font-family: 'DidactGothic-Regular';
-  color: #3A3A3A;
-  text-align: center;
-  display: block;
-  margin: 20px auto 0 auto;
-}
-
 /*Testimonials Part*/
 
 .homeTestimonialsContainer > .contentContainer {

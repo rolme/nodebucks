@@ -54,14 +54,14 @@ body {
 #root,
 #root > div {
   height: 100%;
-  background-color: #f8f9fa !important;
+  background-color: white !important;
 }
 
 .pageContainer {
   overflow-y: hidden;
   margin: 0 auto;
   min-height: calc(100% - 30px);
-  padding: 66px 0 30px;
+  padding: 60px 0 0;
 }
 
 .contentContainer {
