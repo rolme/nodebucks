@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-import { Col, Container, Row} from 'reactstrap'
+import { ClipLoader } from 'react-spinners'
+import { Col, Container, Row } from 'reactstrap'
 import Editable from 'react-x-editable'
 import './index.css'
 
@@ -43,8 +44,8 @@ class SellNode extends Component {
 
   handleEditableSubmit(name, el) {
     const { node } = this.props
-    let data   = {}
-    data[name] = el.value
+    let data = {}
+    data[ name ] = el.value
 
     this.props.updateNode(node.slug, data)
   }
@@ -60,15 +61,11 @@ class SellNode extends Component {
   }
 
   render() {
-    const { match: { params }, node, pending } = this.props
-
-    if (pending || node.slug === undefined) {
-      return <h4 className="pt-3">Loading {params.slug}... </h4>
-    }
+    const { node } = this.props
 
     const available = (node.status !== 'sold')
     const sellPrice = (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    return(
+    return (
       <Container fluid className="bg-white">
         <div className="contentContainer">
           {this.displayHeader(node)}
@@ -81,16 +78,20 @@ class SellNode extends Component {
         </div>
       </Container>
     )
-  }a
+  }
 
   displayHeader(node) {
     return (
       <Row className="pt-3">
         <h5 className="col-md-4">
-          <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} height="45px" width="45px"/> Sell {node.crypto.name} Server
+          {!!node.crypto && !!node.crypto.slug && <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} height="45px" width="45px"/>} Sell {!!node.crypto ? node.crypto.name : ''} Server
         </h5>
         <h5 className="col-md-4">
-          IP: {(!!node.ip) ? node.ip : 'Pending' }
+          IP: {(!!node.ip) ? node.ip : <ClipLoader
+          size={20}
+          color={'#3F89E8'}
+          loading={true}
+        />}
         </h5>
       </Row>
     )
@@ -98,26 +99,30 @@ class SellNode extends Component {
 
   displayPrice(node) {
     const { validPrice } = this.state
-    const sellPrice      = (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    let price            = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
-    return(
+    const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
+    let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
+    return (
       <Col xl={12}>
         <p>You are about to sell your Polis server. This action is permanent and irreversible.</p>
-        <h3 className="mb-1">Sale Price: {price}</h3>
+        <h3 className="mb-1">Sale Price: {!!sellPrice ? price : <ClipLoader
+          size={35}
+          color={'#3F89E8'}
+          loading={true}
+        />}</h3>
         <p className="small">(price resets in <Countdown timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
     )
   }
 
   displaySellSettings(node) {
-    return(
+    return (
       <div className="card mb-2">
         <div className="card-header">
           Select payment destination
         </div>
         <div className="card-body">
           <Row>
-            <Col className={`my-2 ${(node.sellSetting === 0) ? 'selected': ''}`}>
+            <Col className={`my-2 ${(node.sellSetting === 0) ? 'selected' : ''}`}>
               <dl className="mt-2">
                 <dt className="clickable" onClick={this.handleSellSettingClick.bind(this, 0)}>Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</dt>
                 <dd>
@@ -129,7 +134,7 @@ class SellNode extends Component {
                     showButtons={false}
                     value={node.sellBitcoinWallet}
                     display={value => {
-                      return(<span style={{borderBottom: "1px dashed", textDecoration: "none"}}>{value}</span>)
+                      return (<span style={{ borderBottom: "1px dashed", textDecoration: "none" }}>{value}</span>)
                     }}
                     handleSubmit={this.handleEditableSubmit.bind(this, 'sell_bitcoin_wallet')}
                   />
@@ -138,7 +143,7 @@ class SellNode extends Component {
             </Col>
           </Row>
           <Row>
-            <Col className={`my-2 ${(node.sellSetting === 10) ? 'selected': ''}`}>
+            <Col className={`my-2 ${(node.sellSetting === 10) ? 'selected' : ''}`}>
               <dl className="mt-2">
                 <dt className="clickable" onClick={this.handleSellSettingClick.bind(this, 10)}>Debit Card {this.displayCheck(node.sellSetting === 10)}</dt>
                 <dd>
@@ -150,7 +155,7 @@ class SellNode extends Component {
                     showButtons={false}
                     value={node.stripe}
                     display={value => {
-                      return(<span style={{borderBottom: "1px dashed", textDecoration: "none"}}>{value}</span>)
+                      return (<span style={{ borderBottom: "1px dashed", textDecoration: "none" }}>{value}</span>)
                     }}
                     handleSubmit={this.handleEditableSubmit.bind(this, 'stripe')}
                   />
@@ -164,23 +169,25 @@ class SellNode extends Component {
   }
 
   displayCheck(show) {
-    if (show) {
+    if ( show ) {
       return <FontAwesomeIcon icon={faCheck} color="#28a745" className="ml-2"/>
     }
   }
 
   displayActions(node) {
-    if (node.status === 'sold') {
-      return(<h5>This server has already been sold.</h5>)
+    if ( node.status === 'sold' ) {
+      return (<h5>This server has already been sold.</h5>)
     }
 
-    return(
+    return (
       <Row>
         <Col xl={12} className="text-center my-2">
           {this.sellServerButton(node)}
         </Col>
         <Col xl={12} className="text-center my-2">
-          <NavLink to={`/nodes/${node.slug}`}><button className="btn btn-secondary col-sm-7">Cancel</button></NavLink>
+          <NavLink to={`/nodes/${node.slug}`}>
+            <button className="btn btn-secondary col-sm-7">Cancel</button>
+          </NavLink>
         </Col>
       </Row>
     )
@@ -188,19 +195,19 @@ class SellNode extends Component {
 
   sellServerButton(node) {
     // TODO: This should be moved to top of file
-    const bitcoinWallet  = 0
-    const stripe         = 10
+    const bitcoinWallet = 0
+    const stripe = 10
     const { validPrice } = this.state
 
-    if (!validPrice) {
+    if ( !validPrice ) {
       return <button className="btn btn-outline-secondary col-sm-7" onClick={this.handleReload}>Reload Page</button>
     }
 
-    if ((node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) ||
-        (node.sellSetting === stripe && !node.stripe)) {
-      return(<button className="btn btn-primary col-sm-7" disabled={true}>Sell Server (Disabled)</button>)
+    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) ||
+      (node.sellSetting === stripe && !node.stripe) ) {
+      return (<button className="btn btn-primary col-sm-7" disabled={true}>Sell Server (Disabled)</button>)
     }
-    return(<button className="btn btn-primary col-sm-7" onClick={this.handleSellClick.bind(this)}>Sell Server</button>)
+    return (<button className="btn btn-primary col-sm-7" onClick={this.handleSellClick.bind(this)}>Sell Server</button>)
   }
 }
 
