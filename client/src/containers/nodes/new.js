@@ -24,6 +24,7 @@ class NewNode extends Component {
     this.state = {
       validPrice: true
     }
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount() {
@@ -71,6 +72,11 @@ class NewNode extends Component {
     window.location.reload()
   }
 
+
+  handleRefresh() {
+    this.props.reserveNode(params.crypto)
+  }
+
   render() {
     const { crypto, cryptoPending, history, node, nodeMessage, nodePending, user } = this.props
 
@@ -78,9 +84,9 @@ class NewNode extends Component {
       history.push('/dashboard')
     }
 
-    if (cryptoPending || nodePending || (!!user && node.slug === undefined) || (!user && crypto.name === undefined)) {
+   /* if (cryptoPending || nodePending || (!!user && node.slug === undefined) || (!user && crypto.name === undefined)) {
       return <h4>Loading..</h4>
-    }
+    }*/
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
@@ -121,7 +127,7 @@ class NewNode extends Component {
         </Row>
         <Row>
           <Col xl={4}>{annualRoi}</Col>
-          <Col xl={4}>{nodePrice}</Col>
+          <Col xl={4}>{nodePrice} <button className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</button></Col>
           <Col xl={4}>{item.masternodes}</Col>
         </Row>
         {!!user && (

@@ -1,8 +1,25 @@
 .selected {
   border: 1px dashed lightgray;
-  background-color: rgba(0,0,0,.03);
+  background-color: rgba(0, 0, 0, .03);
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.purchasePageRefreshButton {
+  border-radius: 50px;
+  background-color: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 2px 15px;
+  cursor: pointer;
+}
+
+.purchasePageRefreshButton:hover {
+  border: 1px solid rgba(255, 0, 0, 0.72);
+  color: rgba(255, 0, 0, 0.72);
+}
+.purchasePageRefreshButton:focus {
+  outline: none;
 }
