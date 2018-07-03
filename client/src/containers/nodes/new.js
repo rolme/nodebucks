@@ -72,15 +72,11 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, cryptoPending, history, node, nodeMessage, nodePending, user } = this.props
+    const { crypto, history, node, nodeMessage, user } = this.props
 
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
     }
-
-    /* if (cryptoPending || nodePending || (!!user && node.slug === undefined) || (!user && crypto.name === undefined)) {
-       return <h4>Loading..</h4>
-     }*/
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
