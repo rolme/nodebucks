@@ -74,7 +74,8 @@ class NewNode extends Component {
 
 
   handleRefresh() {
-    this.props.reserveNode(params.crypto)
+    let { match: { params } } = this.props
+    this.props.reserveNode(params.crypto, true)
   }
 
   render() {
@@ -103,7 +104,7 @@ class NewNode extends Component {
   }
 
   displayCryptoData(item) {
-    const { user } = this.props
+    const { user, refreshing } = this.props
     const { validPrice } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : ''
@@ -127,11 +128,14 @@ class NewNode extends Component {
             color={'#3F89E8'}
             loading={true}
           />}</Col>
-          <Col xl={4}>{!!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) ? nodePrice : <ClipLoader
-            size={35}
-            color={'#3F89E8'}
-            loading={true}
-          />} <button className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</button></Col>
+          <Col xl={4} className="d-flex align-items-center">
+            {!!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? nodePrice : <ClipLoader
+              size={35}
+              color={'#3F89E8'}
+              loading={true}
+            />}
+            {!!user && !!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>}
+          </Col>
           <Col xl={4}>{!!item.masternodes ? item.masternodes : <ClipLoader
             size={35}
             color={'#3F89E8'}
@@ -144,8 +148,8 @@ class NewNode extends Component {
               Credit Card Form Here
             </Col>
             <Col xl={12} className="py-2 text-center">
-              {validPrice && <Button color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
-              {!validPrice && <Button color="secondary" className="btn-outline-secondary" onClick={this.handleReload}>Reload Page</Button>}
+              {validPrice && <Button disabled={refreshing} color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
+              {!validPrice && <Button disabled={refreshing} color="secondary" className="btn-outline-secondary" onClick={this.handleReload}>Reload Page</Button>}
             </Col>
           </Row>
         )}
@@ -165,7 +169,7 @@ class NewNode extends Component {
   }
 
   displayPricingInfo(masternode) {
-    const { user } = this.props
+    const { user, refreshing } = this.props
     const { validPrice } = this.state
 
     let info = 'Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.'
@@ -177,7 +181,7 @@ class NewNode extends Component {
 
     return (
       <Col xl={4} className="px-0">
-        {!!user && <h2 className="text-center"><Countdown timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
+        {!!user && <h2 className="text-center"><Countdown refreshing={refreshing} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
         <p>{info}</p>
       </Col>
     )
@@ -193,6 +197,7 @@ const mapStateToProps = state => ({
   nodeError: state.nodes.error,
   nodeMessage: state.nodes.message,
   nodePending: state.nodes.pending,
+  refreshing: state.nodes.refreshing,
   user: state.user.data
 })
 

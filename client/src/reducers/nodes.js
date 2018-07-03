@@ -22,6 +22,7 @@ export const SELL_RESERVE_SUCCESS = 'nodes/SELL_RESERVE_SUCCESS'
 export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
+export const REFRESH = 'nodes/REFRESH'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -63,6 +64,12 @@ export default (state = initialState, action) => {
         message: action.payload.message
       }
 
+    case REFRESH:
+      return {
+        ...state,
+        refreshing: true
+      }
+
     case FETCH_SUCCESS:
       return {
         ...state,
@@ -96,6 +103,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
+        refreshing: false,
         message: 'Reserve node successful.'
       }
 
@@ -162,8 +170,9 @@ export function fetchNodes() {
   }
 }
 
-export function reserveNode(cryptoSlug) {
+export function reserveNode(cryptoSlug, isRefreshing) {
   return dispatch => {
+    !!isRefreshing &&  dispatch({ type: REFRESH })
     dispatch({ type: RESERVE })
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/nodes`, { crypto: cryptoSlug })
