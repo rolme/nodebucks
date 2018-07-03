@@ -61,11 +61,7 @@ class SellNode extends Component {
   }
 
   render() {
-    const { match: { params }, node, pending } = this.props
-
-    /*  if (pending || node.slug === undefined) {
-        return <h4 className="pt-3">Loading {params.slug}... </h4>
-      }*/
+    const { node } = this.props
 
     const available = (node.status !== 'sold')
     const sellPrice = (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
@@ -83,8 +79,6 @@ class SellNode extends Component {
       </Container>
     )
   }
-
-  a
 
   displayHeader(node) {
     return (
