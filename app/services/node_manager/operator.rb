@@ -6,6 +6,7 @@ module NodeManager
       @node = node
     end
 
+    # TODO: Make sure only reward transactions are stored.
     def reward(timestamp, amount, txhash)
       fee = amount * node.percentage_hosting_fee
       total_amount = amount - fee
@@ -35,7 +36,7 @@ module NodeManager
 
     def reserve_sell_price(timestamp=DateTime.current)
       return false if node.status == 'sold'
-      np = NodeManager::Pricer.new
+      np = NodeManager::Pricer.new(persist: true, type: 'buy')
       np.evaluate(node.crypto)
       node.reload
       node.update_attributes(sell_price: node.value, sell_priced_at: DateTime.current)

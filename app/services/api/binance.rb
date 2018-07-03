@@ -14,7 +14,10 @@ module Api
 
     attr_reader :btc_usdt
 
-    def initialize
+    def initialize(type='sell')
+      @type   = (type == 'sell') && "asks"
+      @type ||= (type == 'buy') && "bids"
+
       nonce     = Api::Base.nonce
       params    = "limit=1000&symbol=BTCUSDT"
       end_point = "/api/v1/depth"
@@ -22,10 +25,10 @@ module Api
       response = Typhoeus::Request.get("#{BASE_URI}#{end_point}?#{params}", headers: {
         'X-MBX-APIKEY' => API_KEY
       }, verbose: DEBUG)
-      asks   = response.body['asks'].present? ? parsed_response(response.body)['asks'] : []
+      asks   = response.body[@type].present? ? parsed_response(response.body)[@type] : []
       orders = to_orders(asks)
 
-      @btc_usdt = purchasable_price(orders, 1.0)
+      @btc_usdt = available_price(orders, 1.0)
     end
 
     def orders(symbol)
@@ -38,10 +41,10 @@ module Api
       }, verbose: DEBUG)
 
       data = parsed_response(response.body)
-      return [] unless data["asks"]
+      return [] unless data[@type]
 
-      orders = data['asks']
-      to_orders(data['asks'])
+      orders = data[@type]
+      to_orders(data[@type])
     end
 
     def btc_to_usdt(btc)

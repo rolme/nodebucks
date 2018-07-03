@@ -14,10 +14,11 @@ module Api
 
     attr_reader :btc_usdt
 
-    def initialize
+    def initialize(type="sell")
+      @type     = type
       nonce     = Api::Base.nonce
       params    = "limit=1000&symbol=BTC-USDT"
-      end_point = "/v1/open/orders-sell"
+      end_point = "/v1/open/orders-#{@type}"
       sig       = signature(API_SECRET, end_point, nonce, params)
 
       response = Typhoeus::Request.get("#{BASE_URI}#{end_point}?#{params}", headers: {
@@ -27,13 +28,13 @@ module Api
         'KC-API-SIGNATURE' => sig
       }, verbose: DEBUG)
       orders    = (response.body['success']) ? to_orders(parsed_response(response.body)['data']) : []
-      @btc_usdt = purchasable_price(orders, 1.0)
+      @btc_usdt = available_price(orders, 1.0)
     end
 
     def orders(symbol)
       nonce     = Api::Kucoin.nonce
       params    = "limit=1000&symbol=#{symbol.upcase}-BTC"
-      end_point = "/v1/open/orders-sell"
+      end_point = "/v1/open/orders-#{@type}"
       response = Typhoeus::Request.get("#{BASE_URI}#{end_point}?#{params}", headers: {
         'Content-Type' => 'application/json',
         'KC-API-KEY' => API_KEY,
