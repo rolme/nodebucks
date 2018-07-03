@@ -6,20 +6,23 @@ module Api
 
     attr_reader :btc_usdt
 
-    def initialize
+    def initialize(type='sell')
+      @type   = (type == 'sell') && "asks"
+      @type ||= (type == 'buy') && "bids"
+
       response  = Typhoeus::Request.get("#{BASE_URI}?command=returnOrderBook&currencyPair=USDT_BTC&depth=1000", verbose: DEBUG)
-      data      = (response.body['asks']) ? parsed_response(response.body)['asks'] : []
+      data      = (response.body[@type]) ? parsed_response(response.body)[@type] : []
       orders    = to_orders(data)
-      @btc_usdt = purchasable_price(orders, 1.0)
+      @btc_usdt = available_price(orders, 1.0)
     end
 
     def orders(symbol)
       @path    = "#{BASE_URI}?command=returnOrderBook&currencyPair=BTC_#{symbol.upcase}&depth=1000"
       response = Typhoeus::Request.get(@path, verbose: DEBUG)
       data     = parsed_response(response.body)
-      return [] unless data["asks"].present?
+      return [] unless data[@type].present?
 
-      data = parsed_response(response.body)['asks']
+      data = parsed_response(response.body)[@type]
       to_orders(data)
     end
 

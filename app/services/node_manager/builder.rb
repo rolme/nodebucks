@@ -17,7 +17,7 @@ module NodeManager
     end
 
     def latest_pricing
-      np = NodeManager::Pricer.new
+      np = NodeManager::Pricer.new(persist: true)
       np.evaluate(@crypto)
       @crypto.reload
     end

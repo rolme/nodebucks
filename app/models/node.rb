@@ -41,13 +41,12 @@ class Node < ApplicationRecord
     wallet.present? && ip.present?
   end
 
-  # TODO: This should be based on buy order books, for now, use stake
   def value
-    stake * price * (1.0 - percentage_conversion_fee)
+    @_value ||= crypto.sellable_price * (1.0 - percentage_conversion_fee)
   end
 
   def wallet_url
-    @_wallet_url ||= "#{explorer_url}#{wallet}"
+    "#{explorer_url}#{wallet}"
   end
 
   # TODO: More math needed here
