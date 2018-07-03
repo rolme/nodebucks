@@ -208,7 +208,6 @@ export function login(data) {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
-        dispatch(push('/dashboard'))
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
       }
@@ -238,7 +237,6 @@ export function socialMediaLogin(socialMedia, profile) {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-rency', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
-        dispatch(push('/dashboard'))
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
       }
@@ -272,6 +270,7 @@ export function register(params) {
         dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })
         return
       }
+      localStorage.setItem('jwt-nodebucks', response.data.token)
       dispatch({ type: REGISTER_USER_SUCCESS, payload: response.data })
     })
       .catch((error) => {
