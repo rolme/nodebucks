@@ -148,8 +148,7 @@ class NewNode extends Component {
               Credit Card Form Here
             </Col>
             <Col xl={12} className="py-2 text-center">
-              {validPrice && <Button disabled={refreshing} color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
-              {!validPrice && <Button disabled={refreshing} color="secondary" className="btn-outline-secondary" onClick={this.handleReload}>Reload Page</Button>}
+              {validPrice && !!nodePrice && <Button disabled={refreshing} color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
             </Col>
           </Row>
         )}

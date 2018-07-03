@@ -12,14 +12,18 @@ export default class Countdown extends Component {
   }
 
   componentWillMount() {
-    this.handleCountDown(this.props.timer)
+    if(!!this.props.timer){
+      this.handleCountDown(this.props.timer)
+    } else {
+      this.setState({display: "Pending..."})
+    }
   }
 
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.refreshing){
       clearInterval(this.state.interval)
-      this.setState({display: "Pending"})
+      this.setState({display: "Pending..."})
       return
     }
     this.props.refreshing !== nextProps.refreshing && !!nextProps.timer && this.handleCountDown(nextProps.timer)
