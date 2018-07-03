@@ -12,7 +12,20 @@ export default class Countdown extends Component {
   }
 
   componentWillMount() {
-    const { timer } = this.props
+    this.handleCountDown(this.props.timer)
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.refreshing){
+      clearInterval(this.state.interval)
+      this.setState({display: "Pending"})
+      return
+    }
+    this.props.refreshing !== nextProps.refreshing && !!nextProps.timer && this.handleCountDown(nextProps.timer)
+  }
+
+  handleCountDown(timer){
 
     const start = new moment()
     const end   = start.add(timer, 'seconds')

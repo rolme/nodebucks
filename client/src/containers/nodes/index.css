@@ -1,8 +1,35 @@
 .selected {
   border: 1px dashed lightgray;
-  background-color: rgba(0,0,0,.03);
+  background-color: rgba(0, 0, 0, .03);
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.purchasePageRefreshButton {
+  border-radius: 50px;
+  background-color: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 2px 15px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.purchasePageRefreshButton:hover {
+  border: 1px solid rgba(255, 0, 0, 0.72);
+  color: rgba(255, 0, 0, 0.72);
+  background-color: transparent;
+}
+
+.purchasePageRefreshButton.disabled:hover {
+  border-color: #6c757d;
+  background-color: #6c757d;
+  color: white;
+  cursor: not-allowed;
+}
+
+.purchasePageRefreshButton:focus {
+  outline: none;
 }
