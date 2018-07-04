@@ -1,4 +1,4 @@
-class NodePricerWorker
+class NodeDailyTickerWorker
   include Sidekiq::Worker
   sidekiq_options retry: false, backtrace: true
 
