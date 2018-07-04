@@ -43,6 +43,10 @@ json.timeLimit Node::TIME_LIMIT.to_i
 json.wallet node.wallet
 json.withdrawWallet node.withdraw_wallet
 json.value node.value
+json.values node.node_prices.each do |price|
+  json.timestamp price.created_at.to_formatted_s(:db)
+  json.value price.value
+end
 json.version node.version
 json.vpsMonthlyCost node.vps_monthly_cost
 json.vpsProvider node.vps_provider

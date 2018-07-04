@@ -31,6 +31,7 @@ module NodeManager
       return false if node.status != 'reserved' || !within_timeframe?(node.buy_priced_at)
 
       node.update_attribute(:status, 'new')
+      node.node_prices.create(source: 'system', value: node.cost)
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
     end
 

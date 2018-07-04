@@ -28,7 +28,7 @@ module NodeManager
         node.reload
         node.update_attributes(
           cost: node.crypto.node_price,
-          buy_priced_at: DateTime.current
+          buy_priced_at: timestamp
         )
         return node
       end
