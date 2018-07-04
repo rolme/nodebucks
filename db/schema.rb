@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_03_000251) do
+ActiveRecord::Schema.define(version: 2018_07_04_003939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_07_03_000251) do
     t.decimal "daily_reward"
     t.string "explorer_url"
     t.decimal "sellable_price", default: "0.0"
+    t.string "ticker_url"
   end
 
   create_table "events", force: :cascade do |t|
@@ -47,6 +48,16 @@ ActiveRecord::Schema.define(version: 2018_07_03_000251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_events_on_node_id"
+  end
+
+  create_table "node_price_histories", force: :cascade do |t|
+    t.bigint "node_id"
+    t.jsonb "data", default: {}, null: false
+    t.string "source"
+    t.decimal "value", default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_node_price_histories_on_node_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -119,6 +130,7 @@ ActiveRecord::Schema.define(version: 2018_07_03_000251) do
   end
 
   add_foreign_key "events", "nodes"
+  add_foreign_key "node_price_histories", "nodes"
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
   add_foreign_key "rewards", "nodes"
