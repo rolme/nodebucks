@@ -19,6 +19,7 @@
   font-size: 12px;
   position: absolute;
   top: 10px;
+  left: 21px;
 }
 
 .inputFieldContainer > input, ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -55,6 +56,16 @@
   color: #424242;
 }
 
+.inputFieldContainer > textarea,
+.inputFieldContainer > textarea:focus{
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 17px;
+  font-family: 'Arimo-Regular';
+  color: #424242;
+}
+
 .inputFieldContainer > .Select > .Select-control {
   max-height: 28px;
   display: flex;
@@ -79,6 +90,7 @@
   color: #9D9D9D !important;
   font-size: 11px;
   margin-left: 21px;
+  text-align: start;
 }
 
 .inputFieldErrorMessage {
@@ -86,6 +98,7 @@
   color: #F2433D !important;
   font-size: 11px;
   margin-left: 21px;
+  text-align: start;
 }
 
 .withAddonInputFieldGroup {

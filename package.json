@@ -2,7 +2,8 @@
   "name": "nodebucks",
   "version": "1.0.0",
   "engines": {
-    "node": "10.2.1"
+    "node": "10.2.1",
+    "npm": "6.1.0"
   },
   "scripts": {
     "build": "cd client && npm install && npm run build && cd ..",

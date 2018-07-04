@@ -8,10 +8,11 @@ import Checkbox from 'rc-checkbox'
 
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
+import SocialButton from './socialButton'
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { login, reset } from '../../reducers/user.js'
+import { login, reset, socialMediaLogin } from '../../reducers/user.js'
 
 class LogIn extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class LogIn extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message } = nextProps
     if ( !!user ) {
-      this.props.history.push('/dashboard')
+      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/dashboard')
     } else if ( message === 'Email and/or password is invalid.' ) {
       let messages = { email: '', password: '' }, errors = { email: true, password: true }
       this.setState({ messages, errors })
@@ -98,13 +99,23 @@ class LogIn extends Component {
     this.setState({ [name]: !this.state[ name ] })
   }
 
+  handleSocialLogin(sm, user) {
+    if ( !!user ) {
+      this.props.socialMediaLogin(sm, user._profile)
+    }
+  }
+
+  handleSocialLoginFailure(sm, err) {
+    console.log("ERR", err)
+  }
+
   render() {
     const { email, password, showPassword, messages, errors, rememberMe } = this.state
-    const { message, error, pending } = this.props
+    const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
       return (
-        <Container fluid className="bg-white authPageContainer">
+        <Container fluid className="bg-white authPageContainer logIn">
           <div className="contentContainer d-flex justify-content-center">
             <Col className="authContainer">
               <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
@@ -121,9 +132,9 @@ class LogIn extends Component {
     }
 
     return (
-      <Container fluid className="bg-white authPageContainer">
+      <Container fluid className="bg-white authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer">
+          <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
               <Alert color={error ? 'danger' : 'success'}>
@@ -131,10 +142,13 @@ class LogIn extends Component {
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 4, offset: 4 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="justify-content-center d-flex flex-column align-items-center">
-              <img src="/assets/images/signInIcon.png" alt="sign in"/>
-              <p className="authStepNumber">Sign In</p>
-              <h2 className="authHeader">Please fill the form!</h2>
+            <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 6 }} className="justify-content-center d-flex flex-column align-items-center">
+              {!isOnlyForm && <img src="/assets/images/headerLogo.png" alt="sign in"/>}
+              {!isOnlyForm && <h2 className="logInHeader mt-4">Welcome to Nodebucks</h2>}
+              <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i> Sign In Via Facebook</SocialButton>
+              <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="dividerWithText">
+                <span>OR</span>
+              </Col>
               <InputField label='Email Address'
                           name="email"
                           type='email'
@@ -166,8 +180,9 @@ class LogIn extends Component {
                 </FormGroup>
                 <NavLink to="/forgot_password" className="logInForgotPassword">Forgot Password?</NavLink>
               </Col>
-              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                <Button onClick={this.validation} className="submitButton w-100">Sign In</Button>
+              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
+                <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign In</Button>
+                {!isOnlyForm && <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/sign-up">Sign Up Now</NavLink></p>}
               </Col>
             </Col>
           </Col>
@@ -179,12 +194,12 @@ class LogIn extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
-  pending: state.user.pending,
-  error: state.user.error,
-  message: state.user.message
+  pending: state.user.logInPending,
+  error: state.user.logInError,
+  message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ login, reset }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ login, reset, socialMediaLogin }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,

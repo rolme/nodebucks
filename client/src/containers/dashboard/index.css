@@ -42,7 +42,7 @@
 }
 
 .dashboardMainTable > thead > tr > th.emptyHeader {
-    border: none;
+  border: none;
 }
 
 .dashboardMainTable > thead > tr > th.transparentBorder {
@@ -50,3 +50,7 @@
   border-right-color: transparent;
 }
 
+.mainTableContainer > .contentContainer > .submitButton:hover {
+  text-decoration: none;
+  color: white;
+}

@@ -1,4 +1,13 @@
 @font-face {
+  font-family: 'Icons';
+  font-weight: normal;
+  font-style: normal;
+  src: url("./assets/fonts/icons/icons.eot") format('eot');
+  src: url("./assets/fonts/icons/icons.svg") format('svg');
+  src: url("./assets/fonts/icons/icons.ttf") format('truetype');
+}
+
+@font-face {
   font-family: 'Karla-Regular';
   src: local('Karla-Regular'), local('Karla-Regular'),
   url('./assets/fonts/karlaRegular/Karla-Regular.ttf') format('truetype'),
@@ -45,14 +54,14 @@ body {
 #root,
 #root > div {
   height: 100%;
-  background-color: #f8f9fa !important;
+  background-color: white !important;
 }
 
 .pageContainer {
   overflow-y: hidden;
   margin: 0 auto;
   min-height: calc(100% - 30px);
-  padding: 100px 0 30px;
+  padding: 60px 0 0;
 }
 
 .contentContainer {
@@ -87,16 +96,30 @@ body {
 }
 
 .rc-checkbox.nodebucksCheckbox:hover .rc-checkbox-inner, .rc-checkbox-input:focus + .rc-checkbox-inner {
-  border-color: #43CEEA;
+  border-color: #3c9cdd;
 }
 
 .rc-checkbox-checked .rc-checkbox-inner {
-  border-color: #43CEEA;
-  background-color: #43CEEA;
+  border-color: #3c9cdd;
+  background-color: #3c9cdd;
 }
 
 .rc-checkbox.nodebucksCheckbox .rc-checkbox-inner {
-  border: 2px solid #43CEEA;
+  border: 2px solid #3c9cdd;
+}
+
+.socialButtonIcon {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: normal;
+  color: white;
+  font-size: 16px;
+}
+
+@media (max-width: 992px) {
+  .pageContainer {
+    padding: 60px 0 30px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -104,6 +127,6 @@ body {
     padding: 10px !important;
   }
   .pageContainer {
-    padding: 120px 0 50px;
+    padding: 80px 0 50px;
   }
 }

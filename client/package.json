@@ -22,8 +22,10 @@
     "react-scripts": "1.1.4",
     "react-select": "^1.2.1",
     "react-slick": "^0.23.1",
+    "react-social-login": "^3.4.2",
     "react-spinners": "^0.3.2",
     "react-stripe-elements": "^2.0.0",
+    "react-x-editable": "^0.0.10-beta",
     "reactstrap": "^6.0.1",
     "redux": "^4.0.0",
     "redux-action": "^1.2.2",
@@ -32,7 +34,7 @@
     "slick-carousel": "^1.8.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start .env",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

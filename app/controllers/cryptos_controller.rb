@@ -1,6 +1,6 @@
 class CryptosController < ApplicationController
   def index
-    @cryptos = Crypto.all
+    @cryptos = Crypto.active
   end
 
   def show
@@ -8,10 +8,12 @@ class CryptosController < ApplicationController
     @show_roi     = true
     @show_pricing = true # current_user&.admin?
 
-    # TODO: Figure out a way to store orders
-    np = NodeManager::Pricer.new
-    np.evaluate(@crypto)
-    @orders = np.orders
+    if @current_user.present?
+      # TODO: Figure out a way to store orders
+      np = NodeManager::Pricer.new(persist: true)
+      np.evaluate(@crypto)
+      @orders = np.orders
+    end
   end
 
 end

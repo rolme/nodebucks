@@ -1,33 +1,35 @@
-.nodePageContainer {
-  height: 100%;
+.selected {
+  border: 1px dashed lightgray;
+  background-color: rgba(0, 0, 0, .03);
 }
 
-.summaryContainer {
-  max-width: 400px;
-  width: 100%;
+.clickable {
+  cursor: pointer;
 }
 
-.summaryTableTitle,
-.historyTableTitle,
-.rewardSettingsTitle {
-  font-family: "DidactGothic-Regular";
-  margin-bottom: 10px;
-  font-size: 25px;
+.purchasePageRefreshButton {
+  border-radius: 50px;
+  background-color: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 2px 15px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
-.summaryValuesContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-grow: unset;
+.purchasePageRefreshButton:hover {
+  border: 1px solid rgba(255, 0, 0, 0.72);
+  color: rgba(255, 0, 0, 0.72);
+  background-color: transparent;
 }
 
-.summaryLabelsContainer > p {
-  font-family: 'Arimo-Regular';
-  margin-bottom: 5px;
+.purchasePageRefreshButton.disabled:hover {
+  border-color: #6c757d;
+  background-color: #6c757d;
+  color: white;
+  cursor: not-allowed;
 }
 
-.summaryValuesContainer > p {
-  font-family: 'Arimo-Regular';
-  margin-bottom: 5px;
+.purchasePageRefreshButton:focus {
+  outline: none;
 }

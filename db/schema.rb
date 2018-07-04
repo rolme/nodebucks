@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_170050) do
+ActiveRecord::Schema.define(version: 2018_07_03_000251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(version: 2018_06_18_170050) do
     t.decimal "percentage_hosting_fee", default: "0.01"
     t.decimal "percentage_conversion_fee", default: "0.03"
     t.decimal "daily_reward"
+    t.string "explorer_url"
+    t.decimal "sellable_price", default: "0.0"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "node_id"
+    t.string "event_type"
+    t.string "description"
+    t.decimal "value", default: "0.0"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_events_on_node_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -53,9 +66,30 @@ ActiveRecord::Schema.define(version: 2018_06_18_170050) do
     t.decimal "vps_monthly_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "wallet"
+    t.string "withdraw_wallet"
+    t.integer "reward_setting", default: 0
+    t.decimal "balance", default: "0.0"
+    t.integer "sell_setting", default: 0
+    t.string "sell_bitcoin_wallet"
+    t.decimal "sell_price"
+    t.string "stripe"
+    t.datetime "sell_priced_at"
+    t.datetime "buy_priced_at"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.bigint "node_id"
+    t.datetime "timestamp"
+    t.string "txhash"
+    t.decimal "amount"
+    t.decimal "total_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_rewards_on_node_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,6 +118,8 @@ ActiveRecord::Schema.define(version: 2018_06_18_170050) do
     t.string "country"
   end
 
+  add_foreign_key "events", "nodes"
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
+  add_foreign_key "rewards", "nodes"
 end

@@ -6,11 +6,12 @@ module Api
 
     attr_reader :btc_usdt
 
-    def initialize
+    def initialize(type="sell")
+      @type     = type.capitalize
       response  = Typhoeus::Request.get("#{BASE_URI}/GetMarketOrders/BTC_USDT", verbose: DEBUG)
       data      = (response.body['Success']) ? parsed_response(response.body)['Data'] : []
-      orders    = to_orders(data['Sell'])
-      @btc_usdt = purchasable_price(orders, 1.0)
+      orders    = to_orders(data[@type])
+      @btc_usdt = available_price(orders, 1.0)
     end
 
     def orders(symbol)
@@ -18,8 +19,9 @@ module Api
       response = Typhoeus::Request.get(@path, verbose: DEBUG)
       data     = parsed_response(response.body)
       return [] unless data["Success"]
+      return [] if parsed_response(response.body)['Data'].nil?
 
-      data = parsed_response(response.body)['Data']['Sell']
+      data = parsed_response(response.body)['Data'][@type]
       to_orders(data)
     end
 

@@ -6,18 +6,22 @@ module NodeManager
     def self.run
       node_pricer = self.new(persist: true)
       node_pricer.evaluate
-      node_pricer.prices
+      node_pricer = self.new(persist: true, type: 'buy')
+      node_pricer.evaluate
     end
 
+    # type: sell - get sell order books for buying a masternode
+    #       buy  - get buy order books for selling a masternode
     def initialize(options={})
       @persist      = !!options[:persist]
+      @type         = (options[:type].present?) ? options[:type] : 'sell'
       @orders       = []
       @prices       = {}
-      @binance      = Api::Binance.new
-      @bittrex      = Api::Bittrex.new
-      @cryptopia    = Api::Cryptopia.new
-      @kucoin       = Api::Kucoin.new
-      @poloniex     = Api::Poloniex.new
+      @binance      = Api::Binance.new(@type)
+      @bittrex      = Api::Bittrex.new(@type)
+      @cryptopia    = Api::Cryptopia.new(@type)
+      @kucoin       = Api::Kucoin.new(@type)
+      @poloniex     = Api::Poloniex.new(@type)
       @avg_btc_usdt = [
         @binance.btc_usdt,
         @bittrex.btc_usdt,
@@ -28,7 +32,7 @@ module NodeManager
     end
 
     def evaluate(a_crypto=nil)
-      cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.all
+      cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.active
 
       cryptos.each do |crypto|
         @orders = []
@@ -39,19 +43,25 @@ module NodeManager
         @orders << @poloniex.orders(crypto.symbol)
 
         @orders = @orders.flatten.sort_by { |order| order[:price] }
+        @orders = @orders.reverse! if @type == 'buy'
         @prices[crypto.symbol] = {
-          all: purchasable_price(@orders, crypto.stake),
-          binance: purchasable_price(@orders, crypto.stake, Api::Binance::EXCHANGE),
-          bittrex: purchasable_price(@orders, crypto.stake, Api::Bittrex::EXCHANGE),
-          cryptopia: purchasable_price(@orders, crypto.stake, Api::Cryptopia::EXCHANGE),
-          kucoin: purchasable_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE),
-          poloniex: purchasable_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
+          all: available_price(@orders, crypto.stake),
+          binance: available_price(@orders, crypto.stake, Api::Binance::EXCHANGE),
+          bittrex: available_price(@orders, crypto.stake, Api::Bittrex::EXCHANGE),
+          cryptopia: available_price(@orders, crypto.stake, Api::Cryptopia::EXCHANGE),
+          kucoin: available_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE),
+          poloniex: available_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
         }
-        purchasing_price = @prices[crypto.symbol][:all]
-        crypto.update_attributes(
-          purchasable_price: purchasing_price,
-          node_price: calculate_price(crypto, purchasing_price)
-        ) if !!persist
+        if (@type == 'sell')
+          purchasing_price = @prices[crypto.symbol][:all]
+          crypto.update_attributes(
+            purchasable_price: purchasing_price,
+            node_price: calculate_price(crypto, purchasing_price)
+          ) if !!persist
+        else
+          selling_price = @prices[crypto.symbol][:all]
+          crypto.update_attribute(:sellable_price, selling_price) if !!persist
+        end
       end
       @prices
     end
@@ -62,7 +72,7 @@ module NodeManager
     # stake    - Integer
     # exchange - String
     # Return Float
-    def purchasable_price(my_orders, stake, exchange=nil)
+    def available_price(my_orders, stake, exchange=nil)
       filtered_orders = (exchange.present?) ? my_orders.select {|o| o[:exchange] == exchange } : my_orders
       return 0.0 if filtered_orders.empty?
 
