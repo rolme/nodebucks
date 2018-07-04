@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { push } from 'react-router-redux'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'
@@ -35,7 +36,7 @@ const initialState = {
 
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
-  switch (action.type) {
+  switch ( action.type ) {
     case FETCH:
     case FETCH_LIST:
     case PURCHASE:
@@ -143,13 +144,13 @@ export default (state = initialState, action) => {
 export function fetchNode(slug) {
   return dispatch => {
     dispatch({ type: FETCH })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.get(`/api/nodes/${slug}`)
       .then((response) => {
         dispatch({ type: FETCH_SUCCESS, payload: response.data })
       })
       .catch((error) => {
-        dispatch({ type: FETCH_ERROR, payload: {message: error.data} })
+        dispatch({ type: FETCH_ERROR, payload: { message: error.data } })
         console.log(error)
       })
   }
@@ -158,13 +159,13 @@ export function fetchNode(slug) {
 export function fetchNodes() {
   return dispatch => {
     dispatch({ type: FETCH_LIST })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.get('/api/nodes')
       .then((response) => {
         dispatch({ type: FETCH_LIST_SUCCESS, payload: response.data })
       })
       .catch((error) => {
-        dispatch({ type: FETCH_LIST_ERROR, payload: {message: error.data} })
+        dispatch({ type: FETCH_LIST_ERROR, payload: { message: error.data } })
         console.log(error)
       })
   }
@@ -172,71 +173,72 @@ export function fetchNodes() {
 
 export function reserveNode(cryptoSlug, isRefreshing) {
   return dispatch => {
-    !!isRefreshing &&  dispatch({ type: REFRESH })
+    !!isRefreshing && dispatch({ type: REFRESH })
     dispatch({ type: RESERVE })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/nodes`, { crypto: cryptoSlug })
       .then((response) => {
         dispatch({ type: RESERVE_SUCCESS, payload: response.data })
       }).catch((error) => {
-        dispatch({ type: RESERVE_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
+      dispatch({ type: RESERVE_ERROR, payload: { message: error.data } })
+      console.log(error)
+    })
   }
 }
 
 export function purchaseNode(slug) {
   return dispatch => {
     dispatch({ type: PURCHASE })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}/purchase`)
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
+        dispatch(push('/dashboard'))
       }).catch((error) => {
-        dispatch({ type: PURCHASE_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
+      dispatch({ type: PURCHASE_ERROR, payload: { message: error.data } })
+      console.log(error)
+    })
   }
 }
 
 export function updateNode(slug, data) {
   return dispatch => {
     dispatch({ type: UPDATE })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}`, { node: data })
       .then((response) => {
         dispatch({ type: UPDATE_SUCCESS, payload: response.data })
       }).catch((error) => {
-        dispatch({ type: UPDATE_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
+      dispatch({ type: UPDATE_ERROR, payload: { message: error.data } })
+      console.log(error)
+    })
   }
 }
 
 export function sellReserveNode(slug) {
   return dispatch => {
     dispatch({ type: SELL_RESERVE })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}/reserve`)
       .then((response) => {
         dispatch({ type: SELL_RESERVE_SUCCESS, payload: response.data })
       }).catch((error) => {
-        dispatch({ type: SELL_RESERVE_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
+      dispatch({ type: SELL_RESERVE_ERROR, payload: { message: error.data } })
+      console.log(error)
+    })
   }
 }
 
 export function sellNode(slug) {
   return dispatch => {
     dispatch({ type: SELL })
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}/sell`)
       .then((response) => {
         dispatch({ type: SELL_SUCCESS, payload: response.data })
       }).catch((error) => {
-        dispatch({ type: SELL_ERROR, payload: {message: error.data} })
-        console.log(error)
-      })
+      dispatch({ type: SELL_ERROR, payload: { message: error.data } })
+      console.log(error)
+    })
   }
 }
