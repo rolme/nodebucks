@@ -24,8 +24,6 @@ class _PaymentForm extends React.Component {
           } else if ( !!payload.error ) {
             this.setState({ message: payload.error.message })
           }
-
-          console.log('[token]', payload)
         });
     } else {
       console.log("Stripe.js hasn't loaded yet.");
