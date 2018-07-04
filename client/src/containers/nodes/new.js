@@ -9,7 +9,8 @@ import './index.css'
 import Countdown from '../../components/countdown'
 import LogIn from '../authenticate/login'
 import SignUp from '../authenticate/signUp'
-
+import PaymentMethod from './paymentForm'
+import { Elements } from 'react-stripe-elements';
 import { fetchCrypto } from '../../reducers/cryptos'
 import {
   purchaseNode,
@@ -25,6 +26,7 @@ class NewNode extends Component {
       validPrice: true
     }
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handlePurchase = this.handlePurchase.bind(this)
   }
 
   componentWillMount() {
@@ -142,13 +144,12 @@ class NewNode extends Component {
             loading={true}
           />}</Col>
         </Row>
-        {!!user && (
+        {!!user && validPrice && !!nodePrice &&  (
           <Row>
-            <Col xl={12} className="py-4 text-center">
-              Credit Card Form Here
-            </Col>
-            <Col xl={12} className="py-2 text-center">
-              {validPrice && !!nodePrice && <Button disabled={refreshing} color="primary" onClick={this.handlePurchase.bind(this, item.nodeSlug)}>Purchase Node</Button>}
+            <Col xl={12} className="py-4">
+              <Elements>
+                <PaymentMethod slug={item.nodeSlug} onSuccess={this.handlePurchase} refreshing={refreshing}/>
+              </Elements>
             </Col>
           </Row>
         )}
