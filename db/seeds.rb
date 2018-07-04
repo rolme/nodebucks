@@ -29,6 +29,9 @@ crypto = Crypto.find_by(name: 'Dash')
 node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
 node.wallet = 'XdL3KXxRfzUmGj9QMA7i1W3M3fZdcjNnfw'
 node.save
+operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - 6.months)
 
 puts "  - ZCoin node..."
 crypto = Crypto.find_by(name: 'ZCoin')
@@ -37,6 +40,8 @@ node.ip     = '127.0.0.1'
 node.wallet = 'aLeviMejPb6mJqYbAX5ULibCZN9JwiViMb'
 node.save
 operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - (1.month - 1.day))
 puts "    - put online..."
 operator.online(DateTime.current - (1.month - 1.day))
 
@@ -47,8 +52,10 @@ node.ip     = '127.0.0.1'
 node.wallet = 'DBp1yapipgMNoh9mT6sMdYTn9m4ZJW4hP3'
 node.save
 operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - (1.month - 2.days))
 puts "    - put online..."
-operator.online(DateTime.current - (1.month - 2.day))
+operator.online(DateTime.current - (1.month - 2.days))
 
 # TODO: Need another API to pull orders for Stipend
 # puts "  - Stipend node..."
@@ -58,6 +65,8 @@ operator.online(DateTime.current - (1.month - 2.day))
 # node.wallet = ''
 # node.save
 # operator = NodeManager::Operator.new(node)
+# puts "    - purchase..."
+# operator.purchase(DateTime.current - (6.months - 2.days))
 # puts "    - put online..."
 # operator.online(DateTime.current - (6.months - 2.days))
 
@@ -69,10 +78,15 @@ node.ip     = '127.0.0.1'
 node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
 node.save
 operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - (4.months - 2.days))
 puts "    - put online..."
 operator.online(DateTime.current - (4.months - 2.days))
 
 puts "Gather rewards"
 NodeScraper.run
+
+puts "Get daily node price"
+NodeDailyTicker.run
 
 puts "DONE"
