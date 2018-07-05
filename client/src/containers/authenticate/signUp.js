@@ -250,6 +250,7 @@ class SignUp extends Component {
               />
               <InputField label='Email Address'
                           name="email"
+                          id="signUpEmail"
                           type='email'
                           value={email}
                           message={messages.email}
@@ -258,6 +259,7 @@ class SignUp extends Component {
               />
               <InputField label='Password'
                           name="password"
+                          id="signUpPassword"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
                           message={messages.password}
