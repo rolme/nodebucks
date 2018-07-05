@@ -152,6 +152,7 @@ class LogIn extends Component {
               <InputField label='Email Address'
                           name="email"
                           type='email'
+                          id='logInEmail'
                           value={email}
                           message={messages.email}
                           error={errors.email}
@@ -159,6 +160,7 @@ class LogIn extends Component {
               />
               <InputField label='Password'
                           name="password"
+                          id='logInPassword'
                           type={showPassword ? 'text' : 'password'}
                           value={password}
                           message={messages.password}

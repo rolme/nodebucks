@@ -11,7 +11,7 @@ export default class InputField extends Component {
   }
 
   render() {
-    const { label, name, type, value, message, error, addonIcon } = this.props
+    const { label, name, type, value, message, error, addonIcon, id } = this.props
     let inputFieldContainerClassName = 'inputFieldContainer form-control'
     if ( !!value ) {
       inputFieldContainerClassName += ' inputFieldContainerWithValue'
@@ -22,11 +22,12 @@ export default class InputField extends Component {
     if ( !!addonIcon ) {
       inputFieldContainerClassName += ' input-group withAddonInputFieldGroup'
     }
+    const elementId = !!id ? id : name
     return (
       <FormGroup className="w-100">
         <Col className={inputFieldContainerClassName}>
           {!!value && <Label for={name}>{label}</Label>}
-          <Input type={type} name={name} id={name} value={value} placeholder={label} onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)} style={{height: this.props.height}}/>
+          <Input type={type} name={name} id={elementId} value={value} placeholder={label} onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)} style={{height: this.props.height}}/>
           {!!addonIcon &&
           <InputGroupAddon addonType="append">
             <InputGroupText><img src={addonIcon} alt='psw' onClick={() => this.props.onAddonClick(name)} className={!!this.props.onAddonClick ? "inputFieldClickableAddon" : ""}/></InputGroupText>
