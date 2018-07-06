@@ -3,9 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { Container, Col, Row} from 'reactstrap'
+import { Container, Col, Row } from 'reactstrap'
 import Summary from './summary'
+import Balance from './balance'
 import MainTable from './mainTable'
+import Chart from './chart'
 import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
@@ -16,77 +18,64 @@ class Dashboard extends Component {
     this.props.fetchNodes()
   }
 
+  changeNumberFormat(number) {
+    return number.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+  }
+
   render() {
     const { nodes } = this.props
+    let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
-    if (nodes.length <= 0) { return(<span>Pending...</span>) }
+    if ( nodes.length <= 0 ) {
+      return (<span>Pending...</span>)
+    }
 
     // Do not display sold nodes
     const filteredNodes = nodes.filter(node => {
       return node.status !== 'sold'
     })
 
+    filteredNodes.forEach(node => {
+      totalRewards += (+node.rewardTotal)
+      nodeValue += (+node.value)
+      costBases += (+node.cost)
+      yearlyRoiValues += (+node.crypto.yearlyRoiValue)
+    })
+
     return (
-      <Container fluid className="bg-white">
+      <Container fluid className="dashboardPageContainer">
         <div className="contentContainer">
-          <h1>Dashboard</h1>
+          <h1 className="dashboardPageTitle">Dashboard</h1>
+          <Row className="dashboardPageTotalsRow">
+            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+              <h5>Rewards Balance</h5>
+              <p>${this.changeNumberFormat(totalRewards)}</p>
+            </Col>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+              <h5>Total Node Value</h5>
+              <p>${this.changeNumberFormat(nodeValue)}</p>
+            </Col>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+              <h5>Cost Basis</h5>
+              <p>${this.changeNumberFormat(costBases)}</p>
+            </Col>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+              <h5>Projected Annual</h5>
+              <p>{this.changeNumberFormat(yearlyRoiValues / costBases) * 100}%</p>
+            </Col>
+          </Row>
           <Row>
             <Col xl={8}>
+              <Chart nodes={filteredNodes}/>
               <MainTable list={filteredNodes}/>
             </Col>
             <Col xl={4}>
-              {this.displayBalances(filteredNodes)}
+              <Balance nodes={filteredNodes}/>
               <Summary list={filteredNodes}/>
             </Col>
           </Row>
         </div>
       </Container>
-    )
-  }
-
-  // TODO: This should be moved into its own file
-  displayBalances(nodes) {
-    let balances = {}
-    nodes.forEach(n => {
-      if (!balances[n.crypto.name]) { balances[n.crypto.name] = {} }
-      balances[n.crypto.name]["name"] = n.crypto.name
-
-      if (!balances[n.crypto.name]["coin"]) { balances[n.crypto.name]["coin"] = 0.0 }
-      if (!balances[n.crypto.name]["usd"]) { balances[n.crypto.name]["usd"] = 0.0 }
-      balances[n.crypto.name]["coin"] += +n.balance.coin
-      balances[n.crypto.name]["usd"] += +n.balance.usd
-    })
-
-    return(
-      <div className="card mb-2">
-        <div className="card-header">
-          Balance(s)
-        </div>
-        <div className="card-body">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th className="text-left">Crypto</th>
-                <th className="text-right">Coins</th>
-                <th className="text-right">USD</th>
-              </tr>
-            </thead>
-            <tbody>
-              {!!balances && Object.keys(balances).sort().map(key => {
-                const coin = balances[key].coin.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-                const usd  = balances[key].usd.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-                return(
-                  <tr key={balances[key].name}>
-                    <td className="text-left">{balances[key].name}</td>
-                    <td className="text-right">{coin}</td>
-                    <td className="text-right">{usd}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
     )
   }
 }

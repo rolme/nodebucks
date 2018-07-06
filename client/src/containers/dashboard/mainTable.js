@@ -1,41 +1,40 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
+import { Table, Button } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
 import moment from 'moment'
 
 export default class MainTable extends Component {
   displayTableData(list) {
-    return list.sort((a,b) => {
-      if(a.crypto.name < b.crypto.name) return -1
-      if(a.crypto.name > b.crypto.name) return 1
+    list = [].concat(list)
+    return list.sort((a, b) => {
+      if ( a.crypto.name < b.crypto.name ) return -1
+      if ( a.crypto.name > b.crypto.name ) return 1
       return 0
     }).map(item => {
-      const uptime          = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
-      const annualRoi       = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
-      const weeklyRoiValue  = (+item.crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const uptime = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
+      const annualRoi = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
+      const weeklyRoiValue = (+item.crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       const monthlyRoiValue = (+item.crypto.monthlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const yearlyRoiValue  = (+item.crypto.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const yearlyRoiValue = (+item.crypto.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
-      const week  = (+item.rewards.week).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const week = (+item.rewards.week).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
       const month = (+item.rewards.month).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const year  = (+item.rewards.year).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const year = (+item.rewards.year).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 
       return (
         <tr key={item.slug}>
-          <td className="text-right">{item.crypto.name}</td>
-          <td className="text-right">{uptime} days</td>
-          <td className="text-right">{annualRoi}</td>
-          <td className="text-right">{weeklyRoiValue}</td>
-          <td className="text-right">{monthlyRoiValue}</td>
-          <td className="text-right">{yearlyRoiValue}</td>
-          <td className="text-right">{week}</td>
-          <td className="text-right">{month}</td>
-          <td className="text-right">{year}</td>
+          <td>{item.crypto.name}</td>
+          <td>{uptime} days</td>
+          <td className="leftBorder">{annualRoi}</td>
+          <td>{weeklyRoiValue}</td>
+          <td>{monthlyRoiValue}</td>
+          <td>{yearlyRoiValue}</td>
+          <td className="leftBorder">{week}</td>
+          <td>{month}</td>
+          <td className="rightBorder">{year}</td>
           <td>
-            <NavLink to={`/nodes/${item.slug}`}>
-              <button className="btn btn-sm btn-outline-secondary">View</button>
-            </NavLink>
+            <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
           </td>
         </tr>
       )
@@ -48,33 +47,38 @@ export default class MainTable extends Component {
     return (
       <div className="mainTableContainer">
         <div className="contentContainer px-0">
-          <Table responsive bordered className="dashboardMainTable">
-            <thead>
-            <tr>
-              <th className="emptyHeader"></th>
-              <th className="emptyHeader"></th>
-              <th colSpan="4">Projected Returns</th>
-              <th colSpan="3">Actual Returns</th>
-              <th className="transparentBorder"></th>
-            </tr>
-            <tr>
-              <th>Coin</th>
-              <th>Uptime</th>
-              <th>ROI</th>
-              <th>Week</th>
-              <th>Month</th>
-              <th>Year</th>
-              <th>Week</th>
-              <th>Month</th>
-              <th>Year</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {this.displayTableData(list)}
-            </tbody>
-          </Table>
-          <NavLink to={`/masternodes`} className="btn submitButton mt-2 py-3 mx-auto d-table">+ Add Node</NavLink>
+          <div className="dashboardMainTableContainer">
+            <Table responsive bordered className="dashboardMainTable">
+              <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th colSpan="4" className="leftBorder rightBorder">PROJECTED RETURNS</th>
+                <th colSpan="3" className="rightBorder">ACTUAL RETURNS</th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>Coin</th>
+                <th>Uptime</th>
+                <th className="leftBorder">ROI</th>
+                <th>Week</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th className="leftBorder">Week</th>
+                <th>Month</th>
+                <th className="rightBorder">Year</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              {this.displayTableData(list)}
+              </tbody>
+            </Table>
+          </div>
+          <div className="d-flex justify-content-end mt-2">
+            <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add Node</NavLink>
+            <Button className="dashboardMainTableWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</Button>
+          </div>
         </div>
       </div>
     )
