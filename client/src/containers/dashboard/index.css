@@ -1,56 +1,203 @@
-.dashboardContainer {
-  height: 100%;
+.dashboardPageContainer {
+  padding: 40px 0;
+}
+
+.dashboardSectionHeader {
+  color: #3B3B3B;
+  font-size: 24px;
+  font-family: Raleway;
+  font-weight: bold;
+  margin-bottom: 13px;
+}
+
+.dashboardPageTitle {
+  color: #3B3B3B;
+  font-size: 30px;
+  font-family: "Raleway";
+  font-weight: bold;
+}
+
+/*Totals Style*/
+.dashboardPageTotalsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.dashboardPageTotalsRow > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 275px;
+  flex-direction: column;
+  background-color: #2283C6;
+  padding: 35px 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboardPageTotalsRow > div > h5 {
+  color: #FFFFFF;
+  margin: 0;
+  font-size: 14px;
+  font-family: 'Raleway';
+}
+
+.dashboardPageTotalsRow > div > p {
+  color: #FFFFFF;
+  font-size: 30px;
+  line-height: 30px;
+  margin: 0;
+  font-family: 'Raleway';
 }
 
 /*Summary Part Style */
-
-.summaryContainer {
-  max-width: 600px;
-}
-
-.summaryTableTitle {
-  font-family: "DidactGothic-Regular";
-  margin-bottom: 10px;
-  font-size: 25px;
-}
-
-.summaryTableContainer {
-  border: 1px solid;
-}
-
-.summaryValuesContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-grow: unset;
-}
-
-.summaryLabelsContainer > p {
-  font-family: 'Arimo-Regular';
-  margin-bottom: 5px;
-}
-
-.summaryValuesContainer > p {
-  font-family: 'Arimo-Regular';
-  margin-bottom: 5px;
+.dashboardSummaryTableContainer {
+  padding: 15px;
 }
 
 /*Dashboard Main Table Style*/
 
-.dashboardMainTable > thead > tr > th {
-  text-align: center;
+.dashboardMainTableContainer {
+  background-color: white;
+  padding: 20px 0;
 }
 
-.dashboardMainTable > thead > tr > th.emptyHeader {
+.dashboardMainTable > thead > tr > th,
+.dashboardMainTable > tbody > tr > td {
+  text-align: center !important;
   border: none;
 }
 
-.dashboardMainTable > thead > tr > th.transparentBorder {
-  border-top-color: transparent;
-  border-right-color: transparent;
+.dashboardMainTable > thead > tr > th.leftBorder,
+.dashboardMainTable > tbody > tr > td.leftBorder {
+  border-left: 1px solid #EEEEEE;
+}
+
+.dashboardMainTable > thead > tr > th.rightBorder,
+.dashboardMainTable > tbody > tr > td.rightBorder {
+  border-right: 1px solid #EEEEEE;
+}
+
+.dashboardMainTable > thead > tr > th {
+  color: #3B3B3B;
+  font-size: 14px;
+  font-family: Raleway;
+}
+
+.dashboardMainTable > tbody > tr > td {
+  color: #848484;
+  font-size: 14px;
+  font-family: Raleway;
 }
 
 .mainTableContainer > .contentContainer > .submitButton:hover {
   text-decoration: none;
   color: white;
+}
+
+.dashboardMainTableAddNodeButton,
+.dashboardMainTableAddNodeButton {
+  background-color: #FC6422;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px 15px !important;
+  color: white;
+}
+
+.dashboardMainTableAddNodeButton:hover,
+.dashboardMainTableAddNodeButton:focus {
+  background-color: rgba(252, 100, 34, 0.52) !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white;
+}
+
+.dashboardMainTableViewButton {
+  color: #2283C6;
+  font-size: 37px;
+  line-height: 1px !important;
+}
+
+.dashboardMainTableViewButton:hover {
+  text-decoration: none;
+  color: #2aa3f6;
+}
+
+/*Chart Style*/
+.dashboardChartSectionContentContainer {
+  height: 350px;
+  padding: 0 15px;
+}
+
+.nodeValuesChartTab {
+  background-color: #EDEDED;
+  color: black;
+  font-family: Raleway;
+  font-weight: bold;
+  padding: 6px 20px;
+  width: 115px;
+  margin-right: 5px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.nodeValuesChartTab.active {
+  background-color: #2283C6;
+  color: white;
+}
+
+.nodeValuesChartTab:hover {
+  background-color: rgba(44, 168, 255, 0.54);
+  color: white;
+}
+
+.nodeValuesChartContainer {
+  padding: 30px 10px 15px 15px;
+}
+
+/*Balance Style*/
+.dashboardBalanceSectionContainer {
+  height: 350px;
+}
+
+.dashboardBalanceTableContainer > table > thead > tr > th,
+.dashboardBalanceTableContainer > table > tbody > tr > td {
+  text-align: center !important;
+  border: none;
+}
+
+.dashboardBalanceWithdrawButton,
+.dashboardMainTableWithdrawButton {
+  background-color: #2283C6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.dashboardBalanceWithdrawButton:hover,
+.dashboardBalanceWithdrawButton:focus,
+.dashboardMainTableWithdrawButton:hover,
+.dashboardMainTableWithdrawButton:focus {
+  background-color: #2696e1 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 1200px) {
+  .dashboardPageTotalsRow > div {
+    max-width: 400px;
+    margin-bottom: 10px;
+  }
 }

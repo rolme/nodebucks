@@ -32,7 +32,7 @@ export default class App extends Component {
     return (
       <div id="appContainer" className="appContainer">
         {showHeader && <Header/>}
-        <div className="pageContainer position-relative bg-white">
+        <div className="pageContainer position-relative">
           <main>
             <Switch>
               <PublicRoute exact path="/" component={Home}/>
