@@ -39,8 +39,6 @@
   src: local('Raleway'), local('Raleway'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.ttf') format('truetype'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.svg#Raleway') format('svg');
-  font-weight: normal;
-  font-style: normal;
 }
 
 html {
@@ -71,7 +69,6 @@ body {
   margin: 0 auto;
   min-height: calc(100% - 30px);
   padding: 60px 0 0;
-  background-color: #FAFAFA;
 }
 
 .contentContainer {
