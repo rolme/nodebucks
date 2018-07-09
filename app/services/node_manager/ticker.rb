@@ -16,9 +16,11 @@ module NodeManager
     end
 
     def evaluate
+      return if node.stake.blank?
       response = Typhoeus::Request.get(node.ticker_url, verbose: DEBUG)
       if !!response.body['data']
         data = parsed_response(response.body)['data']
+
         node.node_prices.create(
           data: data,
           source: node.ticker_url,
