@@ -13,7 +13,8 @@ export default class FAQ extends Component {
       question3: false,
       question4: false,
       question5: false,
-      question6: false
+      question6: false,
+      question7: false
     }
     this.toggleQuestion = this.toggleQuestion.bind(this)
   }
@@ -25,7 +26,7 @@ export default class FAQ extends Component {
   }
 
   render() {
-    const { question1, question2, question3, question4, question5, question6 } = this.state
+    const { question1, question2, question3, question4, question5, question6, question7 } = this.state
     return (
       <Container fluid>
         <div className="contentContainer d-flex flex-column align-items-center">
@@ -67,6 +68,12 @@ export default class FAQ extends Component {
               <CardTitle onClick={() => this.toggleQuestion('question6')} className={question6 ? "faqCardHeader open" : "faqCardHeader"}><img src={question6 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What are the fees?</CardTitle>
               <Collapse isOpen={question6}>
                 <CardText className="faqCardText">We charge a 1% hosting fee on all rewards that Nodebucks masternodes receive.</CardText>
+              </Collapse>
+            </Card>
+            <Card body>
+              <CardTitle onClick={() => this.toggleQuestion('question7')} className={question7 ? "faqCardHeader open" : "faqCardHeader"}><img src={question7 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>How do you determine your masternode price and value?</CardTitle>
+              <Collapse isOpen={question7}>
+                <CardText className="faqCardText">Nodebucks looks at the order books across several exchanges to determine the best possible price to purchase the required number of coins to setup a masternode. The order books on the exchanges determines the actual price of a masternode when buying it and also determines the value when selling it. </CardText>
               </Collapse>
             </Card>
           </Col>
