@@ -24,15 +24,28 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      validPrice: true
+      validPrice: true,
+      address: ''
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
   componentWillMount() {
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const newNode = nextProps.node, oldNode = this.props.node
+    if ( newNode.stripe !== oldNode.stripe || newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
+      this.setState({ address: '' })
+    }
+  }
+
+  handleInputChange(value, name) {
+    this.setState({ [name]: value })
   }
 
   handleExpire() {
@@ -47,10 +60,10 @@ class SellNode extends Component {
     window.history.back()
   }
 
-  handleAddressChange(name, el) {
+  handleAddressChange(name, value) {
     const { node } = this.props
     let data = {}
-    data[ name ] = el.value
+    data[ name ] = value
 
     this.props.updateNode(node.slug, data)
   }
@@ -113,12 +126,14 @@ class SellNode extends Component {
           color={'#3F89E8'}
           loading={true}
         />}</h3>
-        <p className="small">(price resets in <Countdown timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
+        <p className="small">(price resets in <Countdown refreshing={!node.timeLimit} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
     )
   }
 
   displaySellSettings(node) {
+    const { address } = this.state
+
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
@@ -139,7 +154,7 @@ class SellNode extends Component {
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
             <Label for="address">Enter your bitcoin address:</Label>
-            <Input type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(event.target.value, node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe')}/>
+            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} value={address} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onChange={(event) => this.handleInputChange(event.target.value, 'address')} onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
           </FormGroup>
         </div>
       </div>
