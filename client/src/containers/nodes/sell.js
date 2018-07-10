@@ -24,15 +24,34 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      validPrice: true
+      validPrice: true,
+      address: ''
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount() {
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const newNode = nextProps.node, oldNode = this.props.node
+    if ( newNode.stripe !== oldNode.stripe || newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
+      this.setState({ address: '' })
+    }
+  }
+
+  handleRefresh() {
+    let { match: { params } } = this.props
+    this.props.sellReserveNode(params.slug, true)
+  }
+
+  handleInputChange(value, name) {
+    this.setState({ [name]: value })
   }
 
   handleExpire() {
@@ -47,10 +66,10 @@ class SellNode extends Component {
     window.history.back()
   }
 
-  handleAddressChange(name, el) {
+  handleAddressChange(name, value) {
     const { node } = this.props
     let data = {}
-    data[ name ] = el.value
+    data[ name ] = value
 
     this.props.updateNode(node.slug, data)
   }
@@ -101,6 +120,7 @@ class SellNode extends Component {
   }
 
   displayPrice(node) {
+    const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
     let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
@@ -108,17 +128,22 @@ class SellNode extends Component {
       <Col xl={12} className="sellPagePriceSectionContainer">
         <p>You are about to sell your Polis server.</p>
         <p>This action is permanent and irreversible.</p>
-        <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice ? price : <ClipLoader
-          size={35}
-          color={'#3F89E8'}
-          loading={true}
-        />}</h3>
-        <p className="small">(price resets in <Countdown timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
+        <Row className="mx-0 mt-4 align-items-center">
+          <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice && !refreshing ? price : <ClipLoader
+            size={35}
+            color={'#3F89E8'}
+            loading={true}
+          />}</h3>
+          <Button disabled={!!refreshing || !sellPrice} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>
+        </Row>
+        <p className="small">(price resets in <Countdown refreshing={!node.timeLimit || refreshing} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
     )
   }
 
   displaySellSettings(node) {
+    const { address } = this.state
+
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
@@ -139,7 +164,7 @@ class SellNode extends Component {
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
             <Label for="address">Enter your bitcoin address:</Label>
-            <Input type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(event.target.value, node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe')}/>
+            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} value={address} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onChange={(event) => this.handleInputChange(event.target.value, 'address')} onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
           </FormGroup>
         </div>
       </div>
@@ -192,7 +217,8 @@ const mapStateToProps = state => ({
   node: state.nodes.data,
   error: state.nodes.error,
   message: state.nodes.message,
-  pending: state.nodes.pending
+  pending: state.nodes.pending,
+  refreshing: state.nodes.refreshing,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
