@@ -1,3 +1,7 @@
+.faqContentContainer {
+  margin-bottom: 80px;
+}
+
 .faqPageHeader {
   height: 200px;
   display: -ms-flexbox;
