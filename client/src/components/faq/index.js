@@ -29,7 +29,7 @@ export default class FAQ extends Component {
     const { question1, question2, question3, question4, question5, question6, question7 } = this.state
     return (
       <Container fluid>
-        <div className="contentContainer d-flex flex-column align-items-center">
+        <div className="contentContainer faqContentContainer d-flex flex-column align-items-center">
           <Col xl={12} className="faqPageHeader">
             <p className="faqPageTitle">Frequently Asked Questions </p>
           </Col>
