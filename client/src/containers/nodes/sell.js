@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
 import { ClipLoader } from 'react-spinners'
-import { Col, Container, Row } from 'reactstrap'
-import Editable from 'react-x-editable'
+import { Col, Container, Row, FormGroup, Label, Input, Button } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
@@ -27,6 +26,8 @@ class SellNode extends Component {
     this.state = {
       validPrice: true
     }
+
+    this.handleGoBack = this.handleGoBack.bind(this)
   }
 
   componentWillMount() {
@@ -42,7 +43,11 @@ class SellNode extends Component {
     window.location.reload()
   }
 
-  handleEditableSubmit(name, el) {
+  handleGoBack() {
+    window.history.back()
+  }
+
+  handleAddressChange(name, el) {
     const { node } = this.props
     let data = {}
     data[ name ] = el.value
@@ -66,15 +71,20 @@ class SellNode extends Component {
     const available = (node.status !== 'sold')
     const sellPrice = (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     return (
-      <Container fluid className="bg-white">
-        <div className="contentContainer">
-          {this.displayHeader(node)}
-          {!available && (
-            <h1>This server sold for $ {sellPrice} USD.</h1>
-          )}
-          {available && this.displayPrice(node)}
-          {available && this.displaySellSettings(node)}
-          {available && this.displayActions(node)}
+      <Container fluid className="sellPageContainer">
+        <div className="contentContainer sellPageContentContainer">
+          <p onClick={this.handleGoBack} className="sellPageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
+          <div className="sellPageMainContentContainer">
+            <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
+              {this.displayHeader(node)}
+              {!available && (
+                <h1>This server sold for $ {sellPrice} USD.</h1>
+              )}
+              {available && this.displayPrice(node)}
+              {available && this.displaySellSettings(node)}
+              {available && this.displayActions(node)}
+            </Col>
+          </div>
         </div>
       </Container>
     )
@@ -82,16 +92,9 @@ class SellNode extends Component {
 
   displayHeader(node) {
     return (
-      <Row className="pt-3">
-        <h5 className="col-md-4">
-          {!!node.crypto && !!node.crypto.slug && <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} height="45px" width="45px"/>} Sell {!!node.crypto ? node.crypto.name : ''} Server
-        </h5>
-        <h5 className="col-md-4">
-          IP: {(!!node.ip) ? node.ip : <ClipLoader
-          size={20}
-          color={'#3F89E8'}
-          loading={true}
-        />}
+      <Row className="mx-0 d-flex justify-content-center">
+        <h5 className="sellPageHeaderText">
+          {!!node.crypto && !!node.crypto.slug && <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} width="65px"/>} Sell {!!node.crypto ? node.crypto.name : ''} Server
         </h5>
       </Row>
     )
@@ -102,9 +105,10 @@ class SellNode extends Component {
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
     let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
     return (
-      <Col xl={12}>
-        <p>You are about to sell your Polis server. This action is permanent and irreversible.</p>
-        <h3 className="mb-1">Sale Price: {!!sellPrice ? price : <ClipLoader
+      <Col xl={12} className="sellPagePriceSectionContainer">
+        <p>You are about to sell your Polis server.</p>
+        <p>This action is permanent and irreversible.</p>
+        <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice ? price : <ClipLoader
           size={35}
           color={'#3F89E8'}
           loading={true}
@@ -116,53 +120,27 @@ class SellNode extends Component {
 
   displaySellSettings(node) {
     return (
-      <div className="card mb-2">
-        <div className="card-header">
-          Select payment destination
+      <div className="sellPagePaymentDestinationContainer">
+        <h5 className="sellPagePaymentDestinationHeaderText">
+          Select payment destination:
+        </h5>
+        <div className="d-flex sellPagePaymentDestinationSectionsContainer flex-wrap justify-content-center">
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 0)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 0) ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader">Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
+            <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
+            <p className="sellPagePaymentDestinationSectionParagraph">{node.sellBitcoinWallet}</p>
+          </Col>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 10)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 10) ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader">Debit Card {this.displayCheck(node.sellSetting === 10)}</p>
+            <p className="sellPagePaymentDestinationSectionParagraph"> We will use the following debit card on file (THIS REQUIRES STRIPE INTEGRATION)</p>
+            <p className="sellPagePaymentDestinationSectionParagraph">{node.stripe}</p>
+          </Col>
         </div>
-        <div className="card-body">
-          <Row>
-            <Col className={`my-2 ${(node.sellSetting === 0) ? 'selected' : ''}`}>
-              <dl className="mt-2">
-                <dt className="clickable" onClick={this.handleSellSettingClick.bind(this, 0)}>Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</dt>
-                <dd>
-                  Provide a valid Bitcoin address and we will send payment there.
-                  <Editable
-                    dataType="text"
-                    mode="inline"
-                    name="wallet"
-                    showButtons={false}
-                    value={node.sellBitcoinWallet}
-                    display={value => {
-                      return (<span style={{ borderBottom: "1px dashed", textDecoration: "none" }}>{value}</span>)
-                    }}
-                    handleSubmit={this.handleEditableSubmit.bind(this, 'sell_bitcoin_wallet')}
-                  />
-                </dd>
-              </dl>
-            </Col>
-          </Row>
-          <Row>
-            <Col className={`my-2 ${(node.sellSetting === 10) ? 'selected' : ''}`}>
-              <dl className="mt-2">
-                <dt className="clickable" onClick={this.handleSellSettingClick.bind(this, 10)}>Debit Card {this.displayCheck(node.sellSetting === 10)}</dt>
-                <dd>
-                  We will use the following debit card on file (THIS REQUIRES STRIPE INTEGRATION)
-                  <Editable
-                    dataType="text"
-                    mode="inline"
-                    name="wallet"
-                    showButtons={false}
-                    value={node.stripe}
-                    display={value => {
-                      return (<span style={{ borderBottom: "1px dashed", textDecoration: "none" }}>{value}</span>)
-                    }}
-                    handleSubmit={this.handleEditableSubmit.bind(this, 'stripe')}
-                  />
-                </dd>
-              </dl>
-            </Col>
-          </Row>
+        <div className="sellPagePaymentDestinationAddressPartContainer">
+          <FormGroup className="w-100">
+            <Label for="address">Enter your bitcoin address:</Label>
+            <Input type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(event.target.value, node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe')}/>
+          </FormGroup>
         </div>
       </div>
     )
@@ -170,7 +148,7 @@ class SellNode extends Component {
 
   displayCheck(show) {
     if ( show ) {
-      return <FontAwesomeIcon icon={faCheck} color="#28a745" className="ml-2"/>
+      return <FontAwesomeIcon icon={faCheck} color="#2283C6" className="ml-2"/>
     }
   }
 
@@ -180,13 +158,13 @@ class SellNode extends Component {
     }
 
     return (
-      <Row>
-        <Col xl={12} className="text-center my-2">
+      <Row className="mx-0">
+        <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
           {this.sellServerButton(node)}
         </Col>
-        <Col xl={12} className="text-center my-2">
+        <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
           <NavLink to={`/nodes/${node.slug}`}>
-            <button className="btn btn-secondary col-sm-7">Cancel</button>
+            <Button className="sellPageCancelButton">Cancel</Button>
           </NavLink>
         </Col>
       </Row>
@@ -200,14 +178,13 @@ class SellNode extends Component {
     const { validPrice } = this.state
 
     if ( !validPrice ) {
-      return <button className="btn btn-outline-secondary col-sm-7" onClick={this.handleReload}>Reload Page</button>
+      return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) ||
-      (node.sellSetting === stripe && !node.stripe) ) {
-      return (<button className="btn btn-primary col-sm-7" disabled={true}>Sell Server (Disabled)</button>)
+    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) || (node.sellSetting === stripe && !node.stripe) ) {
+      return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
-    return (<button className="btn btn-primary col-sm-7" onClick={this.handleSellClick.bind(this)}>Sell Server</button>)
+    return (<Button className="sellPageSubmitButton" onClick={this.handleSellClick.bind(this)}>Sell Server</Button>)
   }
 }
 
