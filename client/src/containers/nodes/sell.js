@@ -30,6 +30,7 @@ class SellNode extends Component {
 
     this.handleGoBack = this.handleGoBack.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount() {
@@ -42,6 +43,11 @@ class SellNode extends Component {
     if ( newNode.stripe !== oldNode.stripe || newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
       this.setState({ address: '' })
     }
+  }
+
+  handleRefresh() {
+    let { match: { params } } = this.props
+    this.props.sellReserveNode(params.slug, true)
   }
 
   handleInputChange(value, name) {
@@ -114,6 +120,7 @@ class SellNode extends Component {
   }
 
   displayPrice(node) {
+    const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
     let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
@@ -121,12 +128,15 @@ class SellNode extends Component {
       <Col xl={12} className="sellPagePriceSectionContainer">
         <p>You are about to sell your Polis server.</p>
         <p>This action is permanent and irreversible.</p>
-        <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice ? price : <ClipLoader
-          size={35}
-          color={'#3F89E8'}
-          loading={true}
-        />}</h3>
-        <p className="small">(price resets in <Countdown refreshing={!node.timeLimit} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
+        <Row className="mx-0 mt-4 align-items-center">
+          <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice && !refreshing ? price : <ClipLoader
+            size={35}
+            color={'#3F89E8'}
+            loading={true}
+          />}</h3>
+          <Button disabled={!!refreshing || !sellPrice} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>
+        </Row>
+        <p className="small">(price resets in <Countdown refreshing={!node.timeLimit || refreshing} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
     )
   }
@@ -207,7 +217,8 @@ const mapStateToProps = state => ({
   node: state.nodes.data,
   error: state.nodes.error,
   message: state.nodes.message,
-  pending: state.nodes.pending
+  pending: state.nodes.pending,
+  refreshing: state.nodes.refreshing,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
