@@ -57,7 +57,7 @@
 }
 
 .inputFieldContainer > textarea,
-.inputFieldContainer > textarea:focus{
+.inputFieldContainer > textarea:focus {
   border: none;
   box-shadow: none;
   padding: 0;
@@ -81,8 +81,8 @@
 }
 
 .inputFieldContainer:focus-within {
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+  -webkit-box-shadow: 0 0 0 0.1rem #2283C6;
+  box-shadow: 0 0 0 0.1rem #2283C6;
 }
 
 .inputFieldMessage {
@@ -129,4 +129,15 @@
 
 .inputFieldClickableAddon {
   cursor: pointer;
+}
+
+.withAddonInputFieldGroup.inputFieldContainerWithError > .input-group-append {
+  top: 8px;
+}
+
+.tooltipAddon  > .tooltip-inner {
+  background-color: #F33D37;
+}
+.tooltipAddon  > .arrow:before {
+  border-top-color: #F33D37;
 }
