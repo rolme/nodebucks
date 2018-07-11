@@ -34,7 +34,7 @@
   outline: none;
 }
 
-.StripeElement{
+.StripeElement {
   display: block;
   margin: 10px 0 20px 0;
   max-width: 500px;
@@ -49,7 +49,7 @@
   width: 100%;
 }
 
-.StripeElement--focuss{
+.StripeElement--focuss {
   box-shadow: rgba(50, 50, 93, 0.109804) 0px 4px 6px, rgba(0, 0, 0, 0.0784314) 0px 1px 3px;
   -webkit-transition: all 150ms ease;
   transition: all 150ms ease;
@@ -60,6 +60,29 @@
   padding: 0;
 }
 
-.paymentFormMessageContainer{
+.paymentFormMessageContainer {
   max-width: 500px;
+}
+
+/*Show Page Style*/
+.showPageHeaderCoinName {
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 30px;
+  color: #3B3B3B;
+}
+
+.showPageHeaderInfo {
+  color: #383838;
+  font-size: 16px;
+}
+
+.sellServerButton {
+  background-color: #FC6422;
+}
+
+.sellServerButton:focus,
+.sellServerButton:active,
+.sellServerButton:hover {
+  background-color: rgba(252, 100, 34, 0.67) !important;
 }
