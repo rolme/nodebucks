@@ -10,9 +10,22 @@ export default class Chart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedNodeSlug: !!this.props.nodes[ 0 ] ? this.props.nodes[ 0 ].slug : ''
+      selectedNodeSlug: ''
     }
     this.handleTabClick = this.handleTabClick.bind(this)
+  }
+
+  componentWillMount() {
+    const { nodes } = this.props
+    let { selectedNodeSlug } = this.state
+    if ( !!nodes && nodes.length > 1 ) {
+      selectedNodeSlug = 'All'
+    } else if ( !!nodes[ 0 ] ) {
+      selectedNodeSlug = nodes[ 0 ].slug
+    } else {
+      selectedNodeSlug = ''
+    }
+    this.setState({ selectedNodeSlug })
   }
 
   chartData() {
@@ -137,11 +150,12 @@ export default class Chart extends Component {
 
   render() {
     const { nodes } = this.props
+    const { selectedNodeSlug } = this.state
     return (
       <div className="contentContainer dashboardChartSectionContentContainer mb-4">
         <Row className="d-flex flex-wrap">
+          {nodes.length > 1 && <div className={`nodeValuesChartTab ${(selectedNodeSlug === 'All') ? 'active' : ''}`} onClick={() => this.handleTabClick('All')}>All</div>}
           {this.renderTabs()}
-          {nodes.length > 1 && <div className="nodeValuesChartTab" onClick={() => this.handleTabClick('All')}>All</div>}
         </Row>
         <Row className="bg-white nodeValuesChartContainer">
           <Line width={840} height={260} redraw data={this.chartData()} options={this.chartOptions()} className="nodeValuesChart"/>

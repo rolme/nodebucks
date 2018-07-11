@@ -113,6 +113,7 @@ export default (state = initialState, action) => {
         ...state,
         data: action.payload,
         pending: false,
+        refreshing: false,
         error: false,
         message: 'Reserve sell price successful.'
       }
@@ -215,8 +216,9 @@ export function updateNode(slug, data) {
   }
 }
 
-export function sellReserveNode(slug) {
+export function sellReserveNode(slug, isRefreshing) {
   return dispatch => {
+    !!isRefreshing && dispatch({ type: REFRESH })
     dispatch({ type: SELL_RESERVE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}/reserve`)

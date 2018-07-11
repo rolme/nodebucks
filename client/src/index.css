@@ -39,8 +39,6 @@
   src: local('Raleway'), local('Raleway'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.ttf') format('truetype'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.svg#Raleway') format('svg');
-  font-weight: normal;
-  font-style: normal;
 }
 
 html {
@@ -71,7 +69,6 @@ body {
   margin: 0 auto;
   min-height: calc(100% - 30px);
   padding: 60px 0 0;
-  background-color: #FAFAFA;
 }
 
 .contentContainer {
@@ -81,11 +78,12 @@ body {
 }
 
 .submitButton {
-  font-family: "DidactGothic-Regular";
+  font-family: "Raleway";
+  font-weight: bold;
   color: #FFFFFF;
-  font-size: 17px;
-  line-height: 17px;
-  background-color: #43CDEA;
+  font-size: 14px;
+  line-height: 14px;
+  background-color: #2283C6;
   border: none;
   padding: 20px;
   cursor: pointer;
@@ -94,7 +92,7 @@ body {
 .submitButton:hover,
 .submitButton:active,
 .submitButton:focus {
-  background-color: #49e0ff !important;
+  background-color: #28a0ee !important;
   border: none !important;
   box-shadow: none !important;
 }
