@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import Masternodes from '../masternodes'
 import Testimonials from './testimonials'
 
@@ -7,10 +9,18 @@ import { Col } from 'reactstrap'
 
 import './index.css'
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
     this.scrollToMasternodes = this.scrollToMasternodes.bind(this)
+  }
+
+
+  componentWillMount() {
+    const { user } = this.props
+    if ( !!user ) {
+      this.props.history.push('/dashboard')
+    }
   }
 
   componentDidMount() {
@@ -109,4 +119,13 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user.data,
+})
+
+
+export default withRouter(connect(
+  mapStateToProps,
+)(Home))
 
