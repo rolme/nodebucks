@@ -78,6 +78,7 @@ class NewNode extends Component {
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.reserveNode(params.crypto, true)
+    this.setState({ validPrice: true })
   }
 
   render() {
