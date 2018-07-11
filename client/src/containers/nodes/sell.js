@@ -35,7 +35,7 @@ class SellNode extends Component {
 
   componentWillMount() {
     let { match: { params } } = this.props
-    this.props.sellReserveNode(params.slug)
+    this.props.sellReserveNode(params.slug, true)
   }
 
   componentWillReceiveProps(nextProps) {
