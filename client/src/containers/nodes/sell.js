@@ -123,7 +123,7 @@ class SellNode extends Component {
     const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
-    let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
+    let price = (validPrice) ? `$${sellPrice} USD` : (<s> ${sellPrice} USD</s>)
     return (
       <Col xl={12} className="sellPagePriceSectionContainer">
         <p>You are about to sell your Polis server.</p>
@@ -134,7 +134,9 @@ class SellNode extends Component {
             color={'#3F89E8'}
             loading={true}
           />}</h3>
+          {!validPrice &&
           <Button disabled={!!refreshing || !sellPrice} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>
+          }
         </Row>
         <p className="small">(price resets in <Countdown refreshing={!node.timeLimit || refreshing} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
