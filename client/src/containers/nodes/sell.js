@@ -24,12 +24,10 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      validPrice: true,
-      address: ''
+      validPrice: true
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
@@ -48,10 +46,6 @@ class SellNode extends Component {
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug, true)
-  }
-
-  handleInputChange(value, name) {
-    this.setState({ [name]: value })
   }
 
   handleExpire() {
@@ -142,7 +136,6 @@ class SellNode extends Component {
   }
 
   displaySellSettings(node) {
-    const { address } = this.state
 
     return (
       <div className="sellPagePaymentDestinationContainer">
@@ -153,7 +146,7 @@ class SellNode extends Component {
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 0)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 0) ? 'selected' : ''}`}>
             <p className="sellPagePaymentDestinationSectionHeader">Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
-            <p className="sellPagePaymentDestinationSectionParagraph">{node.sellBitcoinWallet}</p>
+            <p className="sellPagePaymentDestinationSectionParagraph walletAddress">{node.sellBitcoinWallet}</p>
           </Col>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 10)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 10) ? 'selected' : ''}`}>
             <p className="sellPagePaymentDestinationSectionHeader">Debit Card {this.displayCheck(node.sellSetting === 10)}</p>
@@ -164,7 +157,7 @@ class SellNode extends Component {
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
             <Label for="address">Enter your bitcoin address:</Label>
-            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} value={address} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onChange={(event) => this.handleInputChange(event.target.value, 'address')} onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
           </FormGroup>
         </div>
       </div>
