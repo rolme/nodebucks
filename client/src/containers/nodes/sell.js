@@ -48,6 +48,7 @@ class SellNode extends Component {
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug, true)
+    this.setState({ validPrice: true })
   }
 
   handleInputChange(value, name) {
