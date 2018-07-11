@@ -176,6 +176,10 @@
   color: #7B7B7B;
 }
 
+.sellPagePaymentDestinationSectionParagraph.walletAddress {
+  word-wrap: break-word;
+}
+
 .sellPagePaymentDestinationAddressPartContainer {
   width: 100%;
   padding: 0 5px;
