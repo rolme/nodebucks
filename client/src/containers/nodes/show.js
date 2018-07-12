@@ -68,12 +68,12 @@ class Node extends Component {
       <Container fluid className="showPageContainer">
         <div className="showPageContentContainer contentContainer">
           {this.displayHeader(node)}
-          <Row className="pt-3">
-            <Col xl={8} className="pl-0">
+          <Row className="pt-3 mx-0">
+            <Col xl={{size: 8, offset: 0}} lg={{size: 10, offset: 1}} md={{size: 12, offset: 0}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="pl-0">
               {this.displayHistory(node)}
               {this.displayPriceHistoryChart(node)}
             </Col>
-            <Col xl={4} className="pr-0">
+            <Col xl={{size: 4, offset: 0}} lg={{size: 6, offset: 3}} md={{size: 8, offset: 2}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="pr-0">
               {this.displaySummary(node)}
               {this.displayRewardSettings(node)}
               {this.displayROI(node)}
@@ -88,12 +88,12 @@ class Node extends Component {
     const uptime = (node.onlineAt !== null) ? moment().diff(moment(node.onlineAt), 'days') : 0
 
     return (
-      <Row className="showPageHeaderContainer">
-        <Col xl={3} className="d-flex align-items-center px-0">
+      <Row className="showPageHeaderContainer  mx-0">
+        <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
           <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} width="65px"/>
           <h5 className="mb-0 ml-2 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
-        <Col xl={3} className="d-flex flex-column justify-content-center">
+        <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex flex-column justify-content-center align-items-xl-start align-items-lg-start  align-items-md-start  align-items-sm-center">
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
         </Col>
@@ -112,17 +112,17 @@ class Node extends Component {
         <h5 className="showPageSectionHeader"> Summary </h5>
         <div className="bg-white p-3">
           <dl className="row mb-0">
-            <dd className="col-sm-6">Value</dd>
-            <dt className="col-sm-6 text-right">{value}</dt>
+            <dd className="col-6">Value</dd>
+            <dt className="col-6 text-right">{value}</dt>
 
-            <dd className="col-sm-6">Cost</dd>
-            <dt className="col-sm-6 text-right">{cost}</dt>
+            <dd className="col-6">Cost</dd>
+            <dt className="col-6 text-right">{cost}</dt>
 
-            <dd className="col-sm-6">Total Rewards</dd>
-            <dt className="col-sm-6 text-right">$ {rewardTotal}</dt>
+            <dd className="col-6">Total Rewards</dd>
+            <dt className="col-6 text-right">$ {rewardTotal}</dt>
 
-            <dd className="col-sm-6">Reward %</dd>
-            <dt className="col-sm-6 text-right">{rewardPercentage}%</dt>
+            <dd className="col-6">Reward %</dd>
+            <dt className="col-6 text-right">{rewardPercentage}%</dt>
           </dl>
         </div>
       </div>
@@ -182,14 +182,14 @@ class Node extends Component {
         <h5 className="showPageSectionHeader">ROI</h5>
         <div className="bg-white p-3">
           <dl className="row mb-0">
-            <dd className="col-sm-6">Last Week</dd>
-            <dt className="col-sm-6 text-right">$ {node.rewards.week}</dt>
+            <dd className="col-6">Last Week</dd>
+            <dt className="col-6 text-right">$ {node.rewards.week}</dt>
 
-            <dd className="col-sm-6">Last Month</dd>
-            <dt className="col-sm-6 text-right">$ {node.rewards.month}</dt>
+            <dd className="col-6">Last Month</dd>
+            <dt className="col-6 text-right">$ {node.rewards.month}</dt>
 
-            <dd className="col-sm-6">Last Year</dd>
-            <dt className="col-sm-6 text-right">$ {node.rewards.year}</dt>
+            <dd className="col-6">Last Year</dd>
+            <dt className="col-6 text-right">$ {node.rewards.year}</dt>
           </dl>
         </div>
       </div>
@@ -200,17 +200,17 @@ class Node extends Component {
     const value = (+node.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
     const sellable = (node.status !== 'sold')
     return (
-      <Col xl={6} className="d-flex px-0">
+      <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
         {sellable && (
-          <Col xl={6} className="text-right my-2 px-0">
+          <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
             <NavLink to={`/nodes/${node.slug}/sell`}>
-              <Button className="submitButton sellServerButton col-xl-10">Sell Server (${value})</Button>
+              <Button className="submitButton sellServerButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
           </Col>
         )}
-        <Col xl={6} className="text-right my-2 px-0">
+        <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
           <NavLink to={`/nodes/${node.crypto.slug}/new`}>
-            <Button className="submitButton col-xl-10">Add {node.crypto.name} Node</Button>
+            <Button className="submitButton col-xl-10 col-lg-10 col-md-11 col-sm-10 col-xs-10">Add {node.crypto.name} Node</Button>
           </NavLink>
         </Col>
       </Col>
@@ -222,7 +222,7 @@ class Node extends Component {
       <div>
         <h5 className="showPageSectionHeader"> History </h5>
         <div className="bg-white p-3">
-          <Table className="showPageHistoryTable">
+          <Table responsive className="showPageHistoryTable">
             <thead>
             <tr>
               <th>Date</th>
@@ -257,7 +257,7 @@ class Node extends Component {
 
   displayPriceHistoryChart(node) {
     return (
-      <div className="mt-3">
+      <div className="my-3">
         <h5 className="showPageSectionHeader">{node.crypto.name} Price</h5>
         <div className="bg-white p-3">
           <PriceHistoryChart node={node}/>

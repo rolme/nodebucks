@@ -114,6 +114,7 @@
 .showPageHistoryTable > tbody > tr > td {
   border: none;
   text-align: center;
+  min-width: 180px;
 }
 
 .showPageRadioButtonTitle {
@@ -184,7 +185,7 @@
 }
 
 .priceHistoryChartPeriodContainer {
-  padding-right: 25px;
+  margin-bottom: 15px;
 }
 
 .priceHistoryChartPeriodContainer > p {
