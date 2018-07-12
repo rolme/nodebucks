@@ -1,6 +1,7 @@
 .inputFieldContainer {
   padding: 21px 20px !important;
   position: relative;
+  cursor: text;
 }
 
 .inputFieldContainerWithValue {

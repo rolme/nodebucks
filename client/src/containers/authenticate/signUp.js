@@ -234,6 +234,7 @@ class SignUp extends Component {
               <h2 className="authHeader">Let's get started.</h2>
               <InputField label='First Name'
                           name="first"
+                          id="signUpFirst"
                           type='text'
                           value={first}
                           message=''
@@ -242,6 +243,7 @@ class SignUp extends Component {
               />
               <InputField label='Last Name'
                           name="last"
+                          id="signUpLast"
                           type='text'
                           value={last}
                           message=''
@@ -270,6 +272,7 @@ class SignUp extends Component {
               />
               <InputField label='Confirm Password'
                           name="confirmPassword"
+                          id="signUpConfirmPassword"
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={confirmPassword}
                           message={messages.confirmPassword}
@@ -290,6 +293,7 @@ class SignUp extends Component {
               <h2 className="authHeader">Where are you from?</h2>
               <SelectField label='Country'
                            name="country"
+                           id="signUpCountry"
                            value={country}
                            message=''
                            error={false}
@@ -298,6 +302,7 @@ class SignUp extends Component {
               />
               <InputField label='Zip Code'
                           name="zipcode"
+                          id="signUpZipcode"
                           type='text'
                           value={zipcode}
                           message=''
@@ -306,6 +311,7 @@ class SignUp extends Component {
               />
               <InputField label='City'
                           name="city"
+                          id="signUpCity"
                           type='text'
                           value={city}
                           message=''
@@ -314,6 +320,7 @@ class SignUp extends Component {
               />
               <InputField label='State'
                           name="state"
+                          id="signUpState"
                           type='text'
                           value={state}
                           message=''
@@ -322,6 +329,7 @@ class SignUp extends Component {
               />
               <InputField label='Address'
                           name="address"
+                          id="signUpAddress"
                           type='text'
                           value={address}
                           message=''
