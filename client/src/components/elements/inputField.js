@@ -8,6 +8,13 @@ export default class InputField extends Component {
     super(props)
 
     this.state = {}
+
+    this.focusInput = this.focusInput.bind(this);
+  }
+
+  focusInput() {
+    const { id } = this.props
+    document.getElementById(id).focus()
   }
 
   render() {
@@ -25,9 +32,9 @@ export default class InputField extends Component {
     const elementId = !!id ? id : name
     return (
       <FormGroup className="w-100">
-        <Col className={inputFieldContainerClassName}>
+        <Col className={inputFieldContainerClassName} onClick={this.focusInput}>
           {!!value && <Label for={name}>{label}</Label>}
-          <Input autoFocus={!!autoFocus} type={type} name={name} id={elementId} value={value} placeholder={label} onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)} style={{height: this.props.height}}/>
+          <Input autoFocus={!!autoFocus} type={type} name={name} id={elementId} value={value} placeholder={label} onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)} style={{ height: this.props.height }}/>
           {!!addonIcon &&
           <InputGroupAddon addonType="append">
             <InputGroupText><img src={addonIcon} alt='psw' onClick={() => this.props.onAddonClick(name)} className={!!this.props.onAddonClick ? "inputFieldClickableAddon" : ""}/></InputGroupText>
