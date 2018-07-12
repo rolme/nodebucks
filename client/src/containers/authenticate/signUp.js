@@ -235,7 +235,7 @@ class SignUp extends Component {
               <InputField label='First Name'
                           name="first"
                           type='text'
-                          autofocus
+                          autoFocus={true}
                           value={first}
                           message=''
                           error={false}
