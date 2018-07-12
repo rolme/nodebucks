@@ -8,8 +8,8 @@ class NodeDailyTicker
     nodes = (a_node.present?) ? [a_node] : Node.online
 
     nodes.each do |node|
-      scraper = NodeManager::Ticker.new(node)
-      scraper.evaluate
+      ticker = NodeManager::Ticker.new(node)
+      ticker.evaluate
     end
   end
 end
