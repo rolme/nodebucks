@@ -1,6 +1,6 @@
 json.balance do
   json.coin (node.balance != 0.0) ? node.balance - node.stake : 0.0
-  json.usd (node.balance != 0.0) ? (node.balance - node.stake) * node.crypto.price : 0.0
+  json.usd (node.balance != 0.0) ? (node.balance - node.stake) * node.crypto_price : 0.0
 end
 json.cost node.cost
 json.createdAt node.created_at.to_formatted_s(:db)
@@ -27,10 +27,10 @@ end
 json.rewardSetting node.reward_setting
 json.rewardTotal node.reward_total * node.crypto.price
 json.rewards do
-  json.week node.week_reward * node.crypto.price
-  json.quarter node.quarter_reward * node.crypto.price
-  json.month node.month_reward * node.crypto.price
-  json.year node.year_reward * node.crypto.price
+  json.week node.week_reward
+  json.quarter node.quarter_reward
+  json.month node.month_reward
+  json.year node.year_reward
 end
 json.sellBitcoinWallet node.sell_bitcoin_wallet
 json.sellPrice node.sell_price
