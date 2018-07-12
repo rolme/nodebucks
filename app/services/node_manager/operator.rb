@@ -10,9 +10,22 @@ module NodeManager
     def reward(timestamp, amount, txhash)
       fee = amount * node.percentage_hosting_fee
       total_amount = amount - fee
+      usd_value    = total_amount * node.crypto_price
 
-      node.rewards.create(timestamp: timestamp, amount: amount, txhash: txhash, total_amount: total_amount)
-      node.events.create(event_type: 'reward', timestamp: timestamp, value: total_amount, description: "Reward: #{amount} #{node.symbol} (-#{fee} fee)")
+      node.rewards.create(
+        timestamp: timestamp,
+        amount: amount,
+        txhash: txhash,
+        total_amount: total_amount,
+        usd_value: usd_value
+      )
+
+      node.events.create(
+        event_type: 'reward',
+        timestamp: timestamp,
+        value: total_amount,
+        description: "Reward: #{amount} #{node.symbol} (-#{fee} fee)"
+      )
     end
 
     def online(timestamp=DateTime.current)

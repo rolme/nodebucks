@@ -24,7 +24,7 @@ class CryptoScraper
       path = "https://masternodes.pro/stats/#{crypto.symbol}/statistics"
       begin
         browser.navigate.to path
-        sleep 1
+        sleep 2
         crypto.daily_reward         = browser.find_elements(tag_name: 'mnp-data-box')[7].text&.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
         crypto.estimated_node_price = browser.find_elements(tag_name: 'mnp-data-box')[2].text&.split(/\n/).first.gsub(/[^\d\.]/, '').to_f
         crypto.masternodes          = browser.find_elements(tag_name: 'mnp-data-box')[3].text&.split(/\n/).first.gsub(/\D/,'').to_i

@@ -33,6 +33,10 @@ class Node < ApplicationRecord
            :ticker_url,
            to: :crypto
 
+ delegate :price,
+          to: :crypto,
+          prefix: true
+
   validates :cost, presence: true
 
   scope :online,     -> { where(status: 'online') }
@@ -77,6 +81,6 @@ private
   def reward_timeframe(timeframe)
     now   = DateTime.current
     range = ((now-timeframe)..now)
-    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:total_amount).reduce(&:+) || 0.0
+    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:usd_value).reduce(&:+) || 0.0
   end
 end
