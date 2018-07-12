@@ -125,7 +125,7 @@ class SellNode extends Component {
         <p>This action is permanent and irreversible.</p>
         <Row className="mx-0 mt-4 align-items-center">
           <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice && !refreshing ? price : <ClipLoader
-            size={35}
+            size={25}
             color={'#3F89E8'}
             loading={true}
           />}</h3>
