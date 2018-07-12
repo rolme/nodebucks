@@ -64,6 +64,148 @@
   max-width: 500px;
 }
 
+/*Show Page Style*/
+.showPageContainer {
+  background-color: #FAFAFA;
+  min-height: calc(100vh - 90px);
+}
+
+.showPageContentContainer {
+  max-width: 1110px;
+  padding: 0;
+}
+
+.showPageHeaderContainer {
+  padding: 30px 0;
+  border-bottom: 1px solid #D5D8D9;
+}
+
+.showPageHeaderCoinName {
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 30px;
+  color: #3B3B3B;
+}
+
+.showPageHeaderInfo {
+  color: #383838;
+  font-size: 16px;
+}
+
+.sellServerButton {
+  background-color: #FC6422;
+}
+
+.sellServerButton:focus,
+.sellServerButton:active,
+.sellServerButton:hover {
+  background-color: rgba(252, 100, 34, 0.67) !important;
+}
+
+.showPageSectionHeader {
+  color: #3B3B3B;
+  font-size: 24px;
+  font-family: Raleway;
+  font-weight: bold;
+  margin-bottom: 13px;
+}
+
+.showPageHistoryTable > thead > tr > th,
+.showPageHistoryTable > tbody > tr > td {
+  border: none;
+  text-align: center;
+  min-width: 180px;
+}
+
+.showPageRadioButtonTitle {
+  color: #3B3B3B;
+  font-size: 14px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.showPageRadioButtonDescription {
+  color: #7A7A7A;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.showPageRewardSettingsInputField {
+  opacity: 100 !important;
+  position: relative !important;
+  padding: 5px 15px;
+  margin-top: 10px;
+  font-family: Raleway;
+  font-size: 14px;
+  cursor: text !important;
+}
+
+.showPageRewardSettingsInputField::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #7C7C7C;
+  font-family: Raleway;
+  font-size: 14px;
+}
+
+.showPageRewardSettingsInputField::-moz-placeholder { /* Firefox 19+ */
+  color: #7C7C7C;
+  font-family: Raleway;
+  font-size: 14px;
+}
+
+.showPageRewardSettingsInputField:-ms-input-placeholder { /* IE 10+ */
+  color: #7C7C7C;
+  font-family: Raleway;
+  font-size: 14px;
+}
+
+.showPageRewardSettingsInputField:-moz-placeholder { /* Firefox 18- */
+  color: #7C7C7C;
+  font-family: Raleway;
+  font-size: 14px;
+}
+
+.rewardSettingsUpdateButton {
+  background-color: #EEEEEE;
+  border: none;
+  color: #1C2E35;
+  font-weight: bold;
+  font-family: Raleway;
+  padding: 10px 25px;
+}
+
+.rewardSettingsUpdateButton:focus,
+.rewardSettingsUpdateButton:active,
+.rewardSettingsUpdateButton:visited,
+.rewardSettingsUpdateButton:hover {
+  background-color: #aaaaaa;
+  color: #eeeeee;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.priceHistoryChartPeriodContainer {
+  margin-bottom: 15px;
+}
+
+.priceHistoryChartPeriodContainer > p {
+  padding: 0 6px 0;
+  margin-bottom: 0;
+  color: #888888;
+  font-size: 12px;
+  cursor: pointer;
+  min-width: 31px;
+}
+
+.priceHistoryChartPeriodContainer > p.selectedPeriod {
+  border: 1px solid #888888;
+  border-radius: 20px;
+}
+
+.priceHistoryChartPeriodContainer > p:hover {
+  color: #acacac;
+}
+
 /*Sell Page Style*/
 .sellPageContainer {
   min-height: calc(100vh - 90px);
@@ -176,6 +318,10 @@
   color: #7B7B7B;
 }
 
+.sellPagePaymentDestinationSectionParagraph.walletAddress {
+  word-wrap: break-word;
+}
+
 .sellPagePaymentDestinationAddressPartContainer {
   width: 100%;
   padding: 0 5px;
@@ -265,3 +411,4 @@
     padding: 15px 5px;
   }
 }
+

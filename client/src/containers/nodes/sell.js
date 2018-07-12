@@ -24,18 +24,16 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      validPrice: true,
-      address: ''
+      validPrice: true
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount() {
     let { match: { params } } = this.props
-    this.props.sellReserveNode(params.slug)
+    this.props.sellReserveNode(params.slug, true)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,10 +46,7 @@ class SellNode extends Component {
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug, true)
-  }
-
-  handleInputChange(value, name) {
-    this.setState({ [name]: value })
+    this.setState({ validPrice: true })
   }
 
   handleExpire() {
@@ -123,18 +118,20 @@ class SellNode extends Component {
     const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
-    let price = (validPrice) ? `$${sellPrice} USD` : (<s>${sellPrice} USD</s>)
+    let price = (validPrice) ? `$${sellPrice} USD` : (<s> ${sellPrice} USD</s>)
     return (
       <Col xl={12} className="sellPagePriceSectionContainer">
         <p>You are about to sell your Polis server.</p>
         <p>This action is permanent and irreversible.</p>
         <Row className="mx-0 mt-4 align-items-center">
           <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice && !refreshing ? price : <ClipLoader
-            size={35}
+            size={25}
             color={'#3F89E8'}
             loading={true}
           />}</h3>
+          {!validPrice &&
           <Button disabled={!!refreshing || !sellPrice} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>
+          }
         </Row>
         <p className="small">(price resets in <Countdown refreshing={!node.timeLimit || refreshing} timer={node.timeLimit} onExpire={this.handleExpire.bind(this)}/>)</p>
       </Col>
@@ -142,7 +139,6 @@ class SellNode extends Component {
   }
 
   displaySellSettings(node) {
-    const { address } = this.state
 
     return (
       <div className="sellPagePaymentDestinationContainer">
@@ -153,7 +149,7 @@ class SellNode extends Component {
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 0)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 0) ? 'selected' : ''}`}>
             <p className="sellPagePaymentDestinationSectionHeader">Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
-            <p className="sellPagePaymentDestinationSectionParagraph">{node.sellBitcoinWallet}</p>
+            <p className="sellPagePaymentDestinationSectionParagraph walletAddress">{node.sellBitcoinWallet}</p>
           </Col>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 10)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 10) ? 'selected' : ''}`}>
             <p className="sellPagePaymentDestinationSectionHeader">Debit Card {this.displayCheck(node.sellSetting === 10)}</p>
@@ -164,7 +160,7 @@ class SellNode extends Component {
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
             <Label for="address">Enter your bitcoin address:</Label>
-            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} value={address} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onChange={(event) => this.handleInputChange(event.target.value, 'address')} onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
           </FormGroup>
         </div>
       </div>
