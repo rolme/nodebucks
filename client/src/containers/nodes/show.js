@@ -8,6 +8,9 @@ import { Col, Container, Row, Button, Table } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
 import './index.css'
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faChevronUp, faChevronDown } from '@fortawesome/fontawesome-free-solid'
+
 import {
   fetchNode,
   updateNode
@@ -19,10 +22,12 @@ class Node extends Component {
     this.state = {
       rewardSetting: '',
       withdrawWallet: '',
+      showAllHistoryData: false
     }
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
     this.handleRewardSettingChange = this.handleRewardSettingChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
   }
 
   componentWillMount() {
@@ -35,12 +40,9 @@ class Node extends Component {
     !!node && this.setState({ rewardSetting: node.rewardSetting, withdrawWallet: node.withdrawWallet })
   }
 
-  handleEditableSubmit(name, el) {
-    const { node } = this.props
-    let data = {}
-    data[ name ] = el.value
-
-    this.props.updateNode(node.slug, data)
+  toggleHistoryDataAmount() {
+    const { showAllHistoryData } = this.state
+    this.setState({ showAllHistoryData: !showAllHistoryData })
   }
 
   handleInputChange(value, name) {
@@ -69,11 +71,11 @@ class Node extends Component {
         <div className="showPageContentContainer contentContainer">
           {this.displayHeader(node)}
           <Row className="pt-3 mx-0">
-            <Col xl={{size: 8, offset: 0}} lg={{size: 10, offset: 1}} md={{size: 12, offset: 0}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="pl-0">
+            <Col xl={{ size: 8, offset: 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
               {this.displayHistory(node)}
               {this.displayPriceHistoryChart(node)}
             </Col>
-            <Col xl={{size: 4, offset: 0}} lg={{size: 6, offset: 3}} md={{size: 8, offset: 2}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="pr-0">
+            <Col xl={{ size: 4, offset: 0 }} lg={{ size: 6, offset: 3 }} md={{ size: 8, offset: 2 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pr-0">
               {this.displaySummary(node)}
               {this.displayRewardSettings(node)}
               {this.displayROI(node)}
@@ -218,6 +220,8 @@ class Node extends Component {
   }
 
   displayHistory(node) {
+    const { showAllHistoryData } = this.state
+    const events = showAllHistoryData ? node.events : node.events.filter(event => moment().diff(moment(new Date(event.timestamp)), 'days') <= 30)
     return (
       <div>
         <h5 className="showPageSectionHeader"> History </h5>
@@ -231,17 +235,20 @@ class Node extends Component {
             </tr>
             </thead>
             <tbody>
-            {this.handleHistoryData(node)}
+            {this.handleHistoryData(events)}
             </tbody>
           </Table>
+          <div className="d-flex justify-content-center">
+            <Button className="showPageHistoryTableButton" onClick={this.toggleHistoryDataAmount}> <FontAwesomeIcon icon={showAllHistoryData ? faChevronUp : faChevronDown} color="#213238" className="mr-2"/> {showAllHistoryData ? 'PREVIOUS 30 DAYS' : 'VIEW ALL'}</Button>
+          </div>
         </div>
       </div>
     )
   }
 
-  handleHistoryData(node) {
-    let total = node.events.map(e => e.value).reduce((t, v) => +t + +v)
-    return node.events.map(event => {
+  handleHistoryData(events) {
+    let total = events.map(e => e.value).reduce((t, v) => +t + +v)
+    return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
