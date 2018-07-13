@@ -117,6 +117,27 @@
   min-width: 180px;
 }
 
+
+.showPageHistoryTableButton {
+  background-color: #EEEEEE;
+  border: none;
+  color: #213238;
+  font-weight: bold;
+  font-family: Raleway;
+  padding: 10px 25px;
+}
+
+.showPageHistoryTableButton:focus,
+.showPageHistoryTableButton:active,
+.showPageHistoryTableButton:visited,
+.showPageHistoryTableButton:hover {
+  background-color: #EEEEEE;
+  color: #3a5760;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
 .showPageRadioButtonTitle {
   color: #3B3B3B;
   font-size: 14px;
