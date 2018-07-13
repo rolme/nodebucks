@@ -30,6 +30,7 @@ export default class PriceHistoryChart extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { node } = nextProps
+
     !!node && node.values && this.proceedNodeValues(node.values)
   }
 
@@ -133,17 +134,18 @@ export default class PriceHistoryChart extends Component {
 
     if ( selectedPeriod === 1 ) {
       values = values.filter(value => {
-        return moment().diff(moment(value.timestamp, "MM-DD-YYYY"), 'days') < 30
+        return moment().diff(moment(new Date(value.timestamp)), 'days') < 30
       })
     } else if ( selectedPeriod === 3 ) {
+      const amount = values.length
       values = values.filter((value, index) => {
-        return index % 5 === 0 && moment().diff(moment(value.timestamp, "MM-DD-YYYY"), 'days') < 90
+        return (amount < 20 || index % 5 === 0) && moment().diff(moment(new Date(value.timestamp)), 'days') < 90
       })
     } else if ( selectedPeriod === 6 || selectedPeriod === 12 ) {
       let combinedDates = [], newValues = []
       values.forEach(value => {
-        if ( moment().diff(moment(value.timestamp, "MM-DD-YYYY"), 'months') < selectedPeriod ) {
-          const date = moment(value.timestamp, "MM-DD-YYYY").format('MMMM')
+        if ( moment().diff(moment(new Date(value.timestamp)), 'months') < selectedPeriod ) {
+          const date = moment(new Date(value.timestamp)).format('MMMM')
           if ( !!combinedDates[ date ] ) {
             combinedDates[ date ].sum += +value.value
             combinedDates[ date ].count += 1
