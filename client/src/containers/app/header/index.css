@@ -1,5 +1,5 @@
 .headerNavBarContainer {
-  background-color: white !important;
+  background-color: #213238 !important;
   padding: 0 !important;
   margin: 0 auto;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 0 5px rgba(0, 0, 0, 0.4);
@@ -21,13 +21,34 @@
   max-height: calc(100vh - 110px);
 }
 
+a.headerMenuItem {
+  color: #2283C7 !important;
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0 30px !important;
+  padding: 0 !important;
+}
+
+a.headerMenuItem.active {
+  border-bottom: 2px solid #2283C7 !important;
+}
+
+a.headerMenuItem:hover {
+  color: white !important;
+}
+
+a.headerMenuItem.active:hover {
+  color: #2283C7 !important;
+}
+
 .headerNavBarToggler:focus {
   outline: none;
   border-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .headerLogo {
-  padding: 15px 0 !important;
+  padding: 15px 30px 15px 0 !important;
   margin: 0;
   cursor: pointer;
 }
@@ -36,14 +57,107 @@
   height: 30px;
 }
 
-.headerMenuAuthItemsContainer {
-  flex: 1;
-  padding: 0 !important;
-  max-width: 340px;
-}
-
 .headerNavBar.show ~ .contentContainer ~ .headerNavBarContainer ~ .appContainer {
   overflow-y: hidden !important;
+}
+
+.headerLoggedInUserContainer {
+  display: flex !important;
+  align-items: center;
+}
+
+.headerLoggedInUserContainer::after {
+  color: #FFFFFF;
+}
+
+.headerUserName {
+  margin-bottom: 0;
+  color: #FFFFFF;
+  font-family: 'Raleway-Medium';
+  font-size: 16px;
+}
+
+.headerLoggedInUserContainer:hover > .headerUserName {
+  color: rgba(255, 255, 255, 0.77);
+}
+
+.headerAddNodeButton {
+  background-color: #FC6422;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 7px 22px !important;
+  color: white;
+  margin: 0 15px;
+}
+
+.headerAddNodeButton:hover,
+.headerAddNodeButton:focus {
+  background-color: rgba(252, 100, 34, 0.52) !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white;
+}
+
+.headerUserAvatar {
+  margin: 0 10px 0 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  border: 1px solid white;
+  padding: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.headerAuthMenuLoggedInDropDownItemsContainer.show {
+  background-color: #35454A;
+}
+
+.headerAuthMenuLoggedInDropDownItemsContainer > .dropdown-menu {
+  background-color: #213238;
+  margin-top: 0;
+  min-width: 100%;
+}
+
+.headerUserDropDownItem {
+  border-bottom: 1px solid #556267;
+}
+
+.headerAuthMenuLoggedInDropDownItemsContainer > .dropdown-menu > .headerUserDropDownItem:last-child {
+  border: none;
+}
+
+.headerUserDropDownItem,
+.headerUserDropDownItem > a {
+  color: #FFFFFF !important;
+  font-family: "Raleway";
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.headerUserDropDownItem:hover,
+.headerUserDropDownItem:hover > a {
+  color: rgba(255, 255, 255, 0.77) !important;
+  text-decoration: none;
+  background-color: #213238;
+}
+
+.headerUserDropDownItem:focus,
+.headerUserDropDownItem:active,
+.headerUserDropDownItem:focus > a,
+.headerUserDropDownItem:active > a {
+  color: rgba(255, 255, 255, 0.77) !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.headerAuthMenuItemsContainer {
+  flex: 1;
+  padding: 0 !important;
+  align-items: center;
 }
 
 .headerMenuAuthItem {
@@ -56,11 +170,11 @@
   color: #3D58E7 !important;
 }
 
-.headerMenuAuthItem:hover{
+.headerMenuAuthItem:hover {
   background-color: #ededed;
 }
 
-.headerMenuAuthText{
+.headerMenuAuthText {
   font-family: 'DidactGothic-Regular';
   text-align: center;
   vertical-align: middle;
@@ -71,14 +185,34 @@
 }
 
 @media (max-width: 992px) {
-  .headerMenuAuthItemsContainer {
+  .headerMenuItemsContainer {
     max-width: none !important;
     align-items: center !important;
+  }
+
+  .headerAuthMenuLoggedInDropDownItemsContainer {
+    display: none !important;
+  }
+
+  .headerMenuAuthItem {
+    border-left: none;
+    border-right: none;
+  }
+
+  .headerAuthMenuItemsContainer {
+    margin: 5px !important;
   }
 
   .headerMenuAuthItem {
     border: none !important;
     background-color: #ffff !important;
     color: #3F53EA !important;
+  }
+
+  a.headerMenuItem {
+    width: 100%;
+    text-align: center;
+    margin: 0 10px 10px !important;
+    padding: 10px !important;
   }
 }

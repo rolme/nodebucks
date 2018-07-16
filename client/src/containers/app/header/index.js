@@ -4,7 +4,7 @@ import { NavHashLink as NavLink } from 'react-router-hash-link'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Navbar, Collapse, NavbarToggler, Col } from 'reactstrap'
+import { Navbar, Collapse, NavbarToggler, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap'
 
 import './index.css'
 
@@ -32,16 +32,47 @@ class Header extends Component {
   }
 
   render() {
+    const { user } = this.props
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg fixed-top navbar-light">
         <div ref="headerContainer" className="contentContainer">
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
-          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'/>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'>
+            {!!user &&
+            <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+            }
+          </NavbarToggler>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
-            <Col xl={{size: 5, offset: 7}}  lg={{size: 5, offset: 7}}  md={{size: 12, offset: 0}} className="navbar-nav headerMenuAuthItemsContainer mr-auto justify-content-end">
-              {this.displayLoginLink()}
+            {!!user &&
+            <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
+              <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
+              <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
+              <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Support</NavLink>
+            </Col>
+            }
+            <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
+              {!!user &&
+              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer mr-auto">
+                <NavLink to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton">+ Add Node</NavLink>
+                <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
+                  <DropdownToggle nav caret className="headerLoggedInUserContainer">
+                    <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+                    <p className="headerUserName">{user.fullName}</p>
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem className="headerUserDropDownItem">
+                      <NavLink to="/settings" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
+                    </DropdownItem>
+                    <DropdownItem className="headerUserDropDownItem">
+                      <NavLink to="/logout" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </Col>
+              }
+              {!user && this.displayLoginLink()}
             </Col>
           </Collapse>
         </div>
