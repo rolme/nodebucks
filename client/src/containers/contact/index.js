@@ -31,6 +31,12 @@ class Contact extends Component {
     this.validation = this.validation.bind(this)
   }
 
+  componentWillMount() {
+    if(this.props.location.hash === "#request"){
+      this.setState({subject: 'Requesting a coin', text: 'What masternode coin would you like us to support?'})
+    }
+  }
+
   componentWillUnmount() {
     //this.props.reset()
   }
