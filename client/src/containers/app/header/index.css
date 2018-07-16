@@ -184,6 +184,12 @@ a.headerMenuItem.active:hover {
   margin-bottom: 0;
 }
 
+@media (max-width: 1230px) {
+  .headerNavBarContainer > .contentContainer {
+    margin: 10px;
+  }
+}
+
 @media (max-width: 992px) {
   .headerMenuItemsContainer {
     max-width: none !important;
@@ -214,5 +220,11 @@ a.headerMenuItem.active:hover {
     text-align: center;
     margin: 0 10px 10px !important;
     padding: 10px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerNavBarContainer > .contentContainer {
+    margin: 0;
   }
 }

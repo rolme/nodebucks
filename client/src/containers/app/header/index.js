@@ -35,7 +35,7 @@ class Header extends Component {
     const { user } = this.props
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg fixed-top navbar-light">
-        <div ref="headerContainer" className="contentContainer">
+        <div ref="headerContainer" className="contentContainer px-0">
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
@@ -72,8 +72,12 @@ class Header extends Component {
                 </UncontrolledDropdown>
               </Col>
               }
-              {!user && this.displayLoginLink()}
             </Col>
+            {!user &&
+            <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerAuthMenuItemsContainer mr-auto justify-content-end">
+              {this.displayLoginLink()}
+            </Col>
+            }
           </Collapse>
         </div>
       </Navbar>
@@ -81,14 +85,11 @@ class Header extends Component {
   }
 
   displayLoginLink() {
-    const { user } = this.props
     const isSignUpPage = window.location.pathname === "/sign-up"
     let navigation = []
-    if ( !!user ) {
-      navigation.push(<NavLink key="logout" onClick={() => this.toggleNavbar(true)} to="/logout" className="nav-link nav-item" activeClassName="active">Logout</NavLink>)
-    } else {
-      navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Login</NavLink>)
-      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+    {
+      navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem  nav-link nav-item" activeClassName="active">Login</NavLink>)
+      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }
