@@ -28,7 +28,7 @@ class Masternodes extends Component {
         <div className="contentContainer">
           <h1 className="masternodesHeader">Select a Masternode</h1>
           <CryptoTable list={cryptos} user={user} />
-          <NavLink to='/contact' className="masternodeContactLink">Request a different masternode coin</NavLink>
+          <NavLink to='/contact#request' className="masternodeContactLink">Request a different masternode coin</NavLink>
         </div>
       </div>
     )
