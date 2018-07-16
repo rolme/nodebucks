@@ -97,7 +97,7 @@ class CryptoTable extends Component {
             <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton">+ Add Node</NavLink>
             }
             {+item.nodePrice > 50000 &&
-            <NavLink to='/contact' className="btn btn-primary addNodeButton">Contact Sales</NavLink>
+            <NavLink to='/contact' className="btn btn-primary contactSalesButton">Contact Sales</NavLink>
             }
           </td>
         </tr>

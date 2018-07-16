@@ -3,9 +3,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/assets/images/homeTopBackground.jpg');
+  background-color: white;
   padding: 20px 0;
   min-height: calc(100vh - 66px);
+}
+
+.homeAlert {
+  font-family: 'Raleway-Regular';
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+  background-color: #D9EDF6;
+}
+
+.homeAlert > span {
+  color: #2283C7;
 }
 
 .homeMainBannerContainer > .contentContainer {
@@ -15,41 +27,41 @@
 }
 
 .homeMainBannerHeaderText {
-  font-family: 'DidactGothic-Regular';
+  font-family: 'Raleway-Light';
   font-size: 64px;
-  color: #FFFFFF;
+  color: #000000;
   text-align: center;
   margin: 0 0 40px 0;
 }
 
 .homeMainBannerHeaderText > span {
-  color: #49FFF3;
+  font-family: Raleway-Medium;
 }
 
 .homeMainBannerText {
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Light';
   font-size: 28px;
-  color: #FFFFFF;
+  color: #000000;
   text-align: center;
   width: 70%;
   margin: 0 auto;
 }
 
 .homeMainBannerButton {
-  background-color: #43CDEA;
-  border-radius: 50px;
-  font-family: 'Karla-Regular';
-  font-size: 17px;
+  text-transform: uppercase;
+  background-color: #FC6422;
+  font-family: 'Raleway-SemiBold';
+  font-size: 18px;
   color: #FFFFFF;
-  padding: 25px 50px;
+  padding: 20px 50px;
   line-height: 22px;
   border: none;
-  margin: 100px 0 80px 0;
+  margin: 50px 0 30px 0;
   cursor: pointer;
 }
 
 .homeMainBannerButton:hover {
-  background-color: #47e2ff;
+  background-color: rgba(252, 100, 34, 0.78);
 }
 
 .homeMainBannerButton:focus {
@@ -66,8 +78,8 @@
 }
 
 .homeMainBannerScrollDownContainer > p {
-  color: #FFFFFF;
-  font-family: 'Arimo-Regular';
+  color: #2283C7;
+  font-family: 'Raleway-Regular';
   font-size: 12px;
   margin: 15px 0 20px 0;
 }
@@ -90,9 +102,14 @@
 }
 
 /*About Part*/
+.homeAboutContainer {
+  background-image: url("/assets/images/homeAboutBackground.png");
+  background-size: cover;
+}
+
 .homeAboutContainer > .contentContainer {
   display: flex;
-  padding: 100px 0;
+  padding: 150px 0;
   align-items: center;
 }
 
@@ -141,31 +158,35 @@
   height: 280px;
   background-size: cover;
   background-position: top center;
-  border-radius: 50%;
-  border: 8px solid white;
   margin-bottom: 40px;
 }
 
+.homeTestimonialsQuote{
+  min-width: 55px !important;
+}
+
 .testimonialName {
-  font-family: 'Arimo-Regular';
-  color: #3D58E7;
-  font-size: 36px;
-  margin-bottom: 20px;
+  font-family: 'Raleway-Medium';
+  color: #000000;
+  font-size: 18px;
   text-align: center;
+  padding-right: 10px;
+  border-right: 1px solid #000000;
 }
 
 .testimonialPosition {
-  font-family: 'DidactGothic-Regular';
-  color: #7B7B7B;
-  font-size: 22px;
+  font-family: 'Raleway-Light';
+  color: #000000;
+  font-size: 18px;
   text-align: center;
+  padding-left: 10px;
 }
 
 .testimonialMessageText {
   font-family: 'Arimo-Regular';
   color: #7B7B7B;
   font-size: 18px;
-  margin: 60px 0;
+  margin: 30px 0;
 }
 
 .homeTestimonialsSliderDots > li > button {
@@ -199,8 +220,8 @@
 }
 
 .homeWhatIsMasternodeHeader {
-  font-family: DidactGothic-Regular;
-  color: #383838;
+  font-family: "Raleway-Light";
+  color: #000000;
   font-size: 36px;
   text-align: center;
 }
@@ -210,17 +231,19 @@
 }
 
 .homeWhatIsMasternodeText {
-  font-family: 'Arimo-Regular';
-  color: #7B7B7B;
+  font-family: 'Raleway-Light';
+  color: #000000;
   font-size: 18px;
 }
 
 .homeWhatIsMasternodeFirstDotesImageContainer > img {
-  margin: 10px 0 10px 69px;
+  margin: 10px 0 10px 45px;
+  max-width: 610px;
 }
 
 .homeWhatIsMasternodeSecondDotesImageContainer > img {
-  margin: 10px 0 10px 70px;
+  margin: 10px 0 10px 50px;
+  max-width: 610px;
 }
 
 .homeWhatIsFirstSectionParagraph,
@@ -234,7 +257,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/assets/images/homeFooterBackground.jpg');
+  background-color: #2283C6;
   padding: 100px 0;
 }
 
@@ -257,6 +280,7 @@
 .homeFooterText {
   font-family: 'DidactGothic-Regular';
   font-size: 36px;
+  text-align: center;
   color: #FFFFFF;
 }
 
