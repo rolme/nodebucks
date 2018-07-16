@@ -51,17 +51,43 @@
 }
 
 .addNodeButton {
-  border-radius: 50px;
-  background-color: #3D58E7;
+  background-color: #FC6422;
   color: white !important;
-  font-family: 'Karla-Regular' !important;
-  font-size: 17px !important;
+  font-family: 'Raleway-SemiBold' !important;
+  font-size: 16px !important;
   margin: 0 auto;
   letter-spacing: 1px;
   width: 155px;
+  border: none;
 }
 
-.addNodeButton:hover {
-  background-color: #415cff;
+.contactSalesButton {
+  background-color: #2283C6;
   color: white !important;
+  font-family: 'Raleway-SemiBold' !important;
+  font-size: 16px !important;
+  margin: 0 auto;
+  letter-spacing: 1px;
+  width: 155px;
+  border: none;
+}
+
+.addNodeButton:focus,
+.addNodeButton:visited,
+.addNodeButton:active,
+.addNodeButton:hover {
+  background-color: rgba(252, 100, 34, 0.78) !important;
+  color: white !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.contactSalesButton:focus,
+.contactSalesButton:visited,
+.contactSalesButton:active,
+.contactSalesButton:hover {
+  background-color: #299be7 !important;
+  color: white !important;
+  outline: none !important;
+  box-shadow: none !important;
 }

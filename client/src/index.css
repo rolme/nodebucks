@@ -8,15 +8,6 @@
 }
 
 @font-face {
-  font-family: 'Karla-Regular';
-  src: local('Karla-Regular'), local('Karla-Regular'),
-  url('./assets/fonts/karlaRegular/Karla-Regular.ttf') format('truetype'),
-  url('./assets/fonts/karlaRegular/Karla-Regular.svg#Karla-Regular.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Arimo-Regular';
   src: local('Arimo-Regular'), local('Arimo-Regular'),
   url('./assets/fonts/arimoRegular/Arimo-Regular.ttf') format('truetype'),
@@ -41,6 +32,12 @@
   url('./assets/fonts/ralewayRegular/Raleway-Regular.svg#Raleway') format('svg');
 }
 
+@font-face {
+  font-family: 'Raleway-Light';
+  src: local('Raleway-Light'), local('Raleway-Light'),
+  url('./assets/fonts/ralewayLight/Raleway-Light.ttf') format('truetype'),
+  url('./assets/fonts/ralewayLight/Raleway-Light.svg#Raleway') format('svg');
+}
 
 @font-face {
   font-family: 'Raleway-Bold';
@@ -53,11 +50,16 @@
 
 @font-face {
   font-family: 'Raleway-Medium';
-  src: local('Raleway Medium'), local('Raleway-Medium'),
+  src: local('Raleway-Medium'), local('Raleway-Medium'),
   url('./assets/fonts/ralewayMedium/Raleway-Medium.ttf') format('truetype'),
-  url('./assets/fonts/ralewayMedium/Raleway-Medium.svg#Raleway-Medium') format('svg');
-  font-weight: 500;
-  font-style: normal;
+  url('./assets/fonts/ralewayMedium/Raleway-Medium.svg#Raleway') format('svg');
+}
+
+@font-face {
+  font-family: 'Raleway-SemiBold';
+  src: local('Raleway-SemiBold'), local('Raleway-SemiBold'),
+  url('./assets/fonts/ralewaySemiBold/Raleway-SemiBold.ttf') format('truetype'),
+  url('./assets/fonts/ralewaySemiBold/Raleway-SemiBold.svg#Raleway') format('svg');
 }
 
 html {
@@ -72,7 +74,7 @@ body {
   font-family: sans-serif;
 }
 
-.appContainer{
+.appContainer {
   max-width: 1920px;
   margin: 0 auto;
 }
@@ -86,7 +88,7 @@ body {
 .pageContainer {
   overflow-y: hidden;
   margin: 0 auto;
-  min-height: calc(100% - 30px);
+  min-height: calc(100% - 60px);
   padding: 60px 0 0;
 }
 
@@ -115,7 +117,6 @@ body {
   border: none !important;
   box-shadow: none !important;
 }
-
 
 .rc-checkbox.nodebucksCheckbox > .rc-checkbox-inner {
   width: 17px;
@@ -217,6 +218,7 @@ button.disabled {
   .contentContainer {
     padding: 10px !important;
   }
+
   .pageContainer {
     padding: 80px 0 50px;
   }
