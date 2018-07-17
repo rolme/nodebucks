@@ -183,6 +183,7 @@
   border-color: transparent;
   border-radius: 5px;
   padding: 10px 15px;
+  color: white;
 }
 
 .dashboardBalanceWithdrawButton:hover,
@@ -193,6 +194,8 @@
   border-color: transparent !important;
   outline: none !important;
   box-shadow: none !important;
+  color: white;
+  text-decoration: none;
 }
 
 @media (max-width: 1200px) {

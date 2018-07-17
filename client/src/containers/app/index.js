@@ -21,6 +21,7 @@ const NewNode = Loadable({ loader: () => import('../nodes/new'), loading: Loadin
 const Node = Loadable({ loader: () => import('../nodes/show'), loading: Loading })
 const Privacy = Loadable({ loader: () => import('../../components/privacy'), loading: Loading })
 const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Loading })
+const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
@@ -46,6 +47,7 @@ export default class App extends Component {
               <PublicRoute exact path="/contact" component={Contact}/>
               <PublicRoute exact path="/nodes/:crypto/new" component={NewNode}/>
               <Route exact path="/nodes/:slug/sell" component={SellNode}/>
+              <Route exact path="/nodes/withdraw" component={Withdraw}/>
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>

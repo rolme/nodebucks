@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'reactstrap'
+import { Table } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
 import moment from 'moment'
@@ -77,7 +77,7 @@ export default class MainTable extends Component {
           </div>
           <div className="d-flex justify-content-end mt-2">
             <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add Node</NavLink>
-            <Button className="dashboardMainTableWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</Button>
+            <NavLink to={`/nodes/withdraw`} className="btn dashboardMainTableWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
           </div>
         </div>
       </div>
