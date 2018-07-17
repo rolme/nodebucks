@@ -104,11 +104,15 @@ class Node extends Component {
     )
   }
 
+  numberFormat(number, decimalPointsAmount){
+    return (+number).toFixed(decimalPointsAmount).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+  }
+
   displaySummary(node) {
-    const value = (+node.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    const cost = (+node.cost).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    const rewardTotal = (+node.rewardTotal).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-    const rewardPercentage = (node.rewardTotal / node.cost).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const value = this.numberFormat(+node.value, 2)
+    const cost = this.numberFormat(+node.cost, 2)
+    const rewardTotal = this.numberFormat(+node.rewardTotal, 2)
+    const rewardPercentage = this.numberFormat(node.rewardTotal / node.cost, 2)
     return (
       <div>
         <h5 className="showPageSectionHeader"> Summary </h5>
@@ -179,19 +183,22 @@ class Node extends Component {
   }
 
   displayROI(node) {
+    const week = this.numberFormat(node.rewards.week, 2)
+    const month = this.numberFormat(node.rewards.month, 2)
+    const year = this.numberFormat(node.rewards.year, 2)
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader">ROI</h5>
         <div className="bg-white p-3">
           <dl className="row mb-0">
             <dd className="col-6">Last Week</dd>
-            <dt className="col-6 text-right">$ {node.rewards.week}</dt>
+            <dt className="col-6 text-right">$ {week}</dt>
 
             <dd className="col-6">Last Month</dd>
-            <dt className="col-6 text-right">$ {node.rewards.month}</dt>
+            <dt className="col-6 text-right">$ {month}</dt>
 
             <dd className="col-6">Last Year</dd>
-            <dt className="col-6 text-right">$ {node.rewards.year}</dt>
+            <dt className="col-6 text-right">$ {year}</dt>
           </dl>
         </div>
       </div>
@@ -199,7 +206,7 @@ class Node extends Component {
   }
 
   displayActions(node) {
-    const value = (+node.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const value = this.numberFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
     return (
       <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
@@ -247,14 +254,14 @@ class Node extends Component {
   }
 
   handleHistoryData(events) {
-    let total = events.map(e => e.value).reduce((t, v) => +t + +v)
+    let total = events.map(e => e.value).length ? events.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
           <td>{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
           <td>{event.description}</td>
-          <td>{total.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}</td>
+          <td>{this.numberFormat(total, 2)}</td>
         </tr>
       )
       total = +total - +event.value

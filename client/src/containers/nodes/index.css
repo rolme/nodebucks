@@ -67,7 +67,8 @@
 /*Show Page Style*/
 .showPageContainer {
   background-color: #FAFAFA;
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 120px);
+  padding-bottom: 40px;
 }
 
 .showPageContentContainer {
