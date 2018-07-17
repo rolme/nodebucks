@@ -44,8 +44,6 @@
   src: local('Raleway'), local('Raleway-Bold'),
   url('./assets/fonts/ralewayBold/Raleway-Bold.ttf') format('truetype'),
   url('./assets/fonts/ralewayBold/Raleway-Bold.svg#Raleway-Bold') format('svg');
-  font-weight: normal;
-  font-style: normal;
 }
 
 @font-face {
@@ -60,6 +58,20 @@
   src: local('Raleway-SemiBold'), local('Raleway-SemiBold'),
   url('./assets/fonts/ralewaySemiBold/Raleway-SemiBold.ttf') format('truetype'),
   url('./assets/fonts/ralewaySemiBold/Raleway-SemiBold.svg#Raleway') format('svg');
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: local('OpenSans'), local('OpenSans'),
+  url('./assets/fonts/openSansRegular/OpenSans-Regular.ttf') format('truetype'),
+  url('./assets/fonts/openSansRegular/OpenSans-Regular.svg#OpenSans') format('svg');
+}
+
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: local('OpenSans-Bold'), local('OpenSans-Bold'),
+  url('./assets/fonts/openSansBold/OpenSans-Bold.ttf') format('truetype'),
+  url('./assets/fonts/openSansBold/OpenSans-Bold.svg#OpenSans') format('svg');
 }
 
 html {

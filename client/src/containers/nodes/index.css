@@ -118,7 +118,6 @@
   min-width: 180px;
 }
 
-
 .showPageHistoryTableButton {
   background-color: #EEEEEE;
   border: none;
@@ -229,16 +228,19 @@
 }
 
 /*Sell Page Style*/
-.sellPageContainer {
+.sellPageContainer,
+.withdrawPageContainer {
   min-height: calc(100vh - 90px);
   background-color: #FAFAFA;
 }
 
-.sellPageContentContainer {
+.sellPageContentContainer,
+.withdrawPageContentContainer {
   max-width: 850px;
 }
 
-.sellPageBackButton {
+.sellPageBackButton,
+.withdrawPageBackButton {
   padding: 15px 0;
   cursor: pointer;
   font-family: Raleway;
@@ -251,15 +253,18 @@
   margin: 0;
 }
 
-.sellPageBackButton > img {
+.sellPageBackButton > img,
+.withdrawPageBackButton > img {
   margin-right: 10px;
 }
 
-.sellPageBackButton:hover {
+.sellPageBackButton:hover,
+.withdrawPageBackButton:hover {
   color: #2499e7;
 }
 
-.sellPageMainContentContainer {
+.sellPageMainContentContainer,
+.withdrawPageMainContentContainer {
   background-color: white;
   padding: 30px;
 }
@@ -428,8 +433,72 @@
   box-shadow: none !important;
 }
 
+/*Withdraw Page Style*/
+.withdrawPageTitle {
+  color: #3B3B3B;
+  font-size: 30px;
+  font-family: Raleway-Bold;
+  font-weight: bold;
+  text-align: center;
+}
+
+.withdrawPageInformationPartContainer {
+  background-color: #EDEDED;
+  padding: 20px 20px 5px;
+  margin: 30px 0 25px 0;
+}
+
+.withdrawInformationPartHeaderLabel {
+  color: #3B3B3B;
+  font-family: OpenSans-Bold;
+  font-size: 14px;
+  margin-bottom: 25px;
+  line-height: 14px;
+}
+
+.withdrawInformationPartHeaderValue {
+  color: #3B3B3B;
+  font-family: OpenSans-Bold;
+  font-size: 18px;
+  margin-bottom: 25px;
+  line-height: 14px;
+}
+
+.withdrawInformationDivider {
+  height: 1px;
+  background-color: #D0D0D0;
+  margin-bottom: 25px;
+}
+
+.withdrawInformationPartInfo {
+  font-family: OpenSans;
+  font-size: 14px;
+  color: #7A7A7A;
+  margin-bottom: 15px;
+  line-height: 14px;
+}
+
+.withdrawPageAllButton {
+  margin-left: 10px;
+  margin-bottom: 21px;
+  padding: 20px 10px !important;
+}
+
+.withdrawPageWithdrawButton {
+  background-color: #FC6422;
+  width: 100%;
+}
+
+.withdrawPageWithdrawButton:active,
+.withdrawPageWithdrawButton:focus,
+.withdrawPageWithdrawButton:visited,
+.withdrawPageWithdrawButton:hover {
+  background-color: rgba(252, 100, 34, 0.79) !important;
+}
+
 @media (max-width: 500px) {
-  .sellPageMainContentContainer {
+  .sellPageMainContentContainer,
+  .withdrawPageMainContentContainer {
     padding: 15px 5px;
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-
-import { Button } from 'reactstrap'
+import { NavLink } from 'react-router-dom'
 
 export default class Balance extends Component {
   render() {
@@ -50,7 +49,7 @@ export default class Balance extends Component {
           </table>
         </div>
         <div className="d-flex justify-content-end">
-          <Button className="dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</Button>
+          <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
         </div>
       </div>
     )
