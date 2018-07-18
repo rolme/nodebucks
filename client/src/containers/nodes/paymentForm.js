@@ -1,5 +1,5 @@
 import React from 'react'
-import { CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement, injectStripe } from 'react-stripe-elements'
+import { CardElement, injectStripe } from 'react-stripe-elements'
 
 import { Col, Alert, Button } from 'reactstrap'
 
@@ -42,23 +42,13 @@ class _PaymentForm extends React.Component {
           </Alert>
         </Col>
         }
-        <label>
-          Card number
+        <label className="w-100">
+          Card details
+          <CardElement style={{ base: { fontSize: '18px' } }}/>
         </label>
-        <CardNumberElement style={{ base: { fontSize: '18px' } }}/>
-        <label>
-          Expiration date
-        </label>
-        <CardExpiryElement style={{ base: { fontSize: '18px' } }}/>
-        <label>
-          CVC
-        </label>
-        <CardCVCElement style={{ base: { fontSize: '18px' } }}/>
-        <label>
-          Postal code
-        </label>
-        <PostalCodeElement style={{ base: { fontSize: '18px' } }}/>
-        <Button disabled={!!refreshing} color="primary">Purchase Node</Button>
+        <Col className="d-flex justify-content-center">
+          <Button disabled={!!refreshing} color="primary">Purchase Node</Button>
+        </Col>
       </form>
     )
   }

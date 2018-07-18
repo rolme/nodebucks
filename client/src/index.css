@@ -41,7 +41,7 @@
 
 @font-face {
   font-family: 'Raleway-Bold';
-  src: local('Raleway'), local('Raleway-Bold'),
+  src: local('Raleway-Bold'), local('Raleway-Bold'),
   url('./assets/fonts/ralewayBold/Raleway-Bold.ttf') format('truetype'),
   url('./assets/fonts/ralewayBold/Raleway-Bold.svg#Raleway-Bold') format('svg');
 }
@@ -222,7 +222,7 @@ button.disabled {
 
 @media (max-width: 992px) {
   .pageContainer {
-    padding: 60px 0 30px;
+    padding: 80px 0 30px;
   }
 }
 
