@@ -61,8 +61,9 @@ class LogIn extends Component {
     this.props.reset()
   }
 
-  handleFieldValueChange(newValue, name) {
+  handleFieldValueChange(newValue, name, onEnter) {
     this.setState({ [name]: newValue, })
+    onEnter && this.validation()
   }
 
   onAddonClick(name) {
@@ -157,6 +158,7 @@ class LogIn extends Component {
                           message={messages.email}
                           error={errors.email}
                           handleFieldValueChange={this.handleFieldValueChange}
+                          onKeyPress={true}
               />
               <InputField label='Password'
                           name="password"
@@ -168,6 +170,7 @@ class LogIn extends Component {
                           addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
+                          onKeyPress={true}
               />
               <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 flex-row justify-content-between">
                 <FormGroup className="rememberMeCheckboxContainer">
