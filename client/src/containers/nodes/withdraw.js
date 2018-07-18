@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Col, Container, Row, FormGroup, Label, Input, Button } from 'reactstrap'
+import { Col, Container, Row, Button } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import InputField from '../../components/elements/inputField'
 import './index.css'
@@ -28,7 +28,6 @@ class Withdraw extends Component {
       }
     }
 
-    this.handleGoBack = this.handleGoBack.bind(this)
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
   }

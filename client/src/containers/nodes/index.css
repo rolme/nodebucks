@@ -34,6 +34,82 @@
   outline: none;
 }
 
+.purchasePageHeader {
+  color: #000000;
+  font-family: Raleway-Bold;
+  font-size: 30px;
+}
+
+.purchasePageLinksContainer {
+  margin: 15px 0 30px 0;
+}
+
+.purchasePageLinksContainer > a {
+  color: #2283C7;
+  font-size: 16px;
+  font-family: Raleway-Bold;
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+  line-height: 9px;
+}
+
+.purchasePageLinksContainer > a > svg {
+  width: 25px !important;
+  height: 25px !important;
+  margin-right: 5px;
+}
+
+.purchasePageLinksContainer > a:hover,
+.purchasePageLinksContainer > a:hover > svg {
+  text-decoration: none;
+  color: #2795e0;
+}
+
+.purchasePageCrpytoDataContainer > div > p,
+.purchasePageCrpytoDataContainer > div > div > p {
+  font-family: OpenSans;
+  color: #000000;
+  font-weight: bold;
+  text-align: center;
+}
+
+.purchasePagePaymentFormContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.purchaseNodeAuthPartTabs {
+  min-width: 350px;
+  display: flex;
+  padding: 0 10px;
+  flex-wrap: wrap;
+}
+
+.purchaseNodeAuthPartTabs > div {
+  display: flex;
+  background-color: #EDEDED;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 0;
+  cursor: pointer;
+}
+
+.purchaseNodeAuthPartTabs > div > p {
+  margin-bottom: 0;
+  font-family: Raleway-SemiBold;
+  font-size: 14px;
+  color: #000000;
+}
+
+.purchaseNodeAuthPartTabs > div.selectedAuthTab {
+  background-color: #2283C6;
+}
+
+.purchaseNodeAuthPartTabs > div.selectedAuthTab > p {
+  color: #FFFFFF;
+}
+
 .StripeElement {
   display: block;
   margin: 10px 0 20px 0;
@@ -229,18 +305,21 @@
 
 /*Sell Page Style*/
 .sellPageContainer,
-.withdrawPageContainer {
+.withdrawPageContainer,
+.purchasePageContainer {
   min-height: calc(100vh - 90px);
   background-color: #FAFAFA;
 }
 
 .sellPageContentContainer,
-.withdrawPageContentContainer {
+.withdrawPageContentContainer,
+.purchasePageContentContainer {
   max-width: 850px;
 }
 
 .sellPageBackButton,
-.withdrawPageBackButton {
+.withdrawPageBackButton,
+.purchasePageBackButton {
   padding: 15px 0;
   cursor: pointer;
   font-family: Raleway;
@@ -254,17 +333,20 @@
 }
 
 .sellPageBackButton > img,
-.withdrawPageBackButton > img {
+.withdrawPageBackButton > img,
+.purchasePageBackButton > img {
   margin-right: 10px;
 }
 
 .sellPageBackButton:hover,
-.withdrawPageBackButton:hover {
+.withdrawPageBackButton:hover,
+.purchasePageBackButton:hover {
   color: #2499e7;
 }
 
 .sellPageMainContentContainer,
-.withdrawPageMainContentContainer {
+.withdrawPageMainContentContainer,
+.purchasePageMainContentContainer {
   background-color: white;
   padding: 30px;
 }
@@ -496,10 +578,29 @@
   background-color: rgba(252, 100, 34, 0.79) !important;
 }
 
+@media (max-width: 641px) {
+  .purchasePageLinksContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .purchasePageLinksContainer > a:first-child {
+    margin-bottom: 20px;
+  }
+
+  .purchasePageMainContentContainer {
+    padding: 30px 5px;
+  }
+}
+
 @media (max-width: 500px) {
   .sellPageMainContentContainer,
   .withdrawPageMainContentContainer {
     padding: 15px 5px;
+  }
+  .purchaseNodeAuthPartTabs {
+    min-width: 100%;
   }
 }
 

@@ -7,11 +7,12 @@ import { Button, Container, Col, Row } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
-import LogIn from '../authenticate/login'
-import SignUp from '../authenticate/signUp'
 import PaymentMethod from './paymentForm'
+import AuthForms from './authForms'
 import { Elements } from 'react-stripe-elements';
 import { fetchCrypto } from '../../reducers/cryptos'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faChartLine, faGlobe } from '@fortawesome/fontawesome-free-solid'
 import {
   purchaseNode,
   reserveNode
@@ -70,18 +71,19 @@ class NewNode extends Component {
     this.props.purchaseNode(slug)
   }
 
-  handleReload() {
-    window.location.reload()
-  }
-
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.reserveNode(params.crypto, true)
     this.setState({ validPrice: true })
   }
 
+  handleGoBack() {
+    window.history.back()
+  }
+
   render() {
     const { crypto, history, node, nodeMessage, user } = this.props
+    const { validPrice } = this.state
 
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
@@ -89,19 +91,42 @@ class NewNode extends Component {
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
-      <Container fluid className="bg-white nodePageContainer">
-        <div className="contentContainer">
-          <h1 className="pt-3">
-            {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} height="55px" width="55px" className="p-1"/>}
-            Purchase {masternode.name} Masternode
-          </h1>
-          <a href={masternode.url} target="_new">Homepage</a> | <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new">Market Info</a>
-          <Col xl={12} className="d-flex px-0">
-            {this.displayCryptoData(masternode)}
-            {this.displayPricingInfo(masternode)}
-          </Col>
+      <Container fluid className="purchasePageContainer">
+        <div className="contentContainer purchasePageContentContainer">
+          <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
+          <div className="purchasePageMainContentContainer">
+            <h1 className="pt-3 text-center purchasePageHeader">
+              {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} height="55px" width="55px" className="p-1"/>}
+              Purchase {masternode.name} Masternode
+            </h1>
+            {!!masternode && !!masternode.url && !!masternode.name &&
+            <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
+              <a href={masternode.url} target="_new"><FontAwesomeIcon icon={faGlobe} color="#2283C7"/> {masternode.name} Homepage</a>
+              <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><FontAwesomeIcon icon={faChartLine} color="#2283C7"/> {masternode.name} Market Info</a>
+            </Col>
+            }
+            <Col xl={12} className="d-flex px-0 flex-wrap">
+              {this.displayCryptoData(masternode)}
+              {this.displayPricingInfo(masternode)}
+              {!!user && validPrice && !!masternode.nodePrice && this.displayPaymentForm(masternode)}
+              {!user && <AuthForms/>}
+            </Col>
+          </div>
         </div>
       </Container>
+    )
+  }
+
+  displayPaymentForm(item) {
+    const { refreshing } = this.props
+    return (
+      <Col xl={12} className="px-0 pt-2">
+        <div className='purchasePagePaymentFormContainer'>
+          <Elements>
+            <PaymentMethod slug={item.nodeSlug} onSuccess={this.handlePurchase} refreshing={refreshing}/>
+          </Elements>
+        </div>
+      </Col>
     )
   }
 
@@ -118,52 +143,34 @@ class NewNode extends Component {
     }
 
     return (
-      <Col xl={8} className="px-0 pt-2">
-        <Row>
-          <Col xl={4}>Est. Annual ROI</Col>
-          <Col xl={4}>{priceHeader}</Col>
-          <Col xl={4}>Total Masternodes</Col>
-        </Row>
-        <Row>
-          <Col xl={4}>{!!annualRoi ? annualRoi : <ClipLoader
-            size={35}
-            color={'#3F89E8'}
-            loading={true}
-          />}</Col>
-          <Col xl={4} className="d-flex align-items-center">
-            {!!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? nodePrice : <ClipLoader
+      <Col xl={12} lg={12} md={12} className="px-0 pt-2">
+        <Row className="purchasePageCrpytoDataContainer">
+          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
+            <p className="mb-0">Est. Annual ROI</p>
+            {!!annualRoi ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
-            />}
-            {!!user && !!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>}
+            />}</Col>
+          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
+            <p className="mb-0">{priceHeader}</p>
+            <div className="d-flex align-items-center justify-content-center">
+              {!!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
+                size={35}
+                color={'#3F89E8'}
+                loading={true}
+              />}
+              {!!user && !!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>}
+            </div>
           </Col>
-          <Col xl={4}>{!!item.masternodes ? item.masternodes : <ClipLoader
-            size={35}
-            color={'#3F89E8'}
-            loading={true}
-          />}</Col>
+          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
+            <p className="mb-0">Total Masternodes</p>
+            {!!item.masternodes ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
+              size={35}
+              color={'#3F89E8'}
+              loading={true}
+            />}</Col>
         </Row>
-        {!!user && validPrice && !!nodePrice &&  (
-          <Row>
-            <Col xl={12} className="py-4">
-              <Elements>
-                <PaymentMethod slug={item.nodeSlug} onSuccess={this.handlePurchase} refreshing={refreshing}/>
-              </Elements>
-            </Col>
-          </Row>
-        )}
-        {!user && (
-          <Row>
-            <Col xl={12}>
-              <LogIn isOnlyForm={true} onSuccess={this.handleReload}/>
-            </Col>
-            <Col xl={12}>
-              <SignUp onSuccess={this.handleReload}/>
-            </Col>
-          </Row>
-        )}
-
       </Col>
     )
   }
@@ -180,9 +187,9 @@ class NewNode extends Component {
     }
 
     return (
-      <Col xl={4} className="px-0">
+      <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="px-0 mt-4">
         {!!user && <h2 className="text-center"><Countdown refreshing={refreshing} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
-        <p>{info}</p>
+        <p className="text-center">{info}</p>
       </Col>
     )
   }
