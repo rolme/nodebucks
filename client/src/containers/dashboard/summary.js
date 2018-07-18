@@ -21,15 +21,28 @@ export default class Summary extends Component {
         return data
       })
     } else {
-      return <span>Pending...</span>
+     /* summary = {
+        rewardTotal: 0,
+        value: 0,
+        cost: 0,
+        rewards: {month: 0},
+      }*/
+      return (
+        <div className="dashboardSummarySectionContainer  mb-4">
+          <h5 className="dashboardSectionHeader"> Summary </h5>
+          <div className="bg-white dashboardSummaryTableContainer">
+           <p>No data available.</p>
+          </div>
+        </div>
+      )
     }
 
     const rewardTotal = this.changeNumberFormat(+summary.rewardTotal)
     const value = this.changeNumberFormat(+summary.value)
     const cost = this.changeNumberFormat(+summary.cost)
     const month = this.changeNumberFormat(+summary.rewards.month)
-    const annual = this.changeNumberFormat((+summary.crypto.yearlyRoiValue / +summary.cost) * 100)
-    const monthPercentage = this.changeNumberFormat((+summary.rewards.month / +summary.cost) * 100)
+    const annual = !!summary.cost ? this.changeNumberFormat((+summary.crypto.yearlyRoiValue / +summary.cost) * 100) : '0.00'
+    const monthPercentage = !!summary.cost ?  this.changeNumberFormat((+summary.rewards.month / +summary.cost) * 100) : '0.00'
 
     return (
       <div className="dashboardSummarySectionContainer  mb-4">

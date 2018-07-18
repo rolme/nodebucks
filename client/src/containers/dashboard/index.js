@@ -26,10 +26,6 @@ class Dashboard extends Component {
     const { nodes } = this.props
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
-    if ( nodes.length <= 0 ) {
-      return (<span>Pending...</span>)
-    }
-
     // Do not display sold nodes
     const filteredNodes = nodes.filter(node => {
       return node.status !== 'sold'
@@ -61,7 +57,7 @@ class Dashboard extends Component {
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Projected Annual</h5>
-              <p>{this.changeNumberFormat(yearlyRoiValues / costBases) * 100}%</p>
+              <p>{!!costBases ? this.changeNumberFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
             </Col>
           </Row>
           <Row>

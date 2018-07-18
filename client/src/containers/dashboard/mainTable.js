@@ -43,10 +43,25 @@ export default class MainTable extends Component {
 
   render() {
     const { list } = this.props
-
+    if ( !list.length ) {
+      return (
+        <div className="mainTableContainer">
+          <div className="contentContainer px-0">
+            <h5 className="dashboardSectionHeader"> Masternodes </h5>
+            <div className="dashboardMainTableContainer">
+              <p>You have no masternodes. Add one now. </p>
+              <div className="d-flex justify-content-center mt-2">
+                <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add One Now</NavLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="mainTableContainer">
         <div className="contentContainer px-0">
+          <h5 className="dashboardSectionHeader"> Masternodes </h5>
           <div className="dashboardMainTableContainer">
             <Table responsive bordered className="dashboardMainTable">
               <thead>

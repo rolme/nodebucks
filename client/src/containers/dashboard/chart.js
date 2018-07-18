@@ -33,41 +33,44 @@ export default class Chart extends Component {
     const { selectedNodeSlug } = this.state
     let labels = [], values = [], datasets = []
 
-    if ( selectedNodeSlug === "All" ) {
-      nodes.forEach(nodeData => {
-        values = []
-        this.proceedNodeValues(nodeData.values).forEach(node => {
+    if ( !!nodes.length ) {
+
+      if ( selectedNodeSlug === "All" ) {
+        nodes.forEach(nodeData => {
+          values = []
+          this.proceedNodeValues(nodeData.values).forEach(node => {
+            values.push(+node.value)
+            const date = node.timestamp
+            !labels.find(label => label === date) && labels.push(date)
+          })
+          const color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
+          datasets.push({
+            fill: false,
+            borderSkipped: 'bottom',
+            backgroundColor: color,
+            borderColor: color,
+            data: values
+          })
+        })
+      } else {
+        this.proceedNodeValues(nodes.find(node => node.slug === selectedNodeSlug).values).forEach(node => {
           values.push(+node.value)
-          const date = node.timestamp
-          !labels.find(label => label === date) && labels.push(date)
+          labels.push(node.timestamp)
         })
-        const color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
-        datasets.push({
-          fill: false,
-          borderSkipped: 'bottom',
-          backgroundColor: color,
-          borderColor: color,
-          data: values
-        })
+        datasets = [
+          {
+            fill: false,
+            borderSkipped: 'bottom',
+            backgroundColor: '#2283C6',
+            borderColor: '#2283C6',
+            data: values
+          }
+        ]
+      }
+      labels.sort((a, b) => {
+        return moment(new Date(a)).valueOf() > moment(new Date(b)).valueOf()
       })
-    } else {
-      this.proceedNodeValues(nodes.find(node => node.slug === selectedNodeSlug).values).forEach(node => {
-        values.push(+node.value)
-        labels.push(node.timestamp)
-      })
-      datasets = [
-        {
-          fill: false,
-          borderSkipped: 'bottom',
-          backgroundColor: '#2283C6',
-          borderColor: '#2283C6',
-          data: values
-        }
-      ]
     }
-    labels.sort((a, b) => {
-      return moment(new Date(a)).valueOf() > moment(new Date(b)).valueOf()
-    })
     return {
       labels,
       datasets

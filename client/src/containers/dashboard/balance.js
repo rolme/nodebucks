@@ -5,6 +5,18 @@ export default class Balance extends Component {
   render() {
 
     let balances = {}, { nodes } = this.props
+
+    if(!nodes.length){
+      return (
+        <div className="dashboardBalanceSectionContainer  mb-4">
+          <h5 className="dashboardSectionHeader"> Balance </h5>
+          <div className="bg-white dashboardBalanceTableContainer">
+            <p>No data available</p>
+          </div>
+        </div>
+      )
+    }
+
     nodes.forEach(n => {
       if ( !balances[ n.crypto.name ] ) {
         balances[ n.crypto.name ] = {}
