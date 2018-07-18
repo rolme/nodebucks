@@ -104,7 +104,7 @@ class Node extends Component {
     )
   }
 
-  numberFormat(number, decimalPointsAmount){
+  numberFormat(number, decimalPointsAmount) {
     return (+number).toFixed(decimalPointsAmount).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   }
 
@@ -228,7 +228,8 @@ class Node extends Component {
 
   displayHistory(node) {
     const { showAllHistoryData } = this.state
-    const events = showAllHistoryData ? node.events : node.events.filter(event => moment().diff(moment(new Date(event.timestamp)), 'days') <= 30)
+    const lastDaysData = node.events.filter(event => moment().diff(moment(new Date(event.timestamp)), 'days') <= 30)
+    const events = !lastDaysData.length || showAllHistoryData ? node.events : lastDaysData
     return (
       <div>
         <h5 className="showPageSectionHeader"> History </h5>
@@ -245,9 +246,11 @@ class Node extends Component {
             {this.handleHistoryData(events)}
             </tbody>
           </Table>
+          {!!lastDaysData.length &&
           <div className="d-flex justify-content-center">
             <Button className="showPageHistoryTableButton" onClick={this.toggleHistoryDataAmount}> <FontAwesomeIcon icon={showAllHistoryData ? faChevronUp : faChevronDown} color="#213238" className="mr-2"/> {showAllHistoryData ? 'PREVIOUS 30 DAYS' : 'VIEW ALL'}</Button>
           </div>
+          }
         </div>
       </div>
     )
