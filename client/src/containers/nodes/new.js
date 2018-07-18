@@ -74,7 +74,6 @@ class NewNode extends Component {
     window.location.reload()
   }
 
-
   handleRefresh() {
     let { match: { params } } = this.props
     this.props.reserveNode(params.crypto, true)
