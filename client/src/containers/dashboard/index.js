@@ -26,10 +26,6 @@ class Dashboard extends Component {
     const { nodes } = this.props
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
-/*    if ( nodes.length <= 0 ) {
-      return (<span>Pending...</span>)
-    }*/
-
     // Do not display sold nodes
     const filteredNodes = nodes.filter(node => {
       return node.status !== 'sold'
