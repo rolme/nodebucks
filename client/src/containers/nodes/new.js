@@ -38,6 +38,7 @@ class NewNode extends Component {
     } else {
       this.props.fetchCrypto(params.crypto)
     }
+    window.scrollTo(0, 0)
   }
 
   convertToMasternode(item) {
