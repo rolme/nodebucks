@@ -33,7 +33,7 @@ class NewNode extends Component {
 
   componentWillMount() {
     let { match: { params }, user } = this.props
-
+    window.scrollTo(0, 0)
     if ( !!user ) {
       this.props.reserveNode(params.crypto)
     } else {
