@@ -17,6 +17,15 @@ export default class Chart extends Component {
 
   componentWillMount() {
     const { nodes } = this.props
+    this.defineSelectedNodeSlug(nodes)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { nodes } = nextProps
+    this.defineSelectedNodeSlug(nodes)
+  }
+
+  defineSelectedNodeSlug(nodes) {
     let { selectedNodeSlug } = this.state
     if ( !!nodes && nodes.length > 1 ) {
       selectedNodeSlug = 'All'
@@ -53,7 +62,8 @@ export default class Chart extends Component {
           })
         })
       } else {
-        this.proceedNodeValues(nodes.find(node => node.slug === selectedNodeSlug).values).forEach(node => {
+        const node = nodes.find(node => node.slug === selectedNodeSlug)
+        !!node && !!node.values && this.proceedNodeValues(node.values).forEach(node => {
           values.push(+node.value)
           labels.push(node.timestamp)
         })
