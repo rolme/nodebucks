@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
-import { Button, Container, Col, Row } from 'reactstrap'
+import { Alert, Button, Container, Col, Row } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
@@ -24,6 +24,7 @@ class NewNode extends Component {
     super(props)
 
     this.state = {
+      showReloadAlert: false,
       validPrice: true
     }
     this.handleRefresh = this.handleRefresh.bind(this)
@@ -38,6 +39,18 @@ class NewNode extends Component {
     } else {
       this.props.fetchCrypto(params.crypto)
     }
+    this.checkPriceDataAvailability()
+  }
+
+  checkPriceDataAvailability() {
+    const that = this
+    const { crypto, node, user } = this.props
+    const masternode = this.convertToMasternode((!!user) ? node : crypto)
+    setTimeout(() => {
+      if ( !masternode.nodePrice ) {
+        that.setState({ showReloadAlert: true })
+      }
+    }, 30000)
   }
 
   convertToMasternode(item) {
@@ -75,6 +88,7 @@ class NewNode extends Component {
     let { match: { params } } = this.props
     this.props.reserveNode(params.crypto, true)
     this.setState({ validPrice: true })
+    this.checkPriceDataAvailability()
   }
 
   handleGoBack() {
@@ -83,7 +97,7 @@ class NewNode extends Component {
 
   render() {
     const { crypto, history, node, nodeMessage, user } = this.props
-    const { validPrice } = this.state
+    const { validPrice, showReloadAlert } = this.state
 
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
@@ -92,6 +106,13 @@ class NewNode extends Component {
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
       <Container fluid className="purchasePageContainer">
+        <div className="contentContainer purchasePageContentContainer">
+          {showReloadAlert && !masternode.nodePrice &&
+          <Alert color='danger'>
+            This is taking longer than usual. Please try again.
+          </Alert>
+          }
+        </div>
         <div className="contentContainer purchasePageContentContainer">
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
