@@ -96,7 +96,7 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user } = this.props
+    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert } = this.state
 
     if ( nodeMessage === 'Purchase node successful.' ) {
@@ -117,10 +117,10 @@ class NewNode extends Component {
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
             <h1 className="pt-3 text-center purchasePageHeader">
-              {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} height="55px" width="55px" className="p-1"/>}
-              Purchase {masternode.name} Masternode
+              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} height="55px" width="55px" className="p-1"/>}
+              Purchase {!!nodePending || !!cryptoPending ? '' : masternode.name} Masternode
             </h1>
-            {!!masternode && !!masternode.url && !!masternode.name &&
+            {!!masternode && !!masternode.url && !!masternode.name && !nodePending && !cryptoPending &&
             <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
               <a href={masternode.url} target="_new"><FontAwesomeIcon icon={faGlobe} color="#2283C7"/> {masternode.name} Homepage</a>
               <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><FontAwesomeIcon icon={faChartLine} color="#2283C7"/> {masternode.name} Market Info</a>
@@ -129,7 +129,7 @@ class NewNode extends Component {
             <Col xl={12} className="d-flex px-0 flex-wrap">
               {this.displayCryptoData(masternode)}
               {this.displayPricingInfo(masternode)}
-              {!!user && validPrice && !!masternode.nodePrice && this.displayPaymentForm(masternode)}
+              {!!user && validPrice && !!masternode.nodePrice && !nodePending && !cryptoPending && this.displayPaymentForm(masternode)}
               {!user && <AuthForms/>}
             </Col>
           </div>
@@ -152,7 +152,7 @@ class NewNode extends Component {
   }
 
   displayCryptoData(item) {
-    const { user, refreshing } = this.props
+    const { user, refreshing, nodePending, cryptoPending } = this.props
     const { validPrice } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : ''
@@ -168,7 +168,7 @@ class NewNode extends Component {
         <Row className="purchasePageCrpytoDataContainer">
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <p className="mb-0">Est. Annual ROI</p>
-            {!!annualRoi ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
+            {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
@@ -176,17 +176,17 @@ class NewNode extends Component {
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <p className="mb-0">{priceHeader}</p>
             <div className="d-flex align-items-center justify-content-center">
-              {!!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
+              {!!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
                 size={35}
                 color={'#3F89E8'}
                 loading={true}
               />}
-              {!!user && !!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>}
+              {!!user && !nodePending && !cryptoPending && !!nodePrice && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}>Refresh</Button>}
             </div>
           </Col>
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <p className="mb-0">Total Masternodes</p>
-            {!!item.masternodes ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
+            {!!item.masternodes && !nodePending && !cryptoPending ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
@@ -197,7 +197,7 @@ class NewNode extends Component {
   }
 
   displayPricingInfo(masternode) {
-    const { user, refreshing } = this.props
+    const { user, refreshing, nodePending, cryptoPending } = this.props
     const { validPrice } = this.state
 
     let info = <p className="text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
@@ -208,7 +208,7 @@ class NewNode extends Component {
     }
     return (
       <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} className="px-0 mt-4">
-        {!!user && <h2 className="text-center"><Countdown refreshing={refreshing} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
+        {!!user && <h2 className="text-center"><Countdown refreshing={refreshing || !!nodePending || !!cryptoPending} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
         {info}
       </Col>
     )
