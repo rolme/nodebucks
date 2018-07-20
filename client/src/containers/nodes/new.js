@@ -202,7 +202,7 @@ class NewNode extends Component {
 
     let info = <p className="text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
     if ( !user ) {
-      info = <p className="text-center">Node prices fluctuate frequently please login or register to gaurantee a price.</p>
+      info = <p className="text-center">Node prices fluctuate frequently. Login or register to guarantee a price. </p>
     } else if ( !validPrice ) {
       info = <p className="text-center">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
     }
