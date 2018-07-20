@@ -16,17 +16,23 @@ class SignUp extends Component {
     super(props)
 
     this.state = {
+      first: '',
+      last: '',
       email: '',
       password: '',
       confirmPassword: '',
       showPassword: false,
       showConfirmPassword: false,
       messages: {
+        first: '',
+        last: '',
         email: '',
         password: '',
         confirmPassword: ''
       },
       errors: {
+        first: '',
+        last: '',
         email: false,
         password: false,
         confirmPassword: false
@@ -75,7 +81,7 @@ class SignUp extends Component {
   }
 
   validation() {
-    const { email, password, confirmPassword } = this.state
+    const { first, last, email, password, confirmPassword } = this.state
     let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
@@ -91,6 +97,18 @@ class SignUp extends Component {
     if ( !password ) {
       messages.password = '*Required'
       errors.password = true
+      isValid = false
+    }
+
+    if ( !first ) {
+      messages.first = '*Required'
+      errors.first = true
+      isValid = false
+    }
+
+    if ( !last ) {
+      messages.last = '*Required'
+      errors.last = true
       isValid = false
     }
 
@@ -112,9 +130,11 @@ class SignUp extends Component {
   }
 
   signUp() {
-    const { email, password, confirmPassword } = this.state
+    const { first, last, email, password, confirmPassword } = this.state
 
     this.props.register({
+      first,
+      last,
       email,
       password,
       password_confirmation: confirmPassword,
@@ -122,7 +142,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const {  email, password, confirmPassword, showPassword, showConfirmPassword, messages, errors } = this.state
+    const {  first, last, email, password, confirmPassword, showPassword, showConfirmPassword, messages, errors } = this.state
     const { message, error, pending } = this.props
 
     if ( pending ) {
@@ -156,6 +176,27 @@ class SignUp extends Component {
             }
             <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 4 }} className="justify-content-center d-flex flex-column align-items-center">
               <h2 className="authHeader">Let's get started.</h2>
+              <InputField label='First Name'
+                          name="first"
+                          id="signUpFirst"
+                          type='text'
+                          autoFocus={true}
+                          value={first}
+                          message={messages.first}
+                          error={errors.first}
+                          handleFieldValueChange={this.handleFieldValueChange}
+                          onKeyPress={true}
+              />
+              <InputField label='Last Name'
+                          name="last"
+                          id="signUpLast"
+                          type='text'
+                          value={last}
+                          message={messages.last}
+                          error={errors.last}
+                          handleFieldValueChange={this.handleFieldValueChange}
+                          onKeyPress={true}
+              />
               <InputField label='Email Address'
                           name="email"
                           id="signUpEmail"
