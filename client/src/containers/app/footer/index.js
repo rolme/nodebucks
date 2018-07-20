@@ -6,7 +6,7 @@ import './index.css'
 class Footer extends Component {
   render() {
     return (
-      <div className="footerContainer fixed-bottom mx-auto">
+      <div className="footerContainer mx-auto">
         <Container fluid className="px-0 flex-wrap">
           <Col xl={{ size: 3, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 align-items-center">
             <NavLink to='/' className="footerText"><img src="/assets/images/shortLogo.png" alt="logo"/></NavLink>
