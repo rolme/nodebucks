@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_11_162348) do
+ActiveRecord::Schema.define(version: 2018_07_20_195658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,9 +130,27 @@ ActiveRecord::Schema.define(version: 2018_07_11_162348) do
     t.string "country"
   end
 
+  create_table "withdrawals", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "crypto_id"
+    t.string "slug"
+    t.decimal "balance", default: "0.0"
+    t.decimal "amount", default: "0.0"
+    t.string "status", default: "pending"
+    t.integer "last_modified_by_admin_id"
+    t.datetime "processed_at"
+    t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_withdrawals_on_crypto_id"
+    t.index ["user_id"], name: "index_withdrawals_on_user_id"
+  end
+
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
   add_foreign_key "rewards", "nodes"
+  add_foreign_key "withdrawals", "cryptos"
+  add_foreign_key "withdrawals", "users"
 end
