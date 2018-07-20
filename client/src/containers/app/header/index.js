@@ -34,7 +34,7 @@ class Header extends Component {
   render() {
     const { user } = this.props
     return (
-      <Navbar className="headerNavBarContainer navbar navbar-expand-lg fixed-top navbar-light">
+      <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
