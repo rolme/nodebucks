@@ -25,7 +25,7 @@ export default class InputField extends Component {
       inputFieldContainerClassName += ' inputFieldContainerWithValue'
     }
     if ( !!error ) {
-      inputFieldContainerClassName += ' input-group inputFieldContainerWithError withAddonInputFieldGroup'
+      inputFieldContainerClassName += ' input-group inputFieldContainerWithError inputFieldContainerWithErrorMessage withAddonInputFieldGroup'
     }
     const elementId = !!id ? id : name
     const addonId = elementId + "TooltipAddon"

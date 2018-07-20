@@ -110,6 +110,16 @@
   color: #FFFFFF;
 }
 
+.purchasePageLinkText {
+  color: #2283C7;
+  cursor: pointer;
+}
+
+.purchasePageLinkText:hover {
+  color: #2395e3;
+  cursor: pointer;
+}
+
 .StripeElement {
   display: block;
   margin: 10px 0 20px 0;
@@ -599,6 +609,7 @@
   .withdrawPageMainContentContainer {
     padding: 15px 5px;
   }
+
   .purchaseNodeAuthPartTabs {
     min-width: 100%;
   }

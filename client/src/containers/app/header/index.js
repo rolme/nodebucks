@@ -88,8 +88,8 @@ class Header extends Component {
     const isSignUpPage = window.location.pathname === "/sign-up"
     let navigation = []
     {
-      navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem  nav-link nav-item" activeClassName="active">Login</NavLink>)
-      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+      navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Login</NavLink>)
+      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }

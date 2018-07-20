@@ -132,7 +132,7 @@
   cursor: pointer;
 }
 
-.withAddonInputFieldGroup.inputFieldContainerWithError > .input-group-append {
+.withAddonInputFieldGroup.inputFieldContainerWithErrorMessage > .input-group-append {
   top: 8px;
 }
 
