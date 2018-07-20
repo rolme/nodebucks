@@ -200,17 +200,16 @@ class NewNode extends Component {
     const { user, refreshing } = this.props
     const { validPrice } = this.state
 
-    let info = 'Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.'
+    let info = <p className="text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
     if ( !user ) {
-      info = 'Node prices fluctuate frequently please login or register to gaurantee a price.'
+      info = <p className="text-center">Node prices fluctuate frequently please login or register to gaurantee a price.</p>
     } else if ( !validPrice ) {
-      info = 'Price displayed is no longer valid. Please reload to get latest pricing.'
+      info = <p className="text-center">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
     }
-
     return (
-      <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} className="px-0 mt-4">
+      <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} className="px-0 mt-4">
         {!!user && <h2 className="text-center"><Countdown refreshing={refreshing} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
-        <p className="text-center">{info}</p>
+        {info}
       </Col>
     )
   }
