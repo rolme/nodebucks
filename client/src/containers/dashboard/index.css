@@ -42,7 +42,8 @@
   color: #FFFFFF;
   margin: 0;
   font-size: 14px;
-  font-family: 'Raleway';
+  font-family: 'OpenSans';
+  margin-bottom: 10px;
 }
 
 .dashboardPageTotalsRow > div > p {

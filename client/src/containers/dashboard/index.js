@@ -45,15 +45,15 @@ class Dashboard extends Component {
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Rewards Balance</h5>
-              <p>${this.changeNumberFormat(totalRewards)}</p>
+              <p>$ {this.changeNumberFormat(totalRewards)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Total Node Value</h5>
-              <p>${this.changeNumberFormat(nodeValue)}</p>
+              <p>$ {this.changeNumberFormat(nodeValue)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Cost Basis</h5>
-              <p>${this.changeNumberFormat(costBases)}</p>
+              <p>$ {this.changeNumberFormat(costBases)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Projected Annual</h5>
