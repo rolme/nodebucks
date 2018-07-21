@@ -1,6 +1,10 @@
 json.address user.address
 json.admin user.admin? # NOTE: This info is not part of token (JWT)
 json.avatar user.avatar
+json.balances user.balances.each do |balance|
+  json.symbol balance[:symbol]
+  json.value balance[:value]
+end
 json.city user.city
 json.confirmedAt user.confirmed_at&.to_formatted_s(:db)
 json.country user.country

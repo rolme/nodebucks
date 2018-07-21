@@ -56,4 +56,14 @@ class User < ApplicationRecord
     self.reset_token = nil
     self.reset_at = nil
   end
+
+  def balances
+    Crypto.all.map do |crypto|
+      filtered_nodes = nodes.select{ |node| node.crypto_id == crypto.id }
+      {
+        symbol: crypto.symbol,
+        value: filtered_nodes.empty? ? 0.0 : filtered_nodes.map(&:balance).reduce(&:+)
+      }
+    end
+  end
 end
