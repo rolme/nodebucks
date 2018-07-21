@@ -168,6 +168,10 @@
   height: 350px;
 }
 
+.dashboardBalanceTableContainer {
+  padding: 15px;
+}
+
 .dashboardBalanceTableContainer > table > thead > tr > th,
 .dashboardBalanceTableContainer > table > tbody > tr > td {
   text-align: center !important;
