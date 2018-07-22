@@ -75,6 +75,7 @@ a.headerMenuItem.active:hover {
 .headerLoggedInUserContainer {
   display: flex !important;
   align-items: center;
+  padding: 8px 30px !important;
 }
 
 .headerLoggedInUserContainer::after {
@@ -101,7 +102,7 @@ a.headerMenuItem.active:hover {
   border-radius: 5px;
   padding: 7px 22px !important;
   color: white;
-  margin: 0 15px;
+  margin: 0 30px;
 }
 
 .headerAddNodeButton:hover,
@@ -135,6 +136,7 @@ a.headerMenuItem.active:hover {
 
 .headerUserDropDownItem {
   border-bottom: 1px solid #556267;
+  padding: 20px !important;
 }
 
 .headerAuthMenuLoggedInDropDownItemsContainer > .dropdown-menu > .headerUserDropDownItem:last-child {
