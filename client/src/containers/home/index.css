@@ -328,7 +328,7 @@
 @media (max-width: 768px) {
   .homeMainBannerContainer {
     padding: 0;
-    min-height: calc(100vh - 147px);
+    min-height: calc(100vh - 200px);
   }
 
   .homeMainBannerPopUpMessagePartContainer {
