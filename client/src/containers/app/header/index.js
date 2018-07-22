@@ -52,12 +52,12 @@ class Header extends Component {
               <a href="https://nodebucks.freshdesk.com" onClick={() => this.toggleNavbar(true)} target="_new" className="headerMenuItem nav-item nav-link">Support</a>
             </Col>
             }
-            <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
+            <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end pr-0">
               {!!user &&
               <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer justify-content-end mr-auto">
                 <NavLink to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton">+ Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
-                  <DropdownToggle nav caret className="headerLoggedInUserContainer">
+                  <DropdownToggle nav caret className="headerLoggedInUserContainer pr-0">
                     <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
                     <p className="headerUserName">{user.fullName}</p>
                   </DropdownToggle>
