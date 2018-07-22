@@ -70,6 +70,8 @@ class Header extends Component {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+                <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
+                <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
               </Col>
               }
             </Col>

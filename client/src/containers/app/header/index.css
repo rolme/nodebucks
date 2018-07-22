@@ -191,6 +191,10 @@ a.headerMenuItem.active:hover {
   margin-bottom: 0;
 }
 
+.headerAuthMenuLoggedInMobileItem {
+  display: none !important;
+}
+
 @media (max-width: 1230px) {
   .headerNavBarContainer > .contentContainer {
     margin: 10px;
@@ -213,7 +217,8 @@ a.headerMenuItem.active:hover {
   }
 
   .headerAuthMenuItemsContainer {
-    margin: 5px !important;
+    border-top: 2px solid #eee;
+    padding-top: 20px !important;
   }
 
   .headerMenuAuthItem {
@@ -226,6 +231,10 @@ a.headerMenuItem.active:hover {
     text-align: center;
     margin: 0 10px 10px !important;
     padding: 10px !important;
+  }
+
+  .headerAuthMenuLoggedInMobileItem {
+    display: block !important;
   }
 }
 
