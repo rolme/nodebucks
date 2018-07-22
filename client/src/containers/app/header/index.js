@@ -39,7 +39,7 @@ class Header extends Component {
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
-          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             {!!user &&
             <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
             }
