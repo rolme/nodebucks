@@ -48,7 +48,7 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
-        <div className="contentContainer">
+        <div className="contentContainer px-0">
           <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             Be one of <span>Nodebucks</span> first 500 users and receive 15% off your first node!
           </Alert>
