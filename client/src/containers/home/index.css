@@ -295,7 +295,7 @@
   }
 
   .homeAboutContainer > .contentContainer {
-    padding: 50px 0;
+    padding: 35px 0 !important;
   }
 
   .homeAboutContainer > .contentContainer > .homeAboutTextPartContainer {
@@ -321,7 +321,7 @@
   }
 
   .homeWhatIsMasternodeContainer > .contentContainer {
-    padding: 20px 0;
+    padding: 35px 0 !important;
   }
 }
 
@@ -337,7 +337,7 @@
   }
 
   .homeTestimonialsContainer > .contentContainer {
-    padding: 10px 10px 35px 10px !important;
+    padding: 35px 10px 35px 10px !important;
   }
 
   .homeMainBannerHeaderText {
@@ -386,5 +386,10 @@
 @media (max-width: 576px) {
   .homeFooterText {
     line-height: 40px;
+  }
+
+  .homeAboutContainer > .contentContainer > div > img {
+    width: 150px;
+    height: 150px;
   }
 }
