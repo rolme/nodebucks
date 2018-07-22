@@ -54,7 +54,7 @@ class Header extends Component {
             }
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
               {!!user &&
-              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer mr-auto">
+              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer justify-content-end mr-auto">
                 <NavLink to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton">+ Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
                   <DropdownToggle nav caret className="headerLoggedInUserContainer">
