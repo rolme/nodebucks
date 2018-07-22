@@ -80,7 +80,7 @@ class Home extends Component {
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">
-            <h1 className="homeWhatIsMasternodeHeader">What is masternode?</h1>
+            <h1 className="homeWhatIsMasternodeHeader">What is a Masternode?</h1>
             <div className="homeWhatIsMasternodeContentPartContainer">
               <Col className="d-flex align-items-center flex-wrap-reverse">
                 <Col xl={{ size: 6, offset: 2 }} lg={{ size: 6, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 12, offset: 0 }} className="homeWhatIsFirstSectionParagraph">
