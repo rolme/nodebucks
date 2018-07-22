@@ -65,6 +65,10 @@
   padding: 20px 0;
 }
 
+.dashboardMainTableContainer > p > a:hover {
+  text-decoration: none;
+}
+
 .dashboardMainTable > thead > tr > th,
 .dashboardMainTable > tbody > tr > td {
   text-align: center !important;
