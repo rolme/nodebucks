@@ -17,3 +17,9 @@
   display: block;
   margin: 20px auto 40px auto;
 }
+
+@media (max-width: 768px) {
+  .masternodesContainer > .contentContainer {
+    padding: 35px 0 !important;
+  }
+}
