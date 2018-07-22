@@ -68,22 +68,6 @@
   outline: none;
 }
 
-.homeMainBannerScrollDownContainer {
-  position: absolute;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.homeMainBannerScrollDownContainer > p {
-  color: #2283C7;
-  font-family: 'Raleway-Regular';
-  font-size: 12px;
-  margin: 15px 0 20px 0;
-}
-
 @keyframes scrollAnimation {
   0% {
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -351,10 +335,6 @@
 
   .homeFooterContainer > .contentContainer > div:nth-child(1) {
     margin-bottom: 20px;
-  }
-
-  .homeMainBannerScrollDownContainer {
-    bottom: 0;
   }
 }
 

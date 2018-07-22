@@ -58,10 +58,6 @@ class Home extends Component {
             <p className="homeMainBannerHeaderText">Invest in the <span>Blockchain</span></p>
             <p className="homeMainBannerText">Own your very own masternode and collect blockchain rewards.</p>
             <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
-            <div className="homeMainBannerScrollDownContainer">
-              <img className="scrollAnimation" src="/assets/images/mouse.png" alt="Scroll down"/>
-              <p>Please Scroll Down</p>
-            </div>
           </div>
         </div>
         <div className="homeAboutContainer bg-light">
