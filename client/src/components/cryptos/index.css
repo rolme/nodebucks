@@ -18,25 +18,33 @@
   color: #d1d1d1;
 }
 
-.cryptosTable > thead > tr > th,
+.cryptosTable > thead > tr > th {
+  padding: 20px 0.75rem !important;
+}
+
 .cryptosTable > tbody > tr > td {
-  padding: 10px 0.75rem !important;
+  padding: 24px 0.75rem !important;
 }
 
 .cryptosTable > tbody > tr > td,
 .cryptosTable > tbody > tr > td > a {
   vertical-align: middle;
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Light';
   font-size: 18px;
-  color: #7B7B7B;
+  color: #4A4A4A;
 }
 
+.cryptosTable > tbody > tr > td > a.addNodeButton,
+.cryptosTable > tbody > tr > td > a.contactSalesButton {
+  width: 200px;
+  padding: 13px;
+}
 
 .cryptosTable > tbody > tr > td > a:hover {
   text-decoration: none;
 }
 
-.cryptosTable > tbody > tr > td > a:hover > svg{
+.cryptosTable > tbody > tr > td > a:hover > svg {
   color: #4360ff !important;
 }
 
@@ -45,8 +53,8 @@
 }
 
 .cryptosTableHeaderRow > th {
-  font-family: 'DidactGothic-Regular';
-  color: #3D58E7;
+  font-family: 'Raleway';
+  color: #4A4A4A;
   font-size: 18px;
 }
 
