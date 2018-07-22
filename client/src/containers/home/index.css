@@ -5,7 +5,6 @@
   justify-content: center;
   background-color: white;
   padding: 20px 0;
-  min-height: calc(100vh - 66px);
 }
 
 .homeAlert {
@@ -274,10 +273,6 @@
 
 @media (max-width: 992px) {
 
-  .homeMainBannerContainer {
-    min-height: calc(100vh - 66px);
-  }
-
   .homeAboutContainer > .contentContainer {
     padding: 35px 0 !important;
   }
@@ -310,10 +305,6 @@
 }
 
 @media (max-width: 768px) {
-  .homeMainBannerContainer {
-    padding: 0;
-    min-height: calc(100vh - 200px);
-  }
 
   .homeMainBannerPopUpMessagePartContainer {
     margin: 0;
