@@ -29,6 +29,7 @@ a.headerMenuItem {
   margin: 0 30px !important;
   padding: 0 !important;
   border-bottom: 2px solid transparent !important;
+  letter-spacing: 0.05em;
 }
 
 a.headerMenuItem.headerMenuAuthItem {
