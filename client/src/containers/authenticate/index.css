@@ -20,6 +20,10 @@
   font-size: 32px;
 }
 
+.logInPageContainer{
+  min-height: calc(100vh - 60px);
+}
+
 .logInHeader {
   font-family: 'Arimo-Regular';
   font-weight: 300;

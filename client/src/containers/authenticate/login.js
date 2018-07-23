@@ -133,7 +133,7 @@ class LogIn extends Component {
     }
 
     return (
-      <Container fluid className="bg-white authPageContainer logIn">
+      <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
