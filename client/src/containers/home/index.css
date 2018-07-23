@@ -5,11 +5,10 @@
   justify-content: center;
   background-color: white;
   padding: 20px 0;
-  min-height: calc(100vh - 66px);
 }
 
 .homeAlert {
-  font-family: 'Raleway-Regular';
+  font-family: 'Raleway';
   font-size: 18px;
   color: #000000;
   text-align: center;
@@ -66,22 +65,6 @@
 
 .homeMainBannerButton:focus {
   outline: none;
-}
-
-.homeMainBannerScrollDownContainer {
-  position: absolute;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.homeMainBannerScrollDownContainer > p {
-  color: #2283C7;
-  font-family: 'Raleway-Regular';
-  font-size: 12px;
-  margin: 15px 0 20px 0;
 }
 
 @keyframes scrollAnimation {
@@ -290,12 +273,8 @@
 
 @media (max-width: 992px) {
 
-  .homeMainBannerContainer {
-    min-height: calc(100vh - 66px);
-  }
-
   .homeAboutContainer > .contentContainer {
-    padding: 50px 0;
+    padding: 35px 0 !important;
   }
 
   .homeAboutContainer > .contentContainer > .homeAboutTextPartContainer {
@@ -321,15 +300,11 @@
   }
 
   .homeWhatIsMasternodeContainer > .contentContainer {
-    padding: 20px 0;
+    padding: 35px 0 !important;
   }
 }
 
 @media (max-width: 768px) {
-  .homeMainBannerContainer {
-    padding: 0;
-    min-height: calc(100vh - 147px);
-  }
 
   .homeMainBannerPopUpMessagePartContainer {
     margin: 0;
@@ -337,7 +312,7 @@
   }
 
   .homeTestimonialsContainer > .contentContainer {
-    padding: 10px 10px 35px 10px !important;
+    padding: 35px 10px 35px 10px !important;
   }
 
   .homeMainBannerHeaderText {
@@ -351,10 +326,6 @@
 
   .homeFooterContainer > .contentContainer > div:nth-child(1) {
     margin-bottom: 20px;
-  }
-
-  .homeMainBannerScrollDownContainer {
-    bottom: 0;
   }
 }
 
@@ -386,5 +357,10 @@
 @media (max-width: 576px) {
   .homeFooterText {
     line-height: 40px;
+  }
+
+  .homeAboutContainer > .contentContainer > div > img {
+    width: 150px;
+    height: 150px;
   }
 }

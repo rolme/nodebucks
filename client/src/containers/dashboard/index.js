@@ -40,10 +40,10 @@ class Dashboard extends Component {
 
     return (
       <Container fluid className="dashboardPageContainer">
-        <div className="contentContainer">
+        <div className="contentContainer px-0">
           <h1 className="dashboardPageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
-            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-0">
               <h5>Rewards Balance</h5>
               <p>$ {this.changeNumberFormat(totalRewards)}</p>
             </Col>
@@ -55,7 +55,7 @@ class Dashboard extends Component {
               <h5>Cost Basis</h5>
               <p>$ {this.changeNumberFormat(costBases)}</p>
             </Col>
-            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-0">
               <h5>Projected Annual</h5>
               <p>{!!costBases ? this.changeNumberFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
             </Col>
