@@ -39,7 +39,7 @@ class Header extends Component {
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
-          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             {!!user &&
             <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
             }
@@ -61,7 +61,7 @@ class Header extends Component {
                     <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
                     <p className="headerUserName">{user.fullName}</p>
                   </DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu right className="p-0">
                     <DropdownItem className="headerUserDropDownItem">
                       <NavLink to="/settings" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                     </DropdownItem>
@@ -70,6 +70,8 @@ class Header extends Component {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+                <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
+                <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
               </Col>
               }
             </Col>
