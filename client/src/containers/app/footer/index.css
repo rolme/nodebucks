@@ -1,5 +1,5 @@
 .footerContainer {
-  background-color: #FFFFFF;
+  background-color: #EEEEEE;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,9 +15,9 @@
 }
 
 .footerText {
-  color: #4B4B4B;
+  color: #4A4A4A;
   margin: 0;
-  font-family: 'Raleway-Light';
+  font-family: 'Raleway';
   text-decoration: none;
   font-size: 14px;
 }

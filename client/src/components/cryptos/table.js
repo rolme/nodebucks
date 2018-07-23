@@ -59,10 +59,10 @@ class CryptoTable extends Component {
             <thead>
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
-              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI</p> <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
-              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price</p> <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
-              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return</p> <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
-              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return</p> <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E"/></th>
+              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p> </th>
+              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th></th>
             </tr>
             </thead>
@@ -84,9 +84,10 @@ class CryptoTable extends Component {
       return (
         <tr key={item.slug}>
           <td>
+            <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px" className="pr-1"/>
             {item.name}
-            <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#3D58E7"/></a>
-            <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#3D58E7"/></a>
+            <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#1982cb"/></a>
+            <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#1982cb"/></a>
           </td>
           <td>{annualRoi}</td>
           <td>{nodePrice}</td>

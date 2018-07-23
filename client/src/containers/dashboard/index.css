@@ -1,5 +1,6 @@
 .dashboardPageContainer {
   padding: 40px 0;
+  background-color: #fafafa;
 }
 
 .dashboardSectionHeader {
@@ -13,7 +14,7 @@
 .dashboardPageTitle {
   color: #3B3B3B;
   font-size: 30px;
-  font-family: "Raleway";
+  font-family: "Raleway-Bold";
   font-weight: bold;
 }
 
@@ -40,9 +41,9 @@
 
 .dashboardPageTotalsRow > div > h5 {
   color: #FFFFFF;
-  margin: 0;
+  margin: 0 0 20px 0;
   font-size: 14px;
-  font-family: 'Raleway';
+  font-family: 'OpenSans';
 }
 
 .dashboardPageTotalsRow > div > p {
@@ -50,7 +51,7 @@
   font-size: 30px;
   line-height: 30px;
   margin: 0;
-  font-family: 'Raleway';
+  font-family: 'Raleway-Medium';
 }
 
 /*Summary Part Style */
@@ -63,6 +64,10 @@
 .dashboardMainTableContainer {
   background-color: white;
   padding: 20px 0;
+}
+
+.dashboardMainTableContainer > p > a:hover {
+  text-decoration: none;
 }
 
 .dashboardMainTable > thead > tr > th,
@@ -166,6 +171,10 @@
 /*Balance Style*/
 .dashboardBalanceSectionContainer {
   height: 350px;
+}
+
+.dashboardBalanceTableContainer {
+  padding: 15px;
 }
 
 .dashboardBalanceTableContainer > table > thead > tr > th,

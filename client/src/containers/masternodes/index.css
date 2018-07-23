@@ -12,8 +12,14 @@
 
 .masternodeContactLink {
   font-family: 'DidactGothic-Regular';
-  color: #3A3A3A;
+  color: #1982cb;
   text-align: center;
   display: block;
-  margin: 20px auto 0 auto;
+  margin: 20px auto 40px auto;
+}
+
+@media (max-width: 768px) {
+  .masternodesContainer > .contentContainer {
+    padding: 35px 0 !important;
+  }
 }

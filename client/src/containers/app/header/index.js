@@ -39,7 +39,7 @@ class Header extends Component {
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
-          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler'>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             {!!user &&
             <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
             }
@@ -52,16 +52,16 @@ class Header extends Component {
               <a href="https://nodebucks.freshdesk.com" onClick={() => this.toggleNavbar(true)} target="_new" className="headerMenuItem nav-item nav-link">Support</a>
             </Col>
             }
-            <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
+            <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end pr-0">
               {!!user &&
-              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer mr-auto">
+              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer justify-content-end mr-auto">
                 <NavLink to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton">+ Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
-                  <DropdownToggle nav caret className="headerLoggedInUserContainer">
+                  <DropdownToggle nav caret className="headerLoggedInUserContainer pr-0">
                     <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
                     <p className="headerUserName">{user.fullName}</p>
                   </DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu right className="p-0">
                     <DropdownItem className="headerUserDropDownItem">
                       <NavLink to="/settings" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                     </DropdownItem>
@@ -70,6 +70,8 @@ class Header extends Component {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+                <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
+                <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
               </Col>
               }
             </Col>
@@ -85,11 +87,10 @@ class Header extends Component {
   }
 
   displayLoginLink() {
-    const isSignUpPage = window.location.pathname === "/sign-up"
     let navigation = []
     {
       navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Login</NavLink>)
-      isSignUpPage ? navigation.unshift(<p className="headerMenuAuthText">Already have an Account?</p>) : navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+      navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
     }
     return (navigation)
   }

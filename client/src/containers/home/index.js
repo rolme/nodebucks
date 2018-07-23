@@ -48,7 +48,7 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
-        <div className="contentContainer">
+        <div className="contentContainer px-0">
           <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             Be one of <span>Nodebucks</span> first 500 users and receive 15% off your first node!
           </Alert>
@@ -58,10 +58,6 @@ class Home extends Component {
             <p className="homeMainBannerHeaderText">Invest in the <span>Blockchain</span></p>
             <p className="homeMainBannerText">Own your very own masternode and collect blockchain rewards.</p>
             <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
-            <div className="homeMainBannerScrollDownContainer">
-              <img className="scrollAnimation" src="/assets/images/mouse.png" alt="Scroll down"/>
-              <p>Please Scroll Down</p>
-            </div>
           </div>
         </div>
         <div className="homeAboutContainer">
@@ -80,7 +76,7 @@ class Home extends Component {
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">
-            <h1 className="homeWhatIsMasternodeHeader">What is masternode?</h1>
+            <h1 className="homeWhatIsMasternodeHeader">What is a Masternode?</h1>
             <div className="homeWhatIsMasternodeContentPartContainer">
               <Col className="d-flex align-items-center flex-wrap-reverse">
                 <Col xl={{ size: 6, offset: 2 }} lg={{ size: 6, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 12, offset: 0 }} className="homeWhatIsFirstSectionParagraph">

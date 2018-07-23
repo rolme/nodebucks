@@ -1,5 +1,5 @@
 .errorNumber {
-  font-family: 'DidactGothic-Regular';
+  font-family: 'Raleway-Light';
   font-weight: bold;
   color: #BCBCBC;
   font-size: 399px;
@@ -8,14 +8,14 @@
 }
 
 .errorMessage {
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway';
   color: #262626;
   font-size: 32px;
   margin-bottom: 0;
 }
 
 .errorAdvise {
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway';
   color: #747474;
   font-size: 22px;
 }

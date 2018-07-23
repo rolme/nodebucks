@@ -29,6 +29,7 @@ a.headerMenuItem {
   margin: 0 30px !important;
   padding: 0 !important;
   border-bottom: 2px solid transparent !important;
+  letter-spacing: 0.05em;
 }
 
 a.headerMenuItem.headerMenuAuthItem {
@@ -53,9 +54,16 @@ a.headerMenuItem.active:hover {
   color: #2283C7 !important;
 }
 
+.headerNavBarToggler {
+  border: none !important;
+}
+.headerNavBarToggler > span{
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+}
+
 .headerNavBarToggler:focus {
   outline: none;
-  border-color: rgba(0, 0, 0, 0.5) !important;
+  border: none;
 }
 
 .headerLogo {
@@ -75,6 +83,7 @@ a.headerMenuItem.active:hover {
 .headerLoggedInUserContainer {
   display: flex !important;
   align-items: center;
+  padding: 8px 30px !important;
 }
 
 .headerLoggedInUserContainer::after {
@@ -101,7 +110,7 @@ a.headerMenuItem.active:hover {
   border-radius: 5px;
   padding: 7px 22px !important;
   color: white;
-  margin: 0 15px;
+  margin: 0 30px;
 }
 
 .headerAddNodeButton:hover,
@@ -135,6 +144,7 @@ a.headerMenuItem.active:hover {
 
 .headerUserDropDownItem {
   border-bottom: 1px solid #556267;
+  padding: 20px !important;
 }
 
 .headerAuthMenuLoggedInDropDownItemsContainer > .dropdown-menu > .headerUserDropDownItem:last-child {
@@ -181,6 +191,10 @@ a.headerMenuItem.active:hover {
   margin-bottom: 0;
 }
 
+.headerAuthMenuLoggedInMobileItem {
+  display: none !important;
+}
+
 @media (max-width: 1230px) {
   .headerNavBarContainer > .contentContainer {
     margin: 10px;
@@ -203,12 +217,12 @@ a.headerMenuItem.active:hover {
   }
 
   .headerAuthMenuItemsContainer {
-    margin: 5px !important;
+    border-top: 2px solid #eee;
+    padding-top: 20px !important;
   }
 
   .headerMenuAuthItem {
     border: none !important;
-    background-color: #ffff !important;
     color: #3F53EA !important;
   }
 
@@ -217,6 +231,10 @@ a.headerMenuItem.active:hover {
     text-align: center;
     margin: 0 10px 10px !important;
     padding: 10px !important;
+  }
+
+  .headerAuthMenuLoggedInMobileItem {
+    display: block !important;
   }
 }
 
