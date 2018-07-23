@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
-import SelectField from '../../components/elements/selectField'
+import { NavLink } from 'react-router-dom'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import './index.css'
@@ -142,7 +142,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const {  first, last, email, password, confirmPassword, showPassword, showConfirmPassword, messages, errors } = this.state
+    const { first, last, email, password, confirmPassword, showPassword, showConfirmPassword, messages, errors } = this.state
     const { message, error, pending } = this.props
 
     if ( pending ) {
@@ -164,8 +164,8 @@ class SignUp extends Component {
     }
 
     return (
-      <Container fluid className="bg-white authPageContainer">
-        <div className="contentContainer d-flex justify-content-center">
+      <Container fluid className="signUpPageContainer authPageContainer">
+        <div className="contentContainer signUpPageContentContainer d-flex justify-content-center bg-white">
           <Col className="authContainer align-items-center flex-wrap justify-content-center d-flex">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
@@ -174,29 +174,35 @@ class SignUp extends Component {
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 4 }} className="justify-content-center d-flex flex-column align-items-center">
+            <Col xl={{ size: 9 }} lg={{ size: 8 }} md={{ size: 10 }} sm={{ size: 8 }} className="justify-content-center d-flex flex-column align-items-center">
               <h2 className="authHeader">Let's get started.</h2>
-              <InputField label='First Name'
-                          name="first"
-                          id="signUpFirst"
-                          type='text'
-                          autoFocus={true}
-                          value={first}
-                          message={messages.first}
-                          error={errors.first}
-                          handleFieldValueChange={this.handleFieldValueChange}
-                          onKeyPress={true}
-              />
-              <InputField label='Last Name'
-                          name="last"
-                          id="signUpLast"
-                          type='text'
-                          value={last}
-                          message={messages.last}
-                          error={errors.last}
-                          handleFieldValueChange={this.handleFieldValueChange}
-                          onKeyPress={true}
-              />
+              <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
+                <Col xl={6} lg={6} md={6} sm={12} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
+                  <InputField label='First Name'
+                              name="first"
+                              id="signUpFirst"
+                              type='text'
+                              autoFocus={true}
+                              value={first}
+                              message={messages.first}
+                              error={errors.first}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                              onKeyPress={true}
+                  />
+                </Col>
+                <Col xl={6} lg={6} md={6} sm={12} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
+                  <InputField label='Last Name'
+                              name="last"
+                              id="signUpLast"
+                              type='text'
+                              value={last}
+                              message={messages.last}
+                              error={errors.last}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                              onKeyPress={true}
+                  />
+                </Col>
+              </Col>
               <InputField label='Email Address'
                           name="email"
                           id="signUpEmail"
@@ -207,32 +213,39 @@ class SignUp extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
                           onKeyPress={true}
               />
-              <InputField label='Password'
-                          name="password"
-                          id="signUpPassword"
-                          type={showPassword ? 'text' : 'password'}
-                          value={password}
-                          message={messages.password}
-                          error={errors.password}
-                          addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
-                          handleFieldValueChange={this.handleFieldValueChange}
-                          onAddonClick={this.onAddonClick}
-                          onKeyPress={true}
-              />
-              <InputField label='Confirm Password'
-                          name="confirmPassword"
-                          id="signUpConfirmPassword"
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          value={confirmPassword}
-                          message={messages.confirmPassword}
-                          error={errors.confirmPassword}
-                          addonIcon={showConfirmPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
-                          handleFieldValueChange={this.handleFieldValueChange}
-                          onAddonClick={this.onAddonClick}
-                          onKeyPress={true}
-              />
-              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                <Button onClick={this.validation} className="submitButton w-100">Sign Up</Button>
+              <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
+                <Col xl={6} lg={6} md={6} sm={6} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
+                  <InputField label='Password'
+                              name="password"
+                              id="signUpPassword"
+                              type={showPassword ? 'text' : 'password'}
+                              value={password}
+                              message={messages.password}
+                              error={errors.password}
+                              addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                              onAddonClick={this.onAddonClick}
+                              onKeyPress={true}
+                  />
+                </Col>
+                <Col xl={6} lg={6} md={6} sm={6} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
+                  <InputField label='Confirm Password'
+                              name="confirmPassword"
+                              id="signUpConfirmPassword"
+                              type={showConfirmPassword ? 'text' : 'password'}
+                              value={confirmPassword}
+                              message={messages.confirmPassword}
+                              error={errors.confirmPassword}
+                              addonIcon={showConfirmPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                              onAddonClick={this.onAddonClick}
+                              onKeyPress={true}
+                  />
+                </Col>
+              </Col>
+              <Col xl={8} lg={8} md={8} sm={12} xs={12} className="d-flex px-0 mt-4 flex-column">
+                <Button onClick={this.validation} className="submitButton w-100">SUBMIT</Button>
+                <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
               </Col>
             </Col>
           </Col>

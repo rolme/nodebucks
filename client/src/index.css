@@ -110,12 +110,12 @@ body {
 }
 
 .submitButton {
-  font-family: "Raleway";
+  font-family: "Raleway-Bold";
   font-weight: bold;
   color: #FFFFFF;
   font-size: 14px;
   line-height: 14px;
-  background-color: #2283C6;
+  background-color: #1982CB;
   border: none;
   padding: 20px;
   cursor: pointer;
@@ -124,7 +124,7 @@ body {
 .submitButton:hover,
 .submitButton:active,
 .submitButton:focus {
-  background-color: #28a0ee !important;
+  background-color: #198edb !important;
   border: none !important;
   box-shadow: none !important;
 }
