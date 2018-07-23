@@ -52,6 +52,7 @@ class Node < ApplicationRecord
   end
 
   def wallet_url
+    return "#{explorer_url}#{wallet}.htm" if symbol == 'pivx'
     "#{explorer_url}#{wallet}"
   end
 

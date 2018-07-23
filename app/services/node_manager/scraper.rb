@@ -104,17 +104,17 @@ module NodeManager
     end
 
     def scrape_pivx(browser)
-      balance = browser.find_elements(tag_name: 'tbody')[0].find_elements(tag_name: 'tr')[2].text.split(/\s/)[1].to_f
+      balance = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')[1].find_elements(tag_name: 'td')[1].text.split(" ")[0].to_f
       node.update_attribute(:balance, balance)
 
-      rows = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')
+      rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
       rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
-        timestamp = data[0].text
-        txhash    = data[2].text
-        amount    = data[5].text&.split(/\s/)[0]&.to_f
+        timestamp = data[2].text
+        txhash    = data[0].text
+        amount    = data[3].text.gsub(/[A-Z ]/, '').to_f
 
         if has_new_rewards?(timestamp) && amount > 0.0
           operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
