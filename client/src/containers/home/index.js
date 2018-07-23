@@ -60,7 +60,7 @@ class Home extends Component {
             <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
           </div>
         </div>
-        <div className="homeAboutContainer bg-light">
+        <div className="homeAboutContainer">
           <div className="contentContainer flex-wrap">
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="d-flex justify-content-center">
               <img src="/assets/images/illustration.png" alt='Illustration'/>
