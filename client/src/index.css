@@ -8,24 +8,6 @@
 }
 
 @font-face {
-  font-family: 'Arimo-Regular';
-  src: local('Arimo-Regular'), local('Arimo-Regular'),
-  url('./assets/fonts/arimoRegular/Arimo-Regular.ttf') format('truetype'),
-  url('./assets/fonts/arimoRegular/Arimo-Regular.svg#Arimo-Regular.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'DidactGothic-Regular';
-  src: local('DidactGothic-Regular'), local('DidactGothic-Regular'),
-  url('./assets/fonts/didactGothicRegular/DidactGothic.ttf') format('truetype'),
-  url('./assets/fonts/didactGothicRegular/DidactGothic.svg#DidactGothic.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Raleway';
   src: local('Raleway'), local('Raleway'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.ttf') format('truetype'),
