@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_20_195658) do
+ActiveRecord::Schema.define(version: 2018_07_23_213542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,7 +134,6 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
     t.bigint "user_id"
     t.bigint "crypto_id"
     t.string "slug"
-    t.decimal "balance", default: "0.0"
     t.decimal "amount", default: "0.0"
     t.string "status", default: "pending"
     t.integer "last_modified_by_admin_id"

@@ -20,7 +20,6 @@ class WithdrawalManager
   def save(params)
     withdrawal.amount    = params[:amount]
     withdrawal.crypto_id = params[:crypto_id]
-    withdrawal.balance   = balance(params[:crypto_id].to_i)
 
     if withdrawal.save
       # TODO: Should we do some kind of log?
@@ -55,6 +54,8 @@ protected
   end
 
   def process
+    # TODO: It should get latest transactions and see if amount was processed
+    #       before allowing it through
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       processed_at: DateTime.current,

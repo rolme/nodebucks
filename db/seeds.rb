@@ -22,41 +22,8 @@ CryptoScraper.run
 puts "  - Price crypto..."
 NodeManager::Pricer.run
 
-user = User.last
+user = User.first
 puts "Create nodes for #{user.full_name}"
-puts "  - Dash node..."
-crypto = Crypto.find_by(name: 'Dash')
-node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
-node.wallet = 'XdL3KXxRfzUmGj9QMA7i1W3M3fZdcjNnfw'
-node.save
-operator = NodeManager::Operator.new(node)
-puts "    - purchase..."
-operator.purchase(DateTime.current - 6.months)
-
-puts "  - ZCoin node..."
-crypto = Crypto.find_by(name: 'ZCoin')
-node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 1.month)
-node.ip     = '127.0.0.1'
-node.wallet = 'aLeviMejPb6mJqYbAX5ULibCZN9JwiViMb'
-node.save
-operator = NodeManager::Operator.new(node)
-puts "    - purchase..."
-operator.purchase(DateTime.current - (1.month - 1.day))
-puts "    - put online..."
-operator.online(DateTime.current - (1.month - 1.day))
-
-puts "  - PIVX node..."
-crypto = Crypto.find_by(name: 'PIVX')
-node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 1.month)
-node.ip     = '127.0.0.1'
-node.wallet = 'DBp1yapipgMNoh9mT6sMdYTn9m4ZJW4hP3'
-node.save
-operator = NodeManager::Operator.new(node)
-puts "    - purchase..."
-operator.purchase(DateTime.current - (1.month - 2.days))
-puts "    - put online..."
-operator.online(DateTime.current - (1.month - 2.days))
-
 # TODO: Need another API to pull orders for Stipend
 # puts "  - Stipend node..."
 # crypto = Crypto.find_by(name: 'Stipend')
@@ -72,16 +39,42 @@ operator.online(DateTime.current - (1.month - 2.days))
 
 puts "  - Polis node..."
 crypto = Crypto.find_by(name: 'Polis')
-node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 4.months)
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
+node        = Node.last
+node.ip     = '127.0.0.1'
+node.wallet = 'PKe7MGTEXaunMhSXwT2D88QEk8JLXbYn7u'
+node.save
+operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - (6.months - 2.days))
+puts "    - put online..."
+operator.online(DateTime.current - (6.months - 2.days))
+
+puts "  - Polis node..."
+crypto = Crypto.find_by(name: 'Polis')
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
 node        = Node.last
 node.ip     = '127.0.0.1'
 node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
 node.save
 operator = NodeManager::Operator.new(node)
 puts "    - purchase..."
-operator.purchase(DateTime.current - (4.months - 2.days))
+operator.purchase(DateTime.current - (3.months - 2.days))
 puts "    - put online..."
-operator.online(DateTime.current - (4.months - 2.days))
+operator.online(DateTime.current - (3.months - 2.days))
+
+puts "  - Polis node..."
+crypto = Crypto.find_by(name: 'Polis')
+node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 2.months)
+node        = Node.last
+node.ip     = '127.0.0.1'
+node.wallet = 'PWsH4BFYFQPX8Z3qRmVRg6KhjGzuTyEawe'
+node.save
+operator = NodeManager::Operator.new(node)
+puts "    - purchase..."
+operator.purchase(DateTime.current - (2.months - 2.days))
+puts "    - put online..."
+operator.online(DateTime.current - (2.months - 2.days))
 
 puts "Gather rewards"
 NodeScraper.run

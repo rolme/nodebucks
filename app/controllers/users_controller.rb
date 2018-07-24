@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:show, :update, :destroy]
-  before_action :authenticate_admin_request, only: [:index]
+  before_action :authenticate_request, only: [:balance, :update, :destroy]
+  before_action :authenticate_admin_request, only: [:index, :show]
 
   def index
     @users = User.all
@@ -21,6 +21,11 @@ class UsersController < ApplicationController
     else
       render json: { status: 'error', message: 'Email/Password is incorrect.' }, status: :unauthorized
     end
+  end
+
+  def balance
+    @user = current_user
+    render :show
   end
 
   def create

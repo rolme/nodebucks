@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       patch :sell
     end
     resources :users, except: [:edit, :new], param: :slug do
+      get :balance, on: :collection
       get :confirm
       get :verify
       patch :reset_password
