@@ -33,7 +33,7 @@
   align-items: center;
   max-width: 275px;
   flex-direction: column;
-  background-color: #2283C6;
+  background-color: #1982CB;
   padding: 35px 0;
   margin-left: auto;
   margin-right: auto;
@@ -185,7 +185,7 @@
 
 .dashboardBalanceWithdrawButton,
 .dashboardMainTableWithdrawButton {
-  background-color: #2283C6;
+  background-color: #1982CB;
   display: flex;
   align-items: center;
   justify-content: center;

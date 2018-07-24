@@ -124,16 +124,16 @@ body {
 }
 
 .rc-checkbox.nodebucksCheckbox:hover .rc-checkbox-inner, .rc-checkbox-input:focus + .rc-checkbox-inner {
-  border-color: #3c9cdd;
+  border-color: #1982CB;
 }
 
 .rc-checkbox-checked .rc-checkbox-inner {
-  border-color: #3c9cdd;
-  background-color: #3c9cdd;
+  border-color: #1982CB;
+  background-color: #1982CB;
 }
 
 .rc-checkbox.nodebucksCheckbox .rc-checkbox-inner {
-  border: 2px solid #3c9cdd;
+  border: 2px solid #1982CB;
 }
 
 .socialButtonIcon {
