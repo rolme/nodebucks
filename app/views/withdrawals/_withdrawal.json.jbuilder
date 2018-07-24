@@ -2,7 +2,6 @@ json.admin do
   json.partial! 'users/creator', user: withdrawal.admin if withdrawal.admin.present?
 end
 json.amount withdrawal.amount
-json.balance withdrawal.balance
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)
 json.crypto do

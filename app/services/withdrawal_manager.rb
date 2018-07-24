@@ -20,7 +20,6 @@ class WithdrawalManager
   def save(params)
     withdrawal.amount    = params[:amount]
     withdrawal.crypto_id = params[:crypto_id]
-    withdrawal.balance   = balance(params[:crypto_id].to_i)
 
     if withdrawal.save
       # TODO: Should we do some kind of log?

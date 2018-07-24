@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include SoftDeletable
 
   has_many :nodes
+  has_many :withdrawals
 
   TOKEN_AGE = 5.minutes
 
@@ -57,10 +58,22 @@ class User < ApplicationRecord
     self.reset_at = nil
   end
 
+
+  # TODO: This should be a separate services UserWithdrawal?
+  def pending_withdrawal_value(crypto_id)
+    pending = withdrawals.select { |w| w.crypto_id == crypto_id && w.status == 'pending' }
+    return 0.0 if pending.blank?
+
+    pending.map { |w| w.amount.to_f }.reduce(&:+)
+  end
+
+  # TODO: This should be a separate services UserWithdrawal?
   def balances
     Crypto.all.map do |crypto|
       filtered_nodes = nodes.select{ |node| node.crypto_id == crypto.id }
+
       {
+        pending: pending_withdrawal_value(crypto.id),
         symbol: crypto.symbol,
         value: filtered_nodes.empty? ? 0.0 : filtered_nodes.map(&:balance).reduce(&:+)
       }
