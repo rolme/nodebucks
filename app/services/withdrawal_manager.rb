@@ -54,6 +54,8 @@ protected
   end
 
   def process
+    # TODO: It should get latest transactions and see if amount was processed
+    #       before allowing it through
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       processed_at: DateTime.current,

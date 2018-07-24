@@ -23,7 +23,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { nodes } = this.props
+    const { nodes, user } = this.props
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -66,7 +66,7 @@ class Dashboard extends Component {
               <MainTable list={filteredNodes}/>
             </Col>
             <Col xl={4}>
-              <Balance nodes={filteredNodes}/>
+              <Balance />
               <Summary list={filteredNodes}/>
             </Col>
           </Row>

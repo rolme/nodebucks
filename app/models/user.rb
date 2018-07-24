@@ -69,14 +69,36 @@ class User < ApplicationRecord
 
   # TODO: This should be a separate services UserWithdrawal?
   def balances
-    Crypto.all.map do |crypto|
-      filtered_nodes = nodes.select{ |node| node.crypto_id == crypto.id }
+    Crypto.all.sort_by(&:name).map do |crypto|
+      filtered_nodes = nodes.select{ |node| node.crypto_id == crypto.id && node.status == 'online' }
+      if filtered_nodes.empty?
+        {
+          has_nodes: false,
+          name: crypto.name,
+          pending_value: 0.0,
+          pending_usd: 0.0,
+          slug: crypto.slug,
+          symbol: crypto.symbol,
+          usd: 0.0,
+          value: 0.0,
+        }
+      else
+        pending_value = pending_withdrawal_value(crypto.id)
+        balance_value = filtered_nodes.map(&:balance).reduce(&:+)
+        balance_value = balance_value - (filtered_nodes.count * crypto.stake)
 
-      {
-        pending: pending_withdrawal_value(crypto.id),
-        symbol: crypto.symbol,
-        value: filtered_nodes.empty? ? 0.0 : filtered_nodes.map(&:balance).reduce(&:+)
-      }
+        {
+          has_nodes: !!filtered_nodes.count,
+          name: crypto.name,
+          pending_usd: pending_value * crypto.price,
+          pending_value: pending_value,
+          slug: crypto.slug,
+          symbol: crypto.symbol,
+          usd: balance_value * crypto.price,
+          value: balance_value
+        }
+      end
     end
   end
+
 end

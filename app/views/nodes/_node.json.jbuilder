@@ -1,7 +1,3 @@
-json.balance do
-  json.coin (node.balance != 0.0) ? node.balance - node.stake : 0.0
-  json.usd (node.balance != 0.0) ? (node.balance - node.stake) * node.crypto_price : 0.0
-end
 json.cost node.cost
 json.createdAt node.created_at.to_formatted_s(:db)
 json.creator do

@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import { fetchBalance } from '../../reducers/user'
+
 import { NavLink } from 'react-router-dom'
 
-export default class Balance extends Component {
+class Balance extends Component {
+
+  componentWillMount() {
+    this.props.fetchBalance()
+  }
+
   render() {
+    const { user } = this.props
 
-    let balances = {}, { nodes } = this.props
-
-    if(!nodes.length){
+    if(!user.balances){
       return (
         <div className="dashboardBalanceSectionContainer  mb-4">
           <h5 className="dashboardSectionHeader"> Balance </h5>
@@ -17,22 +26,8 @@ export default class Balance extends Component {
       )
     }
 
-    nodes.forEach(n => {
-      if ( !balances[ n.crypto.name ] ) {
-        balances[ n.crypto.name ] = {}
-      }
-      balances[ n.crypto.name ][ "name" ] = n.crypto.name
 
-      if ( !balances[ n.crypto.name ][ "coin" ] ) {
-        balances[ n.crypto.name ][ "coin" ] = 0.0
-      }
-      if ( !balances[ n.crypto.name ][ "usd" ] ) {
-        balances[ n.crypto.name ][ "usd" ] = 0.0
-      }
-      balances[ n.crypto.name ][ "coin" ] += +n.balance.coin
-      balances[ n.crypto.name ][ "usd" ] += +n.balance.usd
-    })
-
+    let balances = user.balances.filter(b => b.hasNodes)
     return (
       <div className="dashboardBalanceSectionContainer  mb-4">
         <h5 className="dashboardSectionHeader"> Balance </h5>
@@ -46,14 +41,18 @@ export default class Balance extends Component {
             </tr>
             </thead>
             <tbody>
-            {!!balances && Object.keys(balances).sort().map(key => {
-              const coin = balances[ key ].coin.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-              const usd = balances[ key ].usd.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+            {!!balances && balances.map(balance => {
+              const pendingValue = parseFloat(balance.pending.value)
+              const pendingUsd   = parseFloat(balance.pending.usd)
+              const value        = parseFloat(balance.value)
+              const usd          = parseFloat(balance.usd)
+              const currentValue = (value - pendingValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+              const currentUsd   = (usd - pendingUsd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               return (
-                <tr key={balances[ key ].name}>
-                  <td className="text-left">{balances[ key ].name}</td>
-                  <td className="text-right">{coin}</td>
-                  <td className="text-right">${usd}</td>
+                <tr key={balance.name}>
+                  <td className="text-left">{balance.name}</td>
+                  <td className="text-right">{currentValue}</td>
+                  <td className="text-right">${currentUsd}</td>
                 </tr>
               )
             })}
@@ -67,3 +66,19 @@ export default class Balance extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  error: state.nodes.error,
+  message: state.nodes.message,
+  pending: state.nodes.pending,
+  user: state.user.data
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchBalance
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Balance)

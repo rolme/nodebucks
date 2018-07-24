@@ -4,6 +4,9 @@ import moment from 'moment'
 import { push } from 'react-router-redux'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
+export const BALANCE = 'user/BALANCE'
+export const BALANCE_SUCCESS = 'user/BALANCE_SUCCESS'
+export const BALANCE_FAILURE = 'user/BALANCE_FAILURE'
 export const CONFIRM_REGISTRATION = 'user/CONFIRM_REGISTRATION'
 export const CONFIRM_REGISTRATION_SUCCESS = 'user/CONFIRM_REGISTRATION_SUCCESS'
 export const CONFIRM_REGISTRATION_FAILURE = 'user/CONFIRM_REGISTRATION_FAILURE'
@@ -133,6 +136,31 @@ export default (state = initialState, action) => {
         signUpMessage: action.payload.message,
         signUpPending: false,
         token: ''
+      }
+
+    case BALANCE:
+      return {
+        ...state,
+        error: false,
+        message: null,
+        pending: true
+      }
+
+    case BALANCE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        error: false,
+        message: action.payload.message,
+        pending: false
+      }
+
+    case BALANCE_FAILURE:
+      return {
+        ...state,
+        error: true,
+        message: action.payload.message,
+        pending: false
       }
 
     case UPDATE_USER:
@@ -301,6 +329,22 @@ export function updateUser(slug, currentPassword, params) {
       }
     }).catch(error => {
       dispatch({ type: UPDATE_USER_FAILURE, payload: error.data })
+    })
+  }
+}
+
+export function fetchBalance() {
+  return dispatch => {
+    dispatch({ type: BALANCE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get(`/api/users/balance`).then(response => {
+      if ( response.data.status !== 'error' ) {
+        dispatch({ type: BALANCE_SUCCESS, payload: response.data })
+      } else {
+        dispatch({ type: BALANCE_FAILURE, payload: response.data })
+      }
+    }).catch(error => {
+      dispatch({ type: BALANCE_FAILURE, payload: error.data })
     })
   }
 }
