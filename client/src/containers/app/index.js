@@ -25,6 +25,7 @@ const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: 
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
+const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
 
 export default class App extends Component {
 
@@ -51,6 +52,7 @@ export default class App extends Component {
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
+              <PublicRoute path="/settings" component={Settings}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
               <Redirect from='*' to='/404'/>

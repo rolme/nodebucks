@@ -1,0 +1,172 @@
+.settingsPageContainer {
+  min-height: calc(100vh - 90px);
+  background-color: #FAFAFA;
+  padding: 30px;
+}
+
+.settingsPageContentContainer {
+  display: flex;
+  max-width: 790px;
+  background-color: white;
+  padding: 40px 0;
+}
+
+.settingsSideBarItemsContainer {
+  margin-left: 2px;
+  margin-top: 90px;
+}
+
+.settingsSideBarItemsContainer > li {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.settingsSideBarItemsContainer > li:last-child {
+  border: none;
+}
+
+.settingsSideBarItemsContainer > li > p {
+  margin: 0;
+  font-family: "OpenSans";
+  font-size: 15px;
+  color: #000000;
+}
+
+.settingsSideBarItemsContainer > li.selected {
+  border-left: 5px solid #1982CB;
+  padding-left: 11px;
+}
+
+.settingsSideBarItemsContainer > li.selected > p {
+  font-family: "OpenSans-Bold";
+}
+
+.settingsContainer {
+  margin: 0 0 10px 0;
+}
+
+.settingsSectionContainer {
+  padding: 30px 25px !important;
+  margin: 10px 0 10px 0;
+}
+
+.settingsTitleText {
+  color: #000000;
+  font-family: Raleway-Bold;
+  font-size: 30px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.settingsSectionContainer > .col,
+.settingsContainer > .col {
+  margin-top: 25px;
+  padding: 0;
+}
+
+.settingsContentContainer > .titleText {
+  margin: 0 0 10px 0;
+}
+
+.settingsContentContainer > .spinnerContainer {
+  min-height: calc(100vh - 350px);
+}
+
+.settingsPageFieldsPartContainer {
+  margin-top: 55px;
+}
+
+.settingsPreferencesTitle {
+  color: #747474;
+  font-family: 'Raleway-Medium';
+  font-size: 22px;
+  margin: 0 0 30px 0;
+}
+
+.settingsPreferencesToggleLabel {
+  color: #9D9D9D;
+  font-family: 'Roboto-Regular';
+  font-size: 12px;
+  margin: 0 0 0 10px;
+}
+
+.settingsFooterButtonsContainer {
+  margin-top: 20px;
+}
+
+.settingsFooterButtonsContainer > .lightBackgroundButton {
+  width: 120px;
+}
+
+.settingsFooterButtonsContainer > .submitButton {
+  width: 200px;
+  margin-left: 10px;
+}
+
+.emailPreferencesFooterButtonsContainer > button {
+  padding: 10px 30px !important;
+  margin-left: 10px;
+}
+
+@media (max-width: 992px) {
+  .settingsPageContentContainer {
+    margin-top: 30px !important;
+    flex-direction: column;
+  }
+
+  .settingsSideBarItemsContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px !important;
+    margin-top: 0;
+  }
+
+  .settingsSideBarItemsContainer > li {
+    display: flex;
+    flex: 1;
+    border: none !important;
+  }
+
+  .settingsSideBarItemsContainer > li.selected {
+    padding-left: 16px;
+  }
+
+  .settingsSideBarItemsContainer > li > p {
+    margin: 0 auto;
+  }
+
+  .settingsSideBarItemsContainer > li.selected > p {
+    border-bottom: 5px solid #1982CB !important;
+    padding-bottom: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .settingsPageContentContainer > div {
+    padding: 0 !important;
+  }
+
+  .settingsPageFieldsPartContainer {
+    margin-top: 20px;
+  }
+
+  .settingsContainer,
+  .changeInputFieldsContainer ,
+  .settingsContainer > .contentContainer  {
+    padding: 0 !important;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .settingsSideBarItemsContainer > div {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .settingsSideBarItemsContainer > li {
+    padding: 0;
+  }
+}
