@@ -24,7 +24,7 @@ export default class MainTable extends Component {
 
       return (
         <tr key={item.slug}>
-          <td>{item.crypto.name}</td>
+          <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} width="40px" className="pr-1"/> {item.crypto.name}</td>
           <td>{uptime} days</td>
           <td className="leftBorder">{annualRoi}</td>
           <td>{weeklyRoiValue}</td>

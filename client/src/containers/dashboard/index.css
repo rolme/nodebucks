@@ -71,6 +71,10 @@
   text-decoration: none;
 }
 
+.dashboardMainTable > tbody > tr > td {
+  vertical-align: middle;
+}
+
 .dashboardMainTable > thead > tr > th,
 .dashboardMainTable > tbody > tr > td {
   text-align: center !important;
