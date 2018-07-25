@@ -4,7 +4,7 @@ import { NavHashLink as NavLink } from 'react-router-hash-link'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Navbar, Collapse, NavbarToggler, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap'
+import { Navbar, Collapse, NavbarToggler, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 import './index.css'
 

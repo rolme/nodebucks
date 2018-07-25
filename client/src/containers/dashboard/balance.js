@@ -59,9 +59,6 @@ class Balance extends Component {
             </tbody>
           </table>
         </div>
-        <div className="d-flex justify-content-end">
-          <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
-        </div>
       </div>
     )
   }

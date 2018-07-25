@@ -87,10 +87,6 @@ export default class MainTable extends Component {
               </tbody>
             </Table>
           </div>
-          <div className="d-flex justify-content-end mt-2">
-            <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add Node</NavLink>
-            <NavLink to={`/nodes/withdraw`} className="btn dashboardMainTableWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
-          </div>
         </div>
       </div>
     )

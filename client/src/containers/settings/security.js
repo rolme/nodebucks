@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
 import { capitalize } from '../../lib/helpers'
-import { Container, Col, FormGroup, Label, Input, Button, Alert } from 'reactstrap'
+import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
 
 import './index.css'
@@ -139,7 +139,7 @@ class Security extends Component {
   }
 
   updatePassword() {
-    let { password, newPassword, confirmPassword } = this.state
+   // let { password, newPassword, confirmPassword } = this.state
     /**
      * ToDo
      * Should dispatch action to save data

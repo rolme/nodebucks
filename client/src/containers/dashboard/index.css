@@ -1,6 +1,7 @@
 .dashboardPageContainer {
   padding: 40px 0;
   background-color: #fafafa;
+  min-height: calc(100vh - 120px);
 }
 
 .dashboardSectionHeader {
