@@ -27,12 +27,12 @@ export default class MainTable extends Component {
           <td>{item.crypto.name}</td>
           <td>{uptime} days</td>
           <td className="leftBorder">{annualRoi}</td>
-          <td>{weeklyRoiValue}</td>
-          <td>{monthlyRoiValue}</td>
-          <td>{yearlyRoiValue}</td>
-          <td className="leftBorder">{week}</td>
-          <td>{month}</td>
-          <td className="rightBorder">{year}</td>
+          <td>$ {weeklyRoiValue}</td>
+          <td>$ {monthlyRoiValue}</td>
+          <td>$ {yearlyRoiValue}</td>
+          <td className="leftBorder">$ {week}</td>
+          <td>$ {month}</td>
+          <td className="rightBorder">$ {year}</td>
           <td>
             <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
           </td>
