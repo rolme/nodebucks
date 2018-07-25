@@ -19,6 +19,11 @@ export default class FAQ extends Component {
     this.toggleQuestion = this.toggleQuestion.bind(this)
   }
 
+  componentDidMount() {
+    // Reset to top of window.
+    window.scrollTo(0, 0)
+  }
+
   toggleQuestion(name) {
     const questions = this.state
     const openedQuestionName = Object.keys(questions).find(question => questions[ question ])
