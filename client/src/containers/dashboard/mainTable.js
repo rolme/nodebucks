@@ -24,15 +24,15 @@ export default class MainTable extends Component {
 
       return (
         <tr key={item.slug}>
-          <td>{item.crypto.name}</td>
+          <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} width="40px" className="pr-1"/> {item.crypto.name}</td>
           <td>{uptime} days</td>
           <td className="leftBorder">{annualRoi}</td>
-          <td>{weeklyRoiValue}</td>
-          <td>{monthlyRoiValue}</td>
-          <td>{yearlyRoiValue}</td>
-          <td className="leftBorder">{week}</td>
-          <td>{month}</td>
-          <td className="rightBorder">{year}</td>
+          <td>$ {weeklyRoiValue}</td>
+          <td>$ {monthlyRoiValue}</td>
+          <td>$ {yearlyRoiValue}</td>
+          <td className="leftBorder">$ {week}</td>
+          <td>$ {month}</td>
+          <td className="rightBorder">$ {year}</td>
           <td>
             <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
           </td>
@@ -86,10 +86,6 @@ export default class MainTable extends Component {
               {this.displayTableData(list)}
               </tbody>
             </Table>
-          </div>
-          <div className="d-flex justify-content-end mt-2">
-            <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add Node</NavLink>
-            <NavLink to={`/nodes/withdraw`} className="btn dashboardMainTableWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
           </div>
         </div>
       </div>

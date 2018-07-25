@@ -31,6 +31,7 @@ class Node extends Component {
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0)
     let { match: { params } } = this.props
     this.props.fetchNode(params.slug)
   }

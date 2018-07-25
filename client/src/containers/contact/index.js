@@ -32,6 +32,7 @@ class Contact extends Component {
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0)
     if(this.props.location.hash === "#request"){
       this.setState({subject: 'Requesting a coin', text: 'What masternode coin would you like us to support?'})
     }

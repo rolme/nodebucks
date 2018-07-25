@@ -1,5 +1,5 @@
 .contactPageContainer {
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 120px);
   padding: 0;
   justify-content: center;
   display: flex;

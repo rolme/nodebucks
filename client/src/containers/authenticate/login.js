@@ -39,6 +39,7 @@ class LogIn extends Component {
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0)
     const { user } = this.props
     if ( !!user ) {
       this.props.history.push('/dashboard')

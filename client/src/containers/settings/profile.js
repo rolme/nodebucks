@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
-import { Container, Col, FormGroup, Label, Input, Button, Alert } from 'reactstrap'
+import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
 
 import './index.css'
@@ -128,7 +128,7 @@ class Profile extends Component {
   }
 
   updateGeneralData() {
-    let { first, last, email } = this.state
+   // let { first, last, email } = this.state
     /**
      * ToDo
      * Should dispatch action to save data

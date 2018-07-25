@@ -15,6 +15,7 @@ import { fetchNodes } from '../../reducers/nodes'
 
 class Dashboard extends Component {
   componentWillMount() {
+    window.scrollTo(0, 0)
     this.props.fetchNodes()
   }
 
@@ -23,7 +24,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { nodes, user } = this.props
+    const { nodes } = this.props
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -43,7 +44,7 @@ class Dashboard extends Component {
         <div className="contentContainer px-0">
           <h1 className="dashboardPageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
-            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-0">
+            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
               <h5>Rewards Balance</h5>
               <p>$ {this.changeNumberFormat(totalRewards)}</p>
             </Col>
@@ -55,7 +56,7 @@ class Dashboard extends Component {
               <h5>Cost Basis</h5>
               <p>$ {this.changeNumberFormat(costBases)}</p>
             </Col>
-            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-0">
+            <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
               <h5>Projected Annual</h5>
               <p>{!!costBases ? this.changeNumberFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
             </Col>
@@ -66,8 +67,8 @@ class Dashboard extends Component {
               <MainTable list={filteredNodes}/>
             </Col>
             <Col xl={4}>
-              <Balance />
               <Summary list={filteredNodes}/>
+              <Balance />
             </Col>
           </Row>
         </div>

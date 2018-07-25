@@ -27,7 +27,8 @@ class Balance extends Component {
     }
 
 
-    let balances = user.balances.filter(b => b.hasNodes)
+    //let balances = user.balances.filter(b => b.hasNodes)
+    let {balances} = user
     return (
       <div className="dashboardBalanceSectionContainer  mb-4">
         <h5 className="dashboardSectionHeader"> Balance </h5>
@@ -50,7 +51,7 @@ class Balance extends Component {
               const currentUsd   = (usd - pendingUsd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               return (
                 <tr key={balance.name}>
-                  <td className="text-left">{balance.name}</td>
+                  <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="40px" className="pr-1"/> {balance.name}</td>
                   <td className="text-right">{currentValue}</td>
                   <td className="text-right">${currentUsd}</td>
                 </tr>
@@ -58,9 +59,6 @@ class Balance extends Component {
             })}
             </tbody>
           </table>
-        </div>
-        <div className="d-flex justify-content-end">
-          <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>WITHDRAW</NavLink>
         </div>
       </div>
     )
