@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_23_213542) do
+ActiveRecord::Schema.define(version: 2018_07_20_195658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,23 +20,23 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
     t.string "name"
     t.string "symbol"
     t.string "url"
-    t.string "status"
+    t.string "status", default: "active"
     t.integer "masternodes"
-    t.decimal "node_price"
-    t.decimal "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "stake"
-    t.float "purchasable_price"
-    t.decimal "estimated_node_price"
+    t.decimal "node_price", default: "0.0"
+    t.decimal "daily_reward", default: "0.0"
+    t.decimal "price", default: "0.0"
+    t.decimal "sellable_price", default: "0.0"
+    t.decimal "estimated_node_price", default: "0.0"
     t.decimal "flat_setup_fee", default: "0.0"
     t.decimal "percentage_setup_fee", default: "0.2"
     t.decimal "percentage_hosting_fee", default: "0.01"
     t.decimal "percentage_conversion_fee", default: "0.03"
-    t.decimal "daily_reward"
+    t.integer "stake", default: 1000
+    t.decimal "purchasable_price", default: "0.0"
     t.string "explorer_url"
-    t.decimal "sellable_price", default: "0.0"
     t.string "ticker_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -70,23 +70,22 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
     t.integer "created_by_admin_id"
     t.datetime "online_at"
     t.datetime "sold_at"
+    t.string "wallet"
     t.string "version"
     t.datetime "last_upgraded_at"
     t.string "vps_provider"
     t.string "vps_url"
     t.decimal "vps_monthly_cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "wallet"
     t.string "withdraw_wallet"
     t.integer "reward_setting", default: 0
-    t.decimal "balance", default: "0.0"
     t.integer "sell_setting", default: 0
     t.string "sell_bitcoin_wallet"
     t.decimal "sell_price"
     t.string "stripe"
     t.datetime "sell_priced_at"
     t.datetime "buy_priced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
@@ -98,9 +97,9 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
     t.string "txhash"
     t.decimal "amount"
     t.decimal "total_amount"
+    t.decimal "usd_value", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "usd_value", default: "0.0"
     t.index ["node_id"], name: "index_rewards_on_node_id"
   end
 
@@ -122,17 +121,17 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
     t.string "google"
     t.string "linkedin"
     t.string "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "city"
     t.string "state"
     t.string "zipcode"
     t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "withdrawals", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "crypto_id"
+    t.string "symbol", default: "btc"
     t.string "slug"
     t.decimal "amount", default: "0.0"
     t.string "status", default: "pending"
@@ -141,7 +140,6 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
     t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["crypto_id"], name: "index_withdrawals_on_crypto_id"
     t.index ["user_id"], name: "index_withdrawals_on_user_id"
   end
 
@@ -150,6 +148,5 @@ ActiveRecord::Schema.define(version: 2018_07_23_213542) do
   add_foreign_key "nodes", "cryptos"
   add_foreign_key "nodes", "users"
   add_foreign_key "rewards", "nodes"
-  add_foreign_key "withdrawals", "cryptos"
   add_foreign_key "withdrawals", "users"
 end

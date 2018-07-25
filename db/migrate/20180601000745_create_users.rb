@@ -17,7 +17,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :facebook
       t.string :google
       t.string :linkedin
-      t.string :location
+      t.string :address
+      t.string :city
+      t.string :state
+      t.string :zipcode
+      t.string :country
 
       t.timestamps
     end

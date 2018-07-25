@@ -38,7 +38,7 @@ protected
   end
 
   def withdrawal_params
-    params.require(:withdrawal).permit(:amount, :crypto_id)
+    params.require(:withdrawal).permit(:amount, :symbol)
   end
 
   def withdrawal

@@ -18,8 +18,8 @@ class WithdrawalManager
   end
 
   def save(params)
-    withdrawal.amount    = params[:amount]
-    withdrawal.crypto_id = params[:crypto_id]
+    withdrawal.amount = params[:amount]
+    withdrawal.symbol = params[:symbol]
 
     if withdrawal.save
       # TODO: Should we do some kind of log?

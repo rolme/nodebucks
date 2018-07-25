@@ -2,9 +2,8 @@ class CreateWithdrawals < ActiveRecord::Migration[5.2]
   def change
     create_table :withdrawals do |t|
       t.references :user, foreign_key: true
-      t.references :crypto, foreign_key: true
+      t.string :symbol, default: 'btc'
       t.string :slug
-      t.decimal :balance, default: 0.0
       t.decimal :amount, default: 0.0
       t.string :status, default: 'pending'
       t.integer :last_modified_by_admin_id
