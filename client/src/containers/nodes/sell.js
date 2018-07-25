@@ -32,6 +32,7 @@ class SellNode extends Component {
   }
 
   componentWillMount() {
+    window.scrollTo(0, 0)
     let { match: { params } } = this.props
     this.props.sellReserveNode(params.slug, true)
   }
