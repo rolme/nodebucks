@@ -114,6 +114,11 @@ a.headerMenuItem.active:hover {
   margin: 0 30px;
 }
 
+.headerAddNodeButton.active {
+  background-color: rgba(252, 100, 34, 0.39);
+  cursor: not-allowed !important;
+}
+
 .headerAddNodeButton:hover,
 .headerAddNodeButton:focus {
   background-color: rgba(252, 100, 34, 0.52) !important;
