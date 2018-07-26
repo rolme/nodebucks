@@ -208,6 +208,17 @@ button.disabled {
   background: #2283C9;
 }
 
+.inputFieldContainer.form-control,
+.inputFieldContainer > input.form-control {
+  height: unset !important;
+}
+
+.pageLoaderContainer{
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 120px);
+  align-items: center;
+}
 
 @media (max-width: 768px) {
   .contentContainer {

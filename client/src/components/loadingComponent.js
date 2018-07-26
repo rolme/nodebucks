@@ -6,7 +6,7 @@ export default function Loading(props) {
     if (props.timedOut) {
       return <div>Loader timed out!</div>;
     } else if (props.pastDelay) {
-      return <div className="spinnerContainer"><RingLoader size={150} color={'#3F89E8'} loading={true}/></div>
+      return <div className="spinnerContainer pageLoaderContainer"><RingLoader size={100} color={'#3F89E8'} loading={true}/></div>
     } else {
       return null;
     }
