@@ -10,19 +10,34 @@ export default class Chart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedNodeSlug: ''
+      selectedNodeSlug: '',
+      nodes: []
     }
     this.handleTabClick = this.handleTabClick.bind(this)
   }
 
   componentWillMount() {
     const { nodes } = this.props
-    this.defineSelectedNodeSlug(nodes)
+    this.combineNodes(nodes)
   }
 
   componentWillReceiveProps(nextProps) {
     const { nodes } = nextProps
-    this.defineSelectedNodeSlug(nodes)
+    this.combineNodes(nodes)
+  }
+
+  combineNodes(nodes) {
+    let combinedNodes = []
+    nodes.forEach((node) => {
+      const matchNodeIndex = combinedNodes.findIndex(matchNode => matchNode.crypto.slug === node.crypto.slug)
+      if ( matchNodeIndex !== -1 ) {
+        combinedNodes[ matchNodeIndex ].values = combinedNodes[ matchNodeIndex ].values.concat(node.values)
+      } else {
+        combinedNodes.push(node)
+      }
+    })
+    this.setState({ nodes: combinedNodes })
+    this.defineSelectedNodeSlug(combinedNodes)
   }
 
   defineSelectedNodeSlug(nodes) {
@@ -38,32 +53,41 @@ export default class Chart extends Component {
   }
 
   chartData() {
-    const { nodes } = this.props
+    const { nodes } = this.state
     const { selectedNodeSlug } = this.state
     let labels = [], values = [], datasets = []
 
     if ( !!nodes.length ) {
 
       if ( selectedNodeSlug === "All" ) {
+        values = []
+        let nodeValues = []
         nodes.forEach(nodeData => {
-          values = []
-          this.proceedNodeValues(nodeData.values).forEach(node => {
-            values.push(+node.value)
-            const date = node.timestamp
-            !labels.find(label => label === date) && labels.push(date)
-          })
-          const color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
-          datasets.push({
+          nodeValues = nodeValues.concat(nodeData.values)
+        })
+        nodeValues = this.proceedNodeValues(nodeValues).sort((a, b) => {
+          return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
+        })
+        nodeValues.forEach(node => {
+          values.push(+node.value)
+          const date = node.timestamp
+          !labels.find(label => label === date) && labels.push(date)
+        })
+
+        datasets = [
+          {
             fill: false,
             borderSkipped: 'bottom',
-            backgroundColor: color,
-            borderColor: color,
+            backgroundColor: '#1982CB',
+            borderColor: '#1982CB',
             data: values
-          })
-        })
+          }
+        ]
       } else {
         const node = nodes.find(node => node.slug === selectedNodeSlug)
-        !!node && !!node.values && this.proceedNodeValues(node.values).forEach(node => {
+        !!node && !!node.values && this.proceedNodeValues(node.values).sort((a, b) => {
+          return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
+        }).forEach(node => {
           values.push(+node.value)
           labels.push(node.timestamp)
         })
@@ -71,15 +95,12 @@ export default class Chart extends Component {
           {
             fill: false,
             borderSkipped: 'bottom',
-            backgroundColor: '#2283C6',
-            borderColor: '#2283C6',
+            backgroundColor: '#1982CB',
+            borderColor: '#1982CB',
             data: values
           }
         ]
       }
-      labels.sort((a, b) => {
-        return moment(new Date(a)).valueOf() > moment(new Date(b)).valueOf()
-      })
     }
     return {
       labels,
@@ -145,24 +166,17 @@ export default class Chart extends Component {
   }
 
   renderTabs() {
-    const { nodes } = this.props
+    const { nodes } = this.state
     const { selectedNodeSlug } = this.state
-    let nodesNames = []
     return nodes.map((node, index) => {
       const className = node.slug === selectedNodeSlug ? 'nodeValuesChartTab active' : 'nodeValuesChartTab'
       let name = node.crypto.name
-      const isMatch = nodesNames.includes(name)
-      if ( isMatch ) {
-        const count = nodesNames.filter(nodeName => nodeName.includes(name)).length
-        name += ' #' + count
-      }
-      nodesNames.push(name)
       return <div key={index} className={className} onClick={() => this.handleTabClick(node.slug)}>{name}</div>
     })
   }
 
   render() {
-    const { nodes } = this.props
+    const { nodes } = this.state
     const { selectedNodeSlug } = this.state
     return (
       <div className="contentContainer dashboardChartSectionContentContainer mb-4">

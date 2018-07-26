@@ -57,7 +57,7 @@ class SignUp extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message, error } = nextProps
     if ( !!user ) {
-      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/dashboard')
+      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/masternodes')
     } else if ( message === 'Email has already been taken' ) {
       let messages = { ...this.state.messages }, errors = { ...this.state.errors }
       messages.email = message

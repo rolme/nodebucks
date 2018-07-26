@@ -57,7 +57,8 @@ a.headerMenuItem.active:hover {
 .headerNavBarToggler {
   border: none !important;
 }
-.headerNavBarToggler > span{
+
+.headerNavBarToggler > span {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
 }
 
@@ -113,6 +114,11 @@ a.headerMenuItem.active:hover {
   margin: 0 30px;
 }
 
+.headerAddNodeButton.active {
+  background-color: rgba(252, 100, 34, 0.39);
+  cursor: not-allowed !important;
+}
+
 .headerAddNodeButton:hover,
 .headerAddNodeButton:focus {
   background-color: rgba(252, 100, 34, 0.52) !important;
@@ -144,6 +150,13 @@ a.headerMenuItem.active:hover {
 
 .headerUserDropDownItem {
   border-bottom: 1px solid #556267;
+  padding: 0 !important;
+}
+
+.headerUserDropDownItem > a {
+  height: 100%;
+  width: 100%;
+  display: flex;
   padding: 20px !important;
 }
 
