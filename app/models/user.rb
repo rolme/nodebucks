@@ -101,4 +101,9 @@ class User < ApplicationRecord
     end
   end
 
+  # TODO: This should be a separate services UserWithdrawal?
+  def total_balance
+    balances.each.map
+  end
+
 end

@@ -32,12 +32,6 @@ class WithdrawalManager
 
 protected
 
-  def balance(crypto_id=nil)
-    crypto_id ||= withdrawal.crypto_id
-    nodes = user.nodes.select { |node| node.crypto_id == crypto_id }
-    (nodes.blank?) ? 0.0 : nodes.map { |nodes| nodes.balance }.reduce(&:+)
-  end
-
   def cancel
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
