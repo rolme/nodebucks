@@ -208,6 +208,10 @@ button.disabled {
   background: #2283C9;
 }
 
+.inputFieldContainer.form-control,
+.inputFieldContainer > input.form-control {
+  height: unset !important;
+}
 
 @media (max-width: 768px) {
   .contentContainer {
