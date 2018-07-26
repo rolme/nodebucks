@@ -213,6 +213,13 @@ button.disabled {
   height: unset !important;
 }
 
+.pageLoaderContainer{
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 120px);
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .contentContainer {
     padding: 10px !important;
