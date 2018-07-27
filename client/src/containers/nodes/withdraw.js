@@ -87,7 +87,7 @@ class Withdraw extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
-              <Button className="withdrawPageWithdrawButton submitButton">WITHDRAW</Button>
+              <Button className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
             </Col>
           </div>
         </div>
