@@ -12,14 +12,25 @@ class CryptoTable extends Component {
     this.state = {
       sortedColumnName: '',
       isDescending: false,
-      sortedList: []
+      sortedList: [],
+      isMobile: window.innerWidth < 992
     }
 
     this.sortTable = this.sortTable.bind(this)
+    this.checkScreenSize = this.checkScreenSize.bind(this)
   }
 
   componentWillMount() {
     !!this.props.list && !!this.props.list.length && this.sortTable('annualRoi')
+  }
+
+  componentDidMount() {
+    this.checkScreenSize();
+    window.addEventListener("resize", this.checkScreenSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.checkScreenSize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,8 +58,12 @@ class CryptoTable extends Component {
 
   }
 
+  checkScreenSize() {
+    this.setState({ isMobile: window.innerWidth < 992 })
+  }
+
   render() {
-    let { sortedList, isDescending, sortedColumnName } = this.state
+    let { sortedList, isDescending, sortedColumnName, isMobile } = this.state
 
     //let list = !!sortedList ? sortedList : this.props.list
 
@@ -56,16 +71,18 @@ class CryptoTable extends Component {
       <div className="row">
         <div className="col-12">
           <Table responsive className="cryptosTable">
+            {!isMobile &&
             <thead>
-            <tr className="cryptosTableHeaderRow">
-              <th>Coin</th>
-              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p> </th>
-              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th></th>
-            </tr>
+              <tr className="cryptosTableHeaderRow">
+                <th>Coin</th>
+                <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+                <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+                <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+                <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+                <th></th>
+              </tr>
             </thead>
+            }
             <tbody>
             {this.displayCryptos(sortedList)}
             </tbody>
@@ -76,6 +93,7 @@ class CryptoTable extends Component {
   }
 
   displayCryptos(list) {
+    let { isMobile } = this.state
     return list.map(item => {
       let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
       let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + (+item.monthlyRoiValue).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : '-'
@@ -89,10 +107,10 @@ class CryptoTable extends Component {
             <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#1982cb"/></a>
             <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#1982cb"/></a>
           </td>
-          <td>{annualRoi}</td>
+          {!isMobile && <td>{annualRoi}</td>}
           <td>{nodePrice}</td>
-          <td>{monthlyRoiValue}</td>
-          <td>{yearlyRoiValue}</td>
+          {!isMobile && <td>{monthlyRoiValue}</td>}
+          {!isMobile && <td>{yearlyRoiValue}</td>}
           <td className="d-flex">
             {+item.nodePrice < 50000 &&
             <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton">+ Add Node</NavLink>
