@@ -525,7 +525,13 @@
   box-shadow: none !important;
 }
 
-/*Withdraw Page Style*/
+.purchaseNodeAuthFormContainer > .signUpPageContainer,
+.purchaseNodeAuthFormContainer > .logInPageContainer{
+  min-height: unset !important;
+  background-color: white !important;
+}
+
+  /*Withdraw Page Style*/
 .withdrawPageTitle {
   color: #3B3B3B;
   font-size: 30px;

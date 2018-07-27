@@ -29,12 +29,12 @@ export default class AuthForms extends React.Component {
           <Col xl={6} lg={6} md={6} sm={6} xs={12} onClick={() => this.changeShowingForm('register')} className={`${showForm === 'register' ? 'selectedAuthTab' : ''}`}><p>REGISTER</p></Col>
         </Col>
         {showForm === 'login' &&
-        <Col xl={12}>
+        <Col xl={12} className="purchaseNodeAuthFormContainer">
           <LogIn isOnlyForm={true} onSuccess={this.handleReload}/>
         </Col>
         }
         {showForm === 'register' &&
-        <Col xl={12}>
+        <Col xl={12} className="purchaseNodeAuthFormContainer">
           <SignUp onSuccess={this.handleReload}/>
         </Col>
         }
