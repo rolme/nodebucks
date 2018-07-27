@@ -36,11 +36,10 @@ a.footerText:hover {
 
   .footerContainer > .container-fluid > div {
     justify-content: center;
-    margin-bottom: 10px;
   }
 
-  .footerContainer > .container-fluid > div:nth-last-child(1) {
-    margin-bottom: 0 !important;
+  .footerContainer > .container-fluid > div:last-child > .footerText {
+    margin-top: 10px !important;
   }
 
   .footerText {
