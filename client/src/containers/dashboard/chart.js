@@ -31,9 +31,17 @@ export default class Chart extends Component {
     nodes.forEach((node) => {
       const matchNodeIndex = combinedNodes.findIndex(matchNode => matchNode.crypto.slug === node.crypto.slug)
       if ( matchNodeIndex !== -1 ) {
-        combinedNodes[ matchNodeIndex ].values = combinedNodes[ matchNodeIndex ].values.concat(node.values)
+        this.proceedNodeValues(node.values).forEach(value => {
+          const matchTimeStampIndex = combinedNodes[ matchNodeIndex ].values.findIndex(matchTimeStamp => matchTimeStamp.timestamp === value.timestamp)
+          if ( matchTimeStampIndex !== -1 ) {
+            combinedNodes[ matchNodeIndex ].values[ matchTimeStampIndex ].value += value.value
+          } else {
+            combinedNodes[ matchNodeIndex ].values.push(value)
+          }
+        })
       } else {
-        combinedNodes.push(node)
+        node.values = this.proceedNodeValues(node.values)
+        combinedNodes.push({...node})
       }
     })
     this.setState({ nodes: combinedNodes })
@@ -63,9 +71,16 @@ export default class Chart extends Component {
         values = []
         let nodeValues = []
         nodes.forEach(nodeData => {
-          nodeValues = nodeValues.concat(nodeData.values)
+          nodeData.values.forEach(value => {
+            const matchTimeStampIndex = nodeValues.findIndex(matchTimeStamp => matchTimeStamp.timestamp === value.timestamp)
+            if ( matchTimeStampIndex !== -1 ) {
+              nodeValues[ matchTimeStampIndex ].value += value.value
+            } else {
+              nodeValues.push({...value})
+            }
+          })
         })
-        nodeValues = this.proceedNodeValues(nodeValues).sort((a, b) => {
+        nodeValues = nodeValues.sort((a, b) => {
           return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
         })
         nodeValues.forEach(node => {
@@ -85,7 +100,7 @@ export default class Chart extends Component {
         ]
       } else {
         const node = nodes.find(node => node.slug === selectedNodeSlug)
-        !!node && !!node.values && this.proceedNodeValues(node.values).sort((a, b) => {
+        !!node && !!node.values && node.values.sort((a, b) => {
           return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
         }).forEach(node => {
           values.push(+node.value)
