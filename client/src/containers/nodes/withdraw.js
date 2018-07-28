@@ -14,17 +14,14 @@ class Withdraw extends Component {
     this.state = {
       address: '',
       password: '',
-      amount: '',
       showPassword: false,
       messages: {
         address: '',
-        password: '',
-        amount: '',
+        password: ''
       },
       errors: {
         address: false,
-        password: false,
-        amount: false,
+        password: false
       }
     }
 
@@ -46,7 +43,7 @@ class Withdraw extends Component {
   }
 
   render() {
-    const { address, password, amount, messages, errors, showPassword } = this.state
+    const { address, password, messages, errors, showPassword } = this.state
     return (
       <Container fluid className="withdrawPageContainer">
         <div className="contentContainer withdrawPageContentContainer">
@@ -64,18 +61,6 @@ class Withdraw extends Component {
                           error={errors.address}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
-              <Col xl={12} className="d-flex px-0 justify-content-center align-items-between">
-                <InputField label='Amount'
-                            name="amount"
-                            type='text'
-                            id='amount'
-                            value={amount}
-                            message={messages.amount}
-                            error={errors.amount}
-                            handleFieldValueChange={this.handleFieldValueChange}
-                />
-                <Button className="withdrawPageAllButton submitButton">All</Button>
-              </Col>
               <InputField label='Password'
                           name="password"
                           id='logInPassword'
