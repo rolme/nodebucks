@@ -59,7 +59,7 @@ class CryptoTable extends Component {
             <thead>
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
-              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p> </th>
+              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
@@ -98,7 +98,7 @@ class CryptoTable extends Component {
             <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton">+ Add Node</NavLink>
             }
             {+item.nodePrice > 50000 &&
-            <NavLink to='/contact' className="btn btn-primary contactSalesButton">Contact Sales</NavLink>
+            <NavLink to={'/contact#contact-sales-' + item.name} className="btn btn-primary contactSalesButton">Contact Sales</NavLink>
             }
           </td>
         </tr>

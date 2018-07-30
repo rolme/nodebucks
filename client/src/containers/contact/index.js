@@ -35,6 +35,9 @@ class Contact extends Component {
     window.scrollTo(0, 0)
     if(this.props.location.hash === "#request"){
       this.setState({subject: 'Requesting a coin', text: 'What masternode coin would you like us to support?'})
+    }else if(this.props.location.hash.includes("#contact-sales")){
+      const name = this.props.location.hash.split("#contact-sales-")[1]
+      this.setState({subject: `Request to purchase ${name} masternode.`})
     }
   }
 
