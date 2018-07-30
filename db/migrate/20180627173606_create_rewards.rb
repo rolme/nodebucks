@@ -5,6 +5,7 @@ class CreateRewards < ActiveRecord::Migration[5.2]
       t.datetime :timestamp
       t.string :txhash
       t.decimal :amount
+      t.decimal :fee
       t.decimal :total_amount
       t.decimal :usd_value, default: 0.0
 

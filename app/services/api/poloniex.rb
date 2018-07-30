@@ -13,7 +13,7 @@ module Api
       response  = Typhoeus::Request.get("#{BASE_URI}?command=returnOrderBook&currencyPair=USDT_BTC&depth=1000", verbose: DEBUG)
       data      = (response.body[@type]) ? parsed_response(response.body)[@type] : []
       orders    = to_orders(data)
-      @btc_usdt = available_price(orders, 1.0)
+      @btc_usdt = order_price(orders, 1.0)
     end
 
     def orders(symbol)

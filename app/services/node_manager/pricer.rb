@@ -35,7 +35,7 @@ module NodeManager
       cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.active
 
       cryptos.each do |crypto|
-        @orders = gather_ordewrs(crypto)
+        @orders = gather_orders(crypto)
         @prices[crypto.symbol] = {
           all: available_price(@orders, crypto.stake),
           binance: available_price(@orders, crypto.stake, Api::Binance::EXCHANGE),
@@ -61,7 +61,12 @@ module NodeManager
     # TOOD: Get what value we can for the amount passed in.
     def withdrawal(crypto, amount)
       orders = gather_orders(crypto)
-      Api::Base.available_price(@orders, amount)
+      btc = order_price(@orders, amount)
+      {
+        coin: amount,
+        btc: btc,
+        usd: btc * avg_btc_usdt
+      }
     end
 
   private
@@ -87,7 +92,7 @@ module NodeManager
       filtered_orders = (exchange.present?) ? my_orders.select {|o| o[:exchange] == exchange } : my_orders
       return 0.0 if filtered_orders.empty?
 
-      price = super(filtered_orders, stake.to_f)
+      price = order_price(filtered_orders, stake.to_f)
       price * avg_btc_usdt
     end
 

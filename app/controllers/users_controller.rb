@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :authenticate_admin_request, only: [:index, :show]
 
   def index
-    @users = User.all
+    @users = User.where.not(email: nil)
   end
 
   def login

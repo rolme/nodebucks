@@ -28,7 +28,7 @@ module Api
       asks   = response.body[@type].present? ? parsed_response(response.body)[@type] : []
       orders = to_orders(asks)
 
-      @btc_usdt = available_price(orders, 1.0)
+      @btc_usdt = order_price(orders, 1.0)
     end
 
     def orders(symbol)

@@ -12,20 +12,19 @@ module NodeManager
       total_amount = amount - fee
       usd_value    = total_amount * node.crypto_price
 
-      node.rewards.create(
-        timestamp: timestamp,
+      reward = Reward.create(
         amount: amount,
-        txhash: txhash,
+        fee: fee,
+        node_id: node.id,
+        timestamp: timestamp,
         total_amount: total_amount,
+        txhash: txhash,
         usd_value: usd_value
       )
 
-      node.events.create(
-        event_type: 'reward',
-        timestamp: timestamp,
-        value: total_amount,
-        description: "Reward: #{amount} #{node.symbol} (-#{fee} fee)"
-      )
+      create_reward_event(reward)
+      tm = TransactionManager.new(node.account)
+      tm.deposit_reward(reward)
     end
 
     def online(timestamp=DateTime.current)
@@ -46,6 +45,7 @@ module NodeManager
       node.update_attribute(:status, 'new')
       node.node_prices.create(source: 'system', value: node.cost)
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+      # TODO: Do we need to track setup fee here?
     end
 
     def reserve_sell_price(timestamp=DateTime.current)
@@ -68,6 +68,15 @@ module NodeManager
      def within_timeframe?(datetime)
        return false if datetime.blank?
        DateTime.current < (datetime + Node::TIME_LIMIT)
+     end
+
+     def create_reward_event(reward)
+       node.events.create(
+         event_type: 'reward',
+         timestamp: reward.timestamp,
+         value: reward.total_amount,
+         description: "Reward: #{reward.amount} #{node.symbol} (-#{reward.fee} fee)"
+       )
      end
   end
 end

@@ -11,7 +11,7 @@ module Api
       response  = Typhoeus::Request.get("#{BASE_URI}/v1.1/public/getorderbook?market=USDT-BTC&type=#{@type}", verbose: DEBUG)
       data      = (response.body['success']) ? parsed_response(response.body)['result'] : []
       orders    = to_orders(data)
-      @btc_usdt = available_price(orders, 1.0)
+      @btc_usdt = order_price(orders, 1.0)
     end
 
     def orders(symbol)

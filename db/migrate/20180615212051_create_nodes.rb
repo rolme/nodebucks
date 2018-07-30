@@ -1,13 +1,19 @@
 class CreateNodes < ActiveRecord::Migration[5.2]
   def change
     create_table :nodes do |t|
-      t.references :user, foreign_key: true
-      t.references :crypto, foreign_key: true
+      t.references :account, foriegn_key: true
+      t.references :crypto, foriegn_key: true
+      t.references :user, foriegn_key: true
+      t.integer :created_by_admin_id
+      t.string :cached_crypto_name
+      t.string :cached_crypto_symbol
+      t.string :cached_user_slug
       t.string :slug, index: true
       t.string :status, default: :new
       t.string :ip
       t.decimal :cost
-      t.integer :created_by_admin_id
+      t.decimal :balance, default: 0.0
+      t.decimal :wallet_balance, default: 0.0
       t.datetime :online_at
       t.datetime :sold_at
       t.string :wallet

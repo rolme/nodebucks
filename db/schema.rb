@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_20_195658) do
+ActiveRecord::Schema.define(version: 2018_07_27_172602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "crypto_id"
+    t.string "slug"
+    t.decimal "balance", default: "0.0"
+    t.string "cached_crypto_symbol"
+    t.string "cached_crypto_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_accounts_on_crypto_id"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
 
   create_table "cryptos", force: :cascade do |t|
     t.string "slug"
@@ -61,13 +74,19 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
   end
 
   create_table "nodes", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.bigint "crypto_id"
+    t.bigint "user_id"
+    t.integer "created_by_admin_id"
+    t.string "cached_crypto_name"
+    t.string "cached_crypto_symbol"
+    t.string "cached_user_slug"
     t.string "slug"
     t.string "status", default: "new"
     t.string "ip"
     t.decimal "cost"
-    t.integer "created_by_admin_id"
+    t.decimal "balance", default: "0.0"
+    t.decimal "wallet_balance", default: "0.0"
     t.datetime "online_at"
     t.datetime "sold_at"
     t.string "wallet"
@@ -86,6 +105,7 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
     t.datetime "buy_priced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
     t.index ["user_id"], name: "index_nodes_on_user_id"
@@ -96,11 +116,33 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
     t.datetime "timestamp"
     t.string "txhash"
     t.decimal "amount"
+    t.decimal "fee"
     t.decimal "total_amount"
     t.decimal "usd_value", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_rewards_on_node_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "account_id"
+    t.bigint "reward_id"
+    t.bigint "withdrawal_id"
+    t.string "txn_type"
+    t.string "slug"
+    t.decimal "amount"
+    t.string "cached_crypto_name"
+    t.string "cached_crypto_symbol"
+    t.string "notes"
+    t.string "status", default: "pending"
+    t.datetime "cancelled_at"
+    t.datetime "processed_at"
+    t.integer "last_modified_by_admin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["reward_id"], name: "index_transactions_on_reward_id"
+    t.index ["withdrawal_id"], name: "index_transactions_on_withdrawal_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -110,6 +152,7 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
     t.string "password_digest"
     t.string "nickname"
     t.boolean "admin"
+    t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"
     t.string "reset_token"
@@ -143,10 +186,13 @@ ActiveRecord::Schema.define(version: 2018_07_20_195658) do
     t.index ["user_id"], name: "index_withdrawals_on_user_id"
   end
 
+  add_foreign_key "accounts", "cryptos"
+  add_foreign_key "accounts", "users"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"
-  add_foreign_key "nodes", "cryptos"
-  add_foreign_key "nodes", "users"
   add_foreign_key "rewards", "nodes"
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "rewards"
+  add_foreign_key "transactions", "withdrawals"
   add_foreign_key "withdrawals", "users"
 end
