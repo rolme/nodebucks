@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import { RingLoader } from 'react-spinners'
 import { Col, Container, Row, Button } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import InputField from '../../components/elements/inputField'
 import './index.css'
 
+import {
+  fetchWithdrawData
+} from '../../reducers/nodes'
 
 class Withdraw extends Component {
   constructor(props) {
@@ -29,6 +32,10 @@ class Withdraw extends Component {
     this.onAddonClick = this.onAddonClick.bind(this)
   }
 
+  componentWillMount() {
+    this.props.fetchWithdrawData()
+  }
+
   handleGoBack() {
     window.history.back()
   }
@@ -44,6 +51,29 @@ class Withdraw extends Component {
 
   render() {
     const { address, password, messages, errors, showPassword } = this.state
+    const { message, error, pending } = this.props
+
+    if ( pending ) {
+      return (
+        <Container fluid className="withdrawPageContainer">
+          <div className="contentContainer withdrawPageContentContainer d-flex justify-content-center flex-column">
+            <p onClick={this.handleGoBack} className="withdrawPageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
+            <div className="withdrawPageMainContentContainer">
+              <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
+                <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
+                  <RingLoader
+                    size={150}
+                    color={'#3F89E8'}
+                    loading={pending}
+                  />
+                </div>
+              </Col>
+            </div>
+          </div>
+        </Container>
+      )
+    }
+
     return (
       <Container fluid className="withdrawPageContainer">
         <div className="contentContainer withdrawPageContentContainer">
@@ -120,7 +150,7 @@ const mapStateToProps = state => ({
   pending: state.nodes.pending,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData }, dispatch)
 
 export default connect(
   mapStateToProps,

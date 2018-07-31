@@ -12,7 +12,6 @@ import Countdown from '../../components/countdown'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
 
-
 import {
   sellNode,
   sellReserveNode,
