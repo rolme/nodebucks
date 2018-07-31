@@ -100,4 +100,10 @@ class User < ApplicationRecord
     end
   end
 
+  def total_balance
+    pricer = NodeManager::Pricer.new(type: 'buy')
+    btc = accounts.map { |account| pricer.to_btc(account.crypto, account.balance) }.reduce(&:+)
+    { btc: btc, usd: btc * pricer.avg_btc_usdt }
+  end
+
 end

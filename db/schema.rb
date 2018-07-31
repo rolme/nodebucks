@@ -176,10 +176,10 @@ ActiveRecord::Schema.define(version: 2018_07_27_172602) do
 
   create_table "withdrawals", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "symbol", default: "btc"
     t.string "slug"
-    t.decimal "amount", default: "0.0"
-    t.string "status", default: "pending"
+    t.decimal "amount_btc", default: "0.0"
+    t.decimal "amount_usd", default: "0.0"
+    t.string "status", default: "reserved"
     t.integer "last_modified_by_admin_id"
     t.datetime "processed_at"
     t.datetime "cancelled_at"

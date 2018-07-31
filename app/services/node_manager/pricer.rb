@@ -59,14 +59,9 @@ module NodeManager
     end
 
     # TOOD: Get what value we can for the amount passed in.
-    def withdrawal(crypto, amount)
-      orders = gather_orders(crypto)
-      btc = order_price(@orders, amount)
-      {
-        coin: amount,
-        btc: btc,
-        usd: btc * avg_btc_usdt
-      }
+    def to_btc(crypto, amount)
+      @orders = gather_orders(crypto)
+      btc_order_price(@orders, amount)
     end
 
   private
@@ -92,7 +87,7 @@ module NodeManager
       filtered_orders = (exchange.present?) ? my_orders.select {|o| o[:exchange] == exchange } : my_orders
       return 0.0 if filtered_orders.empty?
 
-      price = order_price(filtered_orders, stake.to_f)
+      price = btc_order_price(filtered_orders, stake.to_f)
       price * avg_btc_usdt
     end
 

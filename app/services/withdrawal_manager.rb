@@ -5,7 +5,13 @@ class WithdrawalManager
   def initialize(user, my_withdrawal=nil)
     @user         = user
     @withdrawal   = my_withdrawal
-    @withdrawal ||= Withdrawal.new(user_id: user.id)
+    @withdrawal ||= Withdrawal.find_by(user_id: user.id, status: 'reserved')
+    @withdrawal ||= Withdrawal.new(
+      amount_btc: user.total_balance[:btc],
+      amount_usd: user.total_balance[:usd],
+      user_id: user.id,
+      status: 'reserved'
+    )
   end
 
   def update(params)
@@ -17,12 +23,13 @@ class WithdrawalManager
     withdrawal
   end
 
-  def save(params)
-    withdrawal.amount = params[:amount]
-    withdrawal.symbol = params[:symbol]
+  def save(timestamp=DateTime.current)
+    if withdrawal.id.present?
+      withdrawal.amount_btc = user.total_balance[:btc]
+      withdrawal.amount_usd = user.total_balance[:usd]
+    end
 
     if withdrawal.save
-      # TODO: Should we do some kind of log?
       withdrawal
     else
       @error = withdrawal.errors.full_messages.join(', ')
@@ -41,6 +48,7 @@ protected
   end
 
   def pending
+    # TODO: Create transactions here
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       status: 'pending'
