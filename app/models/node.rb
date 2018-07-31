@@ -48,6 +48,14 @@ class Node < ApplicationRecord
 
   before_create :cache_values
 
+  def name
+    cached_crypto_name
+  end
+
+  def symbol
+    cached_crypto_symbol
+  end
+
   def ready?
     wallet.present? && ip.present?
   end

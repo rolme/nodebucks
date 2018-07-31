@@ -75,7 +75,7 @@ class User < ApplicationRecord
 
   # TODO: This should be a separate services UserWithdrawal?
   def balances
-    Crypto.all.sort_by(&:name).map do |crypto|
+    Crypto.active.sort_by(&:name).map do |crypto|
       account = accounts.find { |a| a.crypto_id == crypto.id }
       filtered_nodes = nodes.select{ |n| n.crypto_id == crypto.id && ['online', 'new'].include?(n.status) }
       if account.nil?
@@ -91,7 +91,7 @@ class User < ApplicationRecord
         {
           has_nodes: filtered_nodes.present?,
           name: account.name,
-          slug: account.slug,
+          slug: crypto.slug,
           symbol: account.symbol,
           usd: account.balance * crypto.price,
           value: account.balance
