@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 
 import { fetchBalance } from '../../reducers/user'
 
-import { NavLink } from 'react-router-dom'
-
 class Balance extends Component {
 
   componentWillMount() {

@@ -112,7 +112,7 @@
 }
 
 .withAddonInputFieldGroup > .input-group-append > .input-group-text {
-  background-color: white;
+  background-color: transparent;
   border: none;
 }
 
@@ -121,6 +121,10 @@
   right: 0;
   top: 18px;
   z-index: 100;
+}
+
+.inputFieldContainerWithValue.withAddonInputFieldGroup > .input-group-append {
+  top: 27px;
 }
 
 .withAddonInputFieldGroup > input:focus {

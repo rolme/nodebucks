@@ -99,3 +99,15 @@
   outline: none !important;
   box-shadow: none !important;
 }
+
+@media (min-width: 992px) {
+  .cryptosTable >  thead {
+    display: table-header-group !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .cryptosTable {
+    min-width: 600px !important;
+  }
+}
