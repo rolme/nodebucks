@@ -113,6 +113,8 @@ ActiveRecord::Schema.define(version: 2018_07_27_172602) do
 
   create_table "rewards", force: :cascade do |t|
     t.bigint "node_id"
+    t.string "cached_crypto_name"
+    t.string "cached_crypto_symbol"
     t.datetime "timestamp"
     t.string "txhash"
     t.decimal "amount"

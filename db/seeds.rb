@@ -37,7 +37,7 @@ puts "  - Polis node #1:"
 puts "    * Reserve a price"
 crypto = Crypto.find_by(name: 'Polis')
 node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
-puts "    * purchase it at #{node.cost}"
+puts "    * purchase for #{user.full_name} at #{node.cost}"
 operator = NodeManager::Operator.new(node)
 operator.purchase(DateTime.current - (6.months - 2.days))
 puts "    * Set IP and wallet"
@@ -48,9 +48,8 @@ puts "    * put online"
 operator.online(DateTime.current - (6.months - 2.days))
 
 puts "  - Polis node #2:"
-crypto = Crypto.find_by(name: 'Polis')
 node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
-puts "    * purchase it at #{node.cost}"
+puts "    * purchase for #{user.full_name} at #{node.cost}"
 operator = NodeManager::Operator.new(node)
 operator.purchase(DateTime.current - (3.months - 2.days))
 puts "    * Set IP and wallet"
@@ -61,9 +60,8 @@ puts "    * put online"
 operator.online(DateTime.current - (3.months - 2.days))
 
 puts "  - Polis node #3:"
-crypto = Crypto.find_by(name: 'Polis')
 node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 2.months)
-puts "    * purchase it at #{node.cost}"
+puts "    * purchase for #{user.full_name} at #{node.cost}"
 operator = NodeManager::Operator.new(node)
 operator.purchase(DateTime.current - (2.months - 2.days))
 puts "    * Set IP and wallet"
