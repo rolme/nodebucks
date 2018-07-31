@@ -23,5 +23,5 @@ production:
     class: NodePricerWorker
 
   node_daily_ticker_worker:
-    cron: '3 * * * *' # Run every day at 1:01 AM
+    cron: '3 1 * * *' # Run every day at 1:03 AM
     class: NodeDailyTickerWorker

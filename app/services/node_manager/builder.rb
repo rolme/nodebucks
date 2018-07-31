@@ -8,6 +8,7 @@ module NodeManager
       @user     = user
       @node     = Node.find_by(user_id: user.id, crypto_id: crypto.id, status: 'reserved')
       @node   ||= Node.new(
+        account_id: user.accounts.find { |a| a.crypto_id == crypto.id }&.id,
         user_id: user.id,
         crypto_id: crypto.id,
         cost: crypto.node_price,
@@ -33,7 +34,7 @@ module NodeManager
         return node
       end
 
-      node.cost = crypto.node_price
+      node.account ||= user.accounts.create(crypto_id: crypto.id)
       if node.save
         node.events.create(event_type: 'ops', description: 'Server price reserved', timestamp: timestamp)
         node

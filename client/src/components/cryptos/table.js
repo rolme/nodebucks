@@ -89,10 +89,10 @@ class CryptoTable extends Component {
             <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#1982cb"/></a>
             <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#1982cb"/></a>
           </td>
-          <td>{annualRoi}</td>
+          <td className="d-xl-table-cell d-lg-table-cell d-none">{annualRoi}</td>
           <td>{nodePrice}</td>
-          <td>{monthlyRoiValue}</td>
-          <td>{yearlyRoiValue}</td>
+          <td className="d-xl-table-cell d-lg-table-cell d-none">{monthlyRoiValue}</td>
+          <td className="d-xl-table-cell d-lg-table-cell d-none">{yearlyRoiValue}</td>
           <td className="d-flex">
             {+item.nodePrice < 50000 &&
             <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton">+ Add Node</NavLink>
