@@ -35,15 +35,7 @@ module NodeManager
       cryptos = (a_crypto.present?) ? [a_crypto] : Crypto.active
 
       cryptos.each do |crypto|
-        @orders = []
-        @orders << @binance.orders(crypto.symbol)
-        @orders << @bittrex.orders(crypto.symbol)
-        @orders << @cryptopia.orders(crypto.symbol)
-        @orders << @kucoin.orders(crypto.symbol)
-        @orders << @poloniex.orders(crypto.symbol)
-
-        @orders = @orders.flatten.sort_by { |order| order[:price] }
-        @orders = @orders.reverse! if @type == 'buy'
+        @orders = gather_orders(crypto)
         @prices[crypto.symbol] = {
           all: available_price(@orders, crypto.stake),
           binance: available_price(@orders, crypto.stake, Api::Binance::EXCHANGE),
@@ -66,7 +58,26 @@ module NodeManager
       @prices
     end
 
+    # TOOD: Get what value we can for the amount passed in.
+    def to_btc(crypto, amount)
+      @orders = gather_orders(crypto)
+      btc_order_price(@orders, amount)
+    end
+
   private
+
+    def gather_orders(crypto)
+      orders = []
+      orders << @binance.orders(crypto.symbol)
+      orders << @bittrex.orders(crypto.symbol)
+      orders << @cryptopia.orders(crypto.symbol)
+      orders << @kucoin.orders(crypto.symbol)
+      orders << @poloniex.orders(crypto.symbol)
+
+      orders = orders.flatten.sort_by { |order| order[:price] }
+      orders = orders.reverse! if @type == 'buy'
+      orders
+    end
 
     # symbol   - String
     # stake    - Integer
@@ -76,7 +87,7 @@ module NodeManager
       filtered_orders = (exchange.present?) ? my_orders.select {|o| o[:exchange] == exchange } : my_orders
       return 0.0 if filtered_orders.empty?
 
-      price = super(filtered_orders, stake.to_f)
+      price = btc_order_price(filtered_orders, stake.to_f)
       price * avg_btc_usdt
     end
 

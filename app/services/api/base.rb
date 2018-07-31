@@ -5,7 +5,7 @@ module Api
       DateTime.current.to_i
     end
 
-    def available_price(orders, limit)
+    def btc_order_price(orders, limit)
       return 0.0 if orders.count == 0
       total  = 0
       i      = 0

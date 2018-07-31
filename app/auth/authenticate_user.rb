@@ -30,8 +30,10 @@ class AuthenticateUser
   end
 
   def user
-    @user ||= User.find_by_email(email)
-    return @user if @user && @user.authenticate(password)
+    if email.present? && password.present?
+      @user ||= User.find_by_email(email)
+      return @user if @user && @user.authenticate(password)
+    end
 
     errors.add :user_authentication, 'Invalid credentials'
     nil

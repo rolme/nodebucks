@@ -41,17 +41,13 @@ class Balance extends Component {
             </thead>
             <tbody>
             {!!balances && balances.map(balance => {
-              const pendingValue = parseFloat(balance.pending.value)
-              const pendingUsd   = parseFloat(balance.pending.usd)
-              const value        = parseFloat(balance.value)
-              const usd          = parseFloat(balance.usd)
-              const currentValue = (value - pendingValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-              const currentUsd   = (usd - pendingUsd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+              const value        = parseFloat(balance.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+              const usd          = parseFloat(balance.usd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               return (
                 <tr key={balance.name}>
                   <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="40px" className="pr-1"/> {balance.name}</td>
-                  <td className="text-right">{currentValue}</td>
-                  <td className="text-right">${currentUsd}</td>
+                  <td className="text-right">{value}</td>
+                  <td className="text-right">${usd}</td>
                 </tr>
               )
             })}

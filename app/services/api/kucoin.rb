@@ -28,7 +28,7 @@ module Api
         'KC-API-SIGNATURE' => sig
       }, verbose: DEBUG)
       orders    = (response.body['success']) ? to_orders(parsed_response(response.body)['data']) : []
-      @btc_usdt = available_price(orders, 1.0)
+      @btc_usdt =btc_order_price(orders, 1.0)
     end
 
     def orders(symbol)

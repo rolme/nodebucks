@@ -2,10 +2,12 @@ class User < ApplicationRecord
   include Sluggable
   include SoftDeletable
 
+  SYSTEM_ACCOUNT_ID = 1
+  TOKEN_AGE         = 5.minutes
+
+  has_many :accounts
   has_many :nodes
   has_many :withdrawals
-
-  TOKEN_AGE = 5.minutes
 
   has_secure_password
 
@@ -13,7 +15,11 @@ class User < ApplicationRecord
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
 
-  scope :non_admin, -> { where(admin: false) }
+  default_scope { where.not(id: SYSTEM_ACCOUNT_ID) }
+
+  def self.system
+    @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
+  end
 
   def full_name
     "#{first} #{last}"
@@ -69,36 +75,35 @@ class User < ApplicationRecord
 
   # TODO: This should be a separate services UserWithdrawal?
   def balances
-    Crypto.all.sort_by(&:name).map do |crypto|
-      filtered_nodes = nodes.select{ |node| node.crypto_id == crypto.id && node.status == 'online' }
-      if filtered_nodes.empty?
+    Crypto.active.sort_by(&:name).map do |crypto|
+      account = accounts.find { |a| a.crypto_id == crypto.id }
+      filtered_nodes = nodes.select{ |n| n.crypto_id == crypto.id && ['online', 'new'].include?(n.status) }
+      if account.nil?
         {
           has_nodes: false,
           name: crypto.name,
-          pending_value: 0.0,
-          pending_usd: 0.0,
           slug: crypto.slug,
           symbol: crypto.symbol,
           usd: 0.0,
-          value: 0.0,
+          value: 0.0
         }
       else
-        pending_value = pending_withdrawal_value(crypto.id)
-        balance_value = filtered_nodes.map(&:balance).reduce(&:+)
-        balance_value = balance_value - (filtered_nodes.count * crypto.stake)
-
         {
-          has_nodes: !!filtered_nodes.count,
-          name: crypto.name,
-          pending_usd: pending_value * crypto.price,
-          pending_value: pending_value,
+          has_nodes: filtered_nodes.present?,
+          name: account.name,
           slug: crypto.slug,
-          symbol: crypto.symbol,
-          usd: balance_value * crypto.price,
-          value: balance_value
+          symbol: account.symbol,
+          usd: account.balance * crypto.price,
+          value: account.balance
         }
       end
     end
+  end
+
+  def total_balance
+    pricer = NodeManager::Pricer.new(type: 'buy')
+    btc = accounts.map { |account| pricer.to_btc(account.crypto, account.balance) }.reduce(&:+)
+    { btc: btc, usd: btc * pricer.avg_btc_usdt }
   end
 
 end

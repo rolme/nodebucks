@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :password_digest
       t.string :nickname
       t.boolean :admin
+      t.boolean :accessible, default: true
       t.string :slug
       t.datetime :confirmed_at
       t.string :reset_token
@@ -17,7 +18,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :facebook
       t.string :google
       t.string :linkedin
-      t.string :location
+      t.string :address
+      t.string :city
+      t.string :state
+      t.string :zipcode
+      t.string :country
 
       t.timestamps
     end

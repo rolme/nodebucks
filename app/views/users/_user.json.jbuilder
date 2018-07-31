@@ -4,10 +4,6 @@ json.avatar user.avatar
 json.balances user.balances.each do |balance|
   json.hasNodes balance[:has_nodes]
   json.name balance[:name]
-  json.pending do
-    json.usd balance[:pending_usd]
-    json.value balance[:pending_value]
-  end
   json.slug balance[:slug]
   json.symbol balance[:symbol]
   json.usd balance[:usd]
