@@ -5,7 +5,7 @@ json.amount do
   json.btc withdrawal.amount_btc
   json.usd withdrawal.amount_usd
 end
-json.balances user.balances.each do |balance|
+json.balances withdrawal.user.balances.each do |balance|
   json.hasNodes balance[:has_nodes]
   json.name balance[:name]
   json.slug balance[:slug]
