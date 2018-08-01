@@ -12,7 +12,6 @@ import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
 
-
 class Dashboard extends Component {
   componentWillMount() {
     window.scrollTo(0, 0)

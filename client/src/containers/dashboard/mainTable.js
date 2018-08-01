@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
-
+import { capitalize } from '../../lib/helpers'
 import moment from 'moment'
 
 export default class MainTable extends Component {
@@ -33,7 +33,7 @@ export default class MainTable extends Component {
           <td className="leftBorder">$ {week}</td>
           <td>$ {month}</td>
           <td className="rightBorder">$ {year}</td>
-          <td>{item.crypto.status}</td>
+          <td>{capitalize(item.crypto.status)}</td>
           <td>
             <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
           </td>
