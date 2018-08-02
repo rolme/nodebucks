@@ -9,7 +9,7 @@ class TransactionManager
   def deposit_reward(reward)
     account_txn = account.transactions.create(reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
     system_txn = system_account.transactions.create(reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit')
-    system_txn = system_account.transactions.create(reward_id: reward.id, txn_type: 'transfer', notes: "Wallet transfer from #{reward.node.wallet} to Nodebucks")
+    system_account.transactions.create(reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
       account.balance += reward.total_amount
@@ -23,19 +23,22 @@ class TransactionManager
   end
 
   def withdraw(withdrawal)
-    balance     = account.balance
-    account_txn = account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: 'Account withdrawal')
-    system_txn = system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: 'Fee deposit')
-    system_txn = system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "Wallet transfer to Nodebucks")
+    balance            = withdrawal.balances.select { |b| b[:symbol] == account.symbol }
+    fee                = balance * account.crypto.percentage_hosting_fee
+    account_txn        = account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Account withdrawal of #{balance} #{account.symbol} (includes #{fee} #{account.symbol} fee)")
+    system_fee_txn     = system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Fee deposit (#{fee} #{account.symbol})")
+    system_balance_txn = system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Balance deposit (#{balance - fee} #{account.symbol})")
+    system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance} #{account.symbol} balance transfer to Nodebucks (includes #{fee} #{account.symbol} fee)")
+    system_account.transactions.create(withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance - fee} #{account.symbol} transfer to User #{withdrawal.user.email}")
 
     Account.transaction do
-      account.balance -= withdrawal.total_amount
+      account.balance -= balance
       account.save
-      account_txn.update_attribute(:status, 'processed')
 
-      system_account.balance += reward.fee
+      system_account.balance += balance
       system_account.save
-      system_txn.update_attribute(:status, 'processed')
+      system_balance_txn.update_attribute(:status, 'processed')
+      system_fee_txn.update_attribute(:status, 'processed')
     end
   end
 
