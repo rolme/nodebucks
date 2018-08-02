@@ -40,7 +40,7 @@
 
 .inputFieldContainer > input, :-moz-placeholder { /* Firefox 18- */
   color: #7C7C7C;
-  font-family: 'DidactGothic-Regular';
+  font-family: 'OpenSans';
 }
 
 .inputFieldContainer > input,
@@ -63,7 +63,7 @@
   box-shadow: none;
   padding: 0;
   font-size: 17px;
-  font-family: 'Arimo-Regular';
+  font-family: 'OpenSans';
   color: #424242;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .inputFieldMessage {
-  font-family: 'Arimo-Regular';
+  font-family: 'OpenSans';
   color: #9D9D9D !important;
   font-size: 11px;
   margin-left: 21px;
@@ -95,7 +95,7 @@
 }
 
 .inputFieldErrorMessage {
-  font-family: 'Arimo-Regular';
+  font-family: 'OpenSans';
   color: #F2433D !important;
   font-size: 11px;
   margin-left: 21px;
