@@ -106,7 +106,7 @@
 .homeAboutTextPartContainer > p {
   font-size: 18px;
   font-family: 'Raleway-Light';
-  color: #57576C;
+  color: #000;
   margin-bottom: 40px;
 }
 
@@ -167,7 +167,7 @@
 
 .testimonialMessageText {
   font-family: 'Raleway-Light';
-  color: #7B7B7B;
+  color: #000;
   font-size: 18px;
   margin: 30px 0;
 }

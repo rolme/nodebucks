@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
 import moment from 'moment'
 
-export default class MainTable extends Component {
+class MainTable extends Component {
+  constructor(props) {
+    super(props)
+    this.viewNode = this.viewNode.bind(this)
+  }
+
+  viewNode(slug) {
+    this.props.history.push(`/nodes/${slug}`)
+  }
+
   displayTableData(list) {
     list = [].concat(list)
     return list.sort((a, b) => {
@@ -23,7 +32,7 @@ export default class MainTable extends Component {
       const year = valueFormat(+item.rewards.year, 2)
 
       return (
-        <tr key={item.slug}>
+        <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
           <td>{uptime} days</td>
           <td className="leftBorder">{annualRoi}</td>
@@ -34,9 +43,6 @@ export default class MainTable extends Component {
           <td>$ {month}</td>
           <td className="rightBorder">$ {year}</td>
           <td>{capitalize(item.crypto.status)}</td>
-          <td>
-            <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
-          </td>
         </tr>
       )
     })
@@ -81,7 +87,6 @@ export default class MainTable extends Component {
                 <th>Month</th>
                 <th className="rightBorder">Year</th>
                 <th>Status</th>
-                <th>View</th>
               </tr>
               </thead>
               <tbody>
@@ -94,3 +99,6 @@ export default class MainTable extends Component {
     )
   }
 }
+
+export default withRouter(MainTable)
+
