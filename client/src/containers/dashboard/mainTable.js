@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
-
+import { capitalize } from '../../lib/helpers'
 import moment from 'moment'
 
 export default class MainTable extends Component {
@@ -24,7 +24,7 @@ export default class MainTable extends Component {
 
       return (
         <tr key={item.slug}>
-          <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} width="40px" className="pr-1"/> {item.crypto.name}</td>
+          <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
           <td>{uptime} days</td>
           <td className="leftBorder">{annualRoi}</td>
           <td>$ {weeklyRoiValue}</td>
@@ -33,6 +33,7 @@ export default class MainTable extends Component {
           <td className="leftBorder">$ {week}</td>
           <td>$ {month}</td>
           <td className="rightBorder">$ {year}</td>
+          <td>{capitalize(item.crypto.status)}</td>
           <td>
             <NavLink to={`/nodes/${item.slug}`} className="dashboardMainTableViewButton">... </NavLink>
           </td>
@@ -49,7 +50,7 @@ export default class MainTable extends Component {
           <div className="contentContainer px-0">
             <h5 className="dashboardSectionHeader"> Masternodes </h5>
             <div className="dashboardMainTableContainer">
-              <p>You have no masternodes.  <NavLink to={`/masternodes`}> Add one now.</NavLink> </p>
+              <p>You have no masternodes. <NavLink to={`/masternodes`}> Add one now.</NavLink></p>
             </div>
           </div>
         </div>
@@ -79,7 +80,8 @@ export default class MainTable extends Component {
                 <th className="leftBorder">Week</th>
                 <th>Month</th>
                 <th className="rightBorder">Year</th>
-                <th></th>
+                <th>Status</th>
+                <th>View</th>
               </tr>
               </thead>
               <tbody>

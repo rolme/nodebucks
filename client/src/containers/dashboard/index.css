@@ -52,12 +52,17 @@
   font-size: 30px;
   line-height: 30px;
   margin: 0;
-  font-family: 'Raleway-Medium';
+  font-family: 'OpenSans';
 }
 
 /*Summary Part Style */
 .dashboardSummaryTableContainer {
   padding: 15px;
+}
+
+.dashboardSummaryTableContainer > dl > dt,
+.dashboardSummaryTableContainer > dl > dd {
+  font-family: 'OpenSans' !important;
 }
 
 /*Dashboard Main Table Style*/
@@ -69,6 +74,11 @@
 
 .dashboardMainTableContainer > p > a:hover {
   text-decoration: none;
+}
+
+.dashboardMainTable > tbody > tr:hover {
+  background-color: #F1F1F1;
+  box-shadow: 0 2px 5px 0 #afbeca;
 }
 
 .dashboardMainTable > tbody > tr > td {
@@ -95,12 +105,14 @@
   color: #3B3B3B;
   font-size: 14px;
   font-family: Raleway;
+  font-weight: bold;
 }
 
 .dashboardMainTable > tbody > tr > td {
   color: #848484;
   font-size: 14px;
-  font-family: Raleway;
+  font-family: OpenSans;
+  padding: 12px 5px;
 }
 
 .mainTableContainer > .contentContainer > .submitButton:hover {
@@ -182,10 +194,18 @@
   padding: 15px;
 }
 
-.dashboardBalanceTableContainer > table > thead > tr > th,
+.dashboardBalanceTableContainer > table > thead > tr > th {
+  text-align: center !important;
+  border: none;
+  vertical-align: middle;
+  font-family: 'Raleway-Bold';
+}
+
 .dashboardBalanceTableContainer > table > tbody > tr > td {
   text-align: center !important;
   border: none;
+  vertical-align: middle;
+  font-family: 'OpenSans';
 }
 
 .dashboardBalanceWithdrawButton,
