@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
-import { capitalize } from '../../lib/helpers'
+import { capitalize, valueFormat } from '../../lib/helpers'
 import moment from 'moment'
 
 export default class MainTable extends Component {
@@ -14,13 +14,13 @@ export default class MainTable extends Component {
     }).map(item => {
       const uptime = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
       const annualRoi = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
-      const weeklyRoiValue = (+item.crypto.weeklyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const monthlyRoiValue = (+item.crypto.monthlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const yearlyRoiValue = (+item.crypto.yearlyRoiValue).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
+      const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
+      const yearlyRoiValue = valueFormat(+item.crypto.yearlyRoiValue, 2)
 
-      const week = (+item.rewards.week).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const month = (+item.rewards.month).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-      const year = (+item.rewards.year).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+      const week = valueFormat(+item.rewards.week, 2)
+      const month = valueFormat(+item.rewards.month, 2)
+      const year = valueFormat(+item.rewards.year, 2)
 
       return (
         <tr key={item.slug}>

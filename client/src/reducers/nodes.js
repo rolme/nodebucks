@@ -148,7 +148,7 @@ export default (state = initialState, action) => {
         withdrawData: action.payload,
         pending: false,
         error: false,
-        message: 'Node sold successful.'
+        message: ''
       }
 
     default:

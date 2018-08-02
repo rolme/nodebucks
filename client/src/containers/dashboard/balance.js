@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { fetchBalance } from '../../reducers/user'
+import { valueFormat } from "../../lib/helpers";
 
 class Balance extends Component {
 
@@ -41,8 +42,8 @@ class Balance extends Component {
             </thead>
             <tbody>
             {!!balances && balances.map(balance => {
-              const value        = parseFloat(balance.value).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-              const usd          = parseFloat(balance.usd).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+              const value        = valueFormat(parseFloat(balance.value), 2)
+              const usd          = valueFormat(parseFloat(balance.usd), 2)
               return (
                 <tr key={balance.name}>
                   <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="40px" className="pr-1"/> {balance.name}</td>

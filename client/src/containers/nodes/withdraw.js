@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
-import { Col, Container, Row, Button } from 'reactstrap'
-import { capitalize } from '../../lib/helpers'
+import { Col, Container, Row, Button, Alert } from 'reactstrap'
+import { capitalize, valueFormat } from '../../lib/helpers'
 import InputField from '../../components/elements/inputField'
 import './index.css'
 
@@ -51,9 +51,9 @@ class Withdraw extends Component {
 
   render() {
     const { address, password, messages, errors, showPassword } = this.state
-    const { message, error, pending } = this.props
+    const { data, message, error, pending } = this.props
 
-    if ( pending ) {
+    if ( pending || !data ) {
       return (
         <Container fluid className="withdrawPageContainer">
           <div className="contentContainer withdrawPageContentContainer d-flex justify-content-center flex-column">
@@ -79,6 +79,13 @@ class Withdraw extends Component {
         <div className="contentContainer withdrawPageContentContainer">
           <p onClick={this.handleGoBack} className="withdrawPageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="withdrawPageMainContentContainer">
+            {!!message &&
+            <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
+              <Alert color={error ? 'danger' : 'success'}>
+                {message}
+              </Alert>
+            </Col>
+            }
             <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
               <h5 className="withdrawPageTitle">Withdraw Rewards</h5>
               {this.renderInformationPart()}
@@ -111,40 +118,43 @@ class Withdraw extends Component {
   }
 
   renderInformationPart() {
+    const { data } = this.props
+    const totalBalanceUsd = !!data.amount ? valueFormat(+data.amount.usd, 2) : ''
+    const totalBalance = !!data.amount ? valueFormat(+data.amount.usd, 2) : ''
     return (
       <Col xl={12} className="withdrawPageInformationPartContainer">
         <Row className="p-0 m-0">
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, USD</p>
-            <p className="withdrawInformationPartHeaderValue">$13,412.01</p>
+            <p className="withdrawInformationPartHeaderValue">${totalBalanceUsd}</p>
           </Row>
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, bitcoin</p>
-            <p className="withdrawInformationPartHeaderValue">0.069</p>
+            <p className="withdrawInformationPartHeaderValue">{totalBalance}</p>
           </Row>
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          <Row className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">Polis</p>
-            <p className="withdrawInformationPartInfo">137.12</p>
-          </Row>
-          <Row className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">Cardano</p>
-            <p className="withdrawInformationPartInfo">12.98</p>
-          </Row>
-          <Row className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">Dash</p>
-            <p className="withdrawInformationPartInfo">168.96</p>
-          </Row>
+          {!!data.balances && this.renderBalances(data.balances)}
         </Row>
       </Col>
     )
   }
+
+  renderBalances(data) {
+    return data.map((coin, index) => {
+      return (
+        <Row key={index} className="p-0 m-0 justify-content-between w-100">
+          <p className="withdrawInformationPartInfo">{coin.name}</p>
+          <p className="withdrawInformationPartInfo">{valueFormat(+coin.value, 2)}</p>
+        </Row>
+      )
+    })
+  }
 }
 
 const mapStateToProps = state => ({
-  node: state.nodes.data,
+  data: state.nodes.withdrawData,
   error: state.nodes.error,
   message: state.nodes.message,
   pending: state.nodes.pending,

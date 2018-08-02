@@ -18,6 +18,8 @@ import {
   updateNode
 } from '../../reducers/nodes'
 
+import {valueFormat} from "../../lib/helpers";
+
 class SellNode extends Component {
   constructor(props) {
     super(props)
@@ -83,7 +85,7 @@ class SellNode extends Component {
     const { node } = this.props
 
     const available = (node.status !== 'sold')
-    const sellPrice = (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    const sellPrice = valueFormat(+node.sellPrice, 2)
     return (
       <Container fluid className="sellPageContainer">
         <div className="contentContainer sellPageContentContainer">
@@ -117,7 +119,7 @@ class SellNode extends Component {
   displayPrice(node) {
     const { refreshing } = this.props
     const { validPrice } = this.state
-    const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? (+node.sellPrice).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''
+    const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? valueFormat(+node.sellPrice, 2) : ''
     let price = (validPrice) ? `$${sellPrice} USD` : (<s> ${sellPrice} USD</s>)
     return (
       <Col xl={12} className="sellPagePriceSectionContainer">
