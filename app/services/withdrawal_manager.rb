@@ -9,6 +9,7 @@ class WithdrawalManager
     @withdrawal ||= Withdrawal.new(
       amount_btc: user.total_balance[:btc],
       amount_usd: user.total_balance[:usd],
+      balances: user.balances,
       user_id: user.id,
       status: 'reserved'
     )
@@ -27,6 +28,7 @@ class WithdrawalManager
     if withdrawal.id.present?
       withdrawal.amount_btc = user.total_balance[:btc]
       withdrawal.amount_usd = user.total_balance[:usd]
+      withdrawal.balances   = user.balances
     end
 
     if withdrawal.save

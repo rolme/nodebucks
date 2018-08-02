@@ -9,6 +9,9 @@ class Account < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :crypto_id }
 
+  delegate :slug,
+           to: :crypto
+
   before_create :cache_values
 
   # TODO:

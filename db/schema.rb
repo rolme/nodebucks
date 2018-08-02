@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2018_07_27_172602) do
     t.decimal "sellable_price", default: "0.0"
     t.decimal "estimated_node_price", default: "0.0"
     t.decimal "flat_setup_fee", default: "0.0"
-    t.decimal "percentage_setup_fee", default: "0.2"
-    t.decimal "percentage_hosting_fee", default: "0.01"
+    t.decimal "percentage_setup_fee", default: "0.05"
+    t.decimal "percentage_hosting_fee", default: "0.0295"
     t.decimal "percentage_conversion_fee", default: "0.03"
     t.integer "stake", default: 1000
     t.decimal "purchasable_price", default: "0.0"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2018_07_27_172602) do
   create_table "withdrawals", force: :cascade do |t|
     t.bigint "user_id"
     t.string "slug"
+    t.json "balances", default: {}
     t.decimal "amount_btc", default: "0.0"
     t.decimal "amount_usd", default: "0.0"
     t.string "status", default: "reserved"

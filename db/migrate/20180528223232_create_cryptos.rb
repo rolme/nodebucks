@@ -13,8 +13,8 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.decimal :sellable_price, default: 0.0
       t.decimal :estimated_node_price, default: 0.0
       t.decimal :flat_setup_fee, default: 0.0
-      t.decimal :percentage_setup_fee, default: 0.2
-      t.decimal :percentage_hosting_fee, default: 0.01
+      t.decimal :percentage_setup_fee, default: 0.05
+      t.decimal :percentage_hosting_fee, default: 0.0295
       t.decimal :percentage_conversion_fee, default: 0.03
       t.integer :stake, default: 1000
       t.decimal :purchasable_price, default: 0.0

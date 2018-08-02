@@ -88,13 +88,14 @@ class User < ApplicationRecord
           value: 0.0
         }
       else
+        balance = account.balance * crypto.percentage_conversion_fee
         {
           has_nodes: filtered_nodes.present?,
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: account.balance * crypto.price,
-          value: account.balance
+          usd: balance * crypto.price,
+          value: balance
         }
       end
     end

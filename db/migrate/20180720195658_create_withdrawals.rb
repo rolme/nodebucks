@@ -3,6 +3,7 @@ class CreateWithdrawals < ActiveRecord::Migration[5.2]
     create_table :withdrawals do |t|
       t.references :user, foreign_key: true
       t.string :slug
+      t.json :balances, default: {}
       t.decimal :amount_btc, default: 0.0
       t.decimal :amount_usd, default: 0.0
       t.string :status, default: 'reserved'
