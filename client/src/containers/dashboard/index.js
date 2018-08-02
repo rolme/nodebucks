@@ -12,14 +12,12 @@ import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
 
+import {valueFormat} from "../../lib/helpers";
+
 class Dashboard extends Component {
   componentWillMount() {
     window.scrollTo(0, 0)
     this.props.fetchNodes()
-  }
-
-  changeNumberFormat(number) {
-    return number.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   }
 
   render() {
@@ -45,19 +43,19 @@ class Dashboard extends Component {
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
               <h5>Rewards Balance</h5>
-              <p>$ {this.changeNumberFormat(totalRewards)}</p>
+              <p>$ {valueFormat(+totalRewards, 2)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Total Node Value</h5>
-              <p>$ {this.changeNumberFormat(nodeValue)}</p>
+              <p>$ {valueFormat(+nodeValue, 2)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Cost Basis</h5>
-              <p>$ {this.changeNumberFormat(costBases)}</p>
+              <p>$ {valueFormat(+costBases, 2)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
               <h5>Projected Annual</h5>
-              <p>{!!costBases ? this.changeNumberFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
+              <p>{!!costBases ? valueFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
             </Col>
           </Row>
           <Row>
