@@ -18,6 +18,8 @@ import {
   reserveNode
 } from '../../reducers/nodes'
 
+import {valueFormat} from "../../lib/helpers";
+
 
 class NewNode extends Component {
   constructor(props) {
@@ -155,7 +157,7 @@ class NewNode extends Component {
     const { user, refreshing, nodePending, cryptoPending } = this.props
     const { validPrice } = this.state
 
-    let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + (+item.nodePrice).toFixed().toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' USD' : ''
+    let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) + ' USD' : ''
     const annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
 

@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
-export default class Summary extends Component {
+import {valueFormat} from "../../lib/helpers";
 
-  changeNumberFormat(number) {
-    return number.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-  }
+export default class Summary extends Component {
 
   render() {
     const { list } = this.props
@@ -21,28 +19,22 @@ export default class Summary extends Component {
         return data
       })
     } else {
-     /* summary = {
-        rewardTotal: 0,
-        value: 0,
-        cost: 0,
-        rewards: {month: 0},
-      }*/
       return (
         <div className="dashboardSummarySectionContainer  mb-4">
           <h5 className="dashboardSectionHeader"> Summary </h5>
           <div className="bg-white dashboardSummaryTableContainer">
-           <p>No data available.</p>
+            <p>No data available.</p>
           </div>
         </div>
       )
     }
 
-    const rewardTotal = this.changeNumberFormat(+summary.rewardTotal)
-    const value = this.changeNumberFormat(+summary.value)
-    const cost = this.changeNumberFormat(+summary.cost)
-    const month = this.changeNumberFormat(+summary.rewards.month)
-    const annual = !!summary.cost ? this.changeNumberFormat((+summary.crypto.yearlyRoiValue / +summary.cost) * 100) : '0.00'
-    const monthPercentage = !!summary.cost ?  this.changeNumberFormat((+summary.rewards.month / +summary.cost) * 100) : '0.00'
+    const rewardTotal = valueFormat(+summary.rewardTotal, 2)
+    const value = valueFormat(+summary.value, 2)
+    const cost = valueFormat(+summary.cost, 2)
+    const month = valueFormat(+summary.rewards.month, 2)
+    const annual = !!summary.cost ? valueFormat((+summary.crypto.yearlyRoiValue / +summary.cost) * 100, 2) : '0.00'
+    const monthPercentage = !!summary.cost ? valueFormat((+summary.rewards.month / +summary.cost) * 100, 2) : '0.00'
 
     return (
       <div className="dashboardSummarySectionContainer  mb-4">

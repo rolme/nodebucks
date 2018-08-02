@@ -16,6 +16,8 @@ import {
   updateNode
 } from '../../reducers/nodes'
 
+import {valueFormat} from "../../lib/helpers";
+
 class Node extends Component {
   constructor(props) {
     super(props)
@@ -105,15 +107,11 @@ class Node extends Component {
     )
   }
 
-  numberFormat(number, decimalPointsAmount) {
-    return (+number).toFixed(decimalPointsAmount).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-  }
-
   displaySummary(node) {
-    const value = this.numberFormat(+node.value, 2)
-    const cost = this.numberFormat(+node.cost, 2)
-    const rewardTotal = this.numberFormat(+node.rewardTotal, 2)
-    const rewardPercentage = this.numberFormat(node.rewardTotal / node.cost, 2)
+    const value = valueFormat(+node.value, 2)
+    const cost = valueFormat(+node.cost, 2)
+    const rewardTotal = valueFormat(+node.rewardTotal, 2)
+    const rewardPercentage = valueFormat(node.rewardTotal / node.cost, 2)
     return (
       <div>
         <h5 className="showPageSectionHeader"> Summary </h5>
@@ -184,9 +182,9 @@ class Node extends Component {
   }
 
   displayROI(node) {
-    const week = this.numberFormat(node.rewards.week, 2)
-    const month = this.numberFormat(node.rewards.month, 2)
-    const year = this.numberFormat(node.rewards.year, 2)
+    const week = valueFormat(node.rewards.week, 2)
+    const month = valueFormat(node.rewards.month, 2)
+    const year = valueFormat(node.rewards.year, 2)
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader">ROI</h5>
@@ -207,7 +205,7 @@ class Node extends Component {
   }
 
   displayActions(node) {
-    const value = this.numberFormat(+node.value, 2)
+    const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
     return (
       <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
@@ -265,7 +263,7 @@ class Node extends Component {
         <tr key={event.id}>
           <td>{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
           <td>{event.description}</td>
-          <td>{this.numberFormat(total, 2)}</td>
+          <td>{valueFormat(total, 2)}</td>
         </tr>
       )
       total = +total - +event.value
