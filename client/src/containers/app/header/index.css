@@ -194,16 +194,6 @@ a.headerMenuItem.active:hover {
   align-items: center;
 }
 
-.headerMenuAuthText {
-  font-family: 'DidactGothic-Regular';
-  text-align: center;
-  vertical-align: middle;
-  font-size: 17px;
-  line-height: 36px;
-  padding: 15px 5px !important;
-  margin-bottom: 0;
-}
-
 .headerAuthMenuLoggedInMobileItem {
   display: none !important;
 }

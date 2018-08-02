@@ -6,13 +6,6 @@
   min-width: 350px;
 }
 
-.authStepNumber {
-  margin-top: 15px;
-  font-family: 'Arimo-Regular';
-  color: #4B5366;
-  font-size: 20px;
-}
-
 .authHeader {
   margin: 10px 0 40px 0;
   font-family: 'Raleway-Bold';
@@ -25,16 +18,17 @@
 }
 
 .logInHeader {
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Bold';
   font-weight: 300;
   line-height: 42px;
   margin-top: 19px;
   margin-bottom: 30px;
+  font-size: 30px;
 }
 
 .rememberMeCheckBox {
   color: #9D9D9D;
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Regular';
   font-size: 14px;
 }
 
@@ -44,7 +38,7 @@
 
 .logInForgotPassword {
   color: #1982CB;
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Regular';
   font-size: 14px;
 }
 
@@ -61,7 +55,7 @@
   cursor: pointer;
   color: white;
   font-size: 16px;
-  font-family: 'Arimo-Regular';
+  font-family: 'Raleway-Regular';
   text-transform: uppercase;
   position: relative;
   font-weight: bold;
@@ -111,7 +105,7 @@
 .dontHaveAnAccountMessage {
   text-align: center;
   margin-top: 10px;
-  font-family: "Arimo-Regular";
+  font-family: "Raleway-Regular";
   font-size: 15px;
 }
 
