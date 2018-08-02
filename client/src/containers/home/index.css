@@ -98,15 +98,15 @@
 
 .homeAboutTextPartContainer > h1 {
   font-size: 36px;
-  font-family: 'DidactGothic-Regular';
+  font-family: 'Raleway-Light';
   color: #3A3A3A;
   margin-bottom: 60px;
 }
 
 .homeAboutTextPartContainer > p {
   font-size: 18px;
-  font-family: 'Arimo-Regular';
-  color: #57576C;
+  font-family: 'Raleway-Light';
+  color: #000;
   margin-bottom: 40px;
 }
 
@@ -117,7 +117,7 @@
 }
 
 .homeTestimonialsHeader {
-  font-family: 'DidactGothic-Regular';
+  font-family: 'Raleway-Light';
   font-size: 36px;
   color: #3A3A3A;
   text-align: center;
@@ -166,8 +166,8 @@
 }
 
 .testimonialMessageText {
-  font-family: 'Arimo-Regular';
-  color: #7B7B7B;
+  font-family: 'Raleway-Light';
+  color: #000;
   font-size: 18px;
   margin: 30px 0;
 }
@@ -261,7 +261,7 @@
 }
 
 .homeFooterText {
-  font-family: 'DidactGothic-Regular';
+  font-family: 'Raleway-Light';
   font-size: 36px;
   text-align: center;
   color: #FFFFFF;

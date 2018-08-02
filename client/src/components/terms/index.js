@@ -147,7 +147,7 @@ export default class Terms extends Component {
               Jay Severson, DMCA Agent<br/>
               San Jose, Ca 95124<br/>
               732-566-1268 (fax)<br/>
-              <a href="mailto:dmca@nodebucks.com">dmca@nodebucks.com</a>
+              <a href="mailto:support@nodebucks.com">support@nodebucks.com</a>
             </address>
             <p className="paragraphText">Please do not send other inquiries or information to our Designated Agent.</p>
 
@@ -182,7 +182,7 @@ export default class Terms extends Component {
               Jay Severson, DMCA Agent<br/>
               San Jose, Ca 95124<br/>
               732-566-1268 (fax)<br/>
-              <a href="mailto:dmca@nodebucks.com">dmca@nodebucks.com</a>
+              <a href="mailto:support@nodebucks.com">support@nodebucks.com</a>
             </address>
             <p className="paragraphText">Please do not send other inquiries or information to our Designated Agent.</p>
             <p className="paragraphText">After receiving a DMCA-compliant counter-notification, Our Designated Copyright Agent will forward the counter-notification to the original claimant who first provided the Notice identifying the allegedly infringing material.</p>
@@ -213,7 +213,7 @@ export default class Terms extends Component {
             <p className="paragraphText"><b>12.5</b> NB takes the issue of child pornography very seriously, and any potential harm to minors using our services is strictly prohibited. Content that is or may be perceived to be child pornography will be immediately removed from public access upon notification or detection by Us. Additionally, NB reserves the right to terminate any account whose website(s) hosts or links to child pornography immediately and without notice to You. If the account is
               a NB reseller account, the account will be suspended and the reseller will be directed to terminate the responsible account. You agree to cooperate in any such efforts. Content or communications seeking to solicit, lure or entice minors into sexual activity or lewd behavior is also strictly prohibited, and will be treated the same as, or similar to, child pornography, consistent with applicable law. You agree to cooperate with NB in any effort to investigate, disable or remove such
               content originating with Your end-users. Consistent with federal law, NB will cooperate with law enforcement authorities and will notify such authorities if it suspects that You or any of Your downstream customers or end users are engaged in any such illegal activities.</p>
-            <p className="paragraphText"><b>12.6</b> In accordance with the reporting requirements of 18 U.S.C. § 2258A, We will report to the CyberTipline (www.cybertipline.com) any actual knowledge of apparent violations of 18 U.S.C §§ 2251, 2251A, 2252, 2252A, 2252B, 2260, or 1466A. If You suspect any instances of child pornography appearing on sites hosted by NB, We encourage You to send such reports to Our abuse address (abuse@nodebucks.com), and include the file name and/or URL (or other
+            <p className="paragraphText"><b>12.6</b> In accordance with the reporting requirements of 18 U.S.C. § 2258A, We will report to the CyberTipline (www.cybertipline.com) any actual knowledge of apparent violations of 18 U.S.C §§ 2251, 2251A, 2252, 2252A, 2252B, 2260, or 1466A. If You suspect any instances of child pornography appearing on sites hosted by NB, We encourage You to send such reports to Our abuse address (support@nodebucks.com), and include the file name and/or URL (or other
               location on the customer's site), victim (if known), date of birth, date of production, and any other information about the suspect image(s). Do not send the image(s) in question. Alternately, You may use the CyberTipline to report suspected child pornography. Reports involving sites not hosted by NB should be directed to law enforcement or to a cooperating child pornography organization such as: https://www.asacp.org/index.php?content=report.</p>
             <p className="paragraphText"><b>12.7</b> We respect the intellectual property rights of all parties and have adopted a policy regarding termination of repeat copyright infringers under the Digital Millennium Copyright Act. Copies of Our Repeat Infringer Policy are available on request to our clients.</p>
             <p className="paragraphText"><b>12.8</b> Section 230 Notice: You acknowledge Your responsibility to prevent minors under Your care from accessing harmful or inappropriate material on Your site. You agree not to allow minors to view any such site, and agree to take responsible measures to prevent them from doing so. Numerous commercial online safety filters are available which may help users limit minors' access to harmful or inappropriate material. Pursuant to 47 U.S.C. §230(d), you

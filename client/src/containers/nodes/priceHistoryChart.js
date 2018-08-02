@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2'
 
 import { Row } from 'reactstrap'
 
-import { numberFormatter } from '../../lib/helpers'
+import { numberFormatter, valueFormat } from '../../lib/helpers'
 
 export default class PriceHistoryChart extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ export default class PriceHistoryChart extends Component {
       tooltips: {
         callbacks: {
           label: function (tooltipItem) {
-            return '$ ' + tooltipItem.yLabel.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            return '$ ' + valueFormat(+tooltipItem.yLabel, 1)
           }
         }
       },
@@ -84,7 +84,7 @@ export default class PriceHistoryChart extends Component {
             ticks: {
               fontSize: 11,
               callback: function (value, index, values) {
-                return values[ 0 ] - values[ 1 ] > 1000 ? numberFormatter(value) : value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+                return values[ 0 ] - values[ 1 ] > 1000 ? numberFormatter(value) : valueFormat(+value)
               }
             },
             gridLines: {

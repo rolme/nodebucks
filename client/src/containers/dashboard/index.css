@@ -79,6 +79,7 @@
 .dashboardMainTable > tbody > tr:hover {
   background-color: #F1F1F1;
   box-shadow: 0 2px 5px 0 #afbeca;
+  cursor: pointer;
 }
 
 .dashboardMainTable > tbody > tr > td {
@@ -139,17 +140,6 @@
   outline: none !important;
   box-shadow: none !important;
   color: white;
-}
-
-.dashboardMainTableViewButton {
-  color: #2283C6;
-  font-size: 37px;
-  line-height: 1px !important;
-}
-
-.dashboardMainTableViewButton:hover {
-  text-decoration: none;
-  color: #2aa3f6;
 }
 
 /*Chart Style*/
