@@ -52,7 +52,7 @@ class MainTable extends Component {
     const { list } = this.props
     if ( !list.length ) {
       return (
-        <div className="mainTableContainer">
+        <div className="mainTableContainer mb-4">
           <div className="contentContainer px-0">
             <h5 className="dashboardSectionHeader"> Masternodes </h5>
             <div className="dashboardMainTableContainer">
@@ -63,7 +63,7 @@ class MainTable extends Component {
       )
     }
     return (
-      <div className="mainTableContainer">
+      <div className="mainTableContainer mb-4">
         <div className="contentContainer px-0">
           <h5 className="dashboardSectionHeader"> Masternodes </h5>
           <div className="dashboardMainTableContainer">

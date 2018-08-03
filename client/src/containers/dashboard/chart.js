@@ -194,7 +194,7 @@ export default class Chart extends Component {
     const { nodes } = this.state
     const { selectedNodeSlug } = this.state
     return (
-      <div className="contentContainer dashboardChartSectionContentContainer mb-4">
+      <div className="contentContainer dashboardChartSectionContentContainer">
         <Row className="d-flex flex-wrap">
           {nodes.length > 1 && <div className={`nodeValuesChartTab ${(selectedNodeSlug === 'All') ? 'active' : ''}`} onClick={() => this.handleTabClick('All')}>All</div>}
           {this.renderTabs()}
