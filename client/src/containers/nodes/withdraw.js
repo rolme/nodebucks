@@ -120,7 +120,7 @@ class Withdraw extends Component {
   renderInformationPart() {
     const { data } = this.props
     const totalBalanceUsd = !!data.amount ? valueFormat(+data.amount.usd, 2) : ''
-    const totalBalance = !!data.amount ? valueFormat(+data.amount.usd, 2) : ''
+    const totalBalance = !!data.amount ? valueFormat(+data.amount.btc, 2) : ''
     return (
       <Col xl={12} className="withdrawPageInformationPartContainer">
         <Row className="p-0 m-0">
