@@ -18,17 +18,18 @@
 }
 
 .logInHeader {
-  font-family: 'Raleway-Bold';
+  font-family: 'Raleway';
   font-weight: 300;
   line-height: 42px;
   margin-top: 19px;
   margin-bottom: 30px;
   font-size: 30px;
+  color: #000000;
 }
 
 .rememberMeCheckBox {
   color: #9D9D9D;
-  font-family: 'Raleway-Regular';
+  font-family: 'Raleway';
   font-size: 14px;
 }
 
@@ -38,7 +39,7 @@
 
 .logInForgotPassword {
   color: #1982CB;
-  font-family: 'Raleway-Regular';
+  font-family: 'Raleway';
   font-size: 14px;
 }
 
@@ -55,7 +56,7 @@
   cursor: pointer;
   color: white;
   font-size: 16px;
-  font-family: 'Raleway-Regular';
+  font-family: 'Raleway';
   text-transform: uppercase;
   position: relative;
   font-weight: bold;
@@ -105,7 +106,7 @@
 .dontHaveAnAccountMessage {
   text-align: center;
   margin-top: 10px;
-  font-family: "Raleway-Regular";
+  font-family: "Raleway";
   font-size: 15px;
 }
 
