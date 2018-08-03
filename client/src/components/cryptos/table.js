@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleUp, faChartLine, faGlobe } from '@fortawesome/fontawesome-free-solid'
+import { faAngleDown, faAngleUp } from '@fortawesome/fontawesome-free-solid'
 import { Table } from 'reactstrap'
 import './index.css'
-import {valueFormat} from "../../lib/helpers";
+import { valueFormat } from "../../lib/helpers";
 
 class CryptoTable extends Component {
   constructor(props) {
@@ -58,10 +58,10 @@ class CryptoTable extends Component {
             <thead>
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
-              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0 float-left">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0 float-left">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 float-left">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 float-left">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th></th>
             </tr>
             </thead>
@@ -83,10 +83,12 @@ class CryptoTable extends Component {
       return (
         <tr key={item.slug}>
           <td>
-            <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px" className="pr-1"/>
-            {item.name}
-            <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faChartLine} color="#1982cb"/></a>
-            <a href={item.url} target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon icon={faGlobe} color="#1982cb"/></a>
+            <div className="d-flex justify-content-center align-items-center">
+              <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px" className="pr-1"/>
+              {item.name}
+              <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer" className="d-flex"> <img alt="logo" src={`/assets/images/chartLine.png`} width="19px" className="mx-1"/></a>
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="d-flex"><img alt="logo" src={`/assets/images/globe.png`} width="21px"/></a>
+            </div>
           </td>
           <td className="d-xl-table-cell d-lg-table-cell d-none">{annualRoi}</td>
           <td>{nodePrice}</td>
