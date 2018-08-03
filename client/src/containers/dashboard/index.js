@@ -62,8 +62,8 @@ class Dashboard extends Component {
           </Row>
           <Row>
             <Col xl={8}>
-              <Chart nodes={filteredNodes}/>
               <MainTable list={filteredNodes}/>
+              <Chart nodes={filteredNodes}/>
             </Col>
             <Col xl={4}>
               <Summary list={filteredNodes}/>
