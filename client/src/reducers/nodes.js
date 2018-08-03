@@ -24,15 +24,11 @@ export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
 export const REFRESH = 'nodes/REFRESH'
-export const FETCH_WITHDRAW_DATA = 'nodes/FETCH_WITHDRAW_DATA'
-export const FETCH_WITHDRAW_DATA_ERROR = 'nodes/FETCH_WITHDRAW_DATA_ERROR'
-export const FETCH_WITHDRAW_DATA_SUCCESS = 'nodes/FETCH_WITHDRAW_DATA_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
   data: {},
   list: [],
-  withdrawData: {},
   pending: false,
   error: false,
   message: ''
@@ -48,7 +44,6 @@ export default (state = initialState, action) => {
     case SELL:
     case SELL_RESERVE:
     case UPDATE:
-    case FETCH_WITHDRAW_DATA:
       return {
         ...state,
         pending: true,
@@ -63,7 +58,6 @@ export default (state = initialState, action) => {
     case SELL_ERROR:
     case SELL_RESERVE_ERROR:
     case UPDATE_ERROR:
-    case FETCH_WITHDRAW_DATA_ERROR:
       return {
         ...state,
         pending: false,
@@ -140,15 +134,6 @@ export default (state = initialState, action) => {
         pending: false,
         error: false,
         message: 'Node sold successful.'
-      }
-
-    case FETCH_WITHDRAW_DATA_SUCCESS:
-      return {
-        ...state,
-        withdrawData: action.payload,
-        pending: false,
-        error: false,
-        message: ''
       }
 
     default:
@@ -256,19 +241,6 @@ export function sellNode(slug) {
       }).catch((error) => {
       dispatch({ type: SELL_ERROR, payload: { message: error.data } })
       console.log(error)
-    })
-  }
-}
-
-export function fetchWithdrawData() {
-  return dispatch => {
-    dispatch({ type: FETCH_WITHDRAW_DATA })
-    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.post(`/api/withdrawals`)
-      .then((response) => {
-        dispatch({ type: FETCH_WITHDRAW_DATA_SUCCESS, payload: response.data })
-      }).catch((error) => {
-      dispatch({ type: FETCH_WITHDRAW_DATA_ERROR, payload: { message: error.data } })
     })
   }
 }
