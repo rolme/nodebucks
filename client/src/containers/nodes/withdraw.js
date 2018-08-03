@@ -9,7 +9,7 @@ import './index.css'
 
 import {
   fetchWithdrawData
-} from '../../reducers/nodes'
+} from '../../reducers/withdrawals'
 
 class Withdraw extends Component {
   constructor(props) {
@@ -154,10 +154,10 @@ class Withdraw extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.nodes.withdrawData,
-  error: state.nodes.error,
-  message: state.nodes.message,
-  pending: state.nodes.pending,
+  data: state.withdrawals.data,
+  error: state.withdrawals.error,
+  message: state.withdrawals.message,
+  pending: state.withdrawals.pending,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData }, dispatch)
