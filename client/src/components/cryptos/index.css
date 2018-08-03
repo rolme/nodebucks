@@ -20,6 +20,7 @@
 
 .cryptosTable > thead > tr > th {
   padding: 20px 0.75rem !important;
+  text-align: center;
 }
 
 .cryptosTable > tbody > tr > td {
@@ -29,9 +30,10 @@
 .cryptosTable > tbody > tr > td,
 .cryptosTable > tbody > tr > td > a {
   vertical-align: middle;
-  font-family: 'Raleway-Light';
+  font-family: 'OpenSans';
   font-size: 18px;
-  color: #4A4A4A;
+  color: #686868;
+  text-align: center;
 }
 
 .cryptosTable > tbody > tr > td > a.addNodeButton,
