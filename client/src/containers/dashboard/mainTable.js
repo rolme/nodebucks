@@ -56,7 +56,7 @@ class MainTable extends Component {
           <div className="contentContainer px-0">
             <h5 className="dashboardSectionHeader"> Masternodes </h5>
             <div className="dashboardMainTableContainer">
-              <p>You have no masternodes. <NavLink to={`/masternodes`}> Add one now.</NavLink></p>
+              <p className="dashboardSectionNoDataMessage pl-3">You have no masternodes. <NavLink to={`/masternodes`}> Add one now.</NavLink></p>
             </div>
           </div>
         </div>

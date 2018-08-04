@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
 
-import {valueFormat} from "../../lib/helpers";
+import { valueFormat } from "../../lib/helpers";
 
 export default class Summary extends Component {
 
@@ -23,7 +22,7 @@ export default class Summary extends Component {
         <div className="dashboardSummarySectionContainer  mb-4">
           <h5 className="dashboardSectionHeader"> Summary </h5>
           <div className="bg-white dashboardSummaryTableContainer">
-            <p>No data available.</p>
+            <p className="dashboardSectionNoDataMessage">No data available.</p>
           </div>
         </div>
       )
@@ -37,29 +36,29 @@ export default class Summary extends Component {
     const monthPercentage = !!summary.cost ? valueFormat((+summary.rewards.month / +summary.cost) * 100, 2) : '0.00'
 
     return (
-      <div className="dashboardSummarySectionContainer  mb-4">
+      <div className="dashboardSummarySectionContainer mb-4">
         <h5 className="dashboardSectionHeader"> Summary </h5>
         <div className="bg-white dashboardSummaryTableContainer">
-          <dl className="row mb-0">
-            <dt className="col-sm-7">Total Rewards</dt>
-            <dd className="col-sm-5 text-right">$ {rewardTotal}</dd>
-
-            <dt className="col-sm-7">Total Node(s) Value</dt>
-            <dd className="col-sm-5 text-right">{value}</dd>
-
-            <dt className="col-sm-7">Cost Basis</dt>
-            <dd className="col-sm-5 text-right">{cost}</dd>
-
-            <dt className="col-sm-7">Projected Annual %</dt>
-            <dd className="col-sm-5 text-right">{annual} %</dd>
-
-            <dt className="col-sm-7">Last 30 days</dt>
-            <dd className="col-sm-5 text-right">{month} ({monthPercentage} %)</dd>
-          </dl>
-        </div>
-        <div className="d-flex justify-content-end mt-2">
-          <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mr-2">+ Add Node</NavLink>
-          <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
+          <div className="dashboardSummaryTableRowContainer">
+            <h6>Total Rewards</h6>
+            <p>$ {rewardTotal}</p>
+          </div>
+          <div className="dashboardSummaryTableRowContainer">
+            <h6>Total Node(s) Value</h6>
+            <p>{value}</p>
+          </div>
+          <div className="dashboardSummaryTableRowContainer">
+            <h6>Cost Basis</h6>
+            <p>{cost}</p>
+          </div>
+          <div className="dashboardSummaryTableRowContainer">
+            <h6>Projected Annual %</h6>
+            <p>{annual} %</p>
+          </div>
+          <div className="dashboardSummaryTableRowContainer">
+            <h6>Last 30 days</h6>
+            <p>{month} ({monthPercentage} %)</p>
+          </div>
         </div>
       </div>
     )
