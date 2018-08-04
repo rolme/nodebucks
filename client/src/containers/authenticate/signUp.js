@@ -245,7 +245,7 @@ class SignUp extends Component {
                 </Col>
               </Col>
               <Col xl={8} lg={8} md={8} sm={12} xs={12} className="d-flex px-0 mt-4 flex-column">
-                <Button onClick={this.validation} className="submitButton w-100">SUBMIT</Button>
+                <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
                 <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
               </Col>
             </Col>

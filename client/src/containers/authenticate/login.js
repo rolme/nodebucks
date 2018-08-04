@@ -24,8 +24,8 @@ class LogIn extends Component {
       showPassword: false,
       rememberMe: false,
       messages: {
-        email: '*Required',
-        password: '*Required',
+        email: '',
+        password: '',
       },
       errors: {
         email: false,
@@ -146,8 +146,8 @@ class LogIn extends Component {
             }
             <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 6 }} className="justify-content-center d-flex flex-column align-items-center">
               {!isOnlyForm && <NavLink to="/"><img src="/assets/images/headerLogo.png" alt="sign in"/></NavLink>}
-              {!isOnlyForm && <h2 className="logInHeader mt-4">Welcome to Nodebucks</h2>}
-              <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i> Sign In Via Facebook</SocialButton>
+              {!isOnlyForm && <h2 className="logInHeader">Welcome to Nodebucks</h2>}
+              <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i> Sign in via facebook</SocialButton>
               <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="dividerWithText">
                 <span>OR</span>
               </Col>
@@ -187,7 +187,7 @@ class LogIn extends Component {
                 <NavLink to="/forgot_password" className="logInForgotPassword">Forgot Password?</NavLink>
               </Col>
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
-                <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign In</Button>
+                <Button onClick={this.validation} className="submitButton logInSubmitButton w-100">Sign in</Button>
                 {!isOnlyForm && <p className="dontHaveAnAccountMessage">Don't have an account? <NavLink to="/sign-up">Sign Up Now</NavLink></p>}
               </Col>
             </Col>
