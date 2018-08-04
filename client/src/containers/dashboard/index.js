@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 
 import { Container, Col, Row } from 'reactstrap'
 import Summary from './summary'
@@ -12,7 +12,7 @@ import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
 
-import {valueFormat} from "../../lib/helpers";
+import { valueFormat } from "../../lib/helpers";
 
 class Dashboard extends Component {
   componentWillMount() {
@@ -59,13 +59,19 @@ class Dashboard extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xl={8}>
+            <Col xl={9}>
               <MainTable list={filteredNodes}/>
               <Chart nodes={filteredNodes}/>
             </Col>
-            <Col xl={4}>
+            <Col xl={3} className="dashboardContentRightPartContainer align-items-xl-end align-items-center">
+              {!!filteredNodes.length &&
+                <div className="dashboardButtonsContainer">
+                  <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3">+ Add node</NavLink>
+                  <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
+                </div>
+              }
               <Summary list={filteredNodes}/>
-              <Balance />
+              <Balance/>
             </Col>
           </Row>
         </div>

@@ -19,7 +19,7 @@ class Balance extends Component {
         <div className="dashboardBalanceSectionContainer  mb-4">
           <h5 className="dashboardSectionHeader"> Balance </h5>
           <div className="bg-white dashboardBalanceTableContainer">
-            <p>No data available</p>
+            <p className="dashboardSectionNoDataMessage">No data available</p>
           </div>
         </div>
       )
@@ -32,7 +32,7 @@ class Balance extends Component {
       <div className="dashboardBalanceSectionContainer  mb-4">
         <h5 className="dashboardSectionHeader"> Balance </h5>
         <div className="bg-white dashboardBalanceTableContainer">
-          <table className="table">
+          <table className="table mb-0">
             <thead>
             <tr>
               <th className="text-left">Coin</th>
@@ -46,7 +46,7 @@ class Balance extends Component {
               const usd          = valueFormat(parseFloat(balance.usd), 2)
               return (
                 <tr key={balance.name}>
-                  <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="40px" className="pr-1"/> {balance.name}</td>
+                  <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="25px" className="pr-1"/> {balance.name}</td>
                   <td className="text-right">{value}</td>
                   <td className="text-right">${usd}</td>
                 </tr>

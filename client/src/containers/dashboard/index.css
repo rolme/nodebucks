@@ -1,13 +1,13 @@
 .dashboardPageContainer {
-  padding: 40px 0;
+  padding: 40px;
   background-color: #fafafa;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 124px);
 }
 
 .dashboardSectionHeader {
   color: #3B3B3B;
   font-size: 24px;
-  font-family: Raleway;
+  font-family: 'Raleway-Light';
   font-weight: bold;
   margin-bottom: 13px;
 }
@@ -15,8 +15,15 @@
 .dashboardPageTitle {
   color: #3B3B3B;
   font-size: 30px;
-  font-family: "Raleway-Bold";
+  font-family: "Raleway-Light";
   font-weight: bold;
+}
+
+.dashboardSectionNoDataMessage{
+  margin: 0;
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
 }
 
 /*Totals Style*/
@@ -58,6 +65,34 @@
 /*Summary Part Style */
 .dashboardSummaryTableContainer {
   padding: 15px;
+  border: 1px solid #E7E7E7;
+}
+
+.dashboardSummaryTableContainer > .dashboardSummaryTableRowContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.dashboardSummaryTableContainer > .dashboardSummaryTableRowContainer:last-child {
+  margin-bottom: 0;
+}
+
+.dashboardSummaryTableContainer > .dashboardSummaryTableRowContainer > h6 {
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
+  width: fit-content;
+  margin: 0;
+}
+
+.dashboardSummaryTableContainer > .dashboardSummaryTableRowContainer > p {
+  font-family: 'OpenSans-Bold';
+  color: #535353;
+  font-size: 14px;
+  width: fit-content;
+  margin: 0;
 }
 
 .dashboardSummaryTableContainer > dl > dt,
@@ -70,6 +105,7 @@
 .dashboardMainTableContainer {
   background-color: white;
   padding: 20px 0;
+  border: 1px solid #E7E7E7;
 }
 
 .dashboardMainTableContainer > p > a:hover {
@@ -131,6 +167,7 @@
   border-radius: 5px;
   padding: 10px 15px !important;
   color: white;
+  font-family: 'Raleway-Light';
 }
 
 .dashboardMainTableAddNodeButton:hover,
@@ -142,9 +179,26 @@
   color: white;
 }
 
+.dashboardContentRightPartContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardContentRightPartContainer > div {
+  max-width: 275px;
+  min-width: 100%;
+}
+
+/*Buttons Style*/
+.dashboardButtonsContainer {
+  padding: 41px 0 25px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 /*Chart Style*/
 .dashboardChartSectionContentContainer {
-  height: 350px;
   padding: 0 15px;
 }
 
@@ -173,6 +227,7 @@
 
 .nodeValuesChartContainer {
   padding: 30px 10px 15px 15px;
+  border: 1px solid #E7E7E7;
 }
 
 /*Balance Style*/
@@ -182,13 +237,15 @@
 
 .dashboardBalanceTableContainer {
   padding: 15px;
+  border: 1px solid #E7E7E7;
 }
 
 .dashboardBalanceTableContainer > table > thead > tr > th {
   text-align: center !important;
   border: none;
   vertical-align: middle;
-  font-family: 'Raleway-Bold';
+  font-family: 'Raleway-SemiBold';
+  color: #3B3B3B;
 }
 
 .dashboardBalanceTableContainer > table > tbody > tr > td {
@@ -196,10 +253,11 @@
   border: none;
   vertical-align: middle;
   font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
 }
 
-.dashboardBalanceWithdrawButton,
-.dashboardMainTableWithdrawButton {
+.dashboardBalanceWithdrawButton {
   background-color: #1982CB;
   display: flex;
   align-items: center;
@@ -208,12 +266,11 @@
   border-radius: 5px;
   padding: 10px 15px;
   color: white;
+  font-family: 'Raleway-Light';
 }
 
 .dashboardBalanceWithdrawButton:hover,
-.dashboardBalanceWithdrawButton:focus,
-.dashboardMainTableWithdrawButton:hover,
-.dashboardMainTableWithdrawButton:focus {
+.dashboardBalanceWithdrawButton:focus {
   background-color: #2696e1 !important;
   border-color: transparent !important;
   outline: none !important;
@@ -226,5 +283,16 @@
   .dashboardPageTotalsRow > div {
     max-width: 400px;
     margin-bottom: 10px;
+  }
+
+  .dashboardButtonsContainer {
+    max-width: 200px !important;
+    min-width: 200px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboardPageContainer {
+    padding: 20px 0;
   }
 }
