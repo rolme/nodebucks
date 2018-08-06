@@ -45,6 +45,7 @@
   padding: 35px 0;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 3px;
 }
 
 .dashboardPageTotalsRow > div > h5 {
@@ -72,7 +73,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .dashboardSummaryTableContainer > .dashboardSummaryTableRowContainer:last-child {
@@ -141,12 +142,11 @@
 .dashboardMainTable > thead > tr > th {
   color: #3B3B3B;
   font-size: 14px;
-  font-family: Raleway;
-  font-weight: bold;
+  font-family: "Raleway-SemiBold";
 }
 
 .dashboardMainTable > tbody > tr > td {
-  color: #848484;
+  color: #686868;
   font-size: 14px;
   font-family: OpenSans;
   padding: 12px 5px;
@@ -167,7 +167,8 @@
   border-radius: 5px;
   padding: 10px 15px !important;
   color: white;
-  font-family: 'Raleway-Light';
+  font-size: 16px;
+  font-family: 'Raleway-SemiBold';
 }
 
 .dashboardMainTableAddNodeButton:hover,
@@ -213,6 +214,7 @@
   text-align: center;
   cursor: pointer;
   margin-top: 5px;
+  border-radius: 3px;
 }
 
 .nodeValuesChartTab.active {
@@ -246,6 +248,7 @@
   vertical-align: middle;
   font-family: 'Raleway-SemiBold';
   color: #3B3B3B;
+  font-size: 14px;
 }
 
 .dashboardBalanceTableContainer > table > tbody > tr > td {

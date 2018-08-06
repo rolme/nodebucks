@@ -138,7 +138,8 @@ export default class Chart extends Component {
           {
             barPercentage: 1.2,
             ticks: {
-              fontSize: 11,
+              fontSize: 12,
+              fontFamily: 'OpenSans',
               callback: function (value, index, values) {
                 return values[ 0 ] - values[ 1 ] > 1000 ? numberFormatter(value) : valueFormat(+value)
               }
