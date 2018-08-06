@@ -8,18 +8,21 @@
 }
 
 .purchasePageRefreshButton {
-  border-radius: 50px;
+  border-radius: 3px;
   background-color: transparent;
-  border: 1px solid red;
-  color: red;
-  padding: 2px 15px;
+  border: 1px solid #4D91CD;
+  color: #4D91CD;
+  padding: 10px 25px;
   cursor: pointer;
-  margin-left: 10px;
+  font-family: 'Raleway-Bold';
+  font-size: 15px;
+  width: fit-content;
+  margin: 6px auto 0;
 }
 
 .purchasePageRefreshButton:hover {
-  border: 1px solid rgba(255, 0, 0, 0.72);
-  color: rgba(255, 0, 0, 0.72);
+  border: 1px solid #55a9ed;
+  color: #55a9ed;
   background-color: transparent;
 }
 
@@ -30,13 +33,85 @@
   cursor: not-allowed;
 }
 
+.purchasePageRefreshButton:active,
 .purchasePageRefreshButton:focus {
-  outline: none;
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid #55a9ed !important;
+  color: #55a9ed !important;
+  background-color: transparent !important;
+}
+
+.purchasePageRefreshButton > svg {
+  -ms-transform: rotate(-90deg); /* IE 9 */
+  -webkit-transform: rotate(-90deg); /* Safari */
+  transform: rotate(-90deg); /* Standard syntax */
+}
+
+.purchasePageSpreadText {
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
+}
+
+.purchasePageSpreadText > span {
+  background-color: #EEEEEE;
+  border-radius: 50px;
+  padding: 2px 9px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.spreadTooltipContainer {
+  opacity: 1 !important;
+}
+
+.spreadTooltipContainer > .tooltip-inner {
+  background-color: #EEEEEE;
+  font-size: 13px;
+  color: #383838;
+  font-family: 'OpenSans';
+  max-width: 270px !important;
+  padding: 20px;
+  text-align: left;
+}
+
+.spreadTooltipContainer > .tooltip-inner > span {
+  font-family: 'OpenSans-SemiBold';
+}
+
+.spreadTooltipContainer > .tooltip-inner {
+  background-color: #EEEEEE;
+  font-size: 13px;
+  color: #383838;
+  font-family: 'OpenSans';
+}
+
+.spreadTooltipContainer > .arrow {
+  display: none;
+}
+
+.purchasePagePricingInfoPartContainer {
+  background-color: #FAFAFA;
+  padding: 20px 0;
+  margin: 40px 0 30px;
+}
+
+.purchasePageCountDown {
+  font-family: 'OpenSans';
+  color: #000000;
+  font-size: 24px;
+}
+
+.purchasePagePriceInfo {
+  font-family: 'Raleway';
+  font-size: 16px;
+  color: #000000;
 }
 
 .purchasePageHeader {
   color: #000000;
-  font-family: Raleway-Bold;
+  font-family: 'Raleway-Light';
   font-size: 30px;
 }
 
@@ -47,7 +122,7 @@
 .purchasePageLinksContainer > a {
   color: #2283C7;
   font-size: 16px;
-  font-family: Raleway-Bold;
+  font-family: 'Raleway-SemiBold';
   margin: 0 15px;
   display: flex;
   align-items: center;
@@ -66,17 +141,20 @@
   color: #2795e0;
 }
 
-.purchasePageCrpytoDataContainer > div > p,
-.purchasePageCrpytoDataContainer > div > div > p {
-  font-family: OpenSans;
+.purchasePageCrpytoDataContainer > div > h6 {
+  font-family: 'OpenSans';
   color: #000000;
-  font-weight: bold;
+  font-size: 14px;
   text-align: center;
+  margin-bottom: 10px;
 }
 
-.purchasePagePaymentFormContainer {
-  max-width: 500px;
-  margin: 0 auto;
+.purchasePageCrpytoDataContainer > div > p,
+.purchasePageCrpytoDataContainer > div > div > p {
+  font-family: 'OpenSans-Light';
+  color: #000000;
+  text-align: center;
+  font-size: 26px;
 }
 
 .purchaseNodeAuthPartTabs {
@@ -120,7 +198,18 @@
   cursor: pointer;
 }
 
-.StripeElement {
+.purchasePagePaymentFormContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.purchasePagePaymentFormContainer > form > label {
+  font-family: 'Raleway';
+  font-size: 14px;
+  color: #000000;
+}
+
+.purchasePagePaymentFormContainer > form > label > .StripeElement {
   display: block;
   margin: 10px 0 20px 0;
   max-width: 500px;
@@ -131,23 +220,43 @@
   border: 0;
   outline: 0;
   border-radius: 4px;
-  background: #F6F9FC;;
+  background: #FAFAFA;;
   width: 100%;
 }
 
-.StripeElement--focuss {
+.purchasePagePaymentFormContainer > form > label > .StripeElement--focuss {
   box-shadow: rgba(50, 50, 93, 0.109804) 0px 4px 6px, rgba(0, 0, 0, 0.0784314) 0px 1px 3px;
   -webkit-transition: all 150ms ease;
   transition: all 150ms ease;
 }
 
-.StripeElement.IdealBankElement,
-.StripeElement.PaymentRequestButton {
+.purchasePagePaymentFormContainer > form > label > .StripeElement.IdealBankElement,
+.purchasePagePaymentFormContainer > form > label > .StripeElement.PaymentRequestButton {
   padding: 0;
 }
 
 .paymentFormMessageContainer {
   max-width: 500px;
+}
+
+.purchaseNodeButton {
+  font-family: "Raleway-SemiBold";
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: #FC641C;
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.purchaseNodeButton:hover,
+.purchaseNodeButton:active,
+.purchaseNodeButton:focus {
+  background-color: rgba(252, 100, 28, 0.7) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /*Show Page Style*/
@@ -526,12 +635,12 @@
 }
 
 .purchaseNodeAuthFormContainer > .signUpPageContainer,
-.purchaseNodeAuthFormContainer > .logInPageContainer{
+.purchaseNodeAuthFormContainer > .logInPageContainer {
   min-height: unset !important;
   background-color: white !important;
 }
 
-  /*Withdraw Page Style*/
+/*Withdraw Page Style*/
 .withdrawPageTitle {
   color: #3B3B3B;
   font-size: 30px;

@@ -57,6 +57,13 @@
 }
 
 @font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: local('OpenSans-SemiBold'), local('OpenSans-SemiBold'),
+  url('./assets/fonts/openSansSemiBold/OpenSans-SemiBold.ttf') format('truetype'),
+  url('./assets/fonts/openSansSemiBold/OpenSans-SemiBold.svg#OpenSans') format('svg');
+}
+
+@font-face {
   font-family: 'OpenSans-Light';
   src: local('OpenSans-Bold'), local('OpenSans-Bold'),
   url('./assets/fonts/openSansLight/OpenSans-Light.ttf') format('truetype'),
