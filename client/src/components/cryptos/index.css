@@ -102,8 +102,12 @@
   box-shadow: none !important;
 }
 
+.cryptosTableCoinCellContainer > p {
+  margin: 0 15px !important;
+}
+
 @media (min-width: 992px) {
-  .cryptosTable >  thead {
+  .cryptosTable > thead {
     display: table-header-group !important;
   }
 }
