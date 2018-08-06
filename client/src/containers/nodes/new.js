@@ -163,10 +163,11 @@ class NewNode extends Component {
   }
 
   displayCryptoData(item) {
-    const { user, refreshing, nodePending, cryptoPending } = this.props
+    const { user, refreshing, node, nodePending, cryptoPending } = this.props
     const { validPrice, spreadTooltipOpen } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
+    const spread =  (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
     const annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
 
@@ -202,10 +203,10 @@ class NewNode extends Component {
               loading={true}
             />}</Col>
         </Row>
-        {!!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing &&
+        {!!nodePrice && !!spread && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing &&
         <Row>
           <Col xl={{ size: 4, offset: 4 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="d-flex align-items-center justify-content-center">
-            <p className="mb-0 purchasePageSpreadText">*Spread: {nodePrice} <span id="spreadTooltip">?</span></p>
+            <p className="mb-0 purchasePageSpreadText">*Spread: {spread} <span id="spreadTooltip">?</span></p>
             <Tooltip placement="top-end" isOpen={spreadTooltipOpen} target="spreadTooltip" className="spreadTooltipContainer" toggle={() => this.toggleTooltip('spread')}>
               <span>The spread is the difference between the buy and sell price of this masternode.</span> <br/>It is determined by the exchange order books. A spread of $100 means you will lose $100 if you sell your node immediately after purchasing it.
             </Tooltip>
