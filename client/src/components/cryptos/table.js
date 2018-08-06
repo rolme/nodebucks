@@ -83,10 +83,10 @@ class CryptoTable extends Component {
       return (
         <tr key={item.slug}>
           <td>
-            <div className="d-flex justify-content-center align-items-center">
-              <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px" className="pr-1"/>
-              {item.name}
-              <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer" className="d-flex"> <img alt="logo" src={`/assets/images/chartLine.png`} width="19px" className="mx-1"/></a>
+            <div className="d-flex justify-content-center align-items-center cryptosTableCoinCellContainer">
+              <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px"/>
+              <p>{item.name}</p>
+              <a href={`https://masternodes.pro/stats/${item.symbol}/statistics`} target="_blank" rel="noopener noreferrer" className="d-flex"> <img alt="logo" src={`/assets/images/chartLine.png`} width="19px" className="mr-1"/></a>
               <a href={item.url} target="_blank" rel="noopener noreferrer" className="d-flex"><img alt="logo" src={`/assets/images/globe.png`} width="21px"/></a>
             </div>
           </td>
