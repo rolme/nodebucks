@@ -46,8 +46,8 @@ class _PaymentForm extends React.Component {
           Card details
           <CardElement style={{ base: { fontSize: '18px' } }}/>
         </label>
-        <Col className="d-flex justify-content-center">
-          <Button disabled={!!refreshing} color="primary">Purchase Node</Button>
+        <Col xl={{size: 8, offset: 2}} lg={{size: 8, offset: 2}} md={{size: 8, offset: 2}} sm={{size: 10, offset: 1}} xs={{size: 10, offset: 1}} className="d-flex justify-content-center">
+          <Button disabled={!!refreshing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
       </form>
     )
