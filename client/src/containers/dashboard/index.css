@@ -269,7 +269,8 @@
   border-radius: 5px;
   padding: 10px 15px;
   color: white;
-  font-family: 'Raleway-Light';
+  font-family: 'Raleway-SemiBold';
+  font-size: 16px;
 }
 
 .dashboardBalanceWithdrawButton:hover,
