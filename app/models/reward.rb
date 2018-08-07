@@ -1,5 +1,6 @@
 class Reward < ApplicationRecord
   belongs_to :node
+  has_many :transactions
 
   before_create :cache_values
 

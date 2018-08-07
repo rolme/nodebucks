@@ -1,0 +1,9 @@
+json.amount transaction.amount
+json.cryptoName transaction.name
+json.cryptoSymbol transaction.symbol
+json.notes transaction.notes
+json.rewardId transaction.reward_id
+json.slug transaction.slug
+json.status transaction.status
+json.type transaction.txn_type
+json.withdrawalId transaction.withdrawal_id

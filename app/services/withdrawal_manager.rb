@@ -50,7 +50,11 @@ protected
   end
 
   def pending
-    # TODO: Create transactions here
+    user = withdrawal.user
+    user.accounts.each do |account|
+      tm = TransactionManager.new(account)
+      tm.withdraw(withdrawal)
+    end
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       status: 'pending'

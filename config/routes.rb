@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       patch :reset_password
       patch :reset, on: :collection
     end
+    resources :transactions, only: [:index]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug
   end
 
