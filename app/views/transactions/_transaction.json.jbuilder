@@ -6,4 +6,6 @@ json.rewardId transaction.reward_id
 json.slug transaction.slug
 json.status transaction.status
 json.type transaction.txn_type
+json.userEmail transaction.account.user.email
+json.userName transaction.account.user.full_name
 json.withdrawalId transaction.withdrawal_id

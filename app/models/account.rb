@@ -14,7 +14,11 @@ class Account < ApplicationRecord
 
   before_create :cache_values
 
-  # TODO:
+  # NOTE: Allow for associating an account to a system user
+  def user
+    User.unscoped{ super }
+  end
+
   def has_nodes?
     !nodes.where.not(status: ['sold', 'reserved']).empty?
   end

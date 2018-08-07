@@ -15,8 +15,6 @@ class User < ApplicationRecord
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
 
-  default_scope { where.not(id: SYSTEM_ACCOUNT_ID) }
-
   def self.system
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
   end
