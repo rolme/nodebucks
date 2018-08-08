@@ -15,7 +15,7 @@ class Footer extends Component {
           <Col xl={{ size: 5, offset: 1 }} lg={{ size: 6, offset: 1 }} md={{ size: 7, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 flex-wrap">
             <NavLink to='/faq' className="footerText pr-4">FAQ</NavLink>
             <NavLink to='/terms' className="footerText pr-4">Terms of Use</NavLink>
-            <NavLink to='/contact' target="_new" className="footerText pr-4">Support</NavLink>
+            <NavLink to='/contact' className="footerText pr-4">Support</NavLink>
             <NavLink to='/privacy' className="footerText pr-4">Privacy Policy</NavLink>
             <NavLink to='/disclaimer' className="footerText">Disclaimer</NavLink>
           </Col>
