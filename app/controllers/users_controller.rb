@@ -31,6 +31,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      RegistrationMailer.send_verify_email(@user).deliver_later
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
