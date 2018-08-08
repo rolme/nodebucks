@@ -16,7 +16,9 @@ Rails.application.routes.draw do
       patch :reset, on: :collection
     end
     resources :transactions, only: [:index]
-    resources :withdrawals, only: [:create, :index, :show, :update], param: :slug
+    resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
+      patch :confirm, on: :collection
+    end
   end
 
   post 'auth/login', to: 'users#login'

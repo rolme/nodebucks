@@ -55,8 +55,8 @@ module NodeManager
         txhash    = data[1].find_element(tag_name: 'a').text
         amount    = data[2].text&.split(/\s/)[1]&.to_f
 
-        if has_new_rewards?(timestamp)
-          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        if has_new_rewards?(timestamp) && !stake_amount?(amount)
+          operator.reward(timestamp, amount, txhash)
         end
       end
     end

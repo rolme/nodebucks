@@ -15,6 +15,27 @@ class WithdrawalManager
     )
   end
 
+  def confirm(params)
+    if !user.authenticate(params[:password])
+      @error = 'Incorrect password'
+      return false
+    end
+
+    if withdrawal.id.nil?
+      @error = 'Please reserve a price first.'
+      return false
+    end
+
+    account = user.accounts.find{ |a| a.symbol == 'btc' }
+    if params[:wallet].blank? && account.wallet.blank?
+      @error = 'BTC wallet not present. Please provide a withdrawal wallet.'
+      return false
+    end
+
+    account.update_attribute(:wallet, params[:wallet]) if params[:wallet] != account.wallet
+    pending
+  end
+
   def update(params)
     case params[:status]
     when 'processed'; process
@@ -51,14 +72,11 @@ protected
 
   def pending
     user = withdrawal.user
-    user.accounts.each do |account|
+    user.accounts.reject{ |a| a.symbol == 'btc' }.each do |account|
       tm = TransactionManager.new(account)
       tm.withdraw(withdrawal)
     end
-    @withdrawal.update_attributes(
-      last_modified_by_admin_id: user.id,
-      status: 'pending'
-    )
+    @withdrawal.update_attribute(:status, 'pending')
   end
 
   def process

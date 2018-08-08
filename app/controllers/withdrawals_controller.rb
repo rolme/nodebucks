@@ -1,6 +1,16 @@
 class WithdrawalsController < ApplicationController
-  before_action :authenticate_request, only: [:create, :index, :show]
+  before_action :authenticate_request, only: [:confirm, :create, :index, :show]
   before_action :authenticate_admin_request, only: [:update]
+
+  def confirm
+    withdrawal_manager = WithdrawalManager.new(current_user)
+    if withdrawal_manager.confirm(withdrawal_params)
+      @withdrawal = withdrawal_manager.withdrawal
+      render :show
+    else
+      render json: { status: 'error', message: withdrawal_manager.error }
+    end
+  end
 
   def create
     withdrawal_manager = WithdrawalManager.new(current_user)
@@ -38,7 +48,7 @@ protected
   end
 
   def withdrawal_params
-    params.require(:withdrawal).permit(:amount, :symbol)
+    params.require(:withdrawal).permit(:wallet, :password)
   end
 
   def withdrawal
