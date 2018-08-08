@@ -15,6 +15,8 @@ class User < ApplicationRecord
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
 
+  after_create :create_btc_account
+
   def self.system
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
   end
@@ -78,22 +80,25 @@ class User < ApplicationRecord
       filtered_nodes = nodes.select{ |n| n.crypto_id == crypto.id && ['online', 'new'].include?(n.status) }
       if account.nil?
         {
+          fee: crypto.percentage_conversion_fee,
           has_nodes: false,
           name: crypto.name,
           slug: crypto.slug,
           symbol: crypto.symbol,
           usd: 0.0,
-          value: 0.0
+          value: 0.0,
+          wallet: nil
         }
       else
-        balance = account.balance * crypto.percentage_conversion_fee
         {
+          fee: crypto.percentage_conversion_fee,
           has_nodes: filtered_nodes.present?,
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: balance * crypto.price,
-          value: balance
+          usd: account.balance * crypto.price,
+          value: account.balance,
+          wallet: account.wallet
         }
       end
     end
@@ -105,4 +110,8 @@ class User < ApplicationRecord
     { btc: btc, usd: btc * pricer.avg_btc_usdt }
   end
 
+  def create_btc_account
+    account   = accounts.find{ |a| a.symbol == 'btc' }
+    account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
+  end
 end

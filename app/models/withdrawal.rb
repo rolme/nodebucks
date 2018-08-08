@@ -7,5 +7,5 @@ class Withdrawal < ApplicationRecord
              optional: true
   belongs_to :user
 
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 end

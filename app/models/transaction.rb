@@ -16,10 +16,14 @@ class Transaction < ApplicationRecord
   end
 
   def cache_values(persist=false)
-    cached = Reward.find_by(id: reward_id) if reward_id.present?
-    cached = Withdrawal.find_by(id: withdrawal_id) if withdrawal_id.present?
-    self.cached_crypto_name = cached&.name
-    self.cached_crypto_symbol = cached&.symbol
+    if reward_id.present?
+      reward = Reward.find_by(id: reward_id)
+      self.cached_crypto_name = reward&.name
+      self.cached_crypto_symbol = reward&.symbol
+    elsif withdrawal_id.present?
+      self.cached_crypto_name = 'Bitcoin'
+      self.cached_crypto_symbol = 'btc'
+    end
 
     save! if persist
   end

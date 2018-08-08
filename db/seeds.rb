@@ -31,7 +31,8 @@ User.create([
   { first: 'Test', last: 'User', email: 'test@nodebucks.com', password: 'test', password_confirmation: 'test' }
 ])
 
-user = User.first
+email = 'ron.parnaso@gmail.com'
+user = User.find_by(email: email)
 puts "Create masternodes for #{user.full_name}"
 puts "  - Polis node #1:"
 puts "    * Reserve a price"
