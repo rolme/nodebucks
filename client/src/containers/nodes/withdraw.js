@@ -8,7 +8,8 @@ import InputField from '../../components/elements/inputField'
 import './index.css'
 
 import {
-  fetchWithdrawData
+  fetchWithdrawData,
+  withdraw
 } from '../../reducers/withdrawals'
 
 class Withdraw extends Component {
@@ -29,6 +30,7 @@ class Withdraw extends Component {
     }
 
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
+    this.validation = this.validation.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
   }
 
@@ -41,12 +43,32 @@ class Withdraw extends Component {
   }
 
   handleFieldValueChange(newValue, name) {
-    this.setState({ [name]: newValue, })
+    this.setState({ [ name ]: newValue, })
   }
 
   onAddonClick(name) {
     name = 'show' + capitalize(name)
-    this.setState({ [name]: !this.state[ name ] })
+    this.setState({ [ name ]: !this.state[ name ] })
+  }
+
+  onWithdraw() {
+    const { slug } = this.props.data
+    this.props.withdraw(slug)
+  }
+
+  validation() {
+    const { password } = this.state
+    let isValid = true, messages = {password: '' }, errors = { password: false }
+
+    if ( !password ) {
+      messages.password = '*Required'
+      errors.password = true
+      isValid = false
+    }
+
+    this.setState({ messages, errors })
+
+    isValid && this.onWithdraw()
   }
 
   render() {
@@ -109,7 +131,7 @@ class Withdraw extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
-              <Button className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
+              <Button onClick={this.validation} className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
             </Col>
           </div>
         </div>
@@ -160,7 +182,7 @@ const mapStateToProps = state => ({
   pending: state.withdrawals.pending,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData, withdraw }, dispatch)
 
 export default connect(
   mapStateToProps,
