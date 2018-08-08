@@ -5,9 +5,9 @@ class User < ApplicationRecord
   SYSTEM_ACCOUNT_ID = 1
   TOKEN_AGE         = 5.minutes
 
-  has_many :accounts
-  has_many :nodes
-  has_many :withdrawals
+  has_many :accounts, dependent: :destroy
+  has_many :nodes, dependent: :destroy
+  has_many :withdrawals, dependent: :destroy
 
   has_secure_password
 
