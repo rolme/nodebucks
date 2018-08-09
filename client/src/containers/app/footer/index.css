@@ -27,11 +27,16 @@ a.footerText:hover {
   text-decoration: none;
 }
 
+@media (max-width: 992px) {
+  .footerContainer {
+    padding: 10px 15px;
+  }
+}
+
 @media (max-width: 768px) {
   .footerContainer {
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 20px;
   }
 
   .footerContainer > .container-fluid > div {

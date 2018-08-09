@@ -1,0 +1,55 @@
+.affiliateHeaderContainer {
+  background-color: #2283C9;
+  padding: 140px 0;
+}
+
+.affiliateHeaderText {
+  color: #FFFFFF;
+  font-family: 'Raleway-Light';
+  font-size: 60px;
+  text-align: center;
+}
+
+.affiliateHowItWorksContentContainer {
+  padding: 75px 0;
+}
+
+.affiliateSectionHeaderText {
+  color: #000000;
+  font-family: 'Raleway-Light';
+  font-size: 36px;
+  text-align: center;
+}
+
+.affiliateSectionHeaderParagraph {
+  color: #000000;
+  font-size: 20px;
+  font-family: 'Raleway-Light';
+  text-align: center;
+  margin-top: 30px;
+}
+
+.affiliateHowItWorksList {
+  padding: 0;
+  list-style: none;
+  counter-reset: section;
+  margin-top: 60px;
+}
+
+.affiliateHowItWorksList > li {
+  color: #686868;
+  font-size: 18px;
+  font-family: 'Raleway-Light';
+  margin-top: 30px;
+}
+
+.affiliateHowItWorksList > li::before {
+  counter-increment: section;
+  content: counters(section, "") ". ";
+  display: inline-block;
+  font-family: 'OpenSans';
+  color: #000000;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
