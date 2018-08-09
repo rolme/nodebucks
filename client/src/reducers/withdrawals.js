@@ -77,11 +77,11 @@ export function fetchWithdrawData() {
   }
 }
 
-export function withdraw(slug) {
+export function withdraw(data) {
   return dispatch => {
     dispatch({ type: WITHDRAW })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/withdrawals/${slug}`)
+    axios.patch('/api/withdrawals/confirm', data)
       .then((response) => {
         dispatch({ type: WITHDRAW_SUCCESS, payload: response.data })
       }).catch((error) => {

@@ -52,8 +52,13 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { slug } = this.props.data
-    this.props.withdraw(slug)
+    const { password, address: wallet } = this.state
+    this.props.withdraw({
+      withdrawal: {
+        password,
+        wallet
+      }
+    })
   }
 
   validation() {
@@ -116,6 +121,7 @@ class Withdraw extends Component {
                           type='text'
                           id='address'
                           value={address}
+                          autocomplete="false"
                           message={messages.address}
                           error={errors.address}
                           handleFieldValueChange={this.handleFieldValueChange}
