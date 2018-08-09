@@ -66,7 +66,7 @@ class Dashboard extends Component {
             <Col xl={3} className="dashboardContentRightPartContainer align-items-xl-end align-items-center">
               {!!filteredNodes.length &&
                 <div className="dashboardButtonsContainer">
-                  <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3">+ Add node</NavLink>
+                  <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add node</NavLink>
                   <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
                 </div>
               }
