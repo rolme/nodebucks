@@ -63,7 +63,7 @@ class Withdraw extends Component {
 
   validation() {
     const { password } = this.state
-    let isValid = true, messages = {password: '' }, errors = { password: false }
+    let isValid = true, messages = { password: '' }, errors = { password: false }
 
     if ( !password ) {
       messages.password = '*Required'
@@ -163,7 +163,7 @@ class Withdraw extends Component {
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          {!!data.balances && this.renderBalances(data.balances)}
+          {!!data.user && !!data.user.balances && this.renderBalances(data.user.balances)}
         </Row>
       </Col>
     )
@@ -171,10 +171,11 @@ class Withdraw extends Component {
 
   renderBalances(data) {
     return data.map((coin, index) => {
+      const value = valueFormat(+coin.value - coin.value * coin.fee, 2)
       return (
         <Row key={index} className="p-0 m-0 justify-content-between w-100">
           <p className="withdrawInformationPartInfo">{coin.name}</p>
-          <p className="withdrawInformationPartInfo">{valueFormat(+coin.value, 2)}</p>
+          <p className="withdrawInformationPartInfo">{value}</p>
         </Row>
       )
     })
