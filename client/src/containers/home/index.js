@@ -123,7 +123,7 @@ class Home extends Component {
               <p className="homeFooterText mb-0">Owning a masternode has never been easier! </p>
             </Col>
             <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 10, offset: 1 }} className="d-flex justify-content-center mt-xl-0 mt-lg-0 mt-md-3 mt-sm-4 mt-xs-5">
-              <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Setup a Masternode</button>
+              <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
             </Col>
           </div>
         </div>
