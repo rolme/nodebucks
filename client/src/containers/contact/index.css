@@ -54,3 +54,12 @@
   }
 
 }
+
+.contact-created-container {
+  padding: 50px;
+}
+
+.contact-created-text {
+  width: 500px;
+  text-align: center;
+}

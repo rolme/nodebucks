@@ -1,12 +1,12 @@
 class SupportMailer < ApplicationMailer
   def send_email(requester)
-    @name = requester.name
+    @subject = requester.subject
     @message = requester.message
     @email = requester.email
     mail(
       content_type: "text/html",
-      subject: "#{@name} contacted Nodebucks",
-      to: 'info@nodebucks.com',
+      subject: "#{@email} contacted Nodebucks",
+      to: ['info@nodebucks.com', 'support@nodebucks.com'],
       bcc: ['ron.parnaso@gmail.com', 'jay.severson@gmail.com']
     )
   end
