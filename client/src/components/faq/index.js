@@ -27,7 +27,14 @@ export default class FAQ extends Component {
   toggleQuestion(name) {
     const questions = this.state
     const openedQuestionName = Object.keys(questions).find(question => questions[ question ])
-    !!openedQuestionName ? this.setState({ [name]: !this.state[ name ], [openedQuestionName]: !this.state[ openedQuestionName ] }) : this.setState({ [name]: !this.state[ name ] })
+    if ( !!openedQuestionName ) {
+      if ( openedQuestionName === name ) {
+        return
+      }
+      this.setState({ [ name ]: !this.state[ name ], [ openedQuestionName ]: !this.state[ openedQuestionName ] })
+    } else {
+      this.setState({ [ name ]: !this.state[ name ] })
+    }
   }
 
   render() {
@@ -39,7 +46,7 @@ export default class FAQ extends Component {
             <p className="faqPageTitle">Frequently Asked Questions </p>
           </Col>
           <Col xl={12}>
-            <Card body onClick={() => this.toggleQuestion('question2')}>
+            <Card body onClick={() => this.toggleQuestion('question1')}>
               <CardTitle className={question1 ? "faqCardHeader open" : "faqCardHeader"}><img src={question1 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What is a Masternode?</CardTitle>
               <Collapse isOpen={question1}>
                 <CardText className="faqCardText">A masternode is a computer/server that sits on the network (blockchain) and processes transactions. In return for processing transactions, a reward is given.</CardText>
