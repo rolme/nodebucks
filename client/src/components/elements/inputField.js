@@ -18,7 +18,7 @@ export default class InputField extends Component {
   }
 
   render() {
-    const { label, name, type, value, message, error, addonIcon, id, autoFocus } = this.props
+    const { label, name, type, value, message, error, addonIcon, id, autoFocus, autocomplete } = this.props
     let inputFieldContainerClassName = 'inputFieldContainer form-control'
     if ( !!value ) {
       inputFieldContainerClassName += ' inputFieldContainerWithValue'
@@ -40,6 +40,7 @@ export default class InputField extends Component {
                  id={elementId}
                  value={value}
                  placeholder={label}
+                 autoComplete={autocomplete === 'false' ? autocomplete : 'true'}
                  onChange={(event) => this.props.handleFieldValueChange(event.target.value, name)} style={{ height: this.props.height }}
                  onKeyPress={!!this.props.onKeyPress ? (event) => (event.charCode === 13) && this.props.handleFieldValueChange(event.target.value, name, true) : null}
           />
