@@ -1,3 +1,4 @@
+json.btcWallet user.btc_wallet
 json.email user.email
 json.first user.first
 json.fullName user.full_name

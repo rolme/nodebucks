@@ -104,6 +104,10 @@ class User < ApplicationRecord
     end
   end
 
+  def btc_wallet
+    @btc_wallet ||= accounts.find { |a| a.symbol == 'btc' }.wallet
+  end
+
   def total_balance
     pricer = NodeManager::Pricer.new(type: 'buy')
     btc = accounts.map { |account| pricer.to_btc(account.crypto, account.balance) }.reduce(&:+)
