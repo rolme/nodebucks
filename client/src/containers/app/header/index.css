@@ -19,6 +19,7 @@
 
 .headerNavBar {
   max-height: calc(100vh - 110px);
+  max-width: calc(100vw - 190px);
 }
 
 a.headerMenuItem {
@@ -202,7 +203,21 @@ a.headerMenuItem.active:hover {
 
 @media (max-width: 1230px) {
   .headerNavBarContainer > .contentContainer {
-    margin: 10px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .headerAddNodeButton {
+    margin: 0;
+  }
+
+  .headerLoggedInUserContainer {
+    padding: 8px 15px !important;
+  }
+
+  a.headerMenuItem {
+    margin: 0 20px !important;
   }
 }
 
@@ -240,6 +255,10 @@ a.headerMenuItem.active:hover {
 
   .headerAuthMenuLoggedInMobileItem {
     display: block !important;
+  }
+
+  .headerNavBar {
+    max-width: 100vw;
   }
 }
 

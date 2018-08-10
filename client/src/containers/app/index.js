@@ -26,6 +26,7 @@ const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loadin
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
+const Affiliate = Loadable({ loader: () => import('../../containers/affiliate'), loading: Loading })
 
 export default class App extends Component {
 
@@ -38,6 +39,7 @@ export default class App extends Component {
           <main>
             <Switch>
               <PublicRoute exact path="/" component={Home}/>
+              <PublicRoute exact path="/affiliate" component={Affiliate}/>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
