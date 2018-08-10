@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.affiliateHowItWorksContentContainer {
+.affiliateSectionContentContainer {
   padding: 75px 0;
 }
 
@@ -53,3 +53,144 @@
   margin-right: 10px;
 }
 
+.affiliateTierLevelsContainer {
+  background-color: #FAFAFA;
+}
+
+.affiliateTierCardsContainer {
+  margin-top: 75px;
+  flex-direction: row;
+}
+
+.affiliateTierCard {
+  width: 32%;
+}
+
+.affiliateTierCard > .card-header {
+  background-color: #2283C6;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-family: 'Raleway-Medium';
+  padding: 16px 0;
+}
+
+.affiliateTierCard > .card-body {
+  padding: 50px 0 60px;
+}
+
+.affiliateTierCard > .card-body > .card-title {
+  color: #000000;
+  font-family: 'Raleway-Light';
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.affiliateTierCard > .card-body > .card-text {
+  color: #000000;
+  font-family: 'Raleway-Light';
+  font-size: 48px;
+  text-align: center;
+  line-height: 70px;
+}
+
+.affiliateCommissionContentContainer {
+  margin-top: 150px;
+}
+
+.affiliateCommissionSectionParagraphContainer {
+  min-width: 600px;
+}
+
+.affiliateCommissionSectionParagraph {
+  color: #535353;
+  font-family: 'Raleway-Light';
+  font-size: 18px;
+}
+
+.affiliateCommissionDotesImageContainer > img {
+  margin: 10px 0 10px 45px;
+  max-width: 610px;
+}
+
+.affiliateFooterContainer {
+  background-color: #2283C6;
+  padding: 70px 0;
+  color: #FFFFFF;
+  font-family: 'Raleway-Light';
+}
+
+.affiliateFooterTitle {
+  text-align: center;
+  font-size: 30px;
+}
+
+.affiliateFooterParagraph {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.affiliateFooterButton {
+  background-color: #FC6422;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 16px 75px !important;
+  color: white;
+  font-family: 'Raleway-SemiBold';
+  font-size: 18px;
+  margin-top: 50px;
+}
+
+.affiliateFooterButton.active {
+  background-color: rgba(252, 100, 34, 0.8);
+  cursor: not-allowed !important;
+}
+
+.affiliateFooterButton:hover,
+.affiliateFooterButton:focus {
+  background-color: rgba(252, 100, 34, 0.8) !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 992px) {
+  .affiliateCommissionContentContainer {
+    margin-top: 50px;
+  }
+
+  .affiliateCommissionDotesImageContainer > img {
+    display: none;
+  }
+
+  .affiliateCommissionContentContainer > div {
+    margin-bottom: 10px;
+  }
+
+  .affiliateCommissionSectionParagraphContainer {
+    min-width: unset;
+  }
+
+  .affiliateCommissionSectionParagraph {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .affiliateTierCardsContainer {
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .affiliateTierCard {
+    width: 300px;
+    margin-bottom: 15px;
+  }
+}
