@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
     end
+    resources :contacts, only: [:index, :create] do
+      patch :reviewed
+    end
   end
 
   post 'auth/login', to: 'users#login'
