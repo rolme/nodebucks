@@ -8,7 +8,8 @@ import InputField from '../../components/elements/inputField'
 import './index.css'
 
 import {
-  fetchWithdrawData
+  fetchWithdrawData,
+  withdraw
 } from '../../reducers/withdrawals'
 
 class Withdraw extends Component {
@@ -29,6 +30,7 @@ class Withdraw extends Component {
     }
 
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
+    this.validation = this.validation.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
   }
 
@@ -41,12 +43,37 @@ class Withdraw extends Component {
   }
 
   handleFieldValueChange(newValue, name) {
-    this.setState({ [name]: newValue, })
+    this.setState({ [ name ]: newValue, })
   }
 
   onAddonClick(name) {
     name = 'show' + capitalize(name)
-    this.setState({ [name]: !this.state[ name ] })
+    this.setState({ [ name ]: !this.state[ name ] })
+  }
+
+  onWithdraw() {
+    const { password, address: wallet } = this.state
+    this.props.withdraw({
+      withdrawal: {
+        password,
+        wallet
+      }
+    })
+  }
+
+  validation() {
+    const { password } = this.state
+    let isValid = true, messages = { password: '' }, errors = { password: false }
+
+    if ( !password ) {
+      messages.password = '*Required'
+      errors.password = true
+      isValid = false
+    }
+
+    this.setState({ messages, errors })
+
+    isValid && this.onWithdraw()
   }
 
   render() {
@@ -94,6 +121,7 @@ class Withdraw extends Component {
                           type='text'
                           id='address'
                           value={address}
+                          autocomplete="false"
                           message={messages.address}
                           error={errors.address}
                           handleFieldValueChange={this.handleFieldValueChange}
@@ -109,7 +137,7 @@ class Withdraw extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
-              <Button className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
+              <Button onClick={this.validation} className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
             </Col>
           </div>
         </div>
@@ -135,7 +163,7 @@ class Withdraw extends Component {
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          {!!data.balances && this.renderBalances(data.balances)}
+          {!!data.user && !!data.user.balances && this.renderBalances(data.user.balances)}
         </Row>
       </Col>
     )
@@ -143,10 +171,11 @@ class Withdraw extends Component {
 
   renderBalances(data) {
     return data.map((coin, index) => {
+      const value = valueFormat(+coin.value - coin.value * coin.fee, 2)
       return (
         <Row key={index} className="p-0 m-0 justify-content-between w-100">
           <p className="withdrawInformationPartInfo">{coin.name}</p>
-          <p className="withdrawInformationPartInfo">{valueFormat(+coin.value, 2)}</p>
+          <p className="withdrawInformationPartInfo">{value}</p>
         </Row>
       )
     })
@@ -160,7 +189,7 @@ const mapStateToProps = state => ({
   pending: state.withdrawals.pending,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData, withdraw }, dispatch)
 
 export default connect(
   mapStateToProps,

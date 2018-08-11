@@ -26,6 +26,9 @@ export const RESET_PASSWORD_FAILURE = 'user/RESET_PASSWORD_FAILURE'
 export const UPDATE_USER = 'user/UPDATE_USER'
 export const UPDATE_USER_SUCCESS = 'user/UPDATE_USER_SUCCESS'
 export const UPDATE_USER_FAILURE = 'user/UPDATE_USER_FAILURE'
+export const CONTACT_TEAM = 'user/CONTACT_TEAM'
+export const CONTACT_TEAM_SUCCESS = 'user/CONTACT_TEAM_SUCCESS'
+export const CONTACT_TEAM_FAILURE = 'user/CONTACT_TEAM_FAILURE'
 export const RESET = 'user/RESET'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
@@ -197,6 +200,27 @@ export default (state = initialState, action) => {
         message: 'Logged out.',
         pending: false,
         token: ''
+      }
+
+    case CONTACT_TEAM:
+      return {
+        ...state,
+        error: false,
+        message: null,
+      }
+
+    case CONTACT_TEAM_SUCCESS:
+      return {
+        ...state,
+        error: false,
+        message: action.payload.message,
+      }
+
+    case CONTACT_TEAM_FAILURE:
+      return {
+        ...state,
+        error: true,
+        message: action.payload.message,
       }
 
     default:
@@ -390,6 +414,27 @@ export function resetPassword(resetToken, password, passwordConfirmation) {
       })
   }
 }
+
+export function createContact(email, subject, message, callback) {
+  return dispatch => {
+    dispatch({ type: CONTACT_TEAM })
+    axios.post('/api/contacts', {
+      contact: {
+        email,
+        subject,
+        message,
+      }
+    })
+      .then(response => {
+        dispatch({ type: CONTACT_TEAM_SUCCESS, payload: response.data })
+        callback(response.data.status)
+      })
+      .catch((error) => {
+        dispatch({ type: CONTACT_TEAM_FAILURE, payload: error.message })
+      })
+  }
+}
+
 
 export function reset() {
   return dispatch => {

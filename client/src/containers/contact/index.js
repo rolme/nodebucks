@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputFieldWithAddonMessages'
-
+import { createContact } from '../../reducers/user'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
 
@@ -25,7 +25,8 @@ class Contact extends Component {
         email: false,
         subject: false,
         text: false,
-      }
+      },
+      contactCreated: false,
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.validation = this.validation.bind(this)
@@ -47,6 +48,17 @@ class Contact extends Component {
 
   handleFieldValueChange(newValue, name) {
     this.setState({ [name]: newValue, })
+  }
+
+  handleSubmit = () => {
+    const { email, subject, text } = this.state
+    if(this.validation()) {
+      this.props.createContact(email, subject, text, (status) => {
+        if (status === 'ok') {
+          this.setState({ contactCreated: true })
+        }
+      })
+    }
   }
 
   validation() {
@@ -77,11 +89,11 @@ class Contact extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && !!this.props.send && this.props.send()
+    return isValid
   }
 
   render() {
-    const { email, subject, text, messages, errors } = this.state
+    const { email, subject, text, messages, errors, contactCreated } = this.state
     const { message, error, pending } = this.props
 
     if ( pending ) {
@@ -105,69 +117,92 @@ class Contact extends Component {
     return (
       <Container fluid className="contactPageContainer">
         <div className="contentContainer d-flex justify-content-center">
-          <Col className="authContainer px-0">
-            {!!message && !!error &&
-            <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
-              <Alert color='danger'>
-                {message}
-              </Alert>
-            </Col>
-            }
-            <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="justify-content-center d-flex flex-column align-items-center px-0">
-              <img src="/assets/images/contactIcon.png" alt="Contact"/>
-              {(!message || (!!message && !!error)) &&
-              <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} className="contactMainContentContainer  px-0">
-                <p className="contactHeader">Contact Us</p>
-                <InputField label='Subject'
-                            name="subject"
-                            id="subject"
-                            type='text'
-                            value={subject}
-                            message={messages.subject}
-                            error={errors.subject}
-                            handleFieldValueChange={this.handleFieldValueChange}
-                />
-                <InputField label='Email'
-                            name="email"
-                            type='email'
-                            id="email"
-                            value={email}
-                            message={messages.email}
-                            error={errors.email}
-                            handleFieldValueChange={this.handleFieldValueChange}
-                />
-                <InputField label='Message'
-                            name="text"
-                            id="text"
-                            type='textarea'
-                            height={150}
-                            value={text}
-                            message={messages.text}
-                            error={errors.text}
-                            handleFieldValueChange={this.handleFieldValueChange}
-                />
-                <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                  <Button onClick={this.validation} className="contactPageSubmitButton w-100">Send</Button>
+          { contactCreated ? 
+            this.renderContactCreated() 
+            :
+            <Col className="authContainer px-0">
+              {!!message && !!error &&
+              <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
+                <Alert color='danger'>
+                  {message}
+                </Alert>
+              </Col>
+              }
+              <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="justify-content-center d-flex flex-column align-items-center px-0">
+                <img src="/assets/images/contactIcon.png" alt="Contact"/>
+                {(!message || (!!message && !!error)) &&
+                <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} className="contactMainContentContainer  px-0">
+                  <p className="contactHeader">Contact Us</p>
+                  <InputField label='Subject'
+                              name="subject"
+                              id="subject"
+                              type='text'
+                              value={subject}
+                              maxlength="100"
+                              message={messages.subject}
+                              error={errors.subject}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                  />
+                  <InputField label='Email'
+                              name="email"
+                              type='email'
+                              id="email"
+                              value={email}
+                              maxlength="50"
+                              message={messages.email}
+                              error={errors.email}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                  />
+                  <InputField label='Message'
+                              name="text"
+                              id="text"
+                              type='textarea'
+                              height={150}
+                              value={text}
+                              maxlength="8000"
+                              message={messages.text}
+                              error={errors.text}
+                              handleFieldValueChange={this.handleFieldValueChange}
+                  />
+                  <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
+                    <Button onClick={this.handleSubmit} className="submitButton w-100">Send</Button>
+                  </Col>
                 </Col>
+                }
+                {!!message && !error &&
+                <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 8, offset: 0 }} className="contactMainContentContainer  px-0">
+                  <p className="contactHeader">Thank You!</p>
+                  <p className="contactSuccessMessage">Your message has been successfully sent. Thank you for your attention. We will respond you in no time!</p>
+                </Col>
+                }
               </Col>
-              }
-              {!!message && !error &&
-              <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 8, offset: 0 }} className="contactMainContentContainer  px-0">
-                <p className="contactHeader">Thank You!</p>
-                <p className="contactSuccessMessage">Your message has been successfully sent. Thank you for your attention. We will respond you in no time!</p>
-              </Col>
-              }
             </Col>
-          </Col>
+          }
         </div>
       </Container>
     )
   }
+
+  renderContactCreated() {
+    return(
+      <Col className="contact-created-container d-flex flex-column align-items-center">
+        <img src="/assets/images/contactIcon.png" alt="Contact"/>
+        <h2 className="contactHeader">Thank you!</h2>
+        <p className="contact-created-text">
+          Your message has been successfully sent. Thank you for your attention. We will respond you in no time!
+        </p>
+      </Col>
+    )
+  }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  contactMessage: state.user.message
+})
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  createContact
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
