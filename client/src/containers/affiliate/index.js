@@ -115,11 +115,9 @@ class Affiliate extends Component {
               <p className="affiliateFooterParagraph">Please check back periodically and review all emails we send. We will be running several contests over the first few months :)</p>
               <p className="affiliateFooterParagraph">Nodebucks</p>
             </Col>
-            {!user &&
             <Col className="d-flex justify-content-center">
-              <NavLink to="/sign-up" className="affiliateFooterButton">SIGN UP</NavLink>
+              <NavLink to={affiliateLink} className="affiliateFooterButton">SIGN UP</NavLink>
             </Col>
-            }
           </div>
         </div>
       </div>
