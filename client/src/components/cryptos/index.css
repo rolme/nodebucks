@@ -40,6 +40,9 @@
 .cryptosTable > tbody > tr > td > a.contactSalesButton {
   width: 200px;
   padding: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cryptosTable > tbody > tr > td > a:hover {
