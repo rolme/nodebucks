@@ -10,6 +10,10 @@ class UsersController < ApplicationController
     authenticate params[:email], params[:password]
   end
 
+  def reset
+    @user = User.find_by(email: params[:email]).reset!()
+  end
+
   def admin_login
     user  = User.find_by(email: params[:email], admin: true)
     @user = user&.authenticate(params[:password])
