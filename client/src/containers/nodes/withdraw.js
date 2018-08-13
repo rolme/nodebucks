@@ -38,6 +38,13 @@ class Withdraw extends Component {
     this.props.fetchWithdrawData()
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { data } = nextProps
+    if(!!data && !!data.user && !!data.user.btcWallet){
+      this.setState({address: data.user.btcWallet})
+    }
+  }
+
   handleGoBack() {
     window.history.back()
   }
