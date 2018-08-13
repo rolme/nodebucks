@@ -165,7 +165,7 @@ class Contact extends Component {
                               handleFieldValueChange={this.handleFieldValueChange}
                   />
                   <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0">
-                    <Button onClick={this.handleSubmit} className="submitButton w-100">Send</Button>
+                    <Button onClick={this.handleSubmit} className="contactPageSubmitButton w-100">Send</Button>
                   </Col>
                 </Col>
                 }
