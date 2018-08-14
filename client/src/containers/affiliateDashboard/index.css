@@ -1,0 +1,63 @@
+.affiliateDashboardContainer > .contentContainer {
+  padding: 50px 0;
+}
+
+.affiliateDashboardTitle {
+  color: #000000;
+  font-size: 30px;
+  font-family: 'Raleway-Light';
+  margin-bottom: 0;
+}
+
+.affiliateDashboardReferralUrlContainer {
+  display: flex;
+  align-items: center;
+  background-color: #2283C6;
+  padding: 30px 50px;
+  margin-top: 35px;
+}
+
+.affiliateDashboardReferralUrlContainer > p {
+  font-family: 'OpenSans';
+  color: #FFFFFF;
+  font-size: 16px;
+  margin-bottom: 0;
+  width: 130px;
+}
+
+.affiliateDashboardReferralUrlContainer > input {
+  margin: 0 30px;
+  color: #7B7B7B;
+  font-size: 16px;
+  padding: 17px 20px;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, ::-moz-placeholder { /* Firefox 19+ */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, :-ms-input-placeholder { /* IE 10+ */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, :-moz-placeholder { /* Firefox 18- */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > button {
+  padding: 16.5px 35px;
+  background-color: #FC6422;
+}
+
+.affiliateDashboardReferralUrlContainer > button:hover {
+  background-color: #FC6422;
+}
