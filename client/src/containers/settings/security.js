@@ -153,7 +153,7 @@ class Security extends Component {
       <Container fluid className="settingsContainer">
         <div className="contentContainer px-0">
           <Col className="settingsContentContainer px-0" xl={{ size: 12 }} lg={{ size: 12 }} md={{ size: 12 }} sm={{ size: 12 }} xs={{ size: 12 }}>
-            <h1 className="settingsTitleText">Change Password</h1>
+            <h1 className="settingsTitleText pageTitle">Change Password</h1>
             {isLoading &&
             <div className="spinnerContainer">
               <RingLoader

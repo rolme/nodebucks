@@ -111,8 +111,6 @@
 
 .purchasePageHeader {
   color: #000000;
-  font-family: 'Raleway-Light';
-  font-size: 30px;
 }
 
 .purchasePageLinksContainer {
@@ -471,9 +469,6 @@
 }
 
 .sellPageHeaderText {
-  font-family: Raleway;
-  font-weight: bold;
-  font-size: 30px;
   color: #000000;
 }
 
@@ -643,9 +638,6 @@
 /*Withdraw Page Style*/
 .withdrawPageTitle {
   color: #3B3B3B;
-  font-size: 30px;
-  font-family: Raleway-Bold;
-  font-weight: bold;
   text-align: center;
 }
 

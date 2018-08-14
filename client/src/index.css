@@ -93,6 +93,11 @@ body {
   background-color: white !important;
 }
 
+.pageTitle {
+  font-family: 'Raleway';
+  font-size: 30px;
+}
+
 .pageContainer {
   overflow: hidden;
   min-height: calc(100% - 124px);
@@ -148,7 +153,6 @@ body {
   border-color: #2283C6;
   background-color: #2283C6;
 }
-
 
 .socialButtonIcon {
   font-family: 'Icons';
@@ -227,7 +231,7 @@ button.disabled {
   height: unset !important;
 }
 
-.pageLoaderContainer{
+.pageLoaderContainer {
   display: flex;
   justify-content: center;
   height: calc(100vh - 120px);
