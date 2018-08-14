@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router-dom"
+import { NavLink, withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
 
 import { Input, Button, Col, Row, Card, CardHeader, CardBody } from 'reactstrap'
@@ -12,7 +12,7 @@ class AffiliateDashboard extends Component {
     return (
       <div className="affiliateDashboardContainer">
         <div className="contentContainer">
-          <h1 className="affiliateDashboardTitle">Affiliate Dashboard</h1>
+          <h1 className="affiliateDashboardTitle pageTitle">Affiliate Dashboard</h1>
           <div className="affiliateDashboardReferralUrlContainer">
             <p>Referral URL:</p>
             <Input type="text"/>
@@ -22,62 +22,65 @@ class AffiliateDashboard extends Component {
             <Card className="affiliateDashboardCard">
               <CardHeader>Referrals <span><br/>78</span></CardHeader>
               <CardBody>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Referrals</p>
-                  <p>78</p>
+                  <h6>78</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 1(20%)</p>
-                  <p>25</p>
+                  <h6>25</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 2(10%)</p>
-                  <p>15</p>
+                  <h6>15</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 3</p>
-                  <p>38</p>
+                  <h6>38</h6>
                 </Row>
               </CardBody>
             </Card>
-            <Card className="affiliateTierCard">
+            <Card className="affiliateDashboardCard">
               <CardHeader>Last 7 days <span><br/>15</span></CardHeader>
               <CardBody>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Last 24 hours:</p>
-                  <p>3</p>
+                  <h6>3</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Last 7 days</p>
-                  <p>15</p>
+                  <h6>15</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Last 30 days</p>
-                  <p>40</p>
+                  <h6>40</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Last 90 days</p>
-                  <p>78</p>
+                  <h6>78</h6>
                 </Row>
               </CardBody>
             </Card>
-            <Card className="affiliateTierCard">
+            <Card className="affiliateDashboardCard">
               <CardHeader>Balance <span><br/>$125.35</span></CardHeader>
               <CardBody>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Balance:</p>
-                  <p>$125.35</p>
+                  <h6>$125.35</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Total Earned:</p>
-                  <p>$283.22</p>
+                  <h6>$283.22</h6>
                 </Row>
-                <Row>
+                <Row className="affiliateDashboardCardContentRow">
                   <p>Referral Masternodes</p>
-                  <p>135</p>
+                  <h6>135</h6>
                 </Row>
               </CardBody>
             </Card>
+          </Col>
+          <Col className="d-flex justify-content-xl-end justify-content-center px-0 mt-xl-5 mt-lg-5 mt-md-5 mt-2">
+            <NavLink to={`/nodes/withdraw`} className="btn affiliateDashboardWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
           </Col>
         </div>
       </div>

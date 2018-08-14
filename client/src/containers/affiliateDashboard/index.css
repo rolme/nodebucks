@@ -4,8 +4,6 @@
 
 .affiliateDashboardTitle {
   color: #000000;
-  font-size: 30px;
-  font-family: 'Raleway-Light';
   margin-bottom: 0;
 }
 
@@ -22,7 +20,7 @@
   color: #FFFFFF;
   font-size: 16px;
   margin-bottom: 0;
-  width: 130px;
+  min-width: 130px;
 }
 
 .affiliateDashboardReferralUrlContainer > input {
@@ -60,4 +58,122 @@
 
 .affiliateDashboardReferralUrlContainer > button:hover {
   background-color: #FC6422;
+}
+
+.affiliateDashboardCardsContainer {
+  margin-top: 40px;
+  padding: 0;
+}
+
+.affiliateDashboardCard {
+  width: 32%;
+}
+
+.affiliateDashboardCard > .card-header {
+  background-color: #2283C6;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-family: 'OpenSans';
+  padding: 35px 0;
+}
+
+.affiliateDashboardCard > .card-header > span {
+  font-size: 30px;
+}
+
+.affiliateDashboardCard > .card-body {
+  padding: 30px 40px;
+}
+
+.affiliateDashboardCardContentRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.affiliateDashboardCardContentRow:last-child {
+  margin-bottom: 0;
+}
+
+.affiliateDashboardCardContentRow > p {
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.affiliateDashboardCardContentRow > h6 {
+  font-family: 'OpenSans-SemiBold';
+  font-size: 14px;
+  color: #3B3B3B;
+  margin-bottom: 0;
+}
+
+.affiliateDashboardWithdrawButton {
+  background-color: #1982CB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 20px 15px;
+  color: white;
+  font-family: 'Raleway-SemiBold';
+  font-size: 16px;
+  width: 32%;
+}
+
+.affiliateDashboardWithdrawButton:hover,
+.affiliateDashboardWithdrawButton:focus {
+  background-color: #2696e1 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .affiliateDashboardCardsContainer {
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .affiliateDashboardCard {
+    width: 300px;
+    margin-bottom: 15px;
+  }
+
+  .affiliateDashboardReferralUrlContainer {
+    padding: 30px 10px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > input {
+    margin: 0 10px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > p {
+    min-width: 100px;
+  }
+
+  .affiliateDashboardWithdrawButton{
+    width: 300px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .affiliateDashboardReferralUrlContainer > input {
+    margin: 0 5px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > p {
+    min-width: unset;
+  }
+
+  .affiliateDashboardReferralUrlContainer > button {
+    padding: 16.5px 10px;
+  }
 }
