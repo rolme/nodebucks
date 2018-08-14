@@ -16,6 +16,9 @@ class Affiliate extends Component {
         <div className='affiliateHeaderContainer'>
           <div className="contentContainer">
             <h5 className="affiliateHeaderText">Nodebucks Affiliate Program</h5>
+            <Col className="d-flex justify-content-center">
+              <NavLink to={affiliateLink} className="affiliateFooterButton">SIGN UP</NavLink>
+            </Col>
           </div>
         </div>
         <div>
@@ -55,7 +58,7 @@ class Affiliate extends Component {
                   <CardHeader>Tier 3</CardHeader>
                   <CardBody>
                     <CardTitle>Third indirect referrals</CardTitle>
-                    <CardText>20%</CardText>
+                    <CardText>5%</CardText>
                   </CardBody>
                 </Card>
               </Col>
@@ -111,9 +114,7 @@ class Affiliate extends Component {
         <div className='affiliateFooterContainer'>
           <div className="contentContainer">
             <Col xl={{ size: 10, offset: 1 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }}>
-              <h5 className="affiliateFooterTitle">Thank you for your support, we appreciate you spreading the good word about this amazing service</h5>
-              <p className="affiliateFooterParagraph">Please check back periodically and review all emails we send. We will be running several contests over the first few months :)</p>
-              <p className="affiliateFooterParagraph">Nodebucks</p>
+              <h5 className="affiliateFooterTitle">Thank you for your support!</h5>
             </Col>
             <Col className="d-flex justify-content-center">
               <NavLink to={affiliateLink} className="affiliateFooterButton">SIGN UP</NavLink>
