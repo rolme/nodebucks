@@ -16,6 +16,9 @@ class Affiliate extends Component {
         <div className='affiliateHeaderContainer'>
           <div className="contentContainer">
             <h5 className="affiliateHeaderText">Nodebucks Affiliate Program</h5>
+            <Col className="d-flex justify-content-center">
+              <NavLink to={affiliateLink} className="affiliateFooterButton">SIGN UP</NavLink>
+            </Col>
           </div>
         </div>
         <div>
