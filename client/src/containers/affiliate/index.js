@@ -58,7 +58,7 @@ class Affiliate extends Component {
                   <CardHeader>Tier 3</CardHeader>
                   <CardBody>
                     <CardTitle>Third indirect referrals</CardTitle>
-                    <CardText>20%</CardText>
+                    <CardText>5%</CardText>
                   </CardBody>
                 </Card>
               </Col>
