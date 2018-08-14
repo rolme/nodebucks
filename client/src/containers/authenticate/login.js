@@ -146,7 +146,7 @@ class LogIn extends Component {
             }
             <Col xl={{ size: 4 }} lg={{ size: 6 }} md={{ size: 6 }} className="justify-content-center d-flex flex-column align-items-center">
               {!isOnlyForm && <NavLink to="/"><img src="/assets/images/headerLogo.png" alt="sign in"/></NavLink>}
-              {!isOnlyForm && <h2 className="logInHeader">Welcome to Nodebucks</h2>}
+              {!isOnlyForm && <h2 className="logInHeader pageTitle">Welcome to Nodebucks</h2>}
               <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i> Sign in via facebook</SocialButton>
               <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="dividerWithText">
                 <span>OR</span>

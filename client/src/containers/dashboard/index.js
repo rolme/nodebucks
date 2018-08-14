@@ -39,7 +39,7 @@ class Dashboard extends Component {
     return (
       <Container fluid className="dashboardPageContainer">
         <div className="contentContainer px-0">
-          <h1 className="dashboardPageTitle">Dashboard</h1>
+          <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
               <h5>Rewards Balance</h5>

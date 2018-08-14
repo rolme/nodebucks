@@ -7,20 +7,18 @@
 }
 
 .faqPageHeader {
-  height: 200px;
+  height: 150px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
   flex-direction: row;
   -ms-flex-align: center;
   align-items: center;
-  justify-content: center;
 }
 
 .faqPageTitle {
-  font-size: 50px;
   color: #616161;
-  font-family: 'Raleway-Light';
+  margin-bottom: 0;
 }
 
 .faqCardHeader {

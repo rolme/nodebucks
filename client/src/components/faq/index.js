@@ -43,7 +43,7 @@ export default class FAQ extends Component {
       <Container fluid>
         <div className="contentContainer faqContentContainer d-flex flex-column align-items-center">
           <Col xl={12} className="faqPageHeader">
-            <p className="faqPageTitle">Frequently Asked Questions </p>
+            <p className="faqPageTitle pageTitle">Frequently Asked Questions </p>
           </Col>
           <Col xl={12}>
             <Card body onClick={() => this.toggleQuestion('question1')}>

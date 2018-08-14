@@ -122,7 +122,7 @@ class NewNode extends Component {
         <div className="contentContainer purchasePageContentContainer">
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
-            <h1 className="pt-3 text-center purchasePageHeader">
+            <h1 className="pt-3 text-center purchasePageHeader pageTitle">
               {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
               Purchase {!!nodePending || !!cryptoPending ? '' : masternode.name} Masternode
             </h1>

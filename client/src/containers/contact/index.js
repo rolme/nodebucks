@@ -132,7 +132,7 @@ class Contact extends Component {
                 <img src="/assets/images/contactIcon.png" alt="Contact"/>
                 {(!message || (!!message && !!error)) &&
                 <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} className="contactMainContentContainer  px-0">
-                  <p className="contactHeader">Contact Us</p>
+                  <p className="contactHeader pageTitle">Contact Us</p>
                   <InputField label='Subject'
                               name="subject"
                               id="subject"
@@ -187,7 +187,7 @@ class Contact extends Component {
     return(
       <Col className="contact-created-container d-flex flex-column align-items-center">
         <img src="/assets/images/contactIcon.png" alt="Contact"/>
-        <h2 className="contactHeader">Thank you!</h2>
+        <h2 className="contactHeader pageTitle">Thank you!</h2>
         <p className="contact-created-text">
           Your message has been successfully sent. Thank you for your attention. We will respond you in no time!
         </p>
