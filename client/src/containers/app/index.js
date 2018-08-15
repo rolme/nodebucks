@@ -27,6 +27,7 @@ const Terms = Loadable({ loader: () => import('../../components/terms'), loading
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
 const Affiliate = Loadable({ loader: () => import('../../containers/affiliate'), loading: Loading })
+const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
 
 export default class App extends Component {
 
@@ -40,6 +41,7 @@ export default class App extends Component {
             <Switch>
               <PublicRoute exact path="/" component={Home}/>
               <PublicRoute exact path="/affiliate" component={Affiliate}/>
+              <PublicRoute exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
