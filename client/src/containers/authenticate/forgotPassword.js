@@ -67,7 +67,6 @@ class ForgotPassword extends Component {
   render() {
     const { email, messages, errors } = this.state
     const { message, error, pending, isOnlyForm } = this.props
-
     if ( pending ) {
       return (
         <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
@@ -126,9 +125,9 @@ class ForgotPassword extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
-  pending: state.user.logInPending,
-  error: state.user.logInError,
-  message: state.user.logInMessage
+  pending: state.user.requestResetPending,
+  error: state.user.requestResetError,
+  message: state.user.requestResetMessage
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ reset, requestReset }, dispatch)

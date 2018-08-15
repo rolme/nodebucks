@@ -46,7 +46,7 @@ export default class App extends Component {
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
               <PublicRoute exact path="/forgot_password" component={ForgotPassword}/>
-              <PublicRoute exact path="/reset_password" component={ResetPassword}/>
+              <PublicRoute exact path="/reset_password/:slug" component={ResetPassword}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/terms" component={Terms}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>

@@ -57,10 +57,13 @@ const initialState = {
   pending: true,
   logInError: false,
   signUpError: false,
+  requestResetError: false,
   logInMessage: null,
   signUpMessage: null,
+  requestResetMessage: null,
   logInPending: false,
   signUpPending: false,
+  requestResetPending: false,
   token: TOKEN
 }
 
@@ -189,6 +192,29 @@ export default (state = initialState, action) => {
         ...state,
         error: true,
         message: action.payload.message,
+        pending: false
+      }
+
+    case REQUEST_RESET:
+      return {
+        ...state,
+        error: false,
+        message: null,
+        pending: true
+      }
+
+    case REQUEST_RESET_SUCCESS:
+      return {
+        ...state,
+        requestResetError: action.payload.status === 'error' ? true : false,
+        requestResetMessage: action.payload.message,
+        pending: false,
+      }
+   case REQUEST_RESET_FAILURE:
+      return {
+        ...state,
+        requestResetError: true,
+        requestResetMessage: action.payload.message,
         pending: false
       }
 
@@ -397,10 +423,10 @@ export function requestReset(email) {
   }
 }
 
-export function resetPassword(resetToken, password, passwordConfirmation) {
+export function resetPassword(resetToken, password, passwordConfirmation, callback) {
   return dispatch => {
     dispatch({ type: RESET_PASSWORD })
-    axios.patch(`/api/users/${resetToken}/reset`, {
+    axios.patch(`/api/users/${resetToken}/reset_password`, {
       user: {
         password,
         password_confirmation: passwordConfirmation
@@ -408,6 +434,9 @@ export function resetPassword(resetToken, password, passwordConfirmation) {
     })
       .then(response => {
         dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data })
+        if(response.data.status !== 'error') {
+          callback()
+        }
       })
       .catch((error) => {
         dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message })

@@ -24,7 +24,8 @@ class ResetPassword extends Component {
       errors: {
         password: false,
         confirmPassword: false
-      }
+      },
+      slug: ''
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.validation = this.validation.bind(this)
@@ -34,6 +35,8 @@ class ResetPassword extends Component {
     window.scrollTo(0, 0)
     //TODO: get reset token from url
     this.props.reset()
+    const { slug } = this.props.match.params
+    this.setState({ slug })
   }
 
   componentWillUnmount() {
@@ -46,8 +49,17 @@ class ResetPassword extends Component {
   }
 
   validation() {
-    const { resetToken, password, confirmPassword } = this.state
-    let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }
+    const { slug, resetToken, password, confirmPassword } = this.state
+    const MINIMUM_PASSWORD_LENGTH = 6
+    let isValid = true
+    let messages = {
+      password: '',
+      confirmPassword: ''
+    }
+    let errors = {
+      password: false,
+      confirmPassword: false
+    }
     if ( !password ) {
       messages.password = '*Required'
       errors.password = true
@@ -64,9 +76,21 @@ class ResetPassword extends Component {
       isValid = false
     }
 
+    if ( password.length < MINIMUM_PASSWORD_LENGTH || confirmPassword.length < MINIMUM_PASSWORD_LENGTH) {
+      messages.password = ''
+      errors.password = false
+      messages.confirmPassword = 'Password must be at least 6 characters long'
+      errors.confirmPassword = true
+      isValid = false
+    }
+
     this.setState({ messages, errors })
 
-    isValid && this.props.resetPassword(resetToken, password, confirmPassword)
+    isValid && this.props.resetPassword(slug, password, confirmPassword, this.redirect.bind(this))
+  }
+
+  redirect() {
+    this.props.history.push('/')
   }
 
   render() {
@@ -95,7 +119,6 @@ class ResetPassword extends Component {
                           message={messages.password}
                           error={errors.password}
                           handleFieldValueChange={this.handleFieldValueChange}
-                          onAddonClick={this.onAddonClick}
                           onKeyPress={true}
               />
               <InputField label='Confirm Password'
@@ -103,10 +126,9 @@ class ResetPassword extends Component {
                           id="confirmPassword"
                           type='password'
                           value={confirmPassword}
-                          message={messages.confirmPassword}
-                          error={errors.confirmPassword}
+                          message={message || messages.confirmPassword}
+                          error={error || errors.confirmPassword}
                           handleFieldValueChange={this.handleFieldValueChange}
-                          onAddonClick={this.onAddonClick}
                           onKeyPress={true}
               />
               <Col xl={12} lg={12} md={12} sm={12} xs={12} className="d-flex px-0 flex-column">
