@@ -91,7 +91,7 @@ class Affiliate extends Component {
                     <img src="/assets/images/affiliateCommission2.png" alt="Maximizing Commission" className="ml-xl-3 ml-lg-3 ml-lg-0"/>
                   </Col>
                   <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 12, offset: 0 }}>
-                    <p className="affiliateCommissionSectionParagraph">Personal notes and emails are a great touch for people to read what your sending them instead of tossing your note into the recycle bin.</p>
+                    <p className="affiliateCommissionSectionParagraph">Personal notes and emails are a great touch for people to read what you're sending them instead of tossing your note into the recycle bin.</p>
                   </Col>
                 </Col>
                 <Col>
