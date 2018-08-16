@@ -109,7 +109,7 @@ class SellNode extends Component {
   displayHeader(node) {
     return (
       <Row className="mx-0 d-flex justify-content-center">
-        <h5 className="sellPageHeaderText">
+        <h5 className="sellPageHeaderText pageTitle">
           {!!node.crypto && !!node.crypto.slug && <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} width="65px"/>} Sell {!!node.crypto ? node.crypto.name : ''} Server
         </h5>
       </Row>

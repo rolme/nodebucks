@@ -8,9 +8,7 @@
 
 .authHeader {
   margin: 10px 0 40px 0;
-  font-family: 'Raleway-Light';
   color: #000000;
-  font-size: 30px;
 }
 
 .logInPageContainer {
@@ -18,11 +16,8 @@
 }
 
 .logInHeader {
-  font-family: 'Raleway';
-  font-weight: 300;
   line-height: 42px;
   margin: 50px 0;
-  font-size: 30px;
   color: #000000;
 }
 

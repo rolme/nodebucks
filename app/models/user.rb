@@ -114,6 +114,10 @@ class User < ApplicationRecord
     { btc: btc, usd: btc * pricer.avg_btc_usdt }
   end
 
+  def reserved_node
+    @__reserved_node ||= nodes.find { |n| n.status == 'reserved' }
+  end
+
   def create_btc_account
     account   = accounts.find{ |a| a.symbol == 'btc' }
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)

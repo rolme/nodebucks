@@ -58,10 +58,10 @@ class CryptoTable extends Component {
             <thead>
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
-              <th><p onClick={() => this.sortTable('annualRoi')} className="mb-0">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('annualRoi')} className="mb-0">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th></th>
             </tr>
             </thead>
@@ -96,10 +96,10 @@ class CryptoTable extends Component {
           <td className="d-xl-table-cell d-lg-table-cell d-none">{yearlyRoiValue}</td>
           <td className="d-flex">
             {+item.nodePrice < 50000 &&
-            <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-1"/> Add Node</NavLink>
+            <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add Node</NavLink>
             }
             {+item.nodePrice > 50000 &&
-            <NavLink to={'/contact#contact-sales-' + item.name} className="btn btn-primary contactSalesButton">Contact Sales</NavLink>
+            <NavLink to={'/contact#contact-sales-' + item.name} className="btn btn-primary contactSalesButton"><img src="/assets/images/contactUsIcon.png" alt="contact us" className="mr-2"/>Contact Us</NavLink>
             }
           </td>
         </tr>

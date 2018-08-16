@@ -1,0 +1,179 @@
+.affiliateDashboardContainer > .contentContainer {
+  padding: 50px 0;
+}
+
+.affiliateDashboardTitle {
+  color: #000000;
+  margin-bottom: 0;
+}
+
+.affiliateDashboardReferralUrlContainer {
+  display: flex;
+  align-items: center;
+  background-color: #2283C6;
+  padding: 30px 50px;
+  margin-top: 35px;
+}
+
+.affiliateDashboardReferralUrlContainer > p {
+  font-family: 'OpenSans';
+  color: #FFFFFF;
+  font-size: 16px;
+  margin-bottom: 0;
+  min-width: 130px;
+}
+
+.affiliateDashboardReferralUrlContainer > input {
+  margin: 0 30px;
+  color: #7B7B7B;
+  font-size: 16px;
+  padding: 17px 20px;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, ::-moz-placeholder { /* Firefox 19+ */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, :-ms-input-placeholder { /* IE 10+ */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > input, :-moz-placeholder { /* Firefox 18- */
+  color: #7C7C7C;
+  font-family: 'OpenSans';
+}
+
+.affiliateDashboardReferralUrlContainer > button {
+  padding: 16.5px 35px;
+  background-color: #FC6422;
+}
+
+.affiliateDashboardReferralUrlContainer > button:hover {
+  background-color: #FC6422;
+}
+
+.affiliateDashboardCardsContainer {
+  margin-top: 40px;
+  padding: 0;
+}
+
+.affiliateDashboardCard {
+  width: 32%;
+}
+
+.affiliateDashboardCard > .card-header {
+  background-color: #2283C6;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-family: 'OpenSans';
+  padding: 35px 0;
+}
+
+.affiliateDashboardCard > .card-header > span {
+  font-size: 30px;
+}
+
+.affiliateDashboardCard > .card-body {
+  padding: 30px 40px;
+}
+
+.affiliateDashboardCardContentRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.affiliateDashboardCardContentRow:last-child {
+  margin-bottom: 0;
+}
+
+.affiliateDashboardCardContentRow > p {
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.affiliateDashboardCardContentRow > h6 {
+  font-family: 'OpenSans-SemiBold';
+  font-size: 14px;
+  color: #3B3B3B;
+  margin-bottom: 0;
+}
+
+.affiliateDashboardWithdrawButton {
+  background-color: #1982CB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent;
+  border-radius: 5px;
+  padding: 20px 15px;
+  color: white;
+  font-family: 'Raleway-SemiBold';
+  font-size: 16px;
+  width: 32%;
+}
+
+.affiliateDashboardWithdrawButton:hover,
+.affiliateDashboardWithdrawButton:focus {
+  background-color: #2696e1 !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .affiliateDashboardCardsContainer {
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .affiliateDashboardCard {
+    width: 300px;
+    margin-bottom: 15px;
+  }
+
+  .affiliateDashboardReferralUrlContainer {
+    padding: 30px 10px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > input {
+    margin: 0 10px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > p {
+    min-width: 100px;
+  }
+
+  .affiliateDashboardWithdrawButton{
+    width: 300px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .affiliateDashboardReferralUrlContainer > input {
+    margin: 0 5px;
+  }
+
+  .affiliateDashboardReferralUrlContainer > p {
+    min-width: unset;
+  }
+
+  .affiliateDashboardReferralUrlContainer > button {
+    padding: 16.5px 10px;
+  }
+}

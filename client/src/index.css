@@ -80,6 +80,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-variant-ligatures: none;
 }
 
 .appContainer {
@@ -91,6 +92,11 @@ body {
 #root > div {
   height: 100%;
   background-color: white !important;
+}
+
+.pageTitle {
+  font-family: 'Raleway';
+  font-size: 30px;
 }
 
 .pageContainer {
@@ -148,7 +154,6 @@ body {
   border-color: #2283C6;
   background-color: #2283C6;
 }
-
 
 .socialButtonIcon {
   font-family: 'Icons';
@@ -227,7 +232,7 @@ button.disabled {
   height: unset !important;
 }
 
-.pageLoaderContainer{
+.pageLoaderContainer {
   display: flex;
   justify-content: center;
   height: calc(100vh - 120px);

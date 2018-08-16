@@ -121,7 +121,7 @@ class Withdraw extends Component {
             </Col>
             }
             <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
-              <h5 className="withdrawPageTitle">Withdraw Rewards</h5>
+              <h5 className="withdrawPageTitle pageTitle">Withdraw Rewards</h5>
               {this.renderInformationPart()}
               <InputField label='BTC Wallet Address'
                           name="address"

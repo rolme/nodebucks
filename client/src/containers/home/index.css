@@ -59,10 +59,6 @@
   cursor: pointer;
 }
 
-.homeMainBannerButton:hover {
-  background-color: rgba(252, 100, 34, 0.78);
-}
-
 .homeMainBannerButton:focus {
   outline: none;
 }

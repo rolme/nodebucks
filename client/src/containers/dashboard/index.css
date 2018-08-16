@@ -7,16 +7,12 @@
 .dashboardSectionHeader {
   color: #3B3B3B;
   font-size: 24px;
-  font-family: 'Raleway-Light';
-  font-weight: bold;
+  font-family: 'Raleway';
   margin-bottom: 13px;
 }
 
 .dashboardPageTitle {
   color: #3B3B3B;
-  font-size: 30px;
-  font-family: "Raleway-Light";
-  font-weight: bold;
 }
 
 .dashboardSectionNoDataMessage{
