@@ -10,6 +10,32 @@ class UsersController < ApplicationController
     authenticate params[:email], params[:password]
   end
 
+  def reset
+    @user = User.find_by(email: params[:email])
+    if @user.present?
+      @user.reset!()
+      RegistrationMailer.send_reset_email(@user).deliver_later
+      render json: { status: :ok, message: 'Reset password email sent.' }
+    else
+      render json: { status: 'error', message: 'Email could not be found.' }
+    end
+  end
+
+  def reset_password
+    @user = User.find_by(reset_token: params[:user_slug])
+    if @user.blank? || !@user.token_valid?
+      @user&.delete_token!
+      render json: { status: 'error', message: 'Reset token has expired' }
+      return
+    end
+
+    if @user.change_password!(user_params[:password], user_params[:password_confirmation])
+      render json: { status: :ok, token: generate_token, message: 'Password has been updated.' }
+    else
+      render json: { status: 'error', message: @user.error.full_messages.join(', ') }
+    end
+  end
+
   def admin_login
     user  = User.find_by(email: params[:email], admin: true)
     @user = user&.authenticate(params[:password])

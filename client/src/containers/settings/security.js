@@ -125,10 +125,10 @@ class Security extends Component {
       isValid = false
     }
 
-    if(!!password && !!confirmPassword && password !== confirmPassword) {
-      messages.password = '*Password and Confirm Password do not match'
-      errors.password = true
-      messages.confirmPassword = '*Password and Confirm Password do not match'
+    if(!!password && !!confirmPassword && newPassword !== confirmPassword) {
+      messages.newPassword = '*New Password and Confirm Password do not match'
+      errors.newPassword = true
+      messages.confirmPassword = '*New Password and Confirm Password do not match'
       errors.confirmPassword = true
       isValid = false
     }
