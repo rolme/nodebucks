@@ -7,6 +7,7 @@ import Loading from "../../components/loadingComponent"
 
 
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
+const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
 const Disclaimer = Loadable({ loader: () => import('../../components/disclaimer'), loading: Loading })
 const ErrorPage401 = Loadable({ loader: () => import('../../components/error_pages/401_error_page'), loading: Loading })
@@ -42,6 +43,7 @@ export default class App extends Component {
           <main>
             <Switch>
               <PublicRoute exact path="/" component={Home}/>
+              <PublicRoute exact path="/confirm/:slug" component={ConfirmEmail}/>
               <PublicRoute exact path="/affiliate" component={Affiliate}/>
               <PublicRoute exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <PublicRoute exact path="/login" component={Login}/>

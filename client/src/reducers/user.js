@@ -251,7 +251,36 @@ export default (state = initialState, action) => {
         error: true,
         message: action.payload.message,
       }
+    
+      case CONFIRM_REGISTRATION:
+      return {
+        ...state,
+        error: false,
+        message: '',
+        pending: true
+      }
 
+    case CONFIRM_REGISTRATION_SUCCESS:
+      return {
+        ...state,
+        data: jwt_decode(action.payload.token),
+        error: false,
+        message: action.payload.message,
+        pending: false,
+        token: action.payload.token
+      }
+
+
+    case CONFIRM_REGISTRATION_FAILURE:
+      return {
+        ...state,
+        data: null,
+        error: true,
+        message: action.payload.message,
+        pending: false,
+        token: ''
+      }
+        
     default:
       return state
   }
