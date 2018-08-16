@@ -38,6 +38,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def confirm
+    @user = User.find_by(slug: params[:user_slug])
+    if @user.present?
+      @user.update_attribute(:confirmed_at, DateTime.current)
+      render json: { status: :ok, token: generate_token, message: 'User registration confirmed.' }
+    else
+      render json: { status: 'error', message: "User could not be found."}
+    end
+  end
+
   def verify
     @user = User.find_by(slug: params[:user_slug])
     if @user&.verify_email!
