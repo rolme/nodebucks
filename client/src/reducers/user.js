@@ -316,7 +316,7 @@ export function socialMediaLogin(socialMedia, profile) {
       }
     }).then((response) => {
       if ( response.data !== 'error' ) {
-        localStorage.setItem('jwt-rency', response.data.token)
+        localStorage.setItem('jwt-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })

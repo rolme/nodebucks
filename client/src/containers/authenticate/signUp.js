@@ -6,10 +6,11 @@ import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 import { NavLink } from 'react-router-dom'
 import { Container, Col, Button, Alert } from 'reactstrap'
+import SocialButton from './socialButton'
 import { capitalize } from '../../lib/helpers'
 import './index.css'
 
-import { register, reset } from '../../reducers/user.js'
+import { register, reset, socialMediaLogin } from '../../reducers/user.js'
 
 class SignUp extends Component {
   constructor(props) {
@@ -142,6 +143,16 @@ class SignUp extends Component {
     })
   }
 
+  handleSocialSignUp(sm, user) {
+    if ( !!user ) {
+      this.props.socialMediaLogin(sm, user._profile)
+    }
+  }
+
+  handleSocialSignUpFailure(sm, err) {
+    console.log("ERR", err)
+  }
+
   render() {
     const { first, last, email, password, confirmPassword, showPassword, showConfirmPassword, messages, errors } = this.state
     const { message, error, pending } = this.props
@@ -176,7 +187,7 @@ class SignUp extends Component {
             </Col>
             }
             <Col xl={{ size: 9 }} lg={{ size: 8 }} md={{ size: 10 }} sm={{ size: 8 }} className="justify-content-center d-flex flex-column align-items-center">
-              <h2 className="authHeader pageTitle">Let's get started.</h2>
+              <h2 className="authHeader pageTitle">{`Let's get started.`}</h2>
               <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
                 <Col xl={6} lg={6} md={6} sm={12} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
                   <InputField label='First Name'
@@ -247,6 +258,8 @@ class SignUp extends Component {
               <Col xl={8} lg={8} md={8} sm={12} xs={12} className="d-flex px-0 mt-4 flex-column">
                 <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
                 <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
+                <p className="signUpSignInText">Or Sign Up using Facebook</p>
+                <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialSignUp.bind(this, 'facebook')} onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i>Facebook</SocialButton>
               </Col>
             </Col>
           </Col>
@@ -264,7 +277,7 @@ const mapStateToProps = state => ({
   message: state.user.signUpMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ register, reset }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ register, reset, socialMediaLogin }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
