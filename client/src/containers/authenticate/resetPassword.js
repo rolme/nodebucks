@@ -16,7 +16,6 @@ class ResetPassword extends Component {
     this.state = {
       password: '',
       confirmPassword: '',
-      resetToken: '',
       messages: {
         password: '',
         confirmPassword: ''
@@ -49,7 +48,7 @@ class ResetPassword extends Component {
   }
 
   validation() {
-    const { slug, resetToken, password, confirmPassword } = this.state
+    const { slug, password, confirmPassword } = this.state
     const MINIMUM_PASSWORD_LENGTH = 6
     let isValid = true
     let messages = {

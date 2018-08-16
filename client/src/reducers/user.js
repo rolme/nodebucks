@@ -79,6 +79,9 @@ export default (state = initialState, action) => {
         signUpMessage: null,
         logInPending: false,
         signUpPending: false,
+        requestResetPending: false,
+        requestResetMessage: null,
+        requestResetError: false,
         signUpData: {}
       }
 
