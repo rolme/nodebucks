@@ -187,7 +187,7 @@ class SignUp extends Component {
             </Col>
             }
             <Col xl={{ size: 9 }} lg={{ size: 8 }} md={{ size: 10 }} sm={{ size: 8 }} className="justify-content-center d-flex flex-column align-items-center">
-              <h2 className="authHeader pageTitle">Let's get started.</h2>
+              <h2 className="authHeader pageTitle">{`Let's get started.`}</h2>
               <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
                 <Col xl={6} lg={6} md={6} sm={12} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
                   <InputField label='First Name'
