@@ -30,7 +30,8 @@ class NewNode extends Component {
     this.state = {
       showReloadAlert: false,
       validPrice: true,
-      spreadTooltipOpen: false
+      spreadTooltipOpen: false,
+      puchaseMessage: ''
     }
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handlePurchase = this.handlePurchase.bind(this)
@@ -103,7 +104,7 @@ class NewNode extends Component {
 
   render() {
     const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
-    const { validPrice, showReloadAlert } = this.state
+    const { validPrice, showReloadAlert, puchaseMessage } = this.state
 
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
@@ -120,6 +121,15 @@ class NewNode extends Component {
           }
         </div>
         <div className="contentContainer purchasePageContentContainer">
+          {
+            puchaseMessage &&
+            <div>
+              <br />
+              <Alert color='success'>
+                {puchaseMessage}
+              </Alert>
+            </div>
+          }
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
             <h1 className="pt-3 text-center purchasePageHeader pageTitle">
@@ -150,7 +160,7 @@ class NewNode extends Component {
       <Col xl={12} className="px-0 pt-2">
         <div className='purchasePagePaymentFormContainer'>
           <Elements>
-            <PaymentMethod slug={item.nodeSlug} onSuccess={this.handlePurchase} refreshing={refreshing}/>
+            <PaymentMethod slug={item.nodeSlug} onPurchase={this.handlePurchase} refreshing={refreshing}/>
           </Elements>
         </div>
       </Col>

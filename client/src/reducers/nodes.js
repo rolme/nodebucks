@@ -191,7 +191,7 @@ export function purchaseNode(slug) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/nodes/${slug}/purchase`)
+    axios.post(`/api/charges`, { stripeToken: slug })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
         dispatch(push('/dashboard'))
