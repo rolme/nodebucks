@@ -150,7 +150,7 @@ class NewNode extends Component {
       <Col xl={12} className="px-0 pt-2">
         <div className='purchasePagePaymentFormContainer'>
           <Elements>
-            <PaymentMethod slug={item.nodeSlug} onSuccess={this.handlePurchase} refreshing={refreshing}/>
+            <PaymentMethod slug={item.nodeSlug} onPurchase={this.handlePurchase} refreshing={refreshing}/>
           </Elements>
         </div>
       </Col>

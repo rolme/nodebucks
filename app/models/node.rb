@@ -98,6 +98,10 @@ class Node < ApplicationRecord
     save! if persist
   end
 
+  def cost_to_cents
+    (cost.round(2) * 100).to_i
+  end
+
 private
 
   def reward_timeframe(timeframe)

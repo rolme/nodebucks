@@ -17,10 +17,10 @@ class _PaymentForm extends React.Component {
 
     if ( this.props.stripe ) {
       this.props.stripe
-        .createToken()
+        .createToken({name: 'test'})
         .then((payload) => {
           if ( !!payload.token ) {
-            this.props.onSuccess(this.props.slug)
+            this.props.onPurchase(payload.token.id)
           } else if ( !!payload.error ) {
             this.setState({ message: payload.error.message })
           }

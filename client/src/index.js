@@ -16,7 +16,7 @@ const target = document.querySelector('#root')
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <StripeProvider apiKey="pk_test_PXkOwmGEPEh8nm8iEJrhOAhq">
+      <StripeProvider apiKey={process.env.REACT_APP_STRIPE_API_KEY}>
         <App />
       </StripeProvider>
     </ConnectedRouter>
