@@ -89,7 +89,7 @@ class ResetPassword extends Component {
   }
 
   redirect() {
-    this.props.history.push('/')
+    setTimeout(() => { this.props.history.push('/') }, 1500);
   }
 
   render() {
@@ -144,7 +144,7 @@ class ResetPassword extends Component {
 const mapStateToProps = state => ({
   user: state.user.data,
   error: state.user.logInError,
-  message: state.user.logInMessage
+  message: state.user.message
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ reset, resetPassword }, dispatch)
