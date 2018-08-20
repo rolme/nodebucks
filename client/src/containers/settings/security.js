@@ -7,6 +7,8 @@ import { capitalize } from '../../lib/helpers'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
 
+import {requestReset} from '../../reducers/user';
+
 import './index.css'
 
 class Security extends Component {
@@ -17,6 +19,7 @@ class Security extends Component {
       password: '',
       newPassword: '',
       confirmPassword: '',
+      showResetEmailAlert: false,
       showPassword: false,
       showNewPassword: false,
       showConfirmPassword: false,
@@ -49,7 +52,7 @@ class Security extends Component {
   }
 
   renderChangePasswordFields() {
-    const { password, newPassword, confirmPassword, messages, errors, showPassword, showNewPassword, showConfirmPassword } = this.state
+    const { password, newPassword, confirmPassword, messages, errors, showPassword, showNewPassword, showConfirmPassword, showResetEmailAlert } = this.state
     const { message, error } = this.props
     return (
       <Col className="changeInputFieldsContainer">
@@ -91,7 +94,9 @@ class Security extends Component {
                     handleFieldValueChange={this.handleFieldValueChange}
                     onAddonClick={this.onAddonClick}
         />
-
+        {
+          showResetEmailAlert && <Alert className="success">Password reset email has been sent.</Alert>
+        }
       </Col>
     )
   }
@@ -139,12 +144,14 @@ class Security extends Component {
   }
 
   updatePassword() {
-   // let { password, newPassword, confirmPassword } = this.state
+    const { user } = this.props
     /**
      * ToDo
      * Should dispatch action to save data
      */
-
+    this.props.requestReset(user.email, () => {
+      this.setState({ showResetEmailAlert: true })
+    })
   }
 
   render() {
@@ -183,7 +190,7 @@ const mapStateToProps = state => ({
   error: state.user.error
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ requestReset }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,

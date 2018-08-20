@@ -220,7 +220,23 @@ export default (state = initialState, action) => {
         requestResetMessage: action.payload.message,
         pending: false
       }
-
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        message: null
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state, 
+        message: action.payload.message,
+        error: false
+      }
+      case RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        message: action.payload.message,
+        error: true
+      }
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
@@ -443,11 +459,12 @@ export function confirm(slug) {
   }
 }
 
-export function requestReset(email) {
+export function requestReset(email, callback) {
   return dispatch => {
     dispatch({ type: REQUEST_RESET })
     axios.patch('/api/users/reset', { email }).then(response => {
       dispatch({ type: REQUEST_RESET_SUCCESS, payload: response.data })
+      callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_RESET_FAILURE, payload: error.message })
@@ -466,9 +483,7 @@ export function resetPassword(resetToken, password, passwordConfirmation, callba
     })
       .then(response => {
         dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data })
-        if(response.data.status !== 'error') {
-          callback()
-        }
+        callback()
       })
       .catch((error) => {
         dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message })
