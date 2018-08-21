@@ -58,7 +58,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.set_affiliate_referers(referer_params[:referer_affiliate_key])
+    @user.set_affiliate_referers(referer_params[:referer_affiliate_key]) unless referer_params[:referer_affiliate_key].blank? 
 
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
