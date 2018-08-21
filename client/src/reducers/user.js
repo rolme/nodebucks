@@ -30,6 +30,9 @@ export const CONTACT_TEAM = 'user/CONTACT_TEAM'
 export const CONTACT_TEAM_SUCCESS = 'user/CONTACT_TEAM_SUCCESS'
 export const CONTACT_TEAM_FAILURE = 'user/CONTACT_TEAM_FAILURE'
 export const RESET = 'user/RESET'
+export const REQUEST_REFERRALS = 'user/REQUEST_REFERRALS'
+export const REQUEST_REFERRALS_SUCCESS = 'user/REQUEST_REFERRALS_SUCCESS'
+export const REQUEST_REFERRALS_FAILURE = 'user/REQUEST_REFERRALS_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -55,6 +58,7 @@ const initialState = {
   error: false,
   message: null,
   pending: true,
+  refferals: null,
   logInError: false,
   signUpError: false,
   requestResetError: false,
@@ -296,7 +300,26 @@ export default (state = initialState, action) => {
         pending: false,
         token: ''
       }
-        
+    case REQUEST_REFERRALS:
+      return {
+        error: false,
+        message: '',
+        pending: true
+      }
+    case REQUEST_REFERRALS_SUCCESS:
+      return {
+        error: false,
+        referrals: action.payload,
+        message: '',
+        pending: false
+      }
+    case REQUEST_REFERRALS_FAILURE:
+      return {
+        error: true,
+        referrals: null,
+        message: '',
+        pending: false
+      }
     default:
       return state
   }
@@ -359,7 +382,7 @@ export function socialMediaLogin(socialMedia, profile) {
         password: password,
         password_confirmation: password
       },
-      referer_affiliate_key: localStorage.getItem('referer')
+      referrer_affiliate_key: localStorage.getItem('referrer')
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
@@ -394,7 +417,7 @@ export function register(params) {
     dispatch({ type: REGISTER_USER })
     axios.post('/api/users', {
       user: params, 
-      referer_affiliate_key: localStorage.getItem('referer')
+      referrer_affiliate_key: localStorage.getItem('referrer')
     }).then(response => {
       if ( !!response.data && response.data.status === 'error' ) {
         dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })
@@ -459,6 +482,19 @@ export function confirm(slug) {
     })
       .catch((error) => {
         dispatch({ type: CONFIRM_REGISTRATION_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function getReferrals() {
+  return dispatch => {
+    dispatch({ type: REQUEST_REFERRALS })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get('/api/users/referrals').then(response => {
+      dispatch({ type: REQUEST_REFERRALS_SUCCESS, payload: response.data })
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_REFERRALS_FAILURE, payload: error.message })
       })
   }
 }

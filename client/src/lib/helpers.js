@@ -25,7 +25,7 @@ export function setReferer() {
   if (window.location.search) {
     const affiliateKey = qs.parse(window.location.search).ref
     if (affiliateKey) {
-      localStorage.setItem('referer', affiliateKey)
+      localStorage.setItem('referrer', affiliateKey)
     }
   }
 }

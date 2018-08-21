@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { getReferrals } from '../../reducers/user'
 
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
@@ -10,11 +13,26 @@ import './index.css'
 
 class AffiliateDashboard extends Component {
 
-  // fetch affiliate key again. maybe it expired
+  componentDidMount() {
+    this.props.getReferrals()
+  }
+
+  referralsCount(referrals) {
+    let count = 0
+    count += referrals.tier1_referrals.length
+    count += referrals.tier2_referrals.length
+    count += referrals.tier3_referrals.length
+    return count
+  }
 
   render() {
-    const { user } = this.props
-    const affiliateLink = `${window.location.origin}?ref=${user.affiliateKey}`
+    const { user, referrals } = this.props
+
+    if (!referrals) {
+      return null
+    }
+
+    const affiliateLink = `${window.location.origin}?ref=${referrals.affiliateKey}`
 
     return (
       <div className="affiliateDashboardContainer">
@@ -29,23 +47,23 @@ class AffiliateDashboard extends Component {
           </div>
           <Col className="d-flex justify-content-between affiliateDashboardCardsContainer">
             <Card className="affiliateDashboardCard">
-              <CardHeader>Referrals <span><br/>78</span></CardHeader>
+              <CardHeader>Referrals <span><br/>{this.referralsCount(referrals)}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Referrals</p>
-                  <h6>78</h6>
+                  <h6>{this.referralsCount(referrals)}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 1(20%)</p>
-                  <h6>25</h6>
+                  <h6>{referrals.tier1_referrals.length}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 2(10%)</p>
-                  <h6>15</h6>
+                  <h6>{referrals.tier2_referrals.length}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Tier 3</p>
-                  <h6>38</h6>
+                  <h6>{referrals.tier3_referrals.length}</h6>
                 </Row>
               </CardBody>
             </Card>
@@ -99,9 +117,12 @@ class AffiliateDashboard extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
+  referrals: state.user.referrals
 })
 
+const mapDispatchToProps = dispatch => bindActionCreators({ getReferrals }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AffiliateDashboard))

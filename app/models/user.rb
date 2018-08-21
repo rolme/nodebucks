@@ -142,6 +142,10 @@ class User < ApplicationRecord
     end
   end
 
+  def update_affiliate_key
+    create_affiliate_key if affiliate_key_created_at + 48.hours < DateTime.current
+  end
+
   private 
 
   def create_affiliate_key
