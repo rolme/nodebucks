@@ -2,21 +2,30 @@ import React, { Component } from 'react'
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
 
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import { Input, Button, Col, Row, Card, CardHeader, CardBody } from 'reactstrap'
 
 import './index.css'
 
 class AffiliateDashboard extends Component {
 
+  // fetch affiliate key again. maybe it expired
+
   render() {
+    const { user } = this.props
+    const affiliateLink = `${window.location.origin}?ref=${user.affiliateKey}`
+
     return (
       <div className="affiliateDashboardContainer">
         <div className="contentContainer">
           <h1 className="affiliateDashboardTitle pageTitle">Affiliate Dashboard</h1>
           <div className="affiliateDashboardReferralUrlContainer">
             <p>Referral URL:</p>
-            <Input type="text"/>
-            <Button><img src="/assets/images/linkIcon.png" alt="Link"/></Button>
+            <Input type="text" value={affiliateLink} readOnly />
+            <CopyToClipboard text={affiliateLink}>
+              <Button><img src="/assets/images/linkIcon.png" alt="Link"/></Button>
+            </CopyToClipboard>
           </div>
           <Col className="d-flex justify-content-between affiliateDashboardCardsContainer">
             <Card className="affiliateDashboardCard">

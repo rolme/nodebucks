@@ -125,7 +125,21 @@ class User < ApplicationRecord
   end
 
   def set_affiliate_referers(affiliate_key)
-    puts affiliate_key
+    referer_tier1 = User.find_by(affiliate_key: affiliate_key)
+    if !referer_tier1.nil?
+      # not valid for more than 48 hours
+      return if referer_tier1.affiliate_key_created_at + 48.hours < DateTime.current
+      
+      self.affiliate_user_id_tier1 = referer_tier1.id
+
+      referer_tier2 = User.find(referer_tier1.affiliate_user_id_tier1)
+      if !referer_tier2.nil?
+        self.affiliate_user_id_tier2 = referer_tier2.id
+
+        referer_tier3 = User.find(referer_tier2.affiliate_user_id_tier1)
+        self.affiliate_user_id_tier3 = referer_tier3.id unless referer_tier3.nil?
+      end
+    end
   end
 
   private 

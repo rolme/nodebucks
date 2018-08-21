@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Route as PublicRoute, Switch, Redirect } from 'react-router-dom'
 import Route from '../authenticate/route'
 
+import { setReferer } from '../../lib/helpers'
+
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 
@@ -33,6 +35,9 @@ const ResetPassword = Loadable({loader: () => import('../authenticate/resetPassw
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
 
 export default class App extends Component {
+  componentDidMount() {
+    setReferer()
+  }
 
   render() {
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'

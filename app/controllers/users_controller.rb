@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy]
   before_action :authenticate_admin_request, only: [:index, :show]
 
+  # add referers to facebook sign up
+
   def index
     @users = User.where.not(email: nil)
   end
@@ -56,7 +58,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.set_affiliate_referers(user_params[:ref])
+    @user.set_affiliate_referers(referer_params[:referer_affiliate_key])
 
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
@@ -132,6 +134,10 @@ protected
       :state,
       :zipcode
     )
+  end
+
+  def referer_params
+    params.permit(:referer_affiliate_key)
   end
 
 private

@@ -358,7 +358,8 @@ export function socialMediaLogin(socialMedia, profile) {
         avatar: profile.profilePicURL,
         password: password,
         password_confirmation: password
-      }
+      },
+      referer_affiliate_key: localStorage.getItem('referer')
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
@@ -391,7 +392,10 @@ export function logout() {
 export function register(params) {
   return dispatch => {
     dispatch({ type: REGISTER_USER })
-    axios.post('/api/users', { user: params }).then(response => {
+    axios.post('/api/users', {
+      user: params, 
+      referer_affiliate_key: localStorage.getItem('referer')
+    }).then(response => {
       if ( !!response.data && response.data.status === 'error' ) {
         dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })
         return
