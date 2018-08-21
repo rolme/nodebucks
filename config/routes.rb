@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   post 'auth/login', to: 'users#login'
   post 'auth/admin', to: 'users#admin_login'
+  post 'auth/oauth', to: 'users#callback'
 
   get '*path', to: 'application#index'
 end
