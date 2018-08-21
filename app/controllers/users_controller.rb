@@ -56,6 +56,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.set_affiliate_referers(user_params[:ref])
+
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
