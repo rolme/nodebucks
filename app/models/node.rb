@@ -102,6 +102,11 @@ class Node < ApplicationRecord
     (cost.round(2) * 100).to_i
   end
 
+  def sell!
+    self.status = 'sold'
+    save!
+  end
+
 private
 
   def reward_timeframe(timeframe)
