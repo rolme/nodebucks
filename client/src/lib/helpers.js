@@ -25,7 +25,20 @@ export function setReferer() {
   if (window.location.search) {
     const affiliateKey = qs.parse(window.location.search).ref
     if (affiliateKey) {
+      if (localStorage.getItem('referrer') !== affiliateKey) {
+        localStorage.setItem('referred_time', formatDate(new Date()))
+      }
       localStorage.setItem('referrer', affiliateKey)
     }
   }
+}
+
+export function formatDate(date) {
+  const yyyy = date.getUTCFullYear()
+  const mm = date.getUTCMonth() + 1
+  const dd = date.getUTCDate()
+  const HH = date.getHours()
+  const MM = date.getUTCMinutes()
+  const SS = date.getUTCSeconds()
+  return `${yyyy}-${mm}-${dd} ${HH}:${MM}:${SS}`
 }

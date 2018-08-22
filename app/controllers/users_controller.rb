@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrals]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer]
   before_action :authenticate_admin_request, only: [:index, :show]
-  before_action :set_affiliate_key, only: [:referrals]
+  before_action :set_affiliate_key, only: [:referrer]
 
   # add referrers to facebook sign up
 
@@ -57,7 +57,8 @@ class UsersController < ApplicationController
     render :show
   end
 
-  def referrals
+  def referrer
+    @referrer = current_user
     @tier1_referrals = User.where(affiliate_user_id_tier1: current_user.id)
     @tier2_referrals = User.where(affiliate_user_id_tier2: current_user.id)
     @tier3_referrals = User.where(affiliate_user_id_tier3: current_user.id)
@@ -65,7 +66,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.set_affiliate_referers(referrer_params[:referrer_affiliate_key]) unless referrer_params[:referrer_affiliate_key].blank? 
+
+    @user.set_affiliate_referrers(
+      referrer_params[:referrer_affiliate_key],
+      referrer_params[:referred_time]
+    ) if !referrer_params[:referrer_affiliate_key].blank? && !referrer_params[:referred_time].blank?
 
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
@@ -144,13 +149,12 @@ protected
   end
 
   def referrer_params
-    params.permit(:referrer_affiliate_key)
+    params.permit(:referrer_affiliate_key, :referred_time)
   end
 
 private
 
   def set_affiliate_key
-    current_user.update_affiliate_key
     @affiliate_key = current_user.affiliate_key
   end
 

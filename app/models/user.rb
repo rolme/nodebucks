@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
 
-  before_create :create_affiliate_key
+  before_create :generate_affiliate_key
   after_create :create_btc_account
 
   def self.system
@@ -124,31 +124,26 @@ class User < ApplicationRecord
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
   end
 
-  def set_affiliate_referers(affiliate_key)
-    referer_tier1 = User.find_by(affiliate_key: affiliate_key)
-    if !referer_tier1.nil?
-      # not valid for more than 48 hours
-      return if referer_tier1.affiliate_key_created_at + 48.hours < DateTime.current
+  def set_affiliate_referrers(affiliate_key, referred_time)
+    referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
+    if !referrer_tier1.nil?
+      return if DateTime.current > DateTime.parse(referred_time) + 48.hours
       
-      self.affiliate_user_id_tier1 = referer_tier1.id
+      self.affiliate_user_id_tier1 = referrer_tier1.id
 
-      referer_tier2 = User.find(referer_tier1.affiliate_user_id_tier1)
-      if !referer_tier2.nil?
-        self.affiliate_user_id_tier2 = referer_tier2.id
+      referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)
+      if !referrer_tier2.nil?
+        self.affiliate_user_id_tier2 = referrer_tier2.id
 
-        referer_tier3 = User.find(referer_tier2.affiliate_user_id_tier1)
-        self.affiliate_user_id_tier3 = referer_tier3.id unless referer_tier3.nil?
+        referrer_tier3 = User.find(referrer_tier2.affiliate_user_id_tier1)
+        self.affiliate_user_id_tier3 = referrer_tier3.id unless referrer_tier3.nil?
       end
     end
   end
-
-  def update_affiliate_key
-    create_affiliate_key if affiliate_key_created_at + 48.hours < DateTime.current
-  end
-
+  
   private 
 
-  def create_affiliate_key
+  def generate_affiliate_key
     self.affiliate_key = SecureRandom.urlsafe_base64
     self.affiliate_key_created_at = DateTime.current
   end

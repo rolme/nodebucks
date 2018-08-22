@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       get :balance, on: :collection
       get :confirm
       get :verify
-      get :referrals, on: :collection
+      get :referrer, on: :collection
       patch :reset_password
       patch :reset, on: :collection
     end
