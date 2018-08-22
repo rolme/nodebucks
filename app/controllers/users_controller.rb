@@ -3,8 +3,6 @@ class UsersController < ApplicationController
   before_action :authenticate_admin_request, only: [:index, :show]
   before_action :set_affiliate_key, only: [:referrer]
 
-  # add referrers to facebook sign up
-
   def callback
     @user = nil
     if user_params['facebook'].present?
@@ -28,6 +26,12 @@ class UsersController < ApplicationController
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
+      
+      @user.set_affiliate_referrers(
+        referrer_params[:referrer_affiliate_key],
+        referrer_params[:referred_time]
+      ) if !referrer_params[:referrer_affiliate_key].blank? && !referrer_params[:referred_time].blank?
+
       if @user.save
         sm = StorageManager.new
         avatar = sm.store_url(@user, user_params[:avatar])

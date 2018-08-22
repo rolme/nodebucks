@@ -25,6 +25,22 @@ class AffiliateDashboard extends Component {
     return count
   }
 
+  lastNumberOfDays(referrer, numberOfDays) {
+    const today = new Date()
+    const dateBeforeSevenDays = today.setDate(today.getDate() - numberOfDays)
+    let count = 0
+    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier1_referrals)
+    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier2_referrals)
+    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier3_referrals)
+    return count
+  }
+
+  countReferralsFromDate(startDate, referrals) {
+    return referrals.map(r => new Date(r.createdAt))
+                    .filter(d => startDate <= d)
+                    .length
+  }
+
   render() {
     const { user } = this.props
 
@@ -68,23 +84,23 @@ class AffiliateDashboard extends Component {
               </CardBody>
             </Card>
             <Card className="affiliateDashboardCard">
-              <CardHeader>Last 7 days <span><br/>15</span></CardHeader>
+              <CardHeader>Last 7 days <span><br/>{this.lastNumberOfDays(user, 7)}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 24 hours:</p>
-                  <h6>3</h6>
+                  <h6>{this.lastNumberOfDays(user, 1)}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 7 days</p>
-                  <h6>15</h6>
+                  <h6>{this.lastNumberOfDays(user, 7)}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 30 days</p>
-                  <h6>40</h6>
+                  <h6>{this.lastNumberOfDays(user, 30)}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 90 days</p>
-                  <h6>78</h6>
+                  <h6>{this.lastNumberOfDays(user, 90)}</h6>
                 </Row>
               </CardBody>
             </Card>
