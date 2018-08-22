@@ -5,6 +5,41 @@ class UsersController < ApplicationController
 
   # add referrers to facebook sign up
 
+  def callback
+    @user = nil
+    if user_params['facebook'].present?
+      @user   = User.find_by(facebook: user_params[:facebook])
+      @user ||= User.find_by(email: user_params[:email])
+      @user&.update_attribute(:facebook, user_params[:facebook]) if @user&.facebook.blank?
+    elsif user_params['google'].present?
+      @user = User.find_by(google: user_params[:google])
+      @user ||= User.find_by(email: user_params[:email])
+      @user&.update_attribute(:google, user_params[:google]) if @user&.google.blank?
+    elsif user_params['linkedin'].present?
+      @user = User.find_by(linkedin: user_params[:linkedin])
+      @user ||= User.find_by(email: user_params[:email])
+      @user&.update_attribute(:linkedin, user_params[:linkedin]) if @user&.linkedin.blank?
+    end
+
+    if @user.present?
+      sm = StorageManager.new
+      avatar = sm.store_url(@user, user_params[:avatar])
+      @user.update_attribute(:avatar, avatar)
+      render json: { status: :ok, token: generate_token, message: 'User logged in.' }
+    else
+      @user = User.new(user_params)
+      if @user.save
+        sm = StorageManager.new
+        avatar = sm.store_url(@user, user_params[:avatar])
+        @user.update_attribute(:avatar, avatar)
+        render json: { status: :ok, token: generate_token, message: 'User account created.' }
+        RegistrationMailer.send_verify_email(@user).deliver_later
+      else
+        render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
+      end
+    end
+  end
+
   def index
     @users = User.where.not(email: nil)
   end
