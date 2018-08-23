@@ -14,6 +14,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
+  validates :affiliate_key, uniqueness: true
 
   before_create :generate_affiliate_key
   after_create :create_btc_account

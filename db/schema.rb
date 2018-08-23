@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_21_094105) do
+ActiveRecord::Schema.define(version: 2018_08_23_082918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2018_08_21_094105) do
     t.integer "affiliate_user_id_tier3"
     t.string "affiliate_key"
     t.datetime "affiliate_key_created_at"
+    t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
   create_table "withdrawals", force: :cascade do |t|
