@@ -124,11 +124,9 @@ class User < ApplicationRecord
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
   end
 
-  def set_affiliate_referrers(affiliate_key, referred_time)
+  def set_affiliate_referrers(affiliate_key)
     referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
     if !referrer_tier1.nil?
-      return if DateTime.current > DateTime.parse(referred_time) + 48.hours
-      
       self.affiliate_user_id_tier1 = referrer_tier1.id
 
       referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)

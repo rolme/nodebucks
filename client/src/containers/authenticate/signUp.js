@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import SocialButton from './socialButton'
 import { capitalize } from '../../lib/helpers'
+import { withCookies } from 'react-cookie'
 import './index.css'
 
 import { register, reset, socialMediaLogin } from '../../reducers/user.js'
@@ -133,6 +134,8 @@ class SignUp extends Component {
 
   signUp() {
     const { first, last, email, password, confirmPassword } = this.state
+    const { cookies } = this.props
+    const referrerCookie = cookies.get('referrer')
 
     this.props.register({
       first,
@@ -140,12 +143,14 @@ class SignUp extends Component {
       email,
       password,
       password_confirmation: confirmPassword,
-    })
+    }, referrerCookie)
   }
 
   handleSocialSignUp(sm, user) {
     if ( !!user ) {
-      this.props.socialMediaLogin(sm, user._profile)
+      const { cookies } = this.props
+      const referrerCookie = cookies.get('referrer')
+      this.props.socialMediaLogin(sm, user._profile, referrerCookie)
     }
   }
 
@@ -279,7 +284,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ register, reset, socialMediaLogin }, dispatch)
 
-export default withRouter(connect(
+export default withCookies(withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignUp))
+)(SignUp)))

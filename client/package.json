@@ -16,6 +16,7 @@
     "rc-checkbox": "^2.1.5",
     "react": "^16.4.2",
     "react-chartjs-2": "^2.7.2",
+    "react-cookie": "^3.0.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",
     "react-loadable": "^5.4.0",

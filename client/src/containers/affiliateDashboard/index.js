@@ -12,7 +12,6 @@ import { Input, Button, Col, Row, Card, CardHeader, CardBody } from 'reactstrap'
 import './index.css'
 
 class AffiliateDashboard extends Component {
-
   componentDidMount() {
     this.props.getReferrer()
   }

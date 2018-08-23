@@ -367,7 +367,7 @@ export function login(data) {
   }
 }
 
-export function socialMediaLogin(socialMedia, profile) {
+export function socialMediaLogin(socialMedia, profile, referrerCookie) {
   return dispatch => {
     dispatch({ type: LOGIN_USER })
 
@@ -382,8 +382,7 @@ export function socialMediaLogin(socialMedia, profile) {
         password: password,
         password_confirmation: password
       },
-      referrer_affiliate_key: localStorage.getItem('referrer'),
-      referred_time: localStorage.getItem('referred_time')
+      referrer_affiliate_key: referrerCookie
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
@@ -413,13 +412,12 @@ export function logout() {
      password: string,
      password_confirmation: string
    } */
-export function register(params) {
+export function register(params, referrerCookie) {
   return dispatch => {
     dispatch({ type: REGISTER_USER })
     axios.post('/api/users', {
-      user: params, 
-      referrer_affiliate_key: localStorage.getItem('referrer'),
-      referred_time: localStorage.getItem('referred_time')
+      user: params,
+      referrer_affiliate_key: referrerCookie,
     }).then(response => {
       if ( !!response.data && response.data.status === 'error' ) {
         dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })

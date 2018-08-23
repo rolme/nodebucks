@@ -28,9 +28,8 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       
       @user.set_affiliate_referrers(
-        referrer_params[:referrer_affiliate_key],
-        referrer_params[:referred_time]
-      ) if !referrer_params[:referrer_affiliate_key].blank? && !referrer_params[:referred_time].blank?
+        referrer_params[:referrer_affiliate_key]
+      ) if !referrer_params[:referrer_affiliate_key].blank?
 
       if @user.save
         sm = StorageManager.new
@@ -107,9 +106,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     @user.set_affiliate_referrers(
-      referrer_params[:referrer_affiliate_key],
-      referrer_params[:referred_time]
-    ) if !referrer_params[:referrer_affiliate_key].blank? && !referrer_params[:referred_time].blank?
+      referrer_params[:referrer_affiliate_key]
+    ) if !referrer_params[:referrer_affiliate_key].blank?
 
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
@@ -188,7 +186,7 @@ protected
   end
 
   def referrer_params
-    params.permit(:referrer_affiliate_key, :referred_time)
+    params.permit(:referrer_affiliate_key)
   end
 
 private
