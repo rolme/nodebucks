@@ -14,7 +14,9 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :new_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, allow_blank: true
   validates :reset_token, uniqueness: true, allow_blank: true
+  validates :affiliate_key, uniqueness: true
 
+  before_create :generate_affiliate_key
   after_create :create_btc_account
 
   def self.system
@@ -121,5 +123,27 @@ class User < ApplicationRecord
   def create_btc_account
     account   = accounts.find{ |a| a.symbol == 'btc' }
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
+  end
+
+  def set_affiliate_referrers(affiliate_key)
+    referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
+    if !referrer_tier1.nil?
+      self.affiliate_user_id_tier1 = referrer_tier1.id
+
+      referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)
+      if !referrer_tier2.nil?
+        self.affiliate_user_id_tier2 = referrer_tier2.id
+
+        referrer_tier3 = User.find(referrer_tier2.affiliate_user_id_tier1)
+        self.affiliate_user_id_tier3 = referrer_tier3.id unless referrer_tier3.nil?
+      end
+    end
+  end
+  
+  private 
+
+  def generate_affiliate_key
+    self.affiliate_key = SecureRandom.urlsafe_base64
+    self.affiliate_key_created_at = DateTime.current
   end
 end

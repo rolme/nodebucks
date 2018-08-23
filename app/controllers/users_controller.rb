@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer]
   before_action :authenticate_admin_request, only: [:index, :show]
+  before_action :set_affiliate_key, only: [:referrer]
 
   def callback
     @user = nil
@@ -25,6 +26,11 @@ class UsersController < ApplicationController
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
+      
+      @user.set_affiliate_referrers(
+        referrer_params[:referrer_affiliate_key]
+      ) if !referrer_params[:referrer_affiliate_key].blank?
+
       if @user.save
         sm = StorageManager.new
         avatar = sm.store_url(@user, user_params[:avatar])
@@ -89,8 +95,20 @@ class UsersController < ApplicationController
     render :show
   end
 
+  def referrer
+    @referrer = current_user
+    @tier1_referrals = User.where(affiliate_user_id_tier1: current_user.id)
+    @tier2_referrals = User.where(affiliate_user_id_tier2: current_user.id)
+    @tier3_referrals = User.where(affiliate_user_id_tier3: current_user.id)
+  end
+
   def create
     @user = User.new(user_params)
+
+    @user.set_affiliate_referrers(
+      referrer_params[:referrer_affiliate_key]
+    ) if !referrer_params[:referrer_affiliate_key].blank?
+
     if @user.save
       RegistrationMailer.send_verify_email(@user).deliver_later
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
@@ -167,7 +185,15 @@ protected
     )
   end
 
+  def referrer_params
+    params.permit(:referrer_affiliate_key)
+  end
+
 private
+
+  def set_affiliate_key
+    @affiliate_key = current_user.affiliate_key
+  end
 
   def authenticate(email, password)
     command = AuthenticateUser.call(email, password)

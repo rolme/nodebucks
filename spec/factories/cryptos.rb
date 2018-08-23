@@ -7,5 +7,10 @@ FactoryBot.define do
       symbol "DASH"
       name "Dash"
     end
+
+    factory :bitcoin do
+      symbol 'btc'
+      name 'bitcoin'
+    end
   end
 end
