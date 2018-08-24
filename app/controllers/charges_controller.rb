@@ -6,7 +6,7 @@ class ChargesController < ApplicationController
     @node  = Node.find_by(slug: params[:slug], user_id: current_user.id, status: 'reserved')
     charge = Stripe::Charge.create(
       customer: @customer.id,
-      amount: @node.cost,
+      amount: (@node.cost.ceil * 100).to_i,
       description: "#{@node.name} masternode purchase at #{@node.cost}",
       currency: 'usd'
     )
