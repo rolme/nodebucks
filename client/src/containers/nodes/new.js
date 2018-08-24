@@ -86,8 +86,9 @@ class NewNode extends Component {
     this.setState({ validPrice: false })
   }
 
-  handlePurchase(slug) {
-    this.props.purchaseNode(slug)
+  handlePurchase(stripe) {
+    const { node } = this.props
+    this.props.purchaseNode(stripe, node.slug)
   }
 
   handleRefresh() {
@@ -172,7 +173,7 @@ class NewNode extends Component {
     const { user, refreshing, node, nodePending, cryptoPending } = this.props
 
     const { validPrice, spreadTooltipOpen } = this.state
-    
+
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
     const spread =  (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''

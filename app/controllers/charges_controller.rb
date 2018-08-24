@@ -1,18 +1,18 @@
 class ChargesController < ApplicationController
   before_action :authenticate_request, only: [:create]
   before_action :set_customer, only: [:create]
-  before_action :set_node, only: [:create]
-  before_action :set_amount, only: [:create]
 
   def create
+    @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id, status: 'reserved')
     charge = Stripe::Charge.create(
       customer: @customer.id,
-      amount: @amount,
-      description: "#{@node.name} masternode purchase at #{@amount}",
+      amount: @node.cost,
+      description: "#{@node.name} masternode purchase at #{@node.cost}",
       currency: 'usd'
     )
-
-    @node.sell!
+    operator = NodeManager::Operator.new(@node)
+    operator.purchase
+    @node.reload
 
     render json: { status: 'ok' }
 
@@ -27,16 +27,5 @@ class ChargesController < ApplicationController
       email: current_user.email,
       source: params[:stripeToken]
     )
-  end
-
-  def set_node
-    @node = current_user.reserved_node
-  end
-
-  def set_amount
-    @amount = @node.cost_to_cents
-    if @amount.zero?
-      render 'purchase_error', status: :bad_request
-    end
   end
 end

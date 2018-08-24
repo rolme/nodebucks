@@ -197,11 +197,11 @@ export function reserveNode(cryptoSlug, isRefreshing) {
   }
 }
 
-export function purchaseNode(slug) {
+export function purchaseNode(stripe, slug) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.post(`/api/charges`, { stripeToken: slug })
+    axios.post(`/api/charges`, { slug: slug, stripeToken: stripe })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
         dispatch(push('/dashboard'))
