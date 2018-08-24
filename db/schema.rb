@@ -184,6 +184,12 @@ ActiveRecord::Schema.define(version: 2018_08_24_080436) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "affiliate_user_id_tier1"
+    t.integer "affiliate_user_id_tier2"
+    t.integer "affiliate_user_id_tier3"
+    t.string "affiliate_key"
+    t.datetime "affiliate_key_created_at"
+    t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
   create_table "withdrawals", force: :cascade do |t|

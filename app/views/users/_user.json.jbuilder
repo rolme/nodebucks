@@ -24,6 +24,8 @@ json.last user.last
 json.newEmail user.new_email
 json.nickname user.nickname
 json.slug user.slug
+json.affiliateKey user.affiliate_key
+json.affiliateKeyCreatedAt user.affiliate_key_created_at.to_formatted_s(:db)
 json.state user.state
 json.updatedAt user.updated_at.to_formatted_s(:db)
 json.zipcode user.zipcode

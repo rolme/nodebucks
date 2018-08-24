@@ -9,7 +9,9 @@ class Affiliate extends Component {
 
   render() {
     const { user } = this.props
+
     const affiliateLink = !!user ? '/dashboard/affiliate' : '/sign-up'
+    const affiliateLinkText = !!user ? 'Affiliate Dashboard' : 'SIGN UP'
 
     return (
       <div className="affiliateContainer">
@@ -17,7 +19,7 @@ class Affiliate extends Component {
           <div className="contentContainer">
             <h5 className="affiliateHeaderText">Nodebucks Affiliate Program</h5>
             <Col className="d-flex justify-content-center">
-              <NavLink to={affiliateLink} className="affiliateFooterButton">SIGN UP</NavLink>
+              <NavLink to={affiliateLink} className="affiliateFooterButton">{affiliateLinkText}</NavLink>
             </Col>
           </div>
         </div>
