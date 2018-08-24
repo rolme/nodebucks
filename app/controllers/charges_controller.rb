@@ -3,7 +3,7 @@ class ChargesController < ApplicationController
   before_action :set_customer, only: [:create]
 
   def create
-    @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id, status: 'reserved')
+    @node  = Node.find_by(slug: params[:slug], user_id: current_user.id, status: 'reserved')
     charge = Stripe::Charge.create(
       customer: @customer.id,
       amount: @node.cost,
