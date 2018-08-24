@@ -55,7 +55,7 @@ class Dashboard extends Component {
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
               <h5>Projected Annual</h5>
-              <p>{!!costBases ? valueFormat(yearlyRoiValues / costBases) * 100 : 0}%</p>
+              <p>{!!costBases ? valueFormat((yearlyRoiValues / costBases) * 100, 2) : 0}%</p>
             </Col>
           </Row>
           <Row>
