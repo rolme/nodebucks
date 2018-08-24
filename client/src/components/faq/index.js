@@ -79,7 +79,7 @@ export default class FAQ extends Component {
             <Card body onClick={() => this.toggleQuestion('question6')}>
               <CardTitle className={question6 ? "faqCardHeader open" : "faqCardHeader"}><img src={question6 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What are the fees?</CardTitle>
               <Collapse isOpen={question6}>
-                <CardText className="faqCardText">We charge a 1% hosting fee on all rewards that Nodebucks masternodes receive.</CardText>
+                <CardText className="faqCardText">We charge a 2.95% hosting fee on all rewards that Nodebucks masternodes receive.</CardText>
               </Collapse>
             </Card>
             <Card body onClick={() => this.toggleQuestion('question7')}>
