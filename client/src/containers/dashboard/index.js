@@ -15,13 +15,32 @@ import { fetchNodes } from '../../reducers/nodes'
 import { valueFormat } from "../../lib/helpers";
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showMessage: false
+    }
+  }
+
   componentWillMount() {
     window.scrollTo(0, 0)
     this.props.fetchNodes()
   }
 
+  componentDidMount() {
+    const { purchaseStatus } = this.props
+    if (purchaseStatus && purchaseStatus.message === 'Purchase successful') {
+      this.setState({ showMessage: true })
+    }
+  }
+
+  dissmissMessage() {
+    this.setState({ showMessage: false })
+  }
+
   render() {
     const { nodes } = this.props
+    const { showMessage } = this.state
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -39,6 +58,16 @@ class Dashboard extends Component {
     return (
       <Container fluid className="dashboardPageContainer">
         <div className="contentContainer px-0">
+          { showMessage &&
+            <div className="messageBox statusSuccess">
+              <h5>Congratulations on your new Masternode!</h5>
+              <p className="messageText">
+                Please give us 24-48 hours to get your node up and running. 
+                Your first reward is usually given after 2-3 days of node uptime.
+              </p>
+              <span className="closeIcon" onClick={() => this.dissmissMessage()}>X</span>
+            </div>
+          }
           <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
@@ -85,6 +114,7 @@ const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
   pending: state.nodes.pending,
+  purchaseStatus: state.nodes.data,
   user: state.user.data
 })
 

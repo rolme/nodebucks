@@ -20,7 +20,7 @@ class ChargesController < ApplicationController
       currency: 'usd'
     )
 
-    render json: { status: 'ok' }
+    render json: { status: 'ok', message: 'Purchase successful' }
 
   rescue Stripe::CardError => e
     render json: { status: 'error', message: 'Card Error' }

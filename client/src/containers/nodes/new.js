@@ -30,7 +30,9 @@ class NewNode extends Component {
     this.state = {
       showReloadAlert: false,
       validPrice: true,
-      spreadTooltipOpen: false
+      spreadTooltipOpen: false,
+      purchasing: false,
+      purchased: false,
     }
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handlePurchase = this.handlePurchase.bind(this)
@@ -87,7 +89,20 @@ class NewNode extends Component {
   }
 
   handlePurchase(slug) {
+    this.togglePurchasingStatus()
     this.props.purchaseNode(slug)
+  }
+
+  togglePurchasingStatus = () => {
+    this.setState({
+      purchasing: !this.state.purchasing
+    })
+  }
+
+  setAsPurchased = () => {
+    this.setState({
+      purchased: !this.state.purchased
+    })
   }
 
   handleRefresh() {
@@ -102,9 +117,9 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
-    const { validPrice, showReloadAlert } = this.state
-
+    const { crypto, history, node, nodeMessage, user } = this.props
+    const { validPrice, showReloadAlert, purchasing, purchased } = this.state
+    
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
     }
@@ -123,19 +138,19 @@ class NewNode extends Component {
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
             <h1 className="pt-3 text-center purchasePageHeader pageTitle">
-              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
-              Purchase {!!nodePending || !!cryptoPending ? '' : masternode.name} Masternode
+              {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
+              Purchase {!!masternode.name ? masternode.name : ''} Masternode
             </h1>
-            {!!masternode && !!masternode.url && !!masternode.name && !nodePending && !cryptoPending &&
+            {!!masternode && !!masternode.url && !!masternode.name &&
             <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
               <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
               <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
             </Col>
             }
             <Col xl={12} className="d-flex px-0 flex-wrap">
-              {this.displayCryptoData(masternode)}
-              {this.displayPricingInfo(masternode)}
-              {!!user && validPrice && !!masternode.nodePrice && !nodePending && !cryptoPending && this.displayPaymentForm(masternode)}
+              { !purchased && !purchasing && this.displayCryptoData(masternode, purchasing, purchased)}
+              { !purchased && !purchasing && this.displayPricingInfo(masternode)}
+              {!!user && validPrice && !!masternode.nodePrice  && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
             </Col>
           </div>
@@ -144,13 +159,20 @@ class NewNode extends Component {
     )
   }
 
-  displayPaymentForm(item) {
+  displayPaymentForm(item, purchasing) {
     const { refreshing } = this.props
     return (
       <Col xl={12} className="px-0 pt-2">
         <div className='purchasePagePaymentFormContainer'>
           <Elements>
-            <PaymentMethod slug={item.nodeSlug} onPurchase={this.handlePurchase} refreshing={refreshing}/>
+            <PaymentMethod 
+              slug={item.nodeSlug} 
+              onPurchase={this.handlePurchase} 
+              setAsPurchased={this.setAsPurchased}
+              togglePurchasingStatus={this.togglePurchasingStatus}
+              refreshing={refreshing}
+              purchasing={purchasing}
+            />
           </Elements>
         </div>
       </Col>
