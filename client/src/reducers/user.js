@@ -30,6 +30,9 @@ export const CONTACT_TEAM = 'user/CONTACT_TEAM'
 export const CONTACT_TEAM_SUCCESS = 'user/CONTACT_TEAM_SUCCESS'
 export const CONTACT_TEAM_FAILURE = 'user/CONTACT_TEAM_FAILURE'
 export const RESET = 'user/RESET'
+export const REQUEST_REFERRER = 'user/REQUEST_REFERRER'
+export const REQUEST_REFERRER_SUCCESS = 'user/REQUEST_REFERRER_SUCCESS'
+export const REQUEST_REFERRER_FAILURE = 'user/REQUEST_REFERRER_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -296,7 +299,27 @@ export default (state = initialState, action) => {
         pending: false,
         token: ''
       }
-        
+    case REQUEST_REFERRER:
+      return {
+        error: false,
+        message: '',
+        data: {},
+        pending: true
+      }
+    case REQUEST_REFERRER_SUCCESS:
+      return {
+        error: false,
+        data: action.payload,
+        message: '',
+        pending: false
+      }
+    case REQUEST_REFERRER_FAILURE:
+      return {
+        error: true,
+        data: null,
+        message: '',
+        pending: false
+      }
     default:
       return state
   }
@@ -344,7 +367,7 @@ export function login(data) {
   }
 }
 
-export function socialMediaLogin(socialMedia, profile) {
+export function socialMediaLogin(socialMedia, profile, referrerCookie) {
   return dispatch => {
     dispatch({ type: LOGIN_USER })
 
@@ -358,7 +381,8 @@ export function socialMediaLogin(socialMedia, profile) {
         avatar: profile.profilePicURL,
         password: password,
         password_confirmation: password
-      }
+      },
+      referrer_affiliate_key: referrerCookie
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
@@ -388,10 +412,13 @@ export function logout() {
      password: string,
      password_confirmation: string
    } */
-export function register(params) {
+export function register(params, referrerCookie) {
   return dispatch => {
     dispatch({ type: REGISTER_USER })
-    axios.post('/api/users', { user: params }).then(response => {
+    axios.post('/api/users', {
+      user: params,
+      referrer_affiliate_key: referrerCookie,
+    }).then(response => {
       if ( !!response.data && response.data.status === 'error' ) {
         dispatch({ type: REGISTER_USER_FAILURE, payload: response.data })
         return
@@ -455,6 +482,19 @@ export function confirm(slug) {
     })
       .catch((error) => {
         dispatch({ type: CONFIRM_REGISTRATION_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function getReferrer() {
+  return dispatch => {
+    dispatch({ type: REQUEST_REFERRER })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get('/api/users/referrer').then(response => {
+      dispatch({ type: REQUEST_REFERRER_SUCCESS, payload: response.data })
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_REFERRER_FAILURE, payload: error.message })
       })
   }
 }

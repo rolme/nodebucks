@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, NavLink } from 'react-router-dom'
 
-import { Container, Col, Row } from 'reactstrap'
+import { Container, Col, Row, Alert } from 'reactstrap'
 import Summary from './summary'
 import Balance from './balance'
 import MainTable from './mainTable'
@@ -34,7 +34,7 @@ class Dashboard extends Component {
     }
   }
 
-  dissmissMessage() {
+  dissmissMessage = () => {
     this.setState({ showMessage: false })
   }
 
@@ -58,16 +58,13 @@ class Dashboard extends Component {
     return (
       <Container fluid className="dashboardPageContainer">
         <div className="contentContainer px-0">
-          { showMessage &&
-            <div className="messageBox statusSuccess">
-              <h5>Congratulations on your new Masternode!</h5>
-              <p className="messageText">
-                Please give us 24-48 hours to get your node up and running. 
-                Your first reward is usually given after 2-3 days of node uptime.
-              </p>
-              <span className="closeIcon" onClick={() => this.dissmissMessage()}>X</span>
-            </div>
-          }
+          <Alert className="messageBox statusSuccess" isOpen={showMessage} toggle={this.dissmissMessage}>
+            <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
+            <p className="messageText">
+              Please give us 24-48 hours to get your node up and running. 
+              Your first reward is usually given after 2-3 days of node uptime.
+            </p>
+          </Alert>
           <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">

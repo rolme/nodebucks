@@ -38,7 +38,6 @@ export default (state = initialState, action) => {
   switch ( action.type ) {
     case FETCH:
     case FETCH_LIST:
-    case PURCHASE:
     case RESERVE:
     case SELL:
     case SELL_RESERVE:
@@ -115,7 +114,12 @@ export default (state = initialState, action) => {
         error: false,
         message: 'Reserve sell price successful.'
       }
-
+    case PURCHASE:
+      return {
+        ...state,
+        pending: true,
+        error: false
+      }
     case PURCHASE_SUCCESS:
       return {
         ...state,
@@ -130,7 +134,7 @@ export default (state = initialState, action) => {
           data: {},
           pending: false,
           error: true,
-          message: action.payload
+          message: action.payload.message
         }
     case SELL_SUCCESS:
       return {
@@ -192,16 +196,16 @@ export function reserveNode(cryptoSlug, isRefreshing) {
   }
 }
 
-export function purchaseNode(slug, callback) {
+export function purchaseNode(stripe, slug, callback) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.post(`/api/charges`, { stripeToken: slug })
+    axios.post(`/api/charges`, { slug: slug, stripeToken: stripe })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
         callback()
       }).catch((error) => {
-      dispatch({ type: PURCHASE_ERROR, payload: { message: error.data } })
+      dispatch({ type: PURCHASE_ERROR, payload: error.response.data })
       console.log(error)
     })
   }

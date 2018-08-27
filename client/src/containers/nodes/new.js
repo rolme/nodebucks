@@ -88,9 +88,10 @@ class NewNode extends Component {
     this.setState({ validPrice: false })
   }
 
-  handlePurchase(slug) {
+  handlePurchase(stripe, callback) {
+    const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(slug)
+    this.props.purchaseNode(stripe, node.slug, callback)
   }
 
   togglePurchasingStatus = () => {
@@ -141,6 +142,12 @@ class NewNode extends Component {
               {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
               Purchase {!!masternode.name ? masternode.name : ''} Masternode
             </h1>
+            {
+              nodeMessage === 'Node price is 0. Purchase rejected.' &&
+              <Alert color='danger'>
+                {nodeMessage}
+              </Alert>
+            }
             {!!masternode && !!masternode.url && !!masternode.name &&
             <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
               <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
@@ -186,9 +193,11 @@ class NewNode extends Component {
 
   displayCryptoData(item) {
     const { user, refreshing, node, nodePending, cryptoPending } = this.props
+
     const { validPrice, spreadTooltipOpen } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
+
     const spread =  (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
     const annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'

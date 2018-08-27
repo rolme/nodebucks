@@ -319,10 +319,12 @@
 
 .messageTitle {
   font-family: 'OpenSans';
+  color: black;
 }
 
 .messageText {
   font-family: 'OpenSans';
+  color: black;
 }
 
 .closeIcon {

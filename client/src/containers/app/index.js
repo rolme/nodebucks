@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Route as PublicRoute, Switch, Redirect } from 'react-router-dom'
 import Route from '../authenticate/route'
 
+import { withCookies } from 'react-cookie'
+
+import { setReferer } from '../../lib/helpers'
+
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 
@@ -32,7 +36,11 @@ const ForgotPassword = Loadable({ loader: () => import('../authenticate/forgotPa
 const ResetPassword = Loadable({loader: () => import('../authenticate/resetPassword'), loading: Loading})
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
 
-export default class App extends Component {
+class App extends Component {
+  componentDidMount() {
+    const { cookies } = this.props
+    setReferer(cookies)
+  }
 
   render() {
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'
@@ -45,7 +53,6 @@ export default class App extends Component {
               <PublicRoute exact path="/" component={Home}/>
               <PublicRoute exact path="/confirm/:slug" component={ConfirmEmail}/>
               <PublicRoute exact path="/affiliate" component={Affiliate}/>
-              <PublicRoute exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
@@ -61,6 +68,7 @@ export default class App extends Component {
               <Route exact path="/nodes/withdraw" component={Withdraw}/>
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
+              <Route exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
               <PublicRoute path="/settings" component={Settings}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
@@ -74,3 +82,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default withCookies(App)
