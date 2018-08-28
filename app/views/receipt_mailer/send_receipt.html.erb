@@ -85,7 +85,7 @@
                             </p>
                           </td>
                             <td style="text-align: right;background-color: #F3F3F4;border-left: 1px solid #DBDBDD;padding-right: 10px;">
-                            <h3><strong>$<%= @cost %></strong></h3>
+                            <h3><strong>$<%= number_with_precision(@cost.to_f, :precision => 2, :delimiter => ',') %></strong></h3>
                           </td>
                         </tr>
                       </tbody>
