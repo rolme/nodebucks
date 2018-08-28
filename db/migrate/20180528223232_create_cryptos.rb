@@ -6,11 +6,13 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.string :symbol
       t.string :url
       t.string :status, default: 'active'
-      t.integer :masternodes
+      t.integer :masternodes, limit: 8
       t.decimal :node_price, default: 0.0
       t.decimal :daily_reward
+      t.decimal :block_reward
       t.decimal :price, default: 0.0
       t.decimal :sellable_price, default: 0.0
+      t.decimal :estimated_price, default: 0.0
       t.decimal :estimated_node_price, default: 0.0
       t.decimal :flat_setup_fee, default: 0.0
       t.decimal :percentage_setup_fee, default: 0.05
