@@ -31,7 +31,7 @@ User.create([
   { first: 'Test', last: 'User', email: 'test@nodebucks.com', password: 'test', password_confirmation: 'test' }
 ])
 
-if ENV["RAILS_ENV"] !== 'production'
+if ENV["RAILS_ENV"] != 'production'
   email = 'ron.parnaso@gmail.com'
   user = User.find_by(email: email)
   puts "Create masternodes for #{user.full_name}"
