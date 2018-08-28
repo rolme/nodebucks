@@ -1,11 +1,11 @@
 puts "Add cryptos:"
 Crypto.create([
-  { name: 'Bitcoin', symbol: 'btc', status: 'inactive', url: 'https://bitcoin.org/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1/', stake: 0 },
-  { name: 'Dash', symbol: 'dash', url: 'https://www.dash.org/', explorer_url: 'https://explorer.dash.org/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/131/' },
-  { name: 'ZCoin', symbol: 'xzc', url: 'https://zcoin.io/', explorer_url: 'https://explorer.zcoin.io/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1414/' },
-  { name: 'Polis', symbol: 'polis', url: 'https://polispay.org/', explorer_url: 'https://explorer.polispay.org/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2359/' },
-  { name: 'PIVX', symbol: 'pivx', url: 'https://pivx.org/', explorer_url: 'https://chainz.cryptoid.info/pivx/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1169/', stake: 10000 },
-  { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000 }
+  { name: 'Bitcoin', symbol: 'btc', status: 'inactive', url: 'https://bitcoin.org/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1/', stake: 0, block_reward: 0 },
+  { name: 'Dash', symbol: 'dash', url: 'https://www.dash.org/', explorer_url: 'https://explorer.dash.org/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/131/', stake: 1000, block_reward: 1.80 },
+  { name: 'ZCoin', symbol: 'xzc', url: 'https://zcoin.io/', explorer_url: 'https://explorer.zcoin.io/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1414/', stake: 1000, block_reward: 15.0 },
+  { name: 'Polis', symbol: 'polis', url: 'https://polispay.org/', explorer_url: 'https://explorer.polispay.org/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2359/', stake: 1000, block_reward: 14.4 },
+  { name: 'PIVX', symbol: 'pivx', url: 'https://pivx.org/', explorer_url: 'https://chainz.cryptoid.info/pivx/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1169/', stake: 10000, block_reward: 2.25 },
+  { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000, block_reward: 12.0 }
 ])
 puts "  - Scrape crypto data"
 CryptoScraper.run
@@ -31,7 +31,7 @@ User.create([
   { first: 'Test', last: 'User', email: 'test@nodebucks.com', password: 'test', password_confirmation: 'test' }
 ])
 
-if ENV["RAILS_ENV"] !== 'production'
+if ENV["RAILS_ENV"] != 'production'
   email = 'ron.parnaso@gmail.com'
   user = User.find_by(email: email)
   puts "Create masternodes for #{user.full_name}"
