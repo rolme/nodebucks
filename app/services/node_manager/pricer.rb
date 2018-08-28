@@ -46,9 +46,11 @@ module NodeManager
         }
         if (@type == 'sell')
           purchasing_price = @prices[crypto.symbol][:all]
+          coin_price       = purchasing_price / crypto.stake
           crypto.update_attributes(
-            purchasable_price: purchasing_price,
-            node_price: calculate_price(crypto, purchasing_price)
+            node_price: calculate_price(crypto, purchasing_price),
+            price: coin_price,
+            purchasable_price: purchasing_price
           ) if !!persist
         else
           selling_price = @prices[crypto.symbol][:all]
