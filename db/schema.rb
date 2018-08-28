@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 2018_08_10_094311) do
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["affiliate_key"], name: "index_users_on_affiliate_key"
+    t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
   create_table "withdrawals", force: :cascade do |t|
