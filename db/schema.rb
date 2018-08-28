@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_28_203340) do
+ActiveRecord::Schema.define(version: 2018_08_28_225552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2018_08_28_203340) do
     t.string "status", default: "active"
     t.bigint "masternodes"
     t.decimal "node_price", default: "0.0"
-    t.decimal "daily_reward", default: "0.0"
+    t.decimal "daily_reward"
     t.decimal "price", default: "0.0"
     t.decimal "sellable_price", default: "0.0"
     t.decimal "estimated_node_price", default: "0.0"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2018_08_28_203340) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "block_reward"
+    t.decimal "estimated_price", default: "0.0"
   end
 
   create_table "events", force: :cascade do |t|

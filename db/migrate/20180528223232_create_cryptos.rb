@@ -8,7 +8,7 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.string :status, default: 'active'
       t.integer :masternodes
       t.decimal :node_price, default: 0.0
-      t.decimal :daily_reward, default: 0.0 # TODO: Is this still used?
+      t.decimal :daily_reward
       t.decimal :price, default: 0.0
       t.decimal :sellable_price, default: 0.0
       t.decimal :estimated_node_price, default: 0.0

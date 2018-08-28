@@ -17,7 +17,9 @@ json.yearlyRoiPercentage crypto.yearly_roi[:percentage]
 
 if @show_pricing
   json.estimatedNodePrice crypto.estimated_node_price
+  json.estimatedPrice crypto.estimated_price
   json.flatSetupFee crypto.flat_setup_fee
+  json.nodePrice crypto.node_price
   json.percentageConversionFee crypto.percentage_conversion_fee
   json.percentageHostingFee crypto.percentage_hosting_fee
   json.percentageSetupFee crypto.percentage_setup_fee
