@@ -6,8 +6,8 @@ class SupportMailer < ApplicationMailer
     mail(
       content_type: "text/html",
       subject: "#{@email} contacted Nodebucks",
-      to: ['info@nodebucks.com', 'support@nodebucks.com'],
-      bcc: ['ron.parnaso@gmail.com', 'jay.severson@gmail.com']
+      to: ['support@nodebucks.com'],
+      bcc: ['ron.parnaso@gmail.com']
     )
   end
 end
