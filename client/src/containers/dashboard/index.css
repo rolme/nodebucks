@@ -296,3 +296,43 @@
     padding: 20px 0;
   }
 }
+
+.messageBox {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 20px;
+  max-height: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statusSuccess {
+  background-color: #E2F2F9;
+}
+
+.statusError {
+  background-color: #FCD5DB;
+}
+
+.messageTitle {
+  font-family: 'OpenSans';
+  color: black;
+}
+
+.messageText {
+  font-family: 'OpenSans';
+  color: black;
+}
+
+.closeIcon {
+  cursor: pointer;
+  font-family: 'OpenSans';
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
