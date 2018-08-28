@@ -65,6 +65,9 @@ class NodesController < ApplicationController
     operator = NodeManager::Operator.new(@node)
     operator.purchase
     @node.reload
+
+    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), charge.invoice).deliver_later
+
     render :show
 
   rescue Stripe::CardError => e
