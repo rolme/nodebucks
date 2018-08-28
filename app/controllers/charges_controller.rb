@@ -14,6 +14,8 @@ class ChargesController < ApplicationController
     operator.purchase
     @node.reload
 
+    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), charge.invoice).deliver_later
+
     render json: { status: 'ok' }
 
   rescue Stripe::CardError => e
