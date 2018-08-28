@@ -1,5 +1,6 @@
 import React from 'react'
 import { CardElement, injectStripe } from 'react-stripe-elements'
+import { ClipLoader } from 'react-spinners'
 
 import { Col, Alert, Button } from 'reactstrap'
 
@@ -7,21 +8,25 @@ class _PaymentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      message: ''
+      message: '',
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleSubmit = (ev) => {
     ev.preventDefault()
+    
+    this.props.togglePurchasingStatus()
 
     if ( this.props.stripe ) {
       this.props.stripe
         .createToken({name: 'test'})
         .then((payload) => {
           if ( !!payload.token ) {
-            this.props.onPurchase(payload.token.id)
+            this.props.togglePurchasingStatus()
+            this.props.onPurchase(payload.token.id, this.props.setAsPurchased)
           } else if ( !!payload.error ) {
+            this.props.togglePurchasingStatus()
             this.setState({ message: payload.error.message })
           }
         });
@@ -32,7 +37,8 @@ class _PaymentForm extends React.Component {
 
   render() {
     const { message } = this.state
-    const { refreshing } = this.props
+    const { purchasing } = this.props
+
     return (
       <form onSubmit={this.handleSubmit}>
         {!!message &&
@@ -46,8 +52,20 @@ class _PaymentForm extends React.Component {
           Card details
           <CardElement style={{ base: { fontSize: '18px' } }}/>
         </label>
+        <div style={{ textAlign: 'center' }}>
+          {
+            purchasing && <div>
+              <p className="loading-text">Please wait ...</p>
+              <ClipLoader
+                size={35}
+                color={'#3F89E8'}
+                loading={true}
+              />
+            </div>
+          }
+        </div>
         <Col xl={{size: 8, offset: 2}} lg={{size: 8, offset: 2}} md={{size: 8, offset: 2}} sm={{size: 10, offset: 1}} xs={{size: 10, offset: 1}} className="d-flex justify-content-center">
-          <Button disabled={!!refreshing} className="submitButton purchaseNodeButton">Purchase Node</Button>
+          <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
       </form>
     )

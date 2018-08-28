@@ -42,7 +42,7 @@ class MainTable extends Component {
           <td className="leftBorder">$ {week}</td>
           <td>$ {month}</td>
           <td className="rightBorder">$ {year}</td>
-          <td>{capitalize(item.crypto.status)}</td>
+          <td>{capitalize(item.status)}</td>
         </tr>
       )
     })
@@ -101,4 +101,3 @@ class MainTable extends Component {
 }
 
 export default withRouter(MainTable)
-
