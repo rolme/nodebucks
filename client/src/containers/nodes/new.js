@@ -116,8 +116,8 @@ class NewNode extends Component {
 
   render() {
     const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
-    const { validPrice, showReloadAlert, purchasing, purchased } = this.state
-    
+    const { validPrice, showReloadAlert, purchasing } = this.state
+
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
     }
@@ -202,9 +202,9 @@ class NewNode extends Component {
   }
 
   displayCryptoData(item) {
-    const { user, refreshing, node, nodePending, cryptoPending, purchasing } = this.props
+    const { user, refreshing, node, nodePending, cryptoPending } = this.props
 
-    const { validPrice, spreadTooltipOpen } = this.state
+    const { validPrice, spreadTooltipOpen, purchasing } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
@@ -214,6 +214,10 @@ class NewNode extends Component {
 
     if ( !!user ) {
       nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
+    }
+
+    if (purchasing) {
+      return null;
     }
 
     return (
