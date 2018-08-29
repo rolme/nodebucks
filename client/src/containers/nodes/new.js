@@ -115,7 +115,7 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user } = this.props
+    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing, purchased } = this.state
     
     if ( nodeMessage === 'Purchase node successful.' ) {
@@ -167,7 +167,7 @@ class NewNode extends Component {
                     />
                 </div>
               }
-              {!!user && validPrice && !!masternode.nodePrice && !nodePending && !cryptoPending && this.displayPaymentForm(masternode)}
+              {!!user && validPrice && !!masternode.nodePrice && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
             </Col>
           </div>
@@ -202,7 +202,7 @@ class NewNode extends Component {
   }
 
   displayCryptoData(item) {
-    const { user, refreshing, node, nodePending, cryptoPending } = this.props
+    const { user, refreshing, node, nodePending, cryptoPending, purchasing } = this.props
 
     const { validPrice, spreadTooltipOpen } = this.state
 
@@ -221,7 +221,7 @@ class NewNode extends Component {
         <Row className="purchasePageCrpytoDataContainer">
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">Est. Annual ROI</h6>
-            {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
+            {(!!annualRoi && !nodePending && !cryptoPending) || purchasing ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
@@ -229,7 +229,7 @@ class NewNode extends Component {
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">{priceHeader}</h6>
             <div className="d-flex align-items-center justify-content-center">
-              {!!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
+              {!!nodePrice && !nodePending && !cryptoPending && !purchasing && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
                 size={35}
                 color={'#3F89E8'}
                 loading={true}
@@ -238,7 +238,7 @@ class NewNode extends Component {
           </Col>
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">Total Masternodes</h6>
-            {!!item.masternodes && !nodePending && !cryptoPending ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
+            {!!item.masternodes && !nodePending && !cryptoPending && !purchasing ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}

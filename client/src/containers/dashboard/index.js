@@ -28,8 +28,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { purchaseStatus } = this.props
-    if (purchaseStatus && purchaseStatus.message === 'Purchase successful') {
+    console.log('didMount')
+    const { purchasedNode } = this.props
+    if (purchasedNode.cost) {
       this.setState({ showMessage: true })
     }
   }
@@ -111,7 +112,7 @@ const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
   pending: state.nodes.pending,
-  purchaseStatus: state.nodes.data,
+  purchasedNode: state.nodes.data,
   user: state.user.data
 })
 

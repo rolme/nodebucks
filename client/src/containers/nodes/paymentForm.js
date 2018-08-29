@@ -38,6 +38,7 @@ class _PaymentForm extends React.Component {
   render() {
     const { message } = this.state
     const { purchasing } = this.props
+    console.log(purchasing)
 
     return (
       <form onSubmit={this.handleSubmit}>
