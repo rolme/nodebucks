@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_094311) do
+ActiveRecord::Schema.define(version: 2018_08_29_151055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,20 @@ ActiveRecord::Schema.define(version: 2018_08_10_094311) do
     t.bigint "user_id"
     t.bigint "crypto_id"
     t.string "slug"
-    t.string "wallet"
     t.decimal "balance", default: "0.0"
     t.string "cached_crypto_symbol"
     t.string "cached_crypto_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "wallet"
     t.index ["crypto_id"], name: "index_accounts_on_crypto_id"
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -46,13 +52,11 @@ ActiveRecord::Schema.define(version: 2018_08_10_094311) do
     t.string "symbol"
     t.string "url"
     t.string "status", default: "active"
-    t.bigint "masternodes"
+    t.integer "masternodes"
     t.decimal "node_price", default: "0.0"
-    t.decimal "daily_reward"
-    t.decimal "block_reward"
+    t.decimal "daily_reward", default: "0.0"
     t.decimal "price", default: "0.0"
     t.decimal "sellable_price", default: "0.0"
-    t.decimal "estimated_price", default: "0.0"
     t.decimal "estimated_node_price", default: "0.0"
     t.decimal "flat_setup_fee", default: "0.0"
     t.decimal "percentage_setup_fee", default: "0.05"
@@ -184,13 +188,13 @@ ActiveRecord::Schema.define(version: 2018_08_10_094311) do
     t.string "state"
     t.string "zipcode"
     t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "affiliate_user_id_tier1"
     t.integer "affiliate_user_id_tier2"
     t.integer "affiliate_user_id_tier3"
     t.string "affiliate_key"
     t.datetime "affiliate_key_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
