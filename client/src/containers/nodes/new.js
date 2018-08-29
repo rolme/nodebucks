@@ -141,7 +141,7 @@ class NewNode extends Component {
             <h1 className="pt-3 text-center purchasePageHeader pageTitle">
               {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
               {
-                !!nodePending || !!cryptoPending 
+                !!nodePending || !!cryptoPending
                 ? 'Calculating latest pricing ...'
                 : `Purchase ${masternode.name} Masternode`
               }
@@ -159,7 +159,7 @@ class NewNode extends Component {
             </Col>
             }
             <Col xl={12} className="d-flex px-0 flex-wrap">
-              { 
+              {
                 !!nodePending || !!cryptoPending
                 ? <div className="loadingSnipperContainer">
                     <ClipLoader
@@ -186,9 +186,9 @@ class NewNode extends Component {
       <Col xl={12} className="px-0 pt-2">
         <div className='purchasePagePaymentFormContainer'>
           <Elements>
-            <PaymentMethod 
-              slug={item.nodeSlug} 
-              onPurchase={this.handlePurchase} 
+            <PaymentMethod
+              slug={item.nodeSlug}
+              onPurchase={this.handlePurchase}
               setAsPurchased={this.setAsPurchased}
               togglePurchasingStatus={this.togglePurchasingStatus}
               refreshing={refreshing}
@@ -284,6 +284,28 @@ class NewNode extends Component {
           </Col>
         </Row>
         }
+      </Col>
+    )
+  }
+
+  displayPricingInfo(masternode) {
+    const { user, refreshing, nodePending, cryptoPending } = this.props
+    const { validPrice } = this.state
+    let nodePrice = (!!masternode.nodePrice || masternode.nodePrice === '0')
+
+    let info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
+    if ( !user ) {
+      info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently. Login or register to guarantee a price. </p>
+    } else if ( !validPrice ) {
+      info = <p className="purchasePagePriceInfo text-center">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
+    }
+    return (
+      <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="px-0 purchasePagePricingInfoPartContainer">
+        <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} className="px-0 d-flex align-items-center justify-content-center flex-column">
+          {!!user && <h2 className="purchasePageCountDown text-center"><Countdown refreshing={refreshing || !!nodePending || !!cryptoPending} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
+          {info}
+          {!!user && !nodePending && !cryptoPending && nodePrice && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}> <FontAwesomeIcon icon={faSyncAlt} color="#4D91CD" className="mr-2"/>Refresh</Button>}
+        </Col>
       </Col>
     )
   }
