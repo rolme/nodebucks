@@ -149,7 +149,7 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            {!!masternode && !!masternode.url && !!masternode.name &&
+            {!!masternode && !!masternode.url && !!masternode.name && !nodePending &&
             <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
               <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
               <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
@@ -157,17 +157,17 @@ class NewNode extends Component {
             }
             <Col xl={12} className="d-flex px-0 flex-wrap">
               { 
-                masternode && masternode.name
-                ? this.displayCryptoData(masternode)
-                : <div className="loadingSnipperContainer">
+                !!nodePending || !!cryptoPending
+                ? <div className="loadingSnipperContainer">
                     <ClipLoader
                       size={35}
                       color={'#3F89E8'}
                       loading={true}
                     />
-                </div>
+                  </div>
+                : this.displayCryptoData(masternode)
               }
-              {!!user && validPrice && !!masternode.nodePrice && this.displayPaymentForm(masternode, purchasing)}
+              {!!user && validPrice && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
             </Col>
           </div>
@@ -225,7 +225,7 @@ class NewNode extends Component {
         <Row className="purchasePageCrpytoDataContainer">
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">Est. Annual ROI</h6>
-            {(!!annualRoi && !nodePending && !cryptoPending) || purchasing ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
+            {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
@@ -233,7 +233,7 @@ class NewNode extends Component {
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">{priceHeader}</h6>
             <div className="d-flex align-items-center justify-content-center">
-              {!!nodePrice && !nodePending && !cryptoPending && !purchasing && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
+              {!!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
                 size={35}
                 color={'#3F89E8'}
                 loading={true}
@@ -242,7 +242,7 @@ class NewNode extends Component {
           </Col>
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">Total Masternodes</h6>
-            {!!item.masternodes && !nodePending && !cryptoPending && !purchasing ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
+            {!!item.masternodes && !nodePending && !cryptoPending ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}
               loading={true}
