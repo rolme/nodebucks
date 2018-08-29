@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { push } from 'react-router-redux'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'
@@ -52,6 +51,7 @@ export default (state = initialState, action) => {
 
     case FETCH_ERROR:
     case FETCH_LIST_ERROR:
+    case PURCHASE_ERROR:
     case RESERVE_ERROR:
     case SELL_ERROR:
     case SELL_RESERVE_ERROR:
@@ -129,14 +129,6 @@ export default (state = initialState, action) => {
         error: false,
         message: 'Purchase node successful.'
       }
-    case PURCHASE_ERROR:
-      return {
-        ...state,
-        data: action.payload.node,
-        pending: false,
-        error: true,
-        message: action.payload.message
-      }
     case SELL_SUCCESS:
       return {
         ...state,
@@ -197,16 +189,16 @@ export function reserveNode(cryptoSlug, isRefreshing) {
   }
 }
 
-export function purchaseNode(stripe, slug) {
+export function purchaseNode(stripe, slug, callback) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.post(`/api/charges`, { slug: slug, stripeToken: stripe })
+    axios.patch(`/api/nodes/${slug}/purchase`, { stripeToken: stripe })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
-        dispatch(push('/dashboard'))
+        callback()
       }).catch((error) => {
-      dispatch({ type: PURCHASE_ERROR, payload: error.response.data })
+      dispatch({ type: PURCHASE_ERROR, payload: { message: error.data } })
       console.log(error)
     })
   }
