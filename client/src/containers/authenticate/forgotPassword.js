@@ -8,7 +8,7 @@ import InputField from '../../components/elements/inputField'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
 
-import { requestReset } from '../../reducers/user.js'
+import { reset, requestReset } from '../../reducers/user.js'
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -129,7 +129,7 @@ const mapStateToProps = state => ({
   message: state.user.requestResetMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ requestReset }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ reset, requestReset }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
