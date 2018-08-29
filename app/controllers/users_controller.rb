@@ -36,7 +36,11 @@ class UsersController < ApplicationController
         avatar = sm.store_url(@user, user_params[:avatar])
         @user.update_attribute(:avatar, avatar)
         render json: { status: :ok, token: generate_token, message: 'User account created.' }
-        RegistrationMailer.send_verify_email(@user).deliver_later
+        if ENV['RAILS_ENV'] == 'development'
+          RegistrationMailer.send_verify_email(@user).deliver_now
+        else
+          RegistrationMailer.send_verify_email(@user).deliver_later
+        end
       else
         render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
       end
@@ -74,7 +78,11 @@ class UsersController < ApplicationController
     @user = User.find_by(email: params[:email])
     if @user.present?
       @user.reset!()
-      RegistrationMailer.send_reset_email(@user).deliver_later
+      if ENV['RAILS_ENV'] == 'development'
+        RegistrationMailer.send_reset_email(@user).deliver_now
+      else
+        RegistrationMailer.send_reset_email(@user).deliver_later
+      end
       render json: { status: :ok, message: 'Reset password email sent.' }
     else
       render json: { status: 'error', message: 'Email could not be found.' }
@@ -129,7 +137,11 @@ class UsersController < ApplicationController
     ) if !referrer_params[:referrer_affiliate_key].blank?
 
     if @user.save
-      RegistrationMailer.send_verify_email(@user).deliver_later
+      if ENV['RAILS_ENV'] == 'development'
+        RegistrationMailer.send_verify_email(@user).deliver_now
+      else
+        RegistrationMailer.send_verify_email(@user).deliver_later
+      end
       render json: { status: :ok, token: generate_token, message: 'User account created.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
