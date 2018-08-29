@@ -77,7 +77,7 @@ class UsersController < ApplicationController
   def reset
     @user = User.find_by(email: params[:email])
     if @user.present?
-      @user.reset!()
+      @user.reset!
       if ENV['RAILS_ENV'] == 'development'
         RegistrationMailer.send_reset_email(@user).deliver_now
       else

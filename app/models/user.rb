@@ -3,7 +3,7 @@ class User < ApplicationRecord
   include SoftDeletable
 
   SYSTEM_ACCOUNT_ID = 1
-  TOKEN_AGE         = 5.minutes
+  TOKEN_AGE         = 15.minutes
 
   has_many :accounts, dependent: :destroy
   has_many :nodes, dependent: :destroy
@@ -139,8 +139,8 @@ class User < ApplicationRecord
       end
     end
   end
-  
-  private 
+
+  private
 
   def generate_affiliate_key
     self.affiliate_key = SecureRandom.urlsafe_base64
