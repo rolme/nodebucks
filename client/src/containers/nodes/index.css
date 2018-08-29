@@ -722,6 +722,6 @@
   }
 }
 
-.loading-text {
-  font-family: 'OpenSans';
+.loadingSnipperContainer {
+  margin: 0 auto;
 }

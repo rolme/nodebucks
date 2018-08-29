@@ -3,17 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
-import { Alert, Button, Container, Col, Row, Tooltip } from 'reactstrap'
+import { Alert, Container, Col, Row, Tooltip } from 'reactstrap'
 import './index.css'
 
-import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
 import { Elements } from 'react-stripe-elements'
 import { fetchCrypto } from '../../reducers/cryptos'
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faSyncAlt } from '@fortawesome/fontawesome-free-solid'
 
 import {
   purchaseNode,
@@ -118,9 +115,9 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user } = this.props
-    const { validPrice, showReloadAlert, purchasing, purchased } = this.state
-    
+    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
+    const { validPrice, showReloadAlert, purchasing } = this.state
+
     if ( nodeMessage === 'Purchase node successful.' ) {
       history.push('/dashboard')
     }
@@ -139,8 +136,12 @@ class NewNode extends Component {
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
             <h1 className="pt-3 text-center purchasePageHeader pageTitle">
-              {!!masternode.cryptoSlug && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
-              Purchase {!!masternode.name ? masternode.name : ''} Masternode
+              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
+              {
+                !!nodePending || !!cryptoPending 
+                ? 'Calculating latest pricing ...'
+                : `Purchase ${masternode.name} Masternode`
+              }
             </h1>
             {
               nodeMessage === 'Node price is 0. Purchase rejected.' &&
@@ -148,16 +149,25 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            {!!masternode && !!masternode.url && !!masternode.name &&
+            {!!masternode && !!masternode.url && !!masternode.name && !nodePending &&
             <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
               <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
               <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
             </Col>
             }
             <Col xl={12} className="d-flex px-0 flex-wrap">
-              { !purchased && !purchasing && this.displayCryptoData(masternode, purchasing, purchased)}
-              { !purchased && !purchasing && this.displayPricingInfo(masternode)}
-              {!!user && validPrice && !!masternode.nodePrice  && this.displayPaymentForm(masternode, purchasing)}
+              { 
+                !!nodePending || !!cryptoPending
+                ? <div className="loadingSnipperContainer">
+                    <ClipLoader
+                      size={35}
+                      color={'#3F89E8'}
+                      loading={true}
+                    />
+                  </div>
+                : this.displayCryptoData(masternode)
+              }
+              {!!user && validPrice && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
             </Col>
           </div>
@@ -194,7 +204,7 @@ class NewNode extends Component {
   displayCryptoData(item) {
     const { user, refreshing, node, nodePending, cryptoPending } = this.props
 
-    const { validPrice, spreadTooltipOpen } = this.state
+    const { validPrice, spreadTooltipOpen, purchasing } = this.state
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
@@ -204,6 +214,10 @@ class NewNode extends Component {
 
     if ( !!user ) {
       nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
+    }
+
+    if (purchasing) {
+      return null;
     }
 
     return (
@@ -244,28 +258,6 @@ class NewNode extends Component {
           </Col>
         </Row>
         }
-      </Col>
-    )
-  }
-
-  displayPricingInfo(masternode) {
-    const { user, refreshing, nodePending, cryptoPending } = this.props
-    const { validPrice } = this.state
-    let nodePrice = (!!masternode.nodePrice || masternode.nodePrice === '0')
-
-    let info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
-    if ( !user ) {
-      info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently. Login or register to guarantee a price. </p>
-    } else if ( !validPrice ) {
-      info = <p className="purchasePagePriceInfo text-center">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
-    }
-    return (
-      <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="px-0 purchasePagePricingInfoPartContainer">
-        <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} className="px-0 d-flex align-items-center justify-content-center flex-column">
-          {!!user && <h2 className="purchasePageCountDown text-center"><Countdown refreshing={refreshing || !!nodePending || !!cryptoPending} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
-          {info}
-          {!!user && !nodePending && !cryptoPending && nodePrice && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}> <FontAwesomeIcon icon={faSyncAlt} color="#4D91CD" className="mr-2"/>Refresh</Button>}
-        </Col>
       </Col>
     )
   }

@@ -117,14 +117,12 @@ export default (state = initialState, action) => {
       }
     case PURCHASE:
       return {
-        ...state,
-        pending: true,
-        error: false
+        ...state
       }
     case PURCHASE_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        purchased: action.payload,
         pending: false,
         error: false,
         message: 'Purchase node successful.'
