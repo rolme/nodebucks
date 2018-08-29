@@ -13,7 +13,6 @@ class Footer extends Component {
             <p className="footerText pl-2"> All Rights Reserved © 2018</p>
           </Col>
           <Col xl={{ size: 6, offset: 1 }} lg={{ size: 7, offset: 1 }} md={{ size: 8, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 flex-wrap">
-            <NavLink to='/affiliate' className="footerText pr-4">Affiliate</NavLink>
             <NavLink to='/faq' className="footerText pr-4">FAQ</NavLink>
             <NavLink to='/terms' className="footerText pr-4">Terms of Use</NavLink>
             <NavLink to='/contact' className="footerText pr-4">Support</NavLink>
