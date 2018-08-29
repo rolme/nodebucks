@@ -172,7 +172,7 @@ class Contact extends Component {
                 {!!message && !error &&
                 <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 8, offset: 0 }} className="contactMainContentContainer  px-0">
                   <p className="contactHeader">Thank You!</p>
-                  <p className="contactSuccessMessage">Your message has been successfully sent. Thank you for your attention. We will respond you in no time!</p>
+                  <p className="contactSuccessMessage">Your message has been sent. We will respond to you shortly!</p>
                 </Col>
                 }
               </Col>
@@ -189,7 +189,7 @@ class Contact extends Component {
         <img src="/assets/images/contactIcon.png" alt="Contact"/>
         <h2 className="contactHeader pageTitle">Thank you!</h2>
         <p className="contact-created-text">
-          Your message has been successfully sent. Thank you for your attention. We will respond you in no time!
+          Your message has been sent. We will respond to you shortly!
         </p>
       </Col>
     )
