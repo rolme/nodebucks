@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
-      
+
       @user.set_affiliate_referrers(
         referrer_params[:referrer_affiliate_key]
       ) if !referrer_params[:referrer_affiliate_key].blank?
@@ -49,6 +49,25 @@ class UsersController < ApplicationController
 
   def login
     authenticate params[:email], params[:password]
+  end
+
+  def update
+    @user = User.find_by(slug: params[:slug])
+    if @user.blank?
+      render json: { status: 'error', message: 'Could not find user.' }
+      return
+    end
+
+    if !@user.authenticate(params[:current_password])
+      render json: { status: 'error', message: 'Current password is incorrect.'}
+      return
+    end
+
+    if @user.update(user_params)
+      render json: { status: :ok, token: generate_token, message: 'User account updated.' }
+    else
+      render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
+    end
   end
 
   def reset
