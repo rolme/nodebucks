@@ -58,7 +58,7 @@ class Home extends Component {
     return (
       <div className="homeContainer">
         <div className="contentContainer px-0">
-          { announcement && !announcementError && <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+          { announcement && announcement.text && !announcementError && <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             { announcement.text }
           </Alert>
           }
