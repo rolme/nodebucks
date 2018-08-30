@@ -3,7 +3,7 @@ class TransactionManager
 
   def initialize(account)
     @account = account
-    @system_account = User.system.accounts.find { |a| a.crypto_id == account.crypto.id }
+    @system_account = User.system.accounts.find { |a| a.crypto_id == account.crypto_id }
   end
 
   def deposit_reward(reward)
