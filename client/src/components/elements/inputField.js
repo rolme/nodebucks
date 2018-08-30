@@ -34,7 +34,6 @@ export default class InputField extends Component {
       <FormGroup className="w-100">
         <Col className={inputFieldContainerClassName} onClick={this.focusInput}>
           {!!value && <Label for={name}>{label}</Label>}
-          {autocomplete === 'off' && <Input style={{ display: 'none' }} type={type} name="fakeInput"/>}
           <Input autoFocus={!!autoFocus}
                  type={type}
                  name={name}

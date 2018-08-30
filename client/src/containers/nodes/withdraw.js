@@ -40,8 +40,8 @@ class Withdraw extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps
-    if(!!data && !!data.user && !!data.user.btcWallet){
-      this.setState({address: data.user.btcWallet})
+    if ( !!data && !!data.user && !!data.user.btcWallet ) {
+      this.setState({ address: data.user.btcWallet })
     }
   }
 
@@ -124,9 +124,9 @@ class Withdraw extends Component {
               <h5 className="withdrawPageTitle pageTitle">Withdraw Rewards</h5>
               {this.renderInformationPart()}
               <InputField label='BTC Wallet Address'
-                          name="address"
+                          name="wallet"
                           type='text'
-                          id='address'
+                          id='wallet'
                           value={address}
                           autocomplete="off"
                           message={messages.address}
@@ -134,7 +134,7 @@ class Withdraw extends Component {
                           handleFieldValueChange={this.handleFieldValueChange}
               />
               <InputField label='Password'
-                          name="password"
+                          name="withdrawPsw"
                           id='logInPassword'
                           type={showPassword ? 'text' : 'password'}
                           value={password}
