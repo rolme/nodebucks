@@ -1,5 +1,5 @@
 module NodeManager
-  class Scraper
+  class Rewarder
     attr_accessor :node
     attr_reader :operator
 

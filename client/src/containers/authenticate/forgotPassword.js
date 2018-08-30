@@ -34,7 +34,6 @@ class ForgotPassword extends Component {
       this.props.history.push('/dashboard')
       return
     }
-    this.props.reset()
   }
 
   componentWillUnmount() {

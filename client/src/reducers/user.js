@@ -230,7 +230,7 @@ export default (state = initialState, action) => {
       }
     case RESET_PASSWORD_SUCCESS:
       return {
-        ...state, 
+        ...state,
         message: action.payload.message,
         error: false
       }
@@ -270,7 +270,7 @@ export default (state = initialState, action) => {
         error: true,
         message: action.payload.message,
       }
-    
+
       case CONFIRM_REGISTRATION:
       return {
         ...state,
@@ -499,12 +499,11 @@ export function getReferrer() {
   }
 }
 
-export function requestReset(email, callback) {
+export function requestReset(email) {
   return dispatch => {
     dispatch({ type: REQUEST_RESET })
     axios.patch('/api/users/reset', { email }).then(response => {
       dispatch({ type: REQUEST_RESET_SUCCESS, payload: response.data })
-      callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_RESET_FAILURE, payload: error.message })

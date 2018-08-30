@@ -53,6 +53,7 @@ module NodeManager
             purchasable_price: purchasing_price
           ) if !!persist
         else
+          CryptoPricer.price(@orders, crypto, @avg_btc_usdt)
           selling_price = @prices[crypto.symbol][:all]
           crypto.update_attribute(:sellable_price, selling_price) if !!persist
         end

@@ -7,7 +7,7 @@ import { capitalize } from '../../lib/helpers'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
 
-import {requestReset} from '../../reducers/user';
+import { updateUser } from '../../reducers/user';
 
 import './index.css'
 
@@ -112,6 +112,15 @@ class Security extends Component {
   validation() {
     let isValid = true, messages = { ...this.state.messages }, errors = { ...this.state.errors }
     const { password, newPassword, confirmPassword } = this.state
+    const { user } = this.props
+
+    messages.password = ''
+    messages.newPassword = ''
+    messages.confirmPassword = ''
+    errors.password = false
+    errors.newPassword = false
+    errors.confirmPassword = false
+
     if ( !password ) {
       messages.password = '*Required'
       errors.password = true
@@ -140,17 +149,9 @@ class Security extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && this.updatePassword()
-  }
-
-  updatePassword() {
-    const { user } = this.props
-    /**
-     * ToDo
-     * Should dispatch action to save data
-     */
-    this.props.requestReset(user.email, () => {
-      this.setState({ showResetEmailAlert: true })
+    isValid && this.props.updateUser(user.slug, password, {
+      password: newPassword,
+      password_confirmation: confirmPassword
     })
   }
 
@@ -190,7 +191,7 @@ const mapStateToProps = state => ({
   error: state.user.error
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ requestReset }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ updateUser }, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,

@@ -3,7 +3,7 @@ class User < ApplicationRecord
   include SoftDeletable
 
   SYSTEM_ACCOUNT_ID = 1
-  TOKEN_AGE         = 5.minutes
+  TOKEN_AGE         = 15.minutes
 
   has_many :accounts, dependent: :destroy
   has_many :nodes, dependent: :destroy
@@ -98,7 +98,7 @@ class User < ApplicationRecord
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: account.balance * crypto.price,
+          usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
           value: account.balance,
           wallet: account.wallet
         }
@@ -111,9 +111,13 @@ class User < ApplicationRecord
   end
 
   def total_balance
-    pricer = NodeManager::Pricer.new(type: 'buy')
-    btc = accounts.map { |account| pricer.to_btc(account.crypto, account.balance) }.reduce(&:+)
-    { btc: btc, usd: btc * pricer.avg_btc_usdt }
+    btc = 0.0
+    usd = 0.0
+    accounts.each do |account|
+      btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
+      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
+    end
+    { btc: btc, usd: usd }
   end
 
   def reserved_node
@@ -139,8 +143,8 @@ class User < ApplicationRecord
       end
     end
   end
-  
-  private 
+
+  private
 
   def generate_affiliate_key
     self.affiliate_key = SecureRandom.urlsafe_base64

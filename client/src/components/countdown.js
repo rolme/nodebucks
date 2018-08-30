@@ -7,7 +7,7 @@ export default class Countdown extends Component {
 
     this.state = {
       display: this.props.display || 'Countdown starting...',
-      timer: this.props.timer || 180
+      timer: this.props.timer || 300
     }
   }
 
