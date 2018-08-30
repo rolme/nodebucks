@@ -109,6 +109,14 @@
   margin: 0 15px !important;
 }
 
+.cryptosTableNodePriceCell {
+  background-color: #E8F2FA;
+}
+
+th.cryptosTableNodePriceCell {
+  background-color: #D8E3EA;
+}
+
 @media (min-width: 992px) {
   .cryptosTable > thead {
     display: table-header-group !important;

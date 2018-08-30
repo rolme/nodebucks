@@ -59,9 +59,9 @@ class CryptoTable extends Component {
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
               <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('annualRoi')} className="mb-0">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoi')} icon={sortedColumnName === 'annualRoi' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th><p onClick={() => this.sortTable('nodePrice')} className="mb-0">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th className="d-xl-table-cell d-lg-table-cell d-none"><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className="cryptosTableNodePriceCell"><p onClick={() => this.sortTable('nodePrice')} className="mb-0">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th></th>
             </tr>
             </thead>
@@ -91,9 +91,9 @@ class CryptoTable extends Component {
             </div>
           </td>
           <td className="d-xl-table-cell d-lg-table-cell d-none">{annualRoi}</td>
-          <td>{nodePrice}</td>
           <td className="d-xl-table-cell d-lg-table-cell d-none">{monthlyRoiValue}</td>
           <td className="d-xl-table-cell d-lg-table-cell d-none">{yearlyRoiValue}</td>
+          <td className="cryptosTableNodePriceCell">{nodePrice}</td>
           <td className="d-flex">
             {+item.nodePrice < 50000 &&
             <NavLink to={`/nodes/${item.slug}/new`} className="btn btn-primary addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add Node</NavLink>
