@@ -83,7 +83,7 @@ if ENV["RAILS_ENV"] != 'production'
   operator.online(DateTime.current - (2.months - 2.days))
 
   puts "Gather rewards"
-  NodeScraper.run
+  NodeRewarder.run
 end
 
 puts "DONE"

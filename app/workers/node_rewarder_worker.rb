@@ -1,8 +1,8 @@
-class NodeScraperWorker
+class NodeRewarderWorker
   include Sidekiq::Worker
   sidekiq_options retry: false, backtrace: true
 
   def perform(*args)
-    NodeScraper.run
+    NodeRewarder.run
   end
 end

@@ -4,8 +4,47 @@ class CryptoPricer
   def self.price(orders, crypto, btc_usdt)
     AMOUNTS.each do |amount|
       value = self.btc_order_price(orders, amount) / amount
-      CryptoPrice.find_by(crypto_id: crypto.id, amount: amount).update(usdt: value * btc_usdt)
+      CryptoPrice.find_by(crypto_id: crypto.id, amount: amount).update(
+        btc: value,
+        usdt: value * btc_usdt,
+      )
     end
+  end
+
+  def self.to_btc(crypto_id, total)
+    case
+    when total >= 10000; amount = 10000
+    when total >= 5000; amount = 5000
+    when total >= 2500; amount = 2500
+    when total >= 1000; amount = 1000
+    when total >= 500; amount = 500
+    when total >= 250; amount = 250
+    when total >= 100; amount = 100
+    when total >= 50; amount = 50
+    when total >= 25; amount = 25
+    when total >= 10; amount = 10
+    else amount = 1
+    end
+
+    CryptoPrice.find_by(crypto_id: crypto_id, amount: amount).btc * total
+  end
+
+  def self.to_usdt(crypto_id, total)
+    case
+    when total >= 10000; amount = 10000
+    when total >= 5000; amount = 5000
+    when total >= 2500; amount = 2500
+    when total >= 1000; amount = 1000
+    when total >= 500; amount = 500
+    when total >= 250; amount = 250
+    when total >= 100; amount = 100
+    when total >= 50; amount = 50
+    when total >= 25; amount = 25
+    when total >= 10; amount = 10
+    else amount = 1
+    end
+
+    CryptoPrice.find_by(crypto_id: crypto_id, amount: amount).usdt * total
   end
 
   # Privatish

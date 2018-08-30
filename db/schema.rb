@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_004641) do
   create_table "crypto_prices", force: :cascade do |t|
     t.bigint "crypto_id"
     t.integer "amount"
+    t.decimal "btc", default: "0.0"
     t.decimal "usdt", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,4 +1,4 @@
-class NodeScraper
+class NodeRewarder
 
   def self.run
     self.scrape
@@ -8,7 +8,7 @@ class NodeScraper
     nodes = (a_node.present?) ? [a_node] : Node.online
 
     nodes.each do |node|
-      scraper = NodeManager::Scraper.new(node)
+      scraper = NodeManager::Rewarder.new(node)
       scraper.scrape
     end
   end
