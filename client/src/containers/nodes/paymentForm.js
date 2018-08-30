@@ -1,26 +1,43 @@
 import React from 'react'
 import { CardElement, injectStripe } from 'react-stripe-elements'
 import { ClipLoader } from 'react-spinners'
+import { NavLink, withRouter } from 'react-router-dom'
 
-import { Col, Alert, Button } from 'reactstrap'
+import { Col, Alert, Button, FormGroup, Label } from 'reactstrap'
+import Checkbox from 'rc-checkbox'
+import 'rc-checkbox/assets/index.css'
 
 class _PaymentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       message: '',
+      checkbox: false,
+      checkboxError: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.toggleCheckbox = this.toggleCheckbox.bind(this)
+  }
+
+  toggleCheckbox() {
+    this.setState({ checkbox: !this.state.checkbox })
   }
 
   handleSubmit = (ev) => {
     ev.preventDefault()
-    
+    const { checkbox, checkboxError } = this.state
+    if ( !checkbox ) {
+      this.setState({ checkboxError: true })
+      return
+    } else if ( checkboxError ) {
+      this.setState({ checkboxError: false })
+    }
+
     this.props.togglePurchasingStatus()
 
     if ( this.props.stripe ) {
       this.props.stripe
-        .createToken({name: 'test'})
+        .createToken({ name: 'test' })
         .then((payload) => {
           if ( !!payload.token ) {
             this.props.togglePurchasingStatus()
@@ -36,7 +53,7 @@ class _PaymentForm extends React.Component {
   }
 
   render() {
-    const { message } = this.state
+    const { message, checkbox, checkboxError } = this.state
     const { purchasing } = this.props
 
     return (
@@ -64,7 +81,22 @@ class _PaymentForm extends React.Component {
             </div>
           }
         </div>
-        <Col xl={{size: 8, offset: 2}} lg={{size: 8, offset: 2}} md={{size: 8, offset: 2}} sm={{size: 10, offset: 1}} xs={{size: 10, offset: 1}} className="d-flex justify-content-center">
+        <Col className="px-0">
+          <FormGroup className="mb-0">
+            <Label className={`purchasePageCheckbox ${checkboxError ? 'text-danger' : ''}`}>
+              <Checkbox
+                className="nodebucksCheckbox"
+                defaultChecked={checkbox}
+                onChange={this.toggleCheckbox}
+              />
+              &nbsp; I agree to the Nodebucks <NavLink to='/terms'> Terms of Use</NavLink>, <NavLink to='/privacy'>Privacy Policy</NavLink>, and <NavLink to='/disclaimer'>Disclaimer</NavLink>.
+            </Label>
+          </FormGroup>
+          {!!checkboxError &&
+          <p className="text-danger">You must agree before purchasing.</p>
+          }
+        </Col>
+        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 10, offset: 1 }} className="d-flex justify-content-center">
           <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
       </form>
@@ -73,4 +105,4 @@ class _PaymentForm extends React.Component {
 }
 
 const PaymentForm = injectStripe(_PaymentForm)
-export default PaymentForm
+export default withRouter(PaymentForm)
