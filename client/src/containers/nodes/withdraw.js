@@ -86,7 +86,7 @@ class Withdraw extends Component {
   render() {
     const { address, password, messages, errors, showPassword } = this.state
     const { data, message, error, pending } = this.props
-
+    const isButtonDisabled = !!data || !!data.amount || (+data.amount.usd) === 0 || !address || !password
     if ( pending || !data ) {
       return (
         <Container fluid className="withdrawPageContainer">
@@ -128,7 +128,7 @@ class Withdraw extends Component {
                           type='text'
                           id='address'
                           value={address}
-                          autocomplete="false"
+                          autocomplete="off"
                           message={messages.address}
                           error={errors.address}
                           handleFieldValueChange={this.handleFieldValueChange}
@@ -138,13 +138,14 @@ class Withdraw extends Component {
                           id='logInPassword'
                           type={showPassword ? 'text' : 'password'}
                           value={password}
+                          autocomplete="off"
                           message={messages.password}
                           error={errors.password}
                           addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
                           handleFieldValueChange={this.handleFieldValueChange}
                           onAddonClick={this.onAddonClick}
               />
-              <Button onClick={this.validation} className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
+              <Button disabled={isButtonDisabled} onClick={this.validation} className="withdrawPageWithdrawButton submitButton">Withdraw</Button>
             </Col>
           </div>
         </div>
