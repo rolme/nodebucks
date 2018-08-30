@@ -17,7 +17,7 @@ class AnnouncementsController < ApplicationController
     if @announcement.nil?
       head :not_found
     else
-      render :show unless @announcement.nil?
+      render :show
     end
   end
 
