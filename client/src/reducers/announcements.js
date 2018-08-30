@@ -1,0 +1,73 @@
+import axios from 'axios'
+
+// ACTION_TYPES ////////////////////////////////////////////////////////////////
+export const FETCH = 'announcements/FETCH'
+export const FETCH_ERROR = 'announcements/FETCH_ERROR'
+export const FETCH_SUCCESS = 'announcements/FETCH_SUCCESS'
+export const REFRESH = 'announcements/REFRESH'
+
+// INITIAL STATE ///////////////////////////////////////////////////////////////
+const initialState = {
+  data: null,
+  pending: false,
+  error: false,
+  message: ''
+}
+
+// STATE ///////////////////////////////////////////////////////////////////////
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH:
+      return {
+        ...state,
+        pending: false,
+        error: true,
+        message: '',
+        data: null
+      }
+    case FETCH_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        error: false,
+        message: 'Announcement fetched',
+        data: action.payload
+      }
+    case FETCH_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: true,
+        data: null,
+        message: action.payload
+      }
+    case REFRESH:
+      return {
+        data: null, 
+        pending: false,
+        error: false,
+        message: ''
+      }
+    default:
+      return state
+  }
+}
+
+export function fetchAnnouncement() {
+  return dispatch => {
+    dispatch({ type: FETCH })
+    axios.get(`/api/announcements/last`)
+      .then((response) => {
+      dispatch({ type: FETCH_SUCCESS, payload: response.data })
+      }).catch((error) => {
+        dispatch({ type: FETCH_ERROR, payload: error.data })
+        console.log(error)
+      })
+  }
+}
+
+export function refreshAnnouncementsState() {
+  return dispatch => {
+    dispatch({ type: REFRESH })
+  }
+}

@@ -7,12 +7,18 @@ class AnnouncementsController < ApplicationController
     if @announcement.save
       render :show
     else
-      render json: { status: "error" }
+      render json: { status: :error, message: @contact.errors.full_messages.join(', ') }
     end
   end
 
-  def show
+  def last
     @announcement = Announcement.last
+
+    if @announcement.nil?
+      head :not_found
+    else
+      render :show unless @announcement.nil?
+    end
   end
 
   private

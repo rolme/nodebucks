@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   scope :api, defaults: { format: :json } do
+    resources :announcements, only: [:create] do
+      get :last, on: :collection
+    end
     resources :cryptos, only: [:index, :show], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
       patch :online
