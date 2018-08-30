@@ -103,10 +103,16 @@
   font-size: 24px;
 }
 
-.purchasePagePriceInfo {
+.purchasePagePriceInfo,
+.purchasePageCheckbox {
   font-family: 'Raleway';
   font-size: 16px;
   color: #000000;
+}
+
+.purchasePageCheckbox.text-danger > a {
+  color: #dc3545;
+  text-decoration: underline;
 }
 
 .purchasePageHeader {
