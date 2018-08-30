@@ -46,11 +46,6 @@ After cloning the project and cd'ing into the directory.
 ~/code/nodebucks/client $ cd ..
 ```
 
-Make a copy of .env.template to .env.local
-```
-~/code/nodebucks $ cp client/.env.template client/.env.local
-```
-
 __Start Project__
 
 ```
