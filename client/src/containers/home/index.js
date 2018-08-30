@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import Masternodes from '../masternodes'
 import Testimonials from './testimonials'
 
-import { fetchAnnouncement, refreshAnnouncementsState } from '../../reducers/announcements'
+import { fetchAnnouncement } from '../../reducers/announcements'
 import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert } from 'reactstrap'
 
@@ -148,8 +148,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchAnnouncement,
-  refreshAnnouncementsState
+  fetchAnnouncement
 }, dispatch)
 
 export default withRouter(connect(
