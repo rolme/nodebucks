@@ -46,6 +46,11 @@ After cloning the project and cd'ing into the directory.
 ~/code/nodebucks/client $ cd ..
 ```
 
+Make a copy of .env.template to .env.local
+```
+~/code/nodebucks $ cp client/.env.template client/.env.local
+```
+
 __Start Project__
 
 ```
@@ -70,5 +75,5 @@ $ npm run test
 1. [Download chromedriver_win32.zip](http://chromedriver.chromium.org/downloads)
 2. Create a folder and move there **chromedriver.exe** file from downloaded .zip
 3. In order to put ChromeDriver location in your PATH environment variable do as follows:
-    
+
     **Right click computer > properties > system properties > Advanced > System properties > select Path below > edit > add the path of the folder, where you put chromedriver.exe**
