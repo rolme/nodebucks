@@ -89,7 +89,7 @@ class _PaymentForm extends React.Component {
                 defaultChecked={checkbox}
                 onChange={this.toggleCheckbox}
               />
-              &nbsp; I agree to the Nodebucks <NavLink to='/terms'> Terms of Use</NavLink>, <NavLink to='/privacy'>Privacy Policy</NavLink>, and <NavLink to='/disclaimer'>Disclaimer</NavLink>.
+              &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>, <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>, and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
             </Label>
           </FormGroup>
           {!!checkboxError &&
