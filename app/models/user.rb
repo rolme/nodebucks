@@ -98,7 +98,7 @@ class User < ApplicationRecord
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: CryptoPricer.to_usdt(account.crypto.id, account.balance),
+          usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
           value: account.balance,
           wallet: account.wallet
         }
@@ -114,8 +114,8 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      btc += CryptoPricer.to_btc(account.crypto.id, account.balance)
-      usd += CryptoPricer.to_usdt(account.crypto.id, account.balance)
+      btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
+      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
     end
     { btc: btc, usd: usd }
   end
