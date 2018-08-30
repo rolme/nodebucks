@@ -8,7 +8,7 @@ Crypto.create([
   { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000, block_reward: 12.0 }
 ])
 
-puts "  - Create crypto price table"
+puts "  - Create price lookup table"
 Crypto.all.each do |crypto|
   [1, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000].each do |amount|
     CryptoPrice.create(crypto_id: crypto.id, amount: amount)
@@ -69,18 +69,6 @@ if ENV["RAILS_ENV"] != 'production'
   node.save
   puts "    * put online"
   operator.online(DateTime.current - (3.months - 2.days))
-
-  puts "  - Polis node #3:"
-  node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 2.months)
-  puts "    * purchase for #{user.full_name} at #{node.cost}"
-  operator = NodeManager::Operator.new(node)
-  operator.purchase(DateTime.current - (2.months - 2.days))
-  puts "    * Set IP and wallet"
-  node.ip     = '127.0.0.1'
-  node.wallet = 'PWsH4BFYFQPX8Z3qRmVRg6KhjGzuTyEawe'
-  node.save
-  puts "    * put online"
-  operator.online(DateTime.current - (2.months - 2.days))
 
   puts "Gather rewards"
   NodeRewarder.run
