@@ -7,8 +7,17 @@ Crypto.create([
   { name: 'PIVX', symbol: 'pivx', url: 'https://pivx.org/', explorer_url: 'https://chainz.cryptoid.info/pivx/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1169/', stake: 10000, block_reward: 2.25 },
   { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000, block_reward: 12.0 }
 ])
+
+puts "  - Create crypto price table"
+Crypto.all.each do |crypto|
+  [1, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000].each do |amount|
+    CryptoPrice.create(crypto_id: crypto.id, amount: amount)
+  end
+end
+
 puts "  - Scrape crypto data"
 CryptoScraper.run
+
 puts "  - Price crypto"
 NodeManager::Pricer.run
 
