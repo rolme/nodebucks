@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       patch :reserve # Reserve sell price
       patch :sell
     end
+    resources :orders, only: [:index]
     resources :users, except: [:edit, :new], param: :slug do
       get :balance, on: :collection
       get :confirm

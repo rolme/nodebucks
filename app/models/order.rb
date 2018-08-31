@@ -4,6 +4,16 @@ class Order < ApplicationRecord
 
   before_create :generate_slug
 
+  scope :filter_by_node, ->(node_slug) {
+    return unless node_slug.present?
+    where("nodes.slug LIKE ?", node_slug)
+  }
+
+  scope :filter_by_user, ->(user_slug) {
+    return unless user_slug.present?
+    where("users.slug LIKE ?", user_slug)
+  }
+
 private
 
   # TODO: need to do this better
