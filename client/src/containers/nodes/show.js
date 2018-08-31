@@ -159,8 +159,8 @@ class Node extends Component {
           </label>
           <label className="radioButtonContainer">
             <div>
-              <p className="showPageRadioButtonTitle">Auto-Launch MN</p>
-              <p className="showPageRadioButtonDescription">Your reward will automatically be used to buy another MN</p>
+              <p className="showPageRadioButtonTitle">Purchase New Masternode</p>
+              <p className="showPageRadioButtonDescription">Your rewards will be used to purchase another masternode once you have the required amount.</p>
             </div>
             <input type="radio" onChange={() => this.rewardSettingsChange(10)} checked={rewardSetting === 10} name="radio"/>
             <span className="radioButtonCheckmark"></span>
