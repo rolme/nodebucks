@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 2018_08_31_011816) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "subject"
     t.string "email"

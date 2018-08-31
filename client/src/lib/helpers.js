@@ -33,3 +33,8 @@ export function setReferer(cookies) {
     }
   }
 }
+
+export function disabledAnnouncements() {
+  const visibleAnnouncements = sessionStorage.getItem('announcementsVisible')
+  return !!visibleAnnouncements
+}

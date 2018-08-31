@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Masternodes from '../masternodes'
 import Testimonials from './testimonials'
 
+import { fetchAnnouncement } from '../../reducers/announcements'
+import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert } from 'reactstrap'
 
 import './index.css'
@@ -13,7 +16,7 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      visibleAlert: true
+      visibleAlert: false
     };
 
     this.scrollToMasternodes = this.scrollToMasternodes.bind(this)
@@ -22,8 +25,8 @@ class Home extends Component {
 
   onAlertDismiss() {
     this.setState({ visibleAlert: false });
+    sessionStorage.setItem('announcementsVisible', false)
   }
-
 
   componentWillMount() {
     window.scrollTo(0, 0)
@@ -34,6 +37,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchAnnouncement()
+    if (!disabledAnnouncements()) {
+      this.setState({ visibleAlert: true })
+    }
     const hash = this.props.location.hash.substr(1)
     if ( hash === 'masternodes' ) {
       this.scrollToMasternodes()
@@ -46,13 +53,15 @@ class Home extends Component {
   }
 
   render() {
+    const { announcement, announcementError } = this.props
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
         <div className="contentContainer px-0">
-          <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
-            Be one of <span>Nodebucks</span> first 500 users and receive 15% off your first node!
+          { announcement && announcement.text && !announcementError && <Alert className="homeAlert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+            { announcement.text }
           </Alert>
+          }
         </div>
         <div className="homeMainBannerContainer">
           <div className="contentContainer">
@@ -134,10 +143,15 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
+  announcement: state.announcements.data,
+  announcementError: state.announcements.error
 })
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchAnnouncement
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
+  mapDispatchToProps
 )(Home))
-
