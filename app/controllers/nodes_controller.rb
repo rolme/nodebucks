@@ -66,7 +66,9 @@ class NodesController < ApplicationController
     operator.purchase
     @node.reload
 
-    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), charge.invoice).deliver_later
+    # TODO: This is a bit brittle, need to rethink this later
+    # TODO: Only works if purchasing a NEW node
+    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), operator.order.slug).deliver_later
 
     render :show
 

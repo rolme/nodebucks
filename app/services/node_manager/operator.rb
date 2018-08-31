@@ -1,6 +1,6 @@
 module NodeManager
   class Operator
-    attr_reader :error, :node
+    attr_reader :error, :node, :order
 
     def initialize(node)
       @node = node
@@ -45,6 +45,15 @@ module NodeManager
 
       node.update_attribute(:status, 'new')
       node.node_prices.create(source: 'system', value: node.cost)
+      @order = Order.create(
+        node_id: node.id,
+        user_id: node.user_id,
+        currency: 'usd',
+        amount: node.cost,
+        status: 'unpaid',
+        order_type: 'buy',
+        description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
+      )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
       # TODO: Do we need to track setup fee here?
     end
@@ -61,6 +70,16 @@ module NodeManager
       return false if node.status == 'sold' || !within_timeframe?(node.sell_priced_at)
 
       node.update_attribute(:status, 'sold')
+      # TODO: Make sure the sellable price is correct
+      @order = Order.create(
+        node_id: node.id,
+        user_id: node.user_id,
+        currency: 'usd',
+        amount: node.cost,
+        status: 'unpaid',
+        order_type: 'sold',
+        description: "#{node.user.email} sold #{node.crypto.name} masternode for $#{node.sellable_price}."
+      )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server sold")
     end
 
