@@ -100,7 +100,7 @@
 
 .settingsFooterButtonsContainer > .submitButton {
   width: 200px;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .emailPreferencesFooterButtonsContainer > button {
@@ -154,6 +154,10 @@
   .changeInputFieldsContainer ,
   .settingsContainer > .contentContainer  {
     padding: 0 !important;
+  }
+
+  .settingsFooterButtonsContainer > .submitButton {
+    margin-left: 0;
   }
 
 }

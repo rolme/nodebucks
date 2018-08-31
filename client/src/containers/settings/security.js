@@ -103,7 +103,7 @@ class Security extends Component {
 
   renderFooterButtons() {
     return (
-      <Col className="d-flex px-0 settingsFooterButtonsContainer justify-content-end">
+      <Col className="d-flex px-0 settingsFooterButtonsContainer justify-content-start">
         <Button onClick={this.validation} className="submitButton">SAVE</Button>
       </Col>
     )
