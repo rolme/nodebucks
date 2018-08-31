@@ -118,10 +118,10 @@ class Node extends Component {
         <div className="bg-white p-3">
           <dl className="row mb-0">
             <dd className="col-6">Value</dd>
-            <dt className="col-6 text-right">{value}</dt>
+            <dt className="col-6 text-right">$ {value}</dt>
 
             <dd className="col-6">Cost</dd>
-            <dt className="col-6 text-right">{cost}</dt>
+            <dt className="col-6 text-right">$ {cost}</dt>
 
             <dd className="col-6">Total Rewards</dd>
             <dt className="col-6 text-right">$ {rewardTotal}</dt>
@@ -159,8 +159,8 @@ class Node extends Component {
           </label>
           <label className="radioButtonContainer">
             <div>
-              <p className="showPageRadioButtonTitle">Auto-Launch MN</p>
-              <p className="showPageRadioButtonDescription">Your reward will automatically be used to buy another MN</p>
+              <p className="showPageRadioButtonTitle">Purchase New Masternode</p>
+              <p className="showPageRadioButtonDescription">Your rewards will be used to purchase another masternode once you have the required amount.</p>
             </div>
             <input type="radio" onChange={() => this.rewardSettingsChange(10)} checked={rewardSetting === 10} name="radio"/>
             <span className="radioButtonCheckmark"></span>
@@ -245,9 +245,9 @@ class Node extends Component {
             {this.handleHistoryData(events)}
             </tbody>
           </Table>
-          {!!lastDaysData.length &&
+          {!!lastDaysData.length && lastDaysData.length !== node.events.length &&
           <div className="d-flex justify-content-center">
-            <Button className="showPageHistoryTableButton" onClick={this.toggleHistoryDataAmount}> <FontAwesomeIcon icon={showAllHistoryData ? faChevronUp : faChevronDown} color="#213238" className="mr-2"/> {showAllHistoryData ? 'PREVIOUS 30 DAYS' : 'VIEW ALL'}</Button>
+            <Button className="showPageHistoryTableButton" onClick={this.toggleHistoryDataAmount}> <FontAwesomeIcon icon={showAllHistoryData ? faChevronUp : faChevronDown} color="#213238" className="mr-2"/> {showAllHistoryData ? 'Last 30 Days' : 'View All'}</Button>
           </div>
           }
         </div>
