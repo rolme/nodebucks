@@ -1,8 +1,8 @@
 class ReceiptMailer < ApplicationMailer
-  def send_receipt(customer, cost, invoice)
+  def send_receipt(customer, cost, order)
     @customer = customer
     @cost = cost
-    @invoice = invoice
+    @order = order
     mail(
       :content_type => "text/html",
       :subject => 'Thank you for purchasing.',
