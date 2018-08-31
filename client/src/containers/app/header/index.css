@@ -191,6 +191,12 @@ a.headerMenuItem.active:hover {
   outline: none !important;
 }
 
+.headerUserDropDownItem:focus {
+  border-bottom: 1px solid #556267 !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
 .headerAuthMenuItemsContainer {
   flex: 1;
   padding: 0 !important;
