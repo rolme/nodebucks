@@ -66,7 +66,7 @@ class Node extends Component {
     const { match: { params }, node, pending } = this.props
 
     if ( pending || node.slug === undefined ) {
-      return <h4 className="pt-3">Loading {params.slug}... </h4>
+      return null
     }
 
     return (
