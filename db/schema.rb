@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_004641) do
+ActiveRecord::Schema.define(version: 2018_08_31_011816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,21 @@ ActiveRecord::Schema.define(version: 2018_08_30_004641) do
     t.index ["user_id"], name: "index_nodes_on_user_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "node_id"
+    t.string "slug"
+    t.string "order_type"
+    t.decimal "amount"
+    t.string "currency"
+    t.string "status"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_orders_on_node_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "rewards", force: :cascade do |t|
     t.bigint "node_id"
     t.string "cached_crypto_name"
@@ -224,6 +239,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_004641) do
   add_foreign_key "crypto_prices", "cryptos"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"
+  add_foreign_key "orders", "nodes"
+  add_foreign_key "orders", "users"
   add_foreign_key "rewards", "nodes"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "rewards"
