@@ -55,10 +55,12 @@ class NodesController < ApplicationController
   end
 
   def purchase
-    @node    = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
+    @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
     charge = Stripe::Charge.create(
       customer: @customer.id,
-      amount: (@node.cost.ceil * 100).to_i,
+      # TODO: Turn this back on when testing is over
+      # amount: (@node.cost.ceil * 100).to_i,
+      amount: 98,
       description: "#{@node.name} masternode purchase at #{@node.cost}",
       currency: 'usd'
     )
