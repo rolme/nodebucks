@@ -5,7 +5,8 @@ Crypto.create([
   { name: 'ZCoin', symbol: 'xzc', url: 'https://zcoin.io/', explorer_url: 'https://explorer.zcoin.io/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1414/', stake: 1000, block_reward: 15.0 },
   { name: 'Polis', symbol: 'polis', url: 'https://polispay.org/', explorer_url: 'https://explorer.polispay.org/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2359/', stake: 1000, block_reward: 14.4 },
   { name: 'PIVX', symbol: 'pivx', url: 'https://pivx.org/', explorer_url: 'https://chainz.cryptoid.info/pivx/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/1169/', stake: 10000, block_reward: 2.25 },
-  { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000, block_reward: 12.0 }
+  { name: 'Stipend', symbol: 'spd', status: 'inactive', url: 'https://stipend.me/', explorer_url: 'http://explorer.stipend.me/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2616/', stake: 5000, block_reward: 12.0 },
+  { name: 'GoByte', symbol: 'gbx', status: 'active', url: 'https://www.gobyte.network/', explorer_url: 'https://explorer.gobyte.network/address/', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2200/', stake: 1000, block_reward: 10.5 },
 ])
 
 puts "  - Create price lookup table"
