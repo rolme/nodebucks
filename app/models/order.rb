@@ -6,12 +6,12 @@ class Order < ApplicationRecord
 
   scope :filter_by_node, ->(node_slug) {
     return unless node_slug.present?
-    where("nodes.slug LIKE ?", node_slug)
+    joins(:node).where("nodes.slug LIKE ?", node_slug)
   }
 
   scope :filter_by_user, ->(user_slug) {
     return unless user_slug.present?
-    where("users.slug LIKE ?", user_slug)
+    joins(:user).where("users.slug LIKE ?", user_slug)
   }
 
 private
