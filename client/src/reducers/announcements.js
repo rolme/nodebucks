@@ -7,7 +7,7 @@ export const FETCH_SUCCESS = 'announcements/FETCH_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
-  data: null,
+  data: {},
   pending: false,
   error: false,
   message: ''
@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
         pending: false,
         error: true,
         message: '',
-        data: null
+        data: {}
       }
     case FETCH_SUCCESS:
       return {
@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: true,
-        data: null,
+        data: {},
         message: action.payload
       }
     default:
@@ -53,7 +53,6 @@ export function fetchAnnouncement() {
       dispatch({ type: FETCH_SUCCESS, payload: response.data })
       }).catch((error) => {
         dispatch({ type: FETCH_ERROR, payload: error.data })
-        console.log(error)
       })
   }
 }

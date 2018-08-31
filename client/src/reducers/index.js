@@ -8,10 +8,10 @@ import withdrawals from './withdrawals'
 import announcements from './announcements'
 
 export default combineReducers({
+  announcements,
   cryptos,
   nodes,
   router: routerReducer,
   user,
-  withdrawals,
-  announcements
+  withdrawals
 })
