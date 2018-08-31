@@ -30,6 +30,7 @@ module NodeManager
         when 'xzc'; scrape_zcoin(browser)
         when 'pivx'; scrape_pivx(browser)
         when 'spd'; scrape_stipend(browser)
+        when 'gbx'; scrape_gobyte(browser)
         end
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"
@@ -132,6 +133,29 @@ module NodeManager
         rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
       end
 
+      rows.reverse!.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
+        timestamp = data[0].text
+        txhash    = data[1].find_element(tag_name: 'a').text
+        amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+        if has_new_rewards?(timestamp)
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_gobyte(browser)
+      balance = browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f
+      node.update_attribute(:balance, balance)
+
+      if Rails.env != 'development'
+        rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      else
+        rows = browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+      end
       rows.reverse!.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
