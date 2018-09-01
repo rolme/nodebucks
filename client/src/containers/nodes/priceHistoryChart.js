@@ -184,7 +184,7 @@ export default class PriceHistoryChart extends Component {
           <p className={`${selectedPeriod === 12 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick(12)}>1y</p>
         </Row>
         <Row className="bg-white nodeValuesChartContainer">
-          <Line width={840} height={260} redraw data={this.chartData()} options={this.chartOptions()} className="nodeValuesChart"/>
+          <Line width={840} height={260} redraw={false} data={this.chartData()} options={this.chartOptions()} className="nodeValuesChart"/>
         </Row>
       </div>
     )

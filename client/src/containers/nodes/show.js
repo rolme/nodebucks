@@ -16,7 +16,7 @@ import {
   updateNode
 } from '../../reducers/nodes'
 
-import {valueFormat} from "../../lib/helpers";
+import { valueFormat } from "../../lib/helpers";
 
 class Node extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class Node extends Component {
   }
 
   handleInputChange(value, name) {
-    this.setState({ [name]: value })
+    this.setState({ [ name ]: value })
   }
 
   rewardSettingsChange(value) {
@@ -63,7 +63,7 @@ class Node extends Component {
   }
 
   render() {
-    const { match: { params }, node, pending } = this.props
+    const { node, pending } = this.props
 
     if ( pending || node.slug === undefined ) {
       return null
