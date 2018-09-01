@@ -16,15 +16,15 @@ class Withdraw extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      address: '',
+      wallet: '',
       password: '',
       showPassword: false,
       messages: {
-        address: '',
+        wallet: '',
         password: ''
       },
       errors: {
-        address: false,
+        wallet: false,
         password: false
       }
     }
@@ -41,7 +41,7 @@ class Withdraw extends Component {
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps
     if ( !!data && !!data.user && !!data.user.btcWallet ) {
-      this.setState({ address: data.user.btcWallet })
+      this.setState({ wallet: data.user.btcWallet })
     }
   }
 
@@ -59,7 +59,7 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { password, address: wallet } = this.state
+    const { password, wallet } = this.state
     this.props.withdraw({
       withdrawal: {
         password,
@@ -84,9 +84,9 @@ class Withdraw extends Component {
   }
 
   render() {
-    const { address, password, messages, errors, showPassword } = this.state
+    const { wallet, password, messages, errors, showPassword } = this.state
     const { data, message, error, pending } = this.props
-    const isButtonDisabled = !!data || !!data.amount || (+data.amount.usd) === 0 || !address || !password
+    const isButtonDisabled = !!data || !!data.amount || (+data.amount.usd) === 0 || !wallet || !password
     if ( pending || !data ) {
       return (
         <Container fluid className="withdrawPageContainer">
@@ -127,14 +127,14 @@ class Withdraw extends Component {
                           name="wallet"
                           type='text'
                           id='wallet'
-                          value={address}
+                          value={wallet}
                           autocomplete="off"
-                          message={messages.address}
-                          error={errors.address}
+                          message={messages.wallet}
+                          error={errors.wallet}
                           handleFieldValueChange={this.handleFieldValueChange}
               />
               <InputField label='Password'
-                          name="withdrawPsw"
+                          name="password"
                           id='logInPassword'
                           type={showPassword ? 'text' : 'password'}
                           value={password}
