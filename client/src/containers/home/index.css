@@ -7,18 +7,6 @@
   padding: 20px 0;
 }
 
-.homeAlert {
-  font-family: 'Raleway';
-  font-size: 18px;
-  color: #000000;
-  text-align: center;
-  background-color: #D9EDF6;
-}
-
-.homeAlert > span {
-  color: #1982CB;
-}
-
 .homeMainBannerContainer > .contentContainer {
   align-items: center;
   display: flex;
