@@ -1,145 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset>
-
     <url>
-
-        <loc>https://www.nodebucks.com/</loc>
-
+        <loc>https://nodebucks.com/</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>monthly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/login</loc>
-
+        <loc>https://nodebucks.com/login</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/sign-up</loc>
-
+        <loc>https://nodebucks.com/sign-up</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/gobyte/new</loc>
-
+        <loc>https://nodebucks.com/nodes/gobyte/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/dash/new</loc>
-
+        <loc>https://nodebucks.com/nodes/dash/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/pivx/new</loc>
-
+        <loc>https://nodebucks.com/nodes/pivx/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/polis/new</loc>
-
+        <loc>https://nodebucks.com/nodes/polis/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/stipend/new</loc>
-
+        <loc>https://nodebucks.com/nodes/stipend/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/nodes/zcoin/new</loc>
-
+        <loc>https://nodebucks.com/nodes/zcoin/new</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>daily</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/faq</loc>
-
+        <loc>https://nodebucks.com/faq</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>monthly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/terms</loc>
-
+        <loc>https://nodebucks.com/terms</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/contact</loc>
-
+        <loc>https://nodebucks.com/contact</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/privacy</loc>
-
+        <loc>https://nodebucks.com/privacy</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
     <url>
-
-        <loc>https://www.nodebucks.com/disclaimer</loc>
-
+        <loc>https://nodebucks.com/disclaimer</loc>
         <lastmod>2005-09-03</lastmod>
-
         <changefreq>yearly</changefreq>
-
     </url>
-
 </urlset>
