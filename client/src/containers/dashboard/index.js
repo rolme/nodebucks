@@ -11,14 +11,16 @@ import Chart from './chart'
 import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
+import { fetchAnnouncement } from '../../reducers/announcements'
 
-import { valueFormat } from "../../lib/helpers";
+import { valueFormat, disabledAnnouncements } from "../../lib/helpers";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showMessage: false
+      showMessage: false,
+      visibleAlert: false,
     }
   }
 
@@ -32,15 +34,24 @@ class Dashboard extends Component {
     if (purchasedNode && message === 'Purchase node successful.') {
       this.setState({ showMessage: true })
     }
+    this.props.fetchAnnouncement()
+    if (!disabledAnnouncements()) {
+      this.setState({ visibleAlert: true })
+    }
   }
 
   dissmissMessage = () => {
     this.setState({ showMessage: false })
   }
 
+  onAlertDismiss = () => {
+    this.setState({ visibleAlert: false });
+    sessionStorage.setItem('announcementsVisible', false)
+  }
+
   render() {
-    const { nodes } = this.props
-    const { showMessage } = this.state
+    const { nodes, announcement, announcementError } = this.props
+    const { showMessage, visibleAlert } = this.state
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -57,6 +68,12 @@ class Dashboard extends Component {
 
     return (
       <Container fluid className="dashboardPageContainer">
+        <div className="contentContainer px-0">
+          { announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+            { announcement.text }
+          </Alert>
+          }
+        </div>
         <div className="contentContainer px-0">
           <Alert className="messageBox statusSuccess" isOpen={showMessage} toggle={this.dissmissMessage}>
             <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
@@ -112,11 +129,13 @@ const mapStateToProps = state => ({
   message: state.nodes.message,
   pending: state.nodes.pending,
   purchasedNode: state.nodes.purchased,
-  user: state.user.data
+  user: state.user.data,
+  announcement: state.announcements.data,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchNodes
+  fetchNodes,
+  fetchAnnouncement,
 }, dispatch)
 
 export default withRouter(connect(
