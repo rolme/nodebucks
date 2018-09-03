@@ -8,4 +8,9 @@ class Withdrawal < ApplicationRecord
   belongs_to :user
 
   has_many :transactions, dependent: :destroy
+
+  # TODO: This should be an option when withdrawing, but isn't happening yet.
+  def destination
+    "Bitcoin"
+  end
 end

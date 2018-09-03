@@ -15,10 +15,11 @@ json.balances withdrawal.user.balances.each do |balance|
 end
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)
-json.user do
-  json.partial! 'users/owner', user: withdrawal.user
-end
+json.destination withdrawal.destination
 json.processedAt withdrawal.processed_at&.to_formatted_s(:db)
 json.slug withdrawal.slug
 json.status withdrawal.status
+json.user do
+  json.partial! 'users/owner', user: withdrawal.user
+end
 json.updatedAt withdrawal.updated_at.to_formatted_s(:db)
