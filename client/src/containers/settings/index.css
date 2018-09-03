@@ -73,7 +73,7 @@
 }
 
 .settingsPageFieldsPartContainer {
-  margin-top: 55px;
+  margin-top: 25px;
 }
 
 .settingsPreferencesTitle {
@@ -171,4 +171,15 @@
   .settingsSideBarItemsContainer > li {
     padding: 0;
   }
+}
+
+.avatar-dropzone-container {
+  padding-bottom: 25px;
+}
+ .avatar-dropzone {
+  width: 200px;
+  height: 200px;
+  margin-top: 2px;
+  cursor: pointer;
+  margin: 0 auto;
 }

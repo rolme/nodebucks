@@ -41,7 +41,7 @@ class Header extends Component {
           </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             {!!user &&
-            <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+            <img src={user.avatar ? user.avatar.url : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
             }
           </NavbarToggler>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
@@ -58,7 +58,7 @@ class Header extends Component {
                 <NavLink isActive={(match, location) => location.pathname === '/masternodes'} to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/>  Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
                   <DropdownToggle nav caret className="headerLoggedInUserContainer pr-0">
-                    <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+                    <img src={user.avatar ? user.avatar.url : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
                     <p className="headerUserName">{user.fullName}</p>
                   </DropdownToggle>
                   <DropdownMenu right className="p-0">

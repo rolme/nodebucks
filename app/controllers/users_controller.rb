@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer]
   before_action :authenticate_admin_request, only: [:index, :show]
   before_action :set_affiliate_key, only: [:referrer]
+  before_action :find_user, only: [:update, :profile]
 
   def callback
     @user = nil
@@ -56,12 +57,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(slug: params[:slug])
-    if @user.blank?
-      render json: { status: 'error', message: 'Could not find user.' }
-      return
-    end
-
     if !@user.authenticate(params[:current_password])
       render json: { status: 'error', message: 'Current password is incorrect.'}
       return
@@ -69,6 +64,14 @@ class UsersController < ApplicationController
 
     if @user.update(user_params)
       render json: { status: :ok, token: generate_token, message: 'User account updated.' }
+    else
+      render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
+    end
+  end
+
+  def profile
+    if @user.update(user_params)
+      render json: { status: :ok, token: generate_token, message: 'User profile updated.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
     end
@@ -237,6 +240,14 @@ private
       }
     else
       render json: { status: 'error', message: command.errors[:user_authentication] }, status: :unauthorized
+    end
+  end
+
+  def find_user
+    @user = User.find_by(slug: params[:slug] || params[:user_slug])
+    if @user.blank?
+      render json: { status: 'error', message: 'Could not find user.' }
+      return
     end
   end
 

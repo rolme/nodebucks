@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get :verify
       get :referrer, on: :collection
       patch :reset_password
+      patch :profile
       patch :reset, on: :collection
     end
     resources :transactions, only: [:index]

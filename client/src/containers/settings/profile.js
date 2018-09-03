@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
+import Dropzone from 'react-dropzone'
+import { updateProfile } from '../../reducers/user';
 
 import './index.css'
 
@@ -25,7 +27,8 @@ class Profile extends Component {
         first: false,
         last: false,
         email: false,
-      }
+      },
+      preview: null,
     }
 
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
@@ -43,6 +46,13 @@ class Profile extends Component {
     })
   }
 
+  handleDrop = (files) => {
+    this.setState({
+      avatar: files[0],
+      preview: files[0].preview,
+    })
+  }
+
   renderChangeGeneralData() {
     const { first, last, email, messages, errors } = this.state
     const { message, error } = this.props
@@ -53,6 +63,7 @@ class Profile extends Component {
           { message}
         </Alert>
         }
+        { this.renderAvatarDropzone() }
         <InputField label='First Name'
                     name="first"
                     id="first"
@@ -85,6 +96,23 @@ class Profile extends Component {
                     onKeyPress={true}
         />
       </Col>
+    )
+  }
+
+  renderAvatarDropzone() {
+    const { preview } = this.state
+    const { avatar } = this.props.user
+    return (
+      <div className="avatar-dropzone-container">
+        <Dropzone
+          onDrop={ this.handleDrop }
+          accept="image/jpeg,image/jpg,image/tiff,image/gif"
+          multiple={ false }
+          className="avatar-dropzone"
+        >
+        <img src={ preview || ( avatar ? avatar.url : '/assets/images/user.jpg') } width="200" height="200" alt="preview" />
+        </Dropzone>
+      </div>
     )
   }
 
@@ -124,16 +152,17 @@ class Profile extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && this.updateGeneralData()
+    isValid && this.updateProfileData()
   }
 
-  updateGeneralData() {
-   // let { first, last, email } = this.state
-    /**
-     * ToDo
-     * Should dispatch action to save data
-     */
-
+  updateProfileData() {
+    const { first, last, email, avatar } = this.state
+    let formData = new FormData();
+    if(avatar) formData.append('user[avatar]', avatar)
+    formData.append('user[first]', first)
+    formData.append('user[last]', last)
+    formData.append('user[email]', email)
+    this.props.updateProfile(this.props.user.slug, formData)
   }
 
   render() {
@@ -165,14 +194,15 @@ class Profile extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   user: state.user.data,
   message: state.user.message,
   error: state.user.error
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  updateProfile,
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
