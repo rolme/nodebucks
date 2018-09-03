@@ -244,3 +244,15 @@ button.disabled {
     padding: 10px !important;
   }
 }
+
+.alert {
+  font-family: 'Raleway';
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+  background-color: #D9EDF6;
+}
+
+.alert > span {
+  color: #1982CB;
+}

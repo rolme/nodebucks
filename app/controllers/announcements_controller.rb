@@ -7,7 +7,7 @@ class AnnouncementsController < ApplicationController
     if @announcement.save
       render :show
     else
-      render json: { status: :error, message: @contact.errors.full_messages.join(', ') }
+      render json: { status: :error, message: @announcement.errors.full_messages.join(', ') }
     end
   end
 
