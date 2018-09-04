@@ -281,35 +281,44 @@
 }
 
 .showPageHeaderCoinName {
-  font-family: Raleway;
-  font-weight: bold;
+  font-family: Raleway-Light;
   font-size: 30px;
-  color: #3B3B3B;
+  color: #000000;
 }
 
 .showPageHeaderInfo {
+  font-family: OpenSans;
   color: #383838;
   font-size: 16px;
 }
 
-.sellServerButton {
+.addNodeButton {
   background-color: #FC6422;
 }
 
-.sellServerButton:focus,
-.sellServerButton:active,
-.sellServerButton:hover {
+.addNodeButton:focus,
+.addNodeButton:active,
+.addNodeButton:hover {
   background-color: rgba(252, 100, 34, 0.67) !important;
 }
 
 .showPageSectionHeader {
   color: #3B3B3B;
   font-size: 24px;
-  font-family: Raleway;
-  font-weight: bold;
+  font-family: Raleway-Light;
   margin-bottom: 13px;
 }
 
+.showPageHistoryTable > thead > tr > th {
+  font-family: Raleway-SemiBold;
+  font-size: 14px;
+  color: #383838;
+}
+.showPageHistoryTable > tbody > tr > td {
+  font-family: OpenSans;
+  font-size: 14px;
+  color: #383838;
+}
 .showPageHistoryTable > thead > tr > th,
 .showPageHistoryTable > tbody > tr > td {
   border: none;
@@ -338,14 +347,15 @@
 }
 
 .showPageRadioButtonTitle {
-  color: #3B3B3B;
+  color: #383838;
   font-size: 14px;
   margin-bottom: 0;
-  font-weight: bold;
+  font-family: OpenSans-SemiBold;
 }
 
 .showPageRadioButtonDescription {
-  color: #7A7A7A;
+  font-family: OpenSans;
+  color: #686868;
   font-size: 12px;
   margin-bottom: 0;
 }
@@ -389,7 +399,7 @@
   border: none;
   color: #1C2E35;
   font-weight: bold;
-  font-family: Raleway;
+  font-family: Raleway-SemiBold;
   padding: 10px 25px;
 }
 
@@ -424,6 +434,22 @@
 
 .priceHistoryChartPeriodContainer > p:hover {
   color: #acacac;
+}
+
+.showPageSectionBorderedPartContainer{
+  border: 1px solid #E7E7E7;
+}
+
+dd {
+  font-family: OpenSans;
+  font-size: 14px;
+  color: #686868;
+}
+
+dt {
+  font-family: OpenSans-SemiBold;
+  font-size: 14px;
+  color: #383838;
 }
 
 /*Sell Page Style*/
@@ -599,9 +625,9 @@
   margin: 0 5px;
   background-color: #FC6422;
   color: white;
-  font-family: Raleway;
+  font-family: Raleway-SemiBold;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   padding: 15px 0;
 }
