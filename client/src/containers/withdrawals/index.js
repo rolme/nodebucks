@@ -8,17 +8,17 @@ import './index.css'
 import { Table } from 'reactstrap'
 
 import {
-  fetchWithdrawData
+  fetchWithdrawals
 } from '../../reducers/withdrawals'
 
 class Withdrawals extends Component {
 
   componentWillMount() {
-    this.props.fetchWithdrawData()
+    this.props.fetchWithdrawals()
   }
 
   render() {
-    const { data } = this.props
+    const { list } = this.props
     return (
       <div className="withdrawalsPageContainer">
         <div className="contentContainer px-0">
@@ -33,7 +33,7 @@ class Withdrawals extends Component {
               </tr>
               </thead>
               <tbody>
-              {this.handleWithdrawalData(data)}
+              {this.handleWithdrawalData(list)}
               </tbody>
             </Table>
           </div>
@@ -57,11 +57,11 @@ class Withdrawals extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.withdrawals.data,
+  list: state.withdrawals.list,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchWithdrawData
+  fetchWithdrawals
 }, dispatch)
 
 export default connect(

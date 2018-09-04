@@ -8,17 +8,17 @@ import './index.css'
 import { Table } from 'reactstrap'
 
 import {
-  fetchOrdersData
+  fetchOrders
 } from '../../reducers/orders'
 
 class Orders extends Component {
 
   componentWillMount() {
-    this.props.fetchOrdersData()
+    this.props.fetchOrders()
   }
 
   render() {
-    const { data } = this.props
+    const { list } = this.props
     return (
       <div className="ordersPageContainer">
         <div className="contentContainer px-0">
@@ -37,7 +37,7 @@ class Orders extends Component {
               </tr>
               </thead>
               <tbody>
-              {this.handleOrdersData(data)}
+              {this.handleOrdersData(list)}
               </tbody>
             </Table>
           </div>
@@ -65,11 +65,11 @@ class Orders extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.orders.data,
+  list: state.orders.list,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchOrdersData
+  fetchOrders
 }, dispatch)
 
 export default connect(

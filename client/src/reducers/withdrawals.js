@@ -2,9 +2,12 @@ import axios from 'axios'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 
-export const FETCH = 'withdrawals/FETCH'
-export const FETCH_ERROR = 'withdrawals/FETCH_ERROR'
-export const FETCH_SUCCESS = 'withdrawals/FETCH_SUCCESS'
+export const RESERVE = 'withdrawals/RESERVE'
+export const RESERVE_ERROR = 'withdrawals/RESERVE_ERROR'
+export const RESERVE_SUCCESS = 'withdrawals/RESERVE_SUCCESS'
+export const FETCH_LIST = 'withdrawals/FETCH_LIST'
+export const FETCH_LIST_ERROR = 'withdrawals/FETCH_LIST_ERROR'
+export const FETCH_LIST_SUCCESS = 'withdrawals/FETCH_LIST_SUCCESS'
 export const WITHDRAW = 'withdrawals/WITHDRAW'
 export const WITHDRAW_ERROR = 'withdrawals/WITHDRAW_ERROR'
 export const WITHDRAW_SUCCESS = 'withdrawals/WITHDRAW_SUCCESS'
@@ -23,7 +26,8 @@ const initialState = {
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
   switch ( action.type ) {
-    case FETCH:
+    case RESERVE:
+    case FETCH_LIST:
     case WITHDRAW:
       return {
         ...state,
@@ -32,7 +36,8 @@ export default (state = initialState, action) => {
         message: ''
       }
 
-    case FETCH_ERROR:
+    case RESERVE_ERROR:
+    case FETCH_LIST_ERROR:
     case WITHDRAW_ERROR:
       return {
         ...state,
@@ -41,10 +46,19 @@ export default (state = initialState, action) => {
         message: action.payload.message
       }
 
-    case FETCH_SUCCESS:
+    case RESERVE_SUCCESS:
       return {
         ...state,
         data: action.payload,
+        pending: false,
+        error: false,
+        message: ''
+      }
+
+    case FETCH_LIST_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
         pending: false,
         error: false,
         message: ''
@@ -64,15 +78,28 @@ export default (state = initialState, action) => {
   }
 }
 
-export function fetchWithdrawData() {
+export function reserveWithdrawal() {
   return dispatch => {
-    dispatch({ type: FETCH })
+    dispatch({ type: RESERVE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/withdrawals`)
       .then((response) => {
-        dispatch({ type: FETCH_SUCCESS, payload: response.data })
+        dispatch({ type: RESERVE_SUCCESS, payload: response.data })
       }).catch((error) => {
-      dispatch({ type: FETCH_ERROR, payload: { message: error.data } })
+      dispatch({ type: RESERVE_ERROR, payload: { message: error.data } })
+    })
+  }
+}
+
+export function fetchWithdrawals() {
+  return dispatch => {
+    dispatch({ type: FETCH_LIST })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get(`/api/withdrawals`)
+      .then((response) => {
+        dispatch({ type: FETCH_LIST_SUCCESS, payload: response.data })
+      }).catch((error) => {
+      dispatch({ type: FETCH_LIST_ERROR, payload: { message: error.data } })
     })
   }
 }

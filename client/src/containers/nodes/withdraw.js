@@ -8,7 +8,7 @@ import InputField from '../../components/elements/inputField'
 import './index.css'
 
 import {
-  fetchWithdrawData,
+  reserveWithdrawal,
   withdraw
 } from '../../reducers/withdrawals'
 
@@ -35,13 +35,13 @@ class Withdraw extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchWithdrawData()
+    this.props.reserveWithdrawal()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data } = nextProps
-    if ( !!data && !!data.user && !!data.user.btcWallet ) {
-      this.setState({ wallet: data.user.btcWallet })
+    const { withdrawal } = nextProps
+    if ( !!withdrawal && !!withdrawal.user && !!withdrawal.user.btcWallet ) {
+      this.setState({ wallet: withdrawal.user.btcWallet })
     }
   }
 
@@ -85,9 +85,10 @@ class Withdraw extends Component {
 
   render() {
     const { wallet, password, messages, errors, showPassword } = this.state
-    const { data, message, error, pending } = this.props
-    const isButtonDisabled = !!data || !!data.amount || (+data.amount.usd) === 0 || !wallet || !password
-    if ( pending || !data ) {
+    const { withdrawal, message, error, pending } = this.props
+    const isButtonDisabled = !withdrawal || !withdrawal.amount || (+withdrawal.amount.usd) === 0 || !wallet || !password
+
+    if ( pending || !withdrawal ) {
       return (
         <Container fluid className="withdrawPageContainer">
           <div className="contentContainer withdrawPageContentContainer d-flex justify-content-center flex-column">
@@ -154,9 +155,9 @@ class Withdraw extends Component {
   }
 
   renderInformationPart() {
-    const { data } = this.props
-    const totalBalanceUsd = !!data.amount ? valueFormat(+data.amount.usd, 2) : ''
-    const totalBalance = !!data.amount ? valueFormat(+data.amount.btc, 2) : ''
+    const { withdrawal } = this.props
+    const totalBalanceUsd = !!withdrawal.amount ? valueFormat(+withdrawal.amount.usd, 2) : ''
+    const totalBalance = !!withdrawal.amount ? valueFormat(+withdrawal.amount.btc, 2) : ''
     return (
       <Col xl={12} className="withdrawPageInformationPartContainer">
         <Row className="p-0 m-0">
@@ -171,14 +172,14 @@ class Withdraw extends Component {
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          {!!data.user && !!data.user.balances && this.renderBalances(data.user.balances)}
+          {!!withdrawal.user && !!withdrawal.user.balances && this.renderBalances(withdrawal.user.balances)}
         </Row>
       </Col>
     )
   }
 
-  renderBalances(data) {
-    return data.map((coin, index) => {
+  renderBalances(withdrawal) {
+    return withdrawal.map((coin, index) => {
       const value = valueFormat(+coin.value - coin.value * coin.fee, 2)
       return (
         <Row key={index} className="p-0 m-0 justify-content-between w-100">
@@ -191,13 +192,13 @@ class Withdraw extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.withdrawals.data,
+  withdrawal: state.withdrawals.data,
   error: state.withdrawals.error,
   message: state.withdrawals.message,
   pending: state.withdrawals.pending,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchWithdrawData, withdraw }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ reserveWithdrawal, withdraw }, dispatch)
 
 export default connect(
   mapStateToProps,
