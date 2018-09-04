@@ -20,6 +20,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",
     "react-loadable": "^5.4.0",
+    "react-paypal-express-checkout": "^1.0.4",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-hash-link": "^1.2.0",
