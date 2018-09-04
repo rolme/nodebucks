@@ -96,11 +96,11 @@ class Node extends Component {
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
           <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} width="65px"/>
-          <h5 className="mb-0 ml-4 showPageHeaderCoinName ">{node.crypto.name}</h5>
+          <h5 className="mb-0 ml-2 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex flex-column justify-content-center align-items-xl-start align-items-lg-start  align-items-md-start  align-items-sm-center">
-          <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
+          <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
         </Col>
         {this.displayActions(node)}
       </Row>
@@ -115,7 +115,7 @@ class Node extends Component {
     return (
       <div>
         <h5 className="showPageSectionHeader"> Summary </h5>
-        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
+        <div className="bg-white p-3">
           <dl className="row mb-0">
             <dd className="col-6">Value</dd>
             <dt className="col-6 text-right">$ {value}</dt>
@@ -148,7 +148,7 @@ class Node extends Component {
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader"> Reward Settings </h5>
-        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
+        <div className="bg-white p-3">
           <label className="radioButtonContainer">
             <div>
               <p className="showPageRadioButtonTitle">Store on Nodebucks</p>
@@ -188,7 +188,7 @@ class Node extends Component {
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader">ROI</h5>
-        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
+        <div className="bg-white p-3">
           <dl className="row mb-0">
             <dd className="col-6">Last Week</dd>
             <dt className="col-6 text-right">$ {week}</dt>
@@ -211,14 +211,14 @@ class Node extends Component {
       <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
         {sellable && (
           <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
-            <NavLink to={`/nodes/${node.crypto.slug}/new`}>
-              <Button className="submitButton addNodeButton col-xl-10 col-lg-10 col-md-11 col-sm-10 col-xs-10"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add {node.crypto.name} Node</Button>
+            <NavLink to={`/nodes/${node.slug}/sell`}>
+              <Button className="submitButton sellServerButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
           </Col>
         )}
         <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
-          <NavLink to={`/nodes/${node.slug}/sell`}>
-            <Button className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
+          <NavLink to={`/nodes/${node.crypto.slug}/new`}>
+            <Button className="submitButton col-xl-10 col-lg-10 col-md-11 col-sm-10 col-xs-10">Add {node.crypto.name} Node</Button>
           </NavLink>
         </Col>
       </Col>
@@ -232,7 +232,7 @@ class Node extends Component {
     return (
       <div>
         <h5 className="showPageSectionHeader"> History </h5>
-        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
+        <div className="bg-white p-3">
           <Table responsive className="showPageHistoryTable">
             <thead>
             <tr>
@@ -275,7 +275,7 @@ class Node extends Component {
     return (
       <div className="my-3">
         <h5 className="showPageSectionHeader">{node.crypto.name} Price</h5>
-        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
+        <div className="bg-white p-3">
           <PriceHistoryChart node={node}/>
         </div>
       </div>
