@@ -26,7 +26,7 @@ module Api
         'KC-API-KEY' => API_KEY,
         'KC-API-NONCE' => nonce,
         'KC-API-SIGNATURE' => sig
-      }, timeout: 1, verbose: DEBUG)
+      }, timeout: 3, verbose: DEBUG)
       orders    = (response.body['success']) ? to_orders(parsed_response(response.body)['data']) : []
       @btc_usdt =btc_order_price(orders, 1.0)
     end
@@ -40,7 +40,7 @@ module Api
         'KC-API-KEY' => API_KEY,
         'KC-API-NONCE' => nonce,
         'KC-API-SIGNATURE' => signature(end_point, nonce, params)
-      }, timeout: 1, verbose: DEBUG)
+      }, timeout: 3, verbose: DEBUG)
 
       data = parsed_response(response.body)
       return [] unless data["success"]
