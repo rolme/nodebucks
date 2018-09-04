@@ -1,0 +1,32 @@
+.ordersPageContainer {
+  padding: 50px 0;
+}
+
+.ordersPageHeader {
+  font-family: Raleway-Light;
+  color: #000000;
+  font-size: 30px;
+  margin-bottom: 35px;
+}
+
+.ordersPageTableContainer{
+  border: 1px solid #DCDCDC;
+}
+
+.ordersPageTableContainer > div > table > thead > tr > th {
+  color: #383838;
+  font-family: Raleway-SemiBold;
+}
+
+.ordersPageTableContainer > div > table > tbody > tr > td {
+  color: #6F6F6F;
+  font-family: OpenSans;
+}
+
+.ordersPageTableContainer > div > table > thead > tr > th,
+.ordersPageTableContainer > div > table > tbody > tr > td {
+  border: none;
+  text-align: center;
+  min-width: 160px;
+  font-size: 14px;
+}

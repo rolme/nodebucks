@@ -5,6 +5,7 @@ import cryptos from './cryptos'
 import nodes from './nodes'
 import user from './user'
 import withdrawals from './withdrawals'
+import orders from './orders'
 import announcements from './announcements'
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   nodes,
   router: routerReducer,
   user,
-  withdrawals
+  withdrawals,
+  orders
 })
