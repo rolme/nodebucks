@@ -112,10 +112,10 @@ body {
 }
 
 .submitButton {
-  font-family: "Raleway-Bold";
+  font-family: "Raleway-SemiBold";
   font-weight: bold;
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 14px;
   background-color: #1982CB;
   border: none;
