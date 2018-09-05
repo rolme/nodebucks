@@ -43,16 +43,20 @@ class Withdrawals extends Component {
   }
 
   handleWithdrawalData(withdrawals) {
-    return withdrawals.map(withdrawal => {
-      const amount = !!withdrawal.amount ? valueFormat(+withdrawal.amount.usd, 2) : ''
-       return (
-         <tr key={withdrawal.slug}>
-          <td>{moment(withdrawal.createdAt).format("MMM D, YYYY  HH:mm")}</td>
-          <td>{amount}</td>
-          <td>{withdrawal.destination}</td>
-        </tr>
-       )
-    })
+    if ( withdrawals.length ) {
+      return withdrawals.map(withdrawal => {
+        const amount = !!withdrawal.amount ? valueFormat(+withdrawal.amount.usd, 2) : ''
+        return (
+          <tr key={withdrawal.slug}>
+            <td>{moment(withdrawal.createdAt).format("MMM D, YYYY  HH:mm")}</td>
+            <td>{amount}</td>
+            <td>{withdrawal.destination}</td>
+          </tr>
+        )
+      })
+    } else {
+      return <tr><td colSpan="3">There is no data to show</td></tr>
+    }
   }
 }
 

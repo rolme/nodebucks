@@ -47,20 +47,26 @@ class Orders extends Component {
   }
 
   handleOrdersData(orders) {
-    return orders.map(order => {
-      const amount = !!order.amount ? '$ ' + valueFormat(+order.amount, 2) : ''
-       return (
-         <tr key={order.orderId}>
-          <td>{moment(order.node.createdAt).format("MMM D, YYYY  HH:mm")}</td>
-          <td>{order.orderId}</td>
-          <td>{order.node.id}</td>
-          <td>{order.node.crypto.name}</td>
-          <td>{order.orderType}</td>
-          <td>{amount}</td>
-          <td>{capitalize(order.status)}</td>
-        </tr>
-       )
-    })
+    if ( !!orders.length ) {
+      return orders.map(order => {
+        const amount = !!order.amount ? '$ ' + valueFormat(+order.amount, 2) : ''
+        return (
+          <tr key={order.orderId}>
+            <td>{moment(order.node.createdAt).format("MMM D, YYYY  HH:mm")}</td>
+            <td>{order.orderId}</td>
+            <td>{order.node.id}</td>
+            <td>{order.node.crypto.name}</td>
+            <td>{order.orderType}</td>
+            <td>{amount}</td>
+            <td>{capitalize(order.status)}</td>
+          </tr>
+        )
+      })
+    } else {
+      return <tr>
+        <td colSpan="3">There is no data to show</td>
+      </tr>
+    }
   }
 }
 

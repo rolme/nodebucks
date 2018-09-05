@@ -9,7 +9,7 @@ export const FETCH_LIST_SUCCESS = 'orders/FETCH_LIST_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
-  data: [],
+  list: [],
   pending: false,
   error: false,
   message: ''

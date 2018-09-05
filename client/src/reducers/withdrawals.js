@@ -70,7 +70,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: ''
+        message: 'Success. You will be redirected to the dashboard page.'
       }
 
     default:

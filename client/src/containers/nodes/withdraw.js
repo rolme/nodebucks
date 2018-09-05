@@ -39,6 +39,11 @@ class Withdraw extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if ( nextProps.message === 'Success. You will be redirected to the dashboard page.' ) {
+      setTimeout(() => {
+        this.props.history.push('/dashboard')
+      }, 2000)
+    }
     const { withdrawal } = nextProps
     if ( !!withdrawal && !!withdrawal.user && !!withdrawal.user.btcWallet ) {
       this.setState({ wallet: withdrawal.user.btcWallet })
