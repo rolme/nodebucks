@@ -9,8 +9,8 @@ import PaypalExpressBtn from 'react-paypal-express-checkout';
 import 'rc-checkbox/assets/index.css'
 
 const CLIENT = {
-  sandbox: process.env.PAYPAL_CLIENT_ID_SANDBOX,
-  production: process.env.PAYPAL_CLIENT_ID_PRODUCTION,
+  sandbox: process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
+  production: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
 };
 
 class _PaymentForm extends React.Component {
@@ -106,7 +106,7 @@ class _PaymentForm extends React.Component {
           <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
         <div className='mt-4'>
-          <PaypalExpressBtn client={CLIENT} currency={'USD'} total={1.00} />
+          <PaypalExpressBtn env={process.env.REACT_APP_PAYPAL_MODE} client={CLIENT} currency={'USD'} total={1.00} />
         </div>
       </form>
     )
