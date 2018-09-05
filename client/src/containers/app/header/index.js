@@ -70,6 +70,12 @@ class Header extends Component {
                   </DropdownToggle>
                   <DropdownMenu right className="p-0">
                     <DropdownItem className="headerUserDropDownItem">
+                      <NavLink to="/orders" exact={true} onClick={() => this.toggleNavbar(true)}>Orders</NavLink>
+                    </DropdownItem>
+                    <DropdownItem className="headerUserDropDownItem">
+                      <NavLink to="/withdrawals" exact={true} onClick={() => this.toggleNavbar(true)}>Withdrawals</NavLink>
+                    </DropdownItem>
+                    <DropdownItem className="headerUserDropDownItem">
                       <NavLink to="/settings" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                     </DropdownItem>
                     <DropdownItem className="headerUserDropDownItem">
@@ -77,6 +83,8 @@ class Header extends Component {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+                <NavLink to="/orders" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Orders</NavLink>
+                <NavLink to="/withdrawals" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Withdrawals</NavLink>
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
               </Col>

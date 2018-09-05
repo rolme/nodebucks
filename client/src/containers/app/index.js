@@ -35,6 +35,8 @@ const Affiliate = Loadable({ loader: () => import('../../containers/affiliate'),
 const ForgotPassword = Loadable({ loader: () => import('../authenticate/forgotPassword'), loading: Loading})
 const ResetPassword = Loadable({loader: () => import('../authenticate/resetPassword'), loading: Loading})
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
+const Withdrawals = Loadable({ loader: () => import('../../containers/withdrawals'), loading: Loading })
+const Orders = Loadable({ loader: () => import('../../containers/orders'), loading: Loading })
 
 class App extends Component {
   componentDidMount() {
@@ -69,6 +71,8 @@ class App extends Component {
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
               <Route exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
+              <Route exact path="/withdrawals" component={Withdrawals}/>
+              <Route exact path="/orders" component={Orders}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
               <PublicRoute path="/settings" component={Settings}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
