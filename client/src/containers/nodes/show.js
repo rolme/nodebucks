@@ -16,7 +16,7 @@ import {
   updateNode
 } from '../../reducers/nodes'
 
-import { valueFormat } from "../../lib/helpers";
+import { capitalize, valueFormat } from "../../lib/helpers";
 
 class Node extends Component {
   constructor(props) {
@@ -91,7 +91,6 @@ class Node extends Component {
 
   displayHeader(node) {
     const uptime = (node.onlineAt !== null) ? moment().diff(moment(node.onlineAt), 'days') : 0
-
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
@@ -99,7 +98,8 @@ class Node extends Component {
           <h5 className="mb-0 ml-4 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex flex-column justify-content-center align-items-xl-start align-items-lg-start  align-items-md-start  align-items-sm-center">
-          <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
+          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Status:</b> {capitalize(node.status)}</h5>
+          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
         </Col>
         {this.displayActions(node)}
@@ -207,20 +207,20 @@ class Node extends Component {
   displayActions(node) {
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
+    const isActive = node.status === 'online'
     return (
-      <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
+      <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
         {sellable && (
           <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
-            <NavLink to={`/nodes/${node.crypto.slug}/new`}>
-              <Button className="submitButton addNodeButton col-xl-10 col-lg-10 col-md-11 col-sm-10 col-xs-10"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add {node.crypto.name} Node</Button>
+            <NavLink to={`/nodes/${node.slug}/sell`}>
+              <Button disabled={!isActive} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
+            {!isActive &&
+            <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Disabled until activated</p>
+            }
           </Col>
         )}
-        <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
-          <NavLink to={`/nodes/${node.slug}/sell`}>
-            <Button className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
-          </NavLink>
-        </Col>
+
       </Col>
     )
   }
