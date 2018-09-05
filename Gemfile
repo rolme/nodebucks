@@ -31,7 +31,7 @@ gem "puma_worker_killer"
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Payment processing
-gem 'stripe'
+gem 'stripe' # TODO: Remove stripe
 
 gem "dynamic_sitemaps"
 

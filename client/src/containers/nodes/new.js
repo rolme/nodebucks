@@ -88,10 +88,10 @@ class NewNode extends Component {
     this.setState({ validPrice: false })
   }
 
-  handlePurchase(stripe, callback) {
+  handlePurchase(paymentResponse, callback) {
     const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(stripe, node.slug, callback)
+    this.props.purchaseNode(paymentResponse, node.slug, callback)
   }
 
   togglePurchasingStatus = () => {

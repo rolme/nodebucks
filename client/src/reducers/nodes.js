@@ -187,11 +187,11 @@ export function reserveNode(cryptoSlug, isRefreshing) {
   }
 }
 
-export function purchaseNode(stripe, slug, callback) {
+export function purchaseNode(paymentResponse, slug, callback) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/nodes/${slug}/purchase`, { stripeToken: stripe })
+    axios.patch(`/api/nodes/${slug}/purchase`, { payment_response: paymentResponse })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
         callback()

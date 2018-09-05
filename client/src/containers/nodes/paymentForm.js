@@ -5,7 +5,13 @@ import { NavLink, withRouter } from 'react-router-dom'
 
 import { Col, Alert, Button, FormGroup, Label } from 'reactstrap'
 import Checkbox from 'rc-checkbox'
+import PaypalExpressBtn from 'react-paypal-express-checkout';
 import 'rc-checkbox/assets/index.css'
+
+const CLIENT = {
+  sandbox: process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
+  production: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
+};
 
 class _PaymentForm extends React.Component {
   constructor(props) {
@@ -50,6 +56,14 @@ class _PaymentForm extends React.Component {
     } else {
       console.log("Stripe.js hasn't loaded yet.");
     }
+  }
+
+  onSuccess = (payment) => {
+    this.props.onPurchase(payment, this.props.setAsPurchased)        
+  }
+
+  onError = (err) => {
+    this.setState({ message: err.message })
   }
 
   render() {
@@ -99,6 +113,16 @@ class _PaymentForm extends React.Component {
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 10, offset: 1 }} className="d-flex justify-content-center">
           <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
+        <div className='mt-4'>
+          <PaypalExpressBtn 
+            env={process.env.REACT_APP_PAYPAL_MODE} 
+            client={CLIENT} 
+            currency={'USD'} 
+            total={1.00} 
+            onSuccess={this.onSuccess}
+            onError={this.onError}
+          />
+        </div>
       </form>
     )
   }

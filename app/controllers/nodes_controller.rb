@@ -1,7 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
   before_action :authenticate_admin_request, only: [:offline, :online]
-  before_action :set_customer, only: [:purchase]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -56,21 +55,25 @@ class NodesController < ApplicationController
 
   def purchase
     @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
-    charge = Stripe::Charge.create(
-      customer: @customer.id,
-      # TODO: Turn this back on when testing is over
-      # amount: (@node.cost.ceil * 100).to_i,
-      amount: 98,
-      description: "#{@node.name} masternode purchase at #{@node.cost}",
-      currency: 'usd'
-    )
+    if ENV['PAYMENT_PROCESSOR'] === 'stripe'
+      set_customer
+      charge = Stripe::Charge.create(
+        customer: @customer.id,
+        # TODO: Turn this back on when testing is over
+        # amount: (@node.cost.ceil(2) * 100).to_i,
+        amount: 98,
+        description: "#{@node.name} masternode purchase at #{@node.cost}",
+        currency: 'usd'
+      )
+    end
     operator = NodeManager::Operator.new(@node)
-    operator.purchase
+    # TODO: Save PayPal payload as part of purchase
+    operator.purchase(DateTime.current, params[:payment_response])
     @node.reload
 
     # TODO: This is a bit brittle, need to rethink this later
     # TODO: Only works if purchasing a NEW node
-    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), operator.order.slug).deliver_later
+    ReceiptMailer.send_receipt(current_user, @node.cost.ceil(2), operator.order.slug).deliver_later
 
     render :show
 
@@ -123,7 +126,7 @@ protected
   def set_customer
     @customer = Stripe::Customer.create(
       email: current_user.email,
-      source: params[:stripeToken]
+      source: params[:payment_response]
     )
   end
 end
