@@ -58,6 +58,14 @@ class _PaymentForm extends React.Component {
     }
   }
 
+  onSuccess = (payment) => {
+    this.props.onPurchase(payment, this.props.setAsPurchased)        
+  }
+
+  onError = (err) => {
+    this.setState({ message: err.message })
+  }
+
   render() {
     const { message, checkbox, checkboxError } = this.state
     const { purchasing } = this.props
@@ -106,7 +114,14 @@ class _PaymentForm extends React.Component {
           <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
         </Col>
         <div className='mt-4'>
-          <PaypalExpressBtn env={process.env.REACT_APP_PAYPAL_MODE} client={CLIENT} currency={'USD'} total={1.00} />
+          <PaypalExpressBtn 
+            env={process.env.REACT_APP_PAYPAL_MODE} 
+            client={CLIENT} 
+            currency={'USD'} 
+            total={1.00} 
+            onSuccess={this.onSuccess}
+            onError={this.onError}
+          />
         </div>
       </form>
     )

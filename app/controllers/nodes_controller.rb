@@ -1,10 +1,6 @@
 class NodesController < ApplicationController
-  require 'paypal-sdk-rest'
-  include PayPal::SDK::REST
-
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
   before_action :authenticate_admin_request, only: [:offline, :online]
-  before_action :set_customer, only: [:purchase]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -60,6 +56,7 @@ class NodesController < ApplicationController
   def purchase
     @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
     if ENV['PAYMENT_PROCESSOR'] === 'stripe'
+      set_customer
       charge = Stripe::Charge.create(
         customer: @customer.id,
         # TODO: Turn this back on when testing is over
@@ -71,7 +68,7 @@ class NodesController < ApplicationController
     end
     operator = NodeManager::Operator.new(@node)
     # TODO: Save PayPal payload as part of purchase
-    operator.purchase
+    operator.purchase(DateTime.current, params[:payment_response])
     @node.reload
 
     # TODO: This is a bit brittle, need to rethink this later
@@ -129,7 +126,7 @@ protected
   def set_customer
     @customer = Stripe::Customer.create(
       email: current_user.email,
-      source: params[:stripeToken]
+      source: params[:payment_response]
     )
   end
 end

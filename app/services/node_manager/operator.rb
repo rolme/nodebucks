@@ -40,7 +40,7 @@ module NodeManager
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server offline for maintenance")
     end
 
-    def purchase(timestamp=DateTime.current)
+    def purchase(timestamp, paypal_json)
       return false if node.status != 'reserved' || !within_timeframe?(node.buy_priced_at)
 
       node.update_attribute(:status, 'new')
@@ -52,6 +52,7 @@ module NodeManager
         amount: node.cost,
         status: 'unpaid',
         order_type: 'buy',
+        paypal_response: paypal_json,
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
