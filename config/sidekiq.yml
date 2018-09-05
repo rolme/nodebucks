@@ -25,3 +25,8 @@ production:
   node_daily_ticker_worker:
     cron: '3 1 * * *' # Run every day at 1:03 AM
     class: NodeDailyTickerWorker
+
+  site_map_worker:
+    cron: '0 2 * * *' # Run every day at 2:00 AM
+    class: SiteMapWorker
+
