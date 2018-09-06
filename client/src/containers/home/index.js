@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import Masternodes from '../masternodes'
 import Testimonials from './testimonials'
 
 import { fetchAnnouncement } from '../../reducers/announcements'
 import { disabledAnnouncements } from '../../lib/helpers'
-import { Col, Alert } from 'reactstrap'
+import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
 
@@ -38,7 +38,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.fetchAnnouncement()
-    if (!disabledAnnouncements()) {
+    if ( !disabledAnnouncements() ) {
       this.setState({ visibleAlert: true })
     }
     const hash = this.props.location.hash.substr(1)
@@ -58,8 +58,8 @@ class Home extends Component {
     return (
       <div className="homeContainer">
         <div className="contentContainer px-0">
-          { announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
-            { announcement.text }
+          {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+            {announcement.text}
           </Alert>
           }
         </div>
@@ -67,7 +67,9 @@ class Home extends Component {
           <div className="contentContainer">
             <p className="homeMainBannerHeaderText">Invest in the <span>Blockchain</span></p>
             <p className="homeMainBannerText">Own your very own masternode and collect blockchain rewards.</p>
-            <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
+            <NavLink to="/masternodes">
+              <Button className="homeMainBannerButton">Get a Masternode</Button>
+            </NavLink>
           </div>
         </div>
         <div className="homeAboutContainer">
@@ -132,7 +134,9 @@ class Home extends Component {
               <p className="homeFooterText mb-0">Owning a masternode has never been easier! </p>
             </Col>
             <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-center mt-xl-0 mt-lg-0 mt-md-3 mt-sm-4 mt-xs-5 px-0">
-              <button onClick={this.scrollToMasternodes} className="homeMainBannerButton">Get a Masternode</button>
+              <NavLink to="/masternodes">
+                <Button className="homeMainBannerButton">Get a Masternode</Button>
+              </NavLink>
             </Col>
           </div>
         </div>
