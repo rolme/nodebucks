@@ -51,7 +51,7 @@ if ENV["RAILS_ENV"] != 'production'
   node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
   puts "    * purchase for #{user.full_name} at #{node.cost}"
   operator = NodeManager::Operator.new(node)
-  operator.purchase(DateTime.current - (6.months - 2.days))
+  operator.purchase(DateTime.current - (6.months - 2.days), { source: 'seed' })
   puts "    * Set IP and wallet"
   node.ip     = '127.0.0.1'
   node.wallet = 'PKe7MGTEXaunMhSXwT2D88QEk8JLXbYn7u'
@@ -63,7 +63,7 @@ if ENV["RAILS_ENV"] != 'production'
   node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
   puts "    * purchase for #{user.full_name} at #{node.cost}"
   operator = NodeManager::Operator.new(node)
-  operator.purchase(DateTime.current - (3.months - 2.days))
+  operator.purchase(DateTime.current - (3.months - 2.days), { source: 'seed' })
   puts "    * Set IP and wallet"
   node.ip     = '127.0.0.1'
   node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
