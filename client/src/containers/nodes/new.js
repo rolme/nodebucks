@@ -173,6 +173,7 @@ class NewNode extends Component {
               { !nodePending && !purchasing && this.displayPricingInfo(masternode)}
               {!!user && validPrice && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
+              <p className="purchasePageWithCryptoPaymentMessage">Want to pay with crypto? <a href="/contact" target="_blank" rel="noopener noreferrer">Contact us for payment details.</a></p>
             </Col>
           </div>
         </div>

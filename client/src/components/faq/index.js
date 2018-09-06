@@ -14,7 +14,8 @@ export default class FAQ extends Component {
       question4: false,
       question5: false,
       question6: false,
-      question7: false
+      question7: false,
+      question8: false
     }
     this.toggleQuestion = this.toggleQuestion.bind(this)
   }
@@ -38,7 +39,7 @@ export default class FAQ extends Component {
   }
 
   render() {
-    const { question1, question2, question3, question4, question5, question6, question7 } = this.state
+    const { question1, question2, question3, question4, question5, question6, question7, question8 } = this.state
     return (
       <Container fluid>
         <div className="contentContainer faqContentContainer d-flex flex-column align-items-center">
@@ -86,6 +87,12 @@ export default class FAQ extends Component {
               <CardTitle className={question7 ? "faqCardHeader open" : "faqCardHeader"}><img src={question7 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>How do you determine your masternode price and value?</CardTitle>
               <Collapse isOpen={question7}>
                 <CardText className="faqCardText">Nodebucks looks at the order books across several exchanges to determine the best possible price to purchase the required number of coins to setup a masternode. The order books on the exchanges determines the actual price of a masternode when buying it and also determines the value when selling it. </CardText>
+              </Collapse>
+            </Card>
+            <Card body onClick={() => this.toggleQuestion('question8')}>
+              <CardTitle className={question8 ? "faqCardHeader open" : "faqCardHeader"}><img src={question8 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>Do you accept Bitcoin or other cryptocurrencies as payment?</CardTitle>
+              <Collapse isOpen={question8}>
+                <CardText className="faqCardText">Yes! Please <a href="/contact" target="_blank" rel="noopener noreferrer">contact us</a> with the node(s) you would like to purchase, the cryptocurrency you would like to use as payment, and we will arrange a payment wallet for the transaction. </CardText>
               </Collapse>
             </Card>
           </Col>
