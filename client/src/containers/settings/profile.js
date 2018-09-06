@@ -28,7 +28,7 @@ class Profile extends Component {
         last: false,
         email: false,
       },
-      preview: null,
+      newAvatar: null,
     }
 
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
@@ -48,8 +48,7 @@ class Profile extends Component {
 
   handleDrop = (files) => {
     this.setState({
-      avatar: files[0],
-      preview: files[0].preview,
+      newAvatar: files[0],
     })
   }
 
@@ -100,8 +99,9 @@ class Profile extends Component {
   }
 
   renderAvatarDropzone() {
-    const { preview } = this.state
+    const { newAvatar } = this.state
     const { avatar } = this.props.user
+    const preview = newAvatar ? newAvatar.preview : null
     return (
       <div className="avatar-dropzone-container">
         <Dropzone
@@ -156,9 +156,9 @@ class Profile extends Component {
   }
 
   updateProfileData() {
-    const { first, last, email, avatar } = this.state
+    const { first, last, email, newAvatar } = this.state
     let formData = new FormData();
-    if(avatar) formData.append('user[avatar]', avatar)
+    if(newAvatar) formData.append('user[avatar]', newAvatar)
     formData.append('user[first]', first)
     formData.append('user[last]', last)
     formData.append('user[email]', email)
