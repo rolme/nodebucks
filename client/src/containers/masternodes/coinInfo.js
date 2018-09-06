@@ -5,25 +5,12 @@ import { Col, Button } from 'reactstrap'
 import './index.css'
 
 class CoinInfo extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showAllDescriptions: false
-    }
-    this.showAllDescriptions = this.showAllDescriptions.bind(this)
-  }
-
   componentWillMount() {
     window.scrollTo(0, 0)
   }
 
-  showAllDescriptions() {
-    this.setState({ showAllDescriptions: true })
-  }
-
   render() {
     let { match: { params } } = this.props
-    const { showAllDescriptions } = this.state
     return (
       <div className="coinInfoContainer">
         <div className="contentContainer">
@@ -89,27 +76,6 @@ class CoinInfo extends Component {
               <h6>Premise</h6>
               <p>According to their whitepaper, Dash describes itself as “a cryptocurrency based on Bitcoin, the work of Satoshi Nakamoto, with various improvements such as a two-tier incentivized network, known as the masternode network.” The paper adds that Dash features other </p>
             </div>
-            {showAllDescriptions &&
-            <div>
-              <div className="coinInfoDescriptionContainer">
-                <h6>Lorem Ipsum</h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-              <div className="coinInfoDescriptionContainer">
-                <h6>Lorem Ipsum</h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Senectus et netus et malesuada fames ac turpis. Eu nisl nunc mi ipsum faucibus vitae aliquet nec. Nunc id cursus metus aliquam eleifend mi. Arcu cursus euismod quis viverra nibh cras pulvinar mattis. Integer enim neque volutpat ac tincidunt vitae. Eget est lorem ipsum dolor sit amet consectetur adipiscing elit. Euismod quis viverra nibh cras pulvinar
-                  mattis
-                  nunc sed. Ut sem viverra aliquet eget sit amet tellus. Purus semper eget duis at tellus at urna condimentum mattis. Interdum velit euismod in pellentesque massa placerat duis. Justo eget magna fermentum iaculis eu non diam. Sollicitudin nibh sit amet commodo nulla. Pharetra pharetra massa massa ultricies mi. Commodo elit at imperdiet dui accumsan sit amet nulla facilisi. Elementum pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Elit at imperdiet dui
-                  accumsan
-                  sit amet. Diam sit amet nisl suscipit adipiscing bibendum. Elit pellentesque habitant morbi tristique senectus et netus. Eget gravida cum sociis natoque.</p>
-              </div>
-            </div>
-            }
-            {!showAllDescriptions &&
-            <div className="d-flex justify-content-center">
-              <Button onClick={this.showAllDescriptions} color="link">View full profile</Button>
-            </div>
-            }
           </Col>
         </div>
       </div>
