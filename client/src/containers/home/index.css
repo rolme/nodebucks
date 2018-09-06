@@ -47,8 +47,10 @@
   cursor: pointer;
 }
 
+.homeMainBannerButton:hover,
 .homeMainBannerButton:focus {
   outline: none;
+  background-color: #FC6422;
 }
 
 @keyframes scrollAnimation {
