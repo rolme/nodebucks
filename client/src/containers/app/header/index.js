@@ -40,9 +40,9 @@ class Header extends Component {
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
-            {!!user &&
+            {/*{!!user &&
             <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
-            }
+            }*/}
           </NavbarToggler>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
             {!user &&
@@ -56,6 +56,7 @@ class Header extends Component {
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
               <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
+              <div className="dropdown-divider authMenuDivider"></div>
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
             </Col>
             }
@@ -83,15 +84,18 @@ class Header extends Component {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
+                <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/orders" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Orders</NavLink>
                 <NavLink to="/withdrawals" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Withdrawals</NavLink>
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
+                <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
               </Col>
             </Col>
             }
             {!user &&
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerAuthMenuItemsContainer mr-auto justify-content-end">
+              <div className="dropdown-divider authMenuDivider"></div>
               {this.displayLoginLink()}
             </Col>
             }
