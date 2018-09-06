@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'api/masternodes', to: 'masternodes#index', defaults: { format: :json }
+
   post 'auth/login', to: 'users#login'
   post 'auth/admin', to: 'users#admin_login'
   post 'auth/oauth', to: 'users#callback'
