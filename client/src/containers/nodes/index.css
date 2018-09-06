@@ -281,6 +281,16 @@
   z-index: 1000;
 }
 
+.purchasePageWithCryptoPaymentMessage {
+  font-family: 'Raleway';
+  font-size: 16px;
+  color: #000000;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+}
+
 /*Show Page Style*/
 .showPageContainer {
   background-color: #FAFAFA;
