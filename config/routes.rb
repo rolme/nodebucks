@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       patch :reserve # Reserve sell price
       patch :sell
     end
+    resources :masternodes, only: [:index]
     resources :orders, only: [:index]
     resources :users, except: [:edit, :new], param: :slug do
       get :balance, on: :collection
@@ -28,8 +29,6 @@ Rails.application.routes.draw do
       patch :reviewed
     end
   end
-
-  get 'api/masternodes', to: 'masternodes#index', defaults: { format: :json }
 
   post 'auth/login', to: 'users#login'
   post 'auth/admin', to: 'users#admin_login'
