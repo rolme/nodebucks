@@ -1,21 +1,89 @@
+.masternodesContainer {
+  background-color: #FAFAFA;
+  min-height: calc(100vh - 120px);
+}
+
 .masternodesContainer > .contentContainer {
-  padding: 90px 0 0 0;
+  padding: 35px 0 0 0;
 }
 
-.masternodesHeader {
+.masternodesSectionHeader {
   font-family: 'Raleway-Light';
-  font-size: 36px;
-  color: #3A3A3A;
-  text-align: center;
+  font-size: 30px;
+  color: #000000;
   margin-bottom: 40px;
+  padding-left: 30px;
 }
 
-.masternodeContactLink {
+.masternodesListingCoinInfoContainer {
+  display: flex;
+  background-color: white;
+  border: 1px solid #E7E7E7;
+  margin-bottom: 20px;
+  padding: 30px;
+}
+
+.masternodesListingCoinName {
+  color: #000000;
+  font-size: 26px;
   font-family: 'Raleway-Light';
-  color: #1982cb;
-  text-align: center;
-  display: block;
-  margin: 20px auto 40px auto;
+  margin: 13px 0 20px;
+}
+
+.masternodesListingCoinLink {
+  color: #2A87C9;
+  font-size: 14px;
+  font-family: 'Raleway';
+}
+
+.masternodesListingCoinInfoPriceLabel {
+  color: #535353;
+  font-family: 'OpenSans-Light';
+  font-size: 18px;
+}
+
+.masternodesListingCoinInfoPrice {
+  color: #3B3B3B;
+  font-family: 'OpenSans-Light';
+  font-size: 24px;
+}
+
+.masternodesListingCoinInfoButton {
+  width: 200px;
+  padding: 10px;
+}
+
+.masternodesListingCoinInfoDescriptionPartContainer {
+  border-left: 1px solid #E7E7E7;;
+  border-right: 1px solid #E7E7E7;;
+  padding: 20px 20px 0;
+}
+
+.masternodesListingCoinInfoDescription {
+  color: #3B3B3B;
+  font-family: 'Raleway';
+  font-size: 14px;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer > h6 {
+  color: #535353;
+  font-family: 'OpenSans-Light';
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer > p {
+  color: #3B3B3B;
+  font-family: 'OpenSans-Light';
+  font-size: 18px;
+  margin-bottom: 0;
 }
 
 /*COIN INFO STYLE */
@@ -172,6 +240,33 @@
   .coinInfoValueSectionContainer {
     max-width: 49%;
     min-width: 49%;
+    margin-bottom: 20px;
+  }
+
+  .masternodesListingCoinInfoContainer {
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .masternodesListingCoinInfoContainer {
+    flex-direction: column;
+  }
+
+  .masternodesListingCoinName {
+    margin: 0;
+  }
+
+  .masternodesListingCoinInfoDescriptionPartContainer{
+    border: none;
+    padding: 20px 5px;
+  }
+
+  .masternodesListingCoinInfoPriceLabel{
+    margin: 0;
+  }
+
+  .masternodesSectionHeader{
     margin-bottom: 20px;
   }
 }
