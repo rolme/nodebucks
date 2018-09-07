@@ -33,6 +33,9 @@ export const RESET = 'user/RESET'
 export const REQUEST_REFERRER = 'user/REQUEST_REFERRER'
 export const REQUEST_REFERRER_SUCCESS = 'user/REQUEST_REFERRER_SUCCESS'
 export const REQUEST_REFERRER_FAILURE = 'user/REQUEST_REFERRER_FAILURE'
+export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
+export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
+export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -546,6 +549,20 @@ export function createContact(email, subject, message, callback) {
       })
       .catch((error) => {
         dispatch({ type: CONTACT_TEAM_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function passwordConfirmation(slug, password, callback) {
+  return dispatch => {
+    dispatch({ type: REQUEST_PASSWORD_CONFIRMATION })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get(`/api/users/${slug}/password_confirmation?password=${password}`).then(response => {
+      dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_SUCCESS, payload: response.data })
+      callback(response.data.valid)
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_FAILURE, payload: error.message })
       })
   }
 }
