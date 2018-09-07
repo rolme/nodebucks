@@ -14,6 +14,14 @@ class Order < ApplicationRecord
     joins(:user).where("users.slug LIKE ?", user_slug)
   }
 
+  def paid!
+    update_attribute(:status, :paid)
+  end
+
+  def unpaid!
+    update_attribute(:status, :unpaid)
+  end
+
 private
 
   # TODO: need to do this better

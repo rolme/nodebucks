@@ -10,3 +10,4 @@ json.amount order.amount
 json.currency order.currency
 json.status order.status
 json.description order.description
+json.slug order.slug
