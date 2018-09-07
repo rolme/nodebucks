@@ -12,7 +12,10 @@ Rails.application.routes.draw do
       patch :sell
     end
     resources :masternodes, only: [:index]
-    resources :orders, only: [:index]
+    resources :orders, only: [:index], param: :slug do
+      patch :paid
+      patch :unpaid
+    end
     resources :users, except: [:edit, :new], param: :slug do
       get :balance, on: :collection
       get :confirm
