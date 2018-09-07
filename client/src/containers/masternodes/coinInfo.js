@@ -22,13 +22,10 @@ class CoinInfo extends Component {
                 <a href='https://www.dash.org/' target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="23px" className="mr-2"/>www.dash.org</a>
               </div>
             </Col>
-            <Col xl={{ size: 4, offset: 1 }} lg={{ size: 4, offset: 1 }} md={{ size: 3, offset: 1 }} sm={{ size: 4, offset: 0 }} xs={{ size: 10, offset: 1 }} className="coinInfoHeaderDataSectionContainer px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-sm-0 mt-3">
-              <h6>Node Price</h6>
-              <p>214.57 <span>USD</span></p>
-            </Col>
-            <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 3 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
+            <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
+              <p className="coinInfoHeaderPrice">$ 1,525.52 <span>USD</span></p>
               <NavLink to={`/nodes/${params.slug}/new`}>
-                <Button className="buyNodeButton">Buy Node ($1,425 USD)</Button>
+                <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
               </NavLink>
             </Col>
           </Col>
