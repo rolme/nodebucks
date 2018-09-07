@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { valueFormat } from "../../lib/helpers";
 
 import CryptoTable from '../../components/cryptos/table'
 
+import { Col } from 'reactstrap'
 import './index.css'
 
 import {
@@ -17,19 +19,72 @@ class Masternodes extends Component {
     window.scrollTo(0, 0)
     const { cryptos } = this.props
 
-    if (cryptos.length === 0) {
+    if ( cryptos.length === 0 ) {
       this.props.fetchCryptos()
     }
+  }
+
+  renderCoinsInfo(cryptos) {
+    return cryptos.map((crypto, index) => {
+      const logoUrl = !!crypto.logo_url ? crypto.logo_url : `/assets/images/logos/${crypto.slug}.png`
+      const cryptoUrlName = new URL(crypto.url).host
+      const nodePrice = valueFormat(crypto.nodePrice, 0)
+      const annualRoi = valueFormat(crypto.annualRoi, 2)
+      const yearlyRoiValue = valueFormat(crypto.yearlyRoiValue, 0)
+      const monthlyRoiPercentage = valueFormat(crypto.monthlyRoiPercentage * 100, 1)
+      return (
+        <Col key={index} className="masternodesListingCoinInfoContainer">
+          <Col xl={{ size: 2, offset: 0 }} lg={{ size: 2, offset: 0 }} md={{ size: 2, offset: 0 }} sm={{ size: 6, offset: 3 }} className="d-flex flex-xl-column flex-lg-column flex-md-column flex-row align-items-center justify-content-center px-0">
+            <img alt="logo" src={logoUrl} width="95px"/>
+            <div className="d-flex justify-content-center flex-column align-items-xl-center align-items-lg-center align-items-md-center align-items-start ml-xl-0 ml-lg-0 ml-md00 ml-3">
+              <p className="masternodesListingCoinName">{crypto.name}</p>
+              <a href={crypto.url} target="_new" className="masternodesListingCoinLink"> <img alt="logo" src={`/assets/images/globe.png`} width="20px" className="mr-2"/>{cryptoUrlName}</a>
+            </div>
+          </Col>
+          <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 7, offset: 0 }} className="masternodesListingCoinInfoDescriptionPartContainer">
+            <p className="masternodesListingCoinInfoDescription">{crypto.description}</p>
+            <Col className="d-flex justify-content-between flex-wrap">
+              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+                <h6>Annual ROI</h6>
+                <p>{annualRoi}</p>
+              </div>
+              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+                <h6>Yearly return</h6>
+                <p>{yearlyRoiValue}</p>
+              </div>
+              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+                <h6>Monthly return</h6>
+                <p>{monthlyRoiPercentage} %</p>
+              </div>
+            </Col>
+          </Col>
+          <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 3, offset: 0 }} className="d-flex flex-column align-items-center justify-content-center px-0">
+            <p className="masternodesListingCoinInfoPriceLabel">Node price</p>
+            <p className="masternodesListingCoinInfoPrice">$ {nodePrice}</p>
+            {+crypto.nodePrice < 50000 &&
+            <NavLink to={`/masternodes/${crypto.slug}`} className="btn btn-primary masternodesListingCoinInfoButton addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
+            }
+            {+crypto.nodePrice > 50000 &&
+            <NavLink to={'/contact#contact-sales-' + crypto.name} className="btn btn-primary masternodesListingCoinInfoButton contactSalesButton"><img src="/assets/images/contactUsIcon.png" alt="contact us" className="mr-2"/>Contact Us</NavLink>
+            }
+          </Col>
+        </Col>
+      )
+    })
+
   }
 
   render() {
     const { cryptos, user } = this.props
     return (
-      <div className="masternodesContainer bg-white">
+      <div className="masternodesContainer">
         <div className="contentContainer">
-          <h1 className="masternodesHeader">Select a Masternode</h1>
-          <CryptoTable list={cryptos} user={user} />
-          <NavLink to='/contact#request' className="masternodeContactLink">Request a different masternode coin</NavLink>
+          <div>
+            <h1 className="masternodesSectionHeader">Learn mode about masternodes</h1>
+            {this.renderCoinsInfo(cryptos)}
+          </div>
+          <h1 className="masternodesSectionHeader">Compare Masternodes</h1>
+          <CryptoTable list={cryptos} user={user}/>
         </div>
       </div>
     )
