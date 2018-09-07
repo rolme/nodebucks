@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import moment from 'moment'
 import { Col, Container, Row, Button, Table } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
+import ConfirmationModal from '../../components/confirmationModal'
 import './index.css'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
@@ -15,6 +16,7 @@ import {
   fetchNode,
   updateNode
 } from '../../reducers/nodes'
+import { passwordConfirmation } from '../../reducers/user'
 
 import { capitalize, valueFormat } from "../../lib/helpers";
 
@@ -24,10 +26,10 @@ class Node extends Component {
     this.state = {
       rewardSetting: '',
       withdrawWallet: '',
-      showAllHistoryData: false
+      showAllHistoryData: false,
+      showConfirmationModal: false,
     }
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
-    this.handleRewardSettingChange = this.handleRewardSettingChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
   }
@@ -56,14 +58,27 @@ class Node extends Component {
     this.setState({ rewardSetting: value })
   }
 
-  handleRewardSettingChange() {
+  handleRewardSettingChange = () => {
     const { node } = this.props
     const { rewardSetting, withdrawWallet } = this.state
     rewardSetting === 20 ? this.props.updateNode(node.slug, { rewardSetting, withdrawWallet }) : this.props.updateNode(node.slug, { rewardSetting })
+    this.closeConfirmationModal()
+  }
+
+  showConfirmationModal = () => {
+    this.setState({ 
+      showConfirmationModal: true,
+      onSuccessPasswordConfirmation: this.handleRewardSettingChange
+    })
+  }
+
+  closeConfirmationModal = () => {
+    this.setState({ showConfirmationModal: false })
   }
 
   render() {
     const { node, pending } = this.props
+    const { showConfirmationModal, onSuccessPasswordConfirmation } = this.state
 
     if ( pending || node.slug === undefined ) {
       return null
@@ -84,6 +99,14 @@ class Node extends Component {
               {this.displayROI(node)}
             </Col>
           </Row>
+          <ConfirmationModal 
+            show={showConfirmationModal}
+            onSuccess={onSuccessPasswordConfirmation}
+            onConfirm={this.props.passwordConfirmation}
+            onClose={this.closeConfirmationModal}
+            userSlug={this.props.userSlug}
+            title='Confirm Reward Changes'
+          />
         </div>
       </Container>
     )
@@ -174,7 +197,7 @@ class Node extends Component {
             <span className="radioButtonCheckmark"></span>
           </label>
           <div className="d-flex justify-content-end">
-            <Button className="rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.handleRewardSettingChange}>Update</Button>
+            <Button className="rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.showConfirmationModal}>Update</Button>
           </div>
         </div>
       </div>
@@ -287,12 +310,14 @@ const mapStateToProps = state => ({
   node: state.nodes.data,
   error: state.nodes.error,
   message: state.nodes.message,
-  pending: state.nodes.pending
+  pending: state.nodes.pending,
+  userSlug: state.user.data.slug
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchNode,
-  updateNode
+  updateNode,
+  passwordConfirmation,
 }, dispatch)
 
 export default connect(

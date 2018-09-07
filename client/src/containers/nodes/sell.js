@@ -8,6 +8,7 @@ import { Col, Container, Row, FormGroup, Label, Input, Button } from 'reactstrap
 import './index.css'
 
 import Countdown from '../../components/countdown'
+import ConfirmationModal from '../../components/confirmationModal'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
@@ -17,6 +18,7 @@ import {
   sellReserveNode,
   updateNode
 } from '../../reducers/nodes'
+import { passwordConfirmation } from '../../reducers/user'
 
 import {valueFormat} from "../../lib/helpers";
 
@@ -25,7 +27,8 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      validPrice: true
+      validPrice: true,
+      showConfirmationModal: false,
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
@@ -76,13 +79,26 @@ class SellNode extends Component {
     this.props.updateNode(node.slug, { sell_setting: value })
   }
 
-  handleSellClick() {
+  handleSellClick = () => {
     const { node } = this.props
     this.props.sellNode(node.slug)
+    this.closeConfirmationModal()
+  }
+
+  showConfirmationModal = () => {
+    this.setState({ 
+      showConfirmationModal: true,
+      onSuccessPasswordConfirmation: this.handleSellClick
+    })
+  }
+
+  closeConfirmationModal = () => {
+    this.setState({ showConfirmationModal: false })
   }
 
   render() {
     const { node } = this.props
+    const { showConfirmationModal, onSuccessPasswordConfirmation } = this.state
 
     const available = (node.status !== 'sold')
     const sellPrice = valueFormat(+node.sellPrice, 2)
@@ -101,6 +117,15 @@ class SellNode extends Component {
               {available && this.displayActions(node)}
             </Col>
           </div>
+          <ConfirmationModal 
+            show={showConfirmationModal}
+            onSuccess={onSuccessPasswordConfirmation}
+            onConfirm={this.props.passwordConfirmation}
+            onClose={this.closeConfirmationModal}
+            userSlug={this.props.userSlug}
+            title='Sell Confirmation'
+            price={sellPrice}
+          />
         </div>
       </Container>
     )
@@ -207,7 +232,7 @@ class SellNode extends Component {
     if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) || (node.sellSetting === stripe && !node.stripe) ) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
-    return (<Button className="sellPageSubmitButton" onClick={this.handleSellClick.bind(this)}>Sell Server</Button>)
+    return (<Button className="sellPageSubmitButton" onClick={this.showConfirmationModal}>Sell Server</Button>)
   }
 }
 
@@ -217,12 +242,14 @@ const mapStateToProps = state => ({
   message: state.nodes.message,
   pending: state.nodes.pending,
   refreshing: state.nodes.refreshing,
+  userSlug: state.user.data.slug,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   sellNode,
   sellReserveNode,
-  updateNode
+  updateNode,
+  passwordConfirmation,
 }, dispatch)
 
 export default connect(

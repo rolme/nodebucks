@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
   before_action :authenticate_admin_request, only: [:index, :show]
   before_action :set_affiliate_key, only: [:referrer]
 
@@ -191,6 +191,11 @@ class UsersController < ApplicationController
     else
       render json: { error: command.errors }, status: :unauthorized
     end
+  end
+
+  def password_confirmation
+    user = User.find_by(slug: params[:user_slug])
+    render json: { status: :ok, valid: user.authenticate(params[:password]).present? }
   end
 
 protected
