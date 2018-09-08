@@ -83,6 +83,7 @@ export default (state = initialState, action) => {
         signUpError: false,
         logInMessage: null,
         signUpMessage: null,
+        message: null,
         logInPending: false,
         signUpPending: false,
         requestResetPending: false,
@@ -219,7 +220,7 @@ export default (state = initialState, action) => {
         requestResetMessage: action.payload.message,
         pending: false,
       }
-   case REQUEST_RESET_FAILURE:
+    case REQUEST_RESET_FAILURE:
       return {
         ...state,
         requestResetError: true,
@@ -237,7 +238,7 @@ export default (state = initialState, action) => {
         message: action.payload.message,
         error: false
       }
-      case RESET_PASSWORD_FAILURE:
+    case RESET_PASSWORD_FAILURE:
       return {
         ...state,
         message: action.payload.message,
@@ -274,7 +275,7 @@ export default (state = initialState, action) => {
         message: action.payload.message,
       }
 
-      case CONFIRM_REGISTRATION:
+    case CONFIRM_REGISTRATION:
       return {
         ...state,
         error: false,
@@ -287,7 +288,7 @@ export default (state = initialState, action) => {
         ...state,
         data: jwt_decode(action.payload.token),
         error: false,
-        message: action.payload.message,
+        message: "Your email address has been successfully verified. Thank you!",
         pending: false,
         token: action.payload.token
       }
