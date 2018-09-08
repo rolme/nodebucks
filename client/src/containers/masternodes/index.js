@@ -75,15 +75,20 @@ class Masternodes extends Component {
   }
 
   render() {
-    const { cryptos, user } = this.props
+    const { cryptos, user, bgColor } = this.props
+    console.log(this.props)
     return (
-      <div className="masternodesContainer">
+      <div className={`${!!bgColor ? bgColor : ""} masternodesContainer`}>
         <div className="contentContainer">
+          {!!user &&
           <div>
             <h1 className="masternodesSectionHeader">Learn mode about masternodes</h1>
             {this.renderCoinsInfo(cryptos)}
           </div>
+          }
+          {!!user &&
           <h1 className="masternodesSectionHeader">Compare Masternodes</h1>
+          }
           <CryptoTable list={cryptos} user={user}/>
         </div>
       </div>
@@ -93,7 +98,7 @@ class Masternodes extends Component {
 
 const mapStateToProps = state => ({
   cryptos: state.cryptos.list,
-  user: state.user.user
+  user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
