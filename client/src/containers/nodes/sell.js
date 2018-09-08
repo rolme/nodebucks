@@ -20,7 +20,7 @@ import {
 } from '../../reducers/nodes'
 import { passwordConfirmation } from '../../reducers/user'
 
-import {valueFormat} from "../../lib/helpers";
+import { valueFormat } from "../../lib/helpers";
 
 class SellNode extends Component {
   constructor(props) {
@@ -29,10 +29,12 @@ class SellNode extends Component {
     this.state = {
       validPrice: true,
       showConfirmationModal: false,
+      address: ''
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handleAddressChange = this.handleAddressChange.bind(this)
   }
 
   componentWillMount() {
@@ -66,7 +68,7 @@ class SellNode extends Component {
     window.history.back()
   }
 
-  handleAddressChange(name, value) {
+  updateAddressValue(name, value) {
     const { node } = this.props
     let data = {}
     data[ name ] = value
@@ -74,9 +76,16 @@ class SellNode extends Component {
     this.props.updateNode(node.slug, data)
   }
 
+  handleAddressChange(value) {
+    this.setState({ address: value })
+  }
+
   handleSellSettingClick(value) {
     const { node } = this.props
-    this.props.updateNode(node.slug, { sell_setting: value })
+    if ( value !== node.sellSetting ) {
+      this.props.updateNode(node.slug, { sell_setting: value })
+      this.setState({ address: '' })
+    }
   }
 
   handleSellClick = () => {
@@ -86,7 +95,7 @@ class SellNode extends Component {
   }
 
   showConfirmationModal = () => {
-    this.setState({ 
+    this.setState({
       showConfirmationModal: true,
       onSuccessPasswordConfirmation: this.handleSellClick
     })
@@ -117,7 +126,7 @@ class SellNode extends Component {
               {available && this.displayActions(node)}
             </Col>
           </div>
-          <ConfirmationModal 
+          <ConfirmationModal
             show={showConfirmationModal}
             onSuccess={onSuccessPasswordConfirmation}
             onConfirm={this.props.passwordConfirmation}
@@ -145,13 +154,13 @@ class SellNode extends Component {
     const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? valueFormat(+node.sellPrice, 2) : ''
-    let price = (validPrice) ? `$${sellPrice} USD` : (<s> ${sellPrice} USD</s>)
+    let price = (validPrice) ? (<span>${sellPrice} USD</span>) : (<s> ${sellPrice} USD</s>)
     return (
       <Col xl={12} className="sellPagePriceSectionContainer">
-        <p>You are about to sell your Polis server.</p>
+        <p>You are about to sell your masternode server.</p>
         <p>This action is permanent and irreversible.</p>
-        <Row className="mx-0 mt-4 align-items-center">
-          <h3 className="sellPagePriceAmount">Sale Price: {!!sellPrice && !refreshing ? price : <ClipLoader
+        <Row className="mx-0 mt-4 mb-3 align-items-center">
+          <h3 className="sellPagePriceAmount">Price: {!!sellPrice && !refreshing ? price : <ClipLoader
             size={25}
             color={'#3F89E8'}
             loading={true}
@@ -166,7 +175,7 @@ class SellNode extends Component {
   }
 
   displaySellSettings(node) {
-
+    const { address } = this.state
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
@@ -174,20 +183,18 @@ class SellNode extends Component {
         </h5>
         <div className="d-flex sellPagePaymentDestinationSectionsContainer flex-wrap justify-content-center">
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 0)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 0) ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader">Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
-            <p className="sellPagePaymentDestinationSectionParagraph walletAddress">{node.sellBitcoinWallet}</p>
           </Col>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 10)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 10) ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader">Debit Card {this.displayCheck(node.sellSetting === 10)}</p>
-            <p className="sellPagePaymentDestinationSectionParagraph"> We will use the following debit card on file (THIS REQUIRES STRIPE INTEGRATION)</p>
-            <p className="sellPagePaymentDestinationSectionParagraph">{node.stripe}</p>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/paypalIcon.png" width="20px" alt="paypal"/> PayPal {this.displayCheck(node.sellSetting === 10)}</p>
+            <p className="sellPagePaymentDestinationSectionParagraph"> Provide your PayPal email below to receive payment via PayPal. </p>
           </Col>
         </div>
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
-            <Label for="address">Enter your bitcoin address:</Label>
-            <Input disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder="Bitcoin Wallet Address" onBlur={(event) => this.handleAddressChange(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+            <Label for="address">{node.sellSetting === 10 ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
+            <Input value={address} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder={node.sellSetting === 10 ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleAddressChange(event.target.value)} onBlur={(event) => this.updateAddressValue(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
           </FormGroup>
         </div>
       </div>
@@ -220,6 +227,7 @@ class SellNode extends Component {
   }
 
   sellServerButton(node) {
+    console.log("NODE", node)
     // TODO: This should be moved to top of file
     const bitcoinWallet = 0
     const stripe = 10
