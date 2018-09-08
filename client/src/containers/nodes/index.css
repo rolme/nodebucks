@@ -494,6 +494,7 @@ dt {
 .withdrawPageContentContainer,
 .purchasePageContentContainer {
   max-width: 850px;
+  padding-bottom: 50px;
 }
 
 .sellPageBackButton,
