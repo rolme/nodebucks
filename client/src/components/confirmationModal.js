@@ -34,7 +34,6 @@ class ConfirmationModal extends Component {
     const { show, title, price } = this.props
     return (
       <div>
-        <Button color="danger" onClick={this.toggle} />
         <Modal isOpen={show} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
           <ModalBody>
