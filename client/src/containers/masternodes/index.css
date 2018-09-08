@@ -4,7 +4,7 @@
 }
 
 .masternodesContainer > .contentContainer {
-  padding: 35px 0 0 0;
+  padding: 35px 0 50px 0;
 }
 
 .masternodesSectionHeader {
@@ -86,6 +86,19 @@
   margin-bottom: 0;
 }
 
+.masternodesPageBottomLink {
+  font-family: "Raleway";
+  color: #777777;
+  padding: 20px 0;
+  display: block;
+  text-align: center;
+}
+
+.masternodesPageBottomLink:hover {
+  color: #4A4A4A;
+  text-decoration: none;
+}
+
 /*COIN INFO STYLE */
 .coinInfoContainer {
   background-color: #FAFAFA;
@@ -93,7 +106,7 @@
 }
 
 .coinInfoContainer > .contentContainer {
-  padding: 35px 0;
+  padding: 35px 0 50px;
 }
 
 .coinInfoNameContainer {
@@ -257,16 +270,16 @@
     margin: 0;
   }
 
-  .masternodesListingCoinInfoDescriptionPartContainer{
+  .masternodesListingCoinInfoDescriptionPartContainer {
     border: none;
     padding: 20px 5px;
   }
 
-  .masternodesListingCoinInfoPriceLabel{
+  .masternodesListingCoinInfoPriceLabel {
     margin: 0;
   }
 
-  .masternodesSectionHeader{
+  .masternodesSectionHeader {
     margin-bottom: 20px;
   }
 }

@@ -85,6 +85,7 @@ class Masternodes extends Component {
           </div>
           <h1 className="masternodesSectionHeader">Compare Masternodes</h1>
           <CryptoTable list={cryptos} user={user}/>
+          <NavLink to="/contact" className="masternodesPageBottomLink" target="_blank" rel="noopener noreferrer">Click here to request a new masternode coin listing on Nodebucks</NavLink>
         </div>
       </div>
     )

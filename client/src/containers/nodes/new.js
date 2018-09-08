@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
-import { Alert, Container, Col, Row, Tooltip, Button,  } from 'reactstrap'
+import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
 
 import Countdown from '../../components/countdown'
@@ -128,13 +128,13 @@ class NewNode extends Component {
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
       <Container fluid className="purchasePageContainer">
+        {showReloadAlert && !masternode.nodePrice &&
         <div className="contentContainer purchasePageContentContainer">
-          {showReloadAlert && !masternode.nodePrice &&
           <Alert color='danger'>
             This is taking longer than usual. Please try again.
           </Alert>
-          }
         </div>
+        }
         <div className="contentContainer purchasePageContentContainer">
           <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
@@ -142,8 +142,8 @@ class NewNode extends Component {
               {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
               {
                 !!nodePending || !!cryptoPending
-                ? 'Calculating latest pricing ...'
-                : `Purchase ${masternode.name} Masternode`
+                  ? 'Calculating latest pricing ...'
+                  : `Purchase ${masternode.name} Masternode`
               }
             </h1>
             {
@@ -161,16 +161,16 @@ class NewNode extends Component {
             <Col xl={12} className="d-flex px-0 flex-wrap">
               {
                 !!nodePending || !!cryptoPending
-                ? <div className="loadingSnipperContainer">
+                  ? <div className="loadingSnipperContainer">
                     <ClipLoader
                       size={35}
                       color={'#3F89E8'}
                       loading={true}
                     />
                   </div>
-                : this.displayCryptoData(masternode)
+                  : this.displayCryptoData(masternode)
               }
-              { !nodePending && !purchasing && this.displayPricingInfo(masternode)}
+              {!nodePending && !purchasing && this.displayPricingInfo(masternode)}
               {!!user && validPrice && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
               <p className="purchasePageWithCryptoPaymentMessage">Want to pay with crypto? <a href="/contact" target="_blank" rel="noopener noreferrer">Contact us for payment details.</a></p>
@@ -203,7 +203,7 @@ class NewNode extends Component {
 
   toggleTooltip(name) {
     name = name + 'TooltipOpen'
-    this.setState({ [name]: !this.state[ name ] })
+    this.setState({ [ name ]: !this.state[ name ] })
   }
 
   displayPricingInfo(masternode) {
@@ -235,7 +235,7 @@ class NewNode extends Component {
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
-    const spread =  (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
+    const spread = (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
     const annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
 
@@ -243,7 +243,7 @@ class NewNode extends Component {
       nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
     }
 
-    if (purchasing) {
+    if ( purchasing ) {
       return null;
     }
 
