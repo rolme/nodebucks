@@ -82,7 +82,7 @@ class Masternodes extends Component {
         <div className="contentContainer">
           {!!user &&
           <div>
-            <h1 className="masternodesSectionHeader">Learn mode about masternodes</h1>
+            <h1 className="masternodesSectionHeader">Select a Masternode</h1>
             {this.renderCoinsInfo(cryptos)}
           </div>
           }
