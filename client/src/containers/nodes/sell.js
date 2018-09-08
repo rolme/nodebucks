@@ -227,7 +227,6 @@ class SellNode extends Component {
   }
 
   sellServerButton(node) {
-    console.log("NODE", node)
     // TODO: This should be moved to top of file
     const bitcoinWallet = 0
     const stripe = 10
