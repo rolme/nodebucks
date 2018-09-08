@@ -398,6 +398,7 @@
   font-family: Raleway;
   font-size: 14px;
   cursor: text !important;
+  width: 100%;
 }
 
 .showPageRewardSettingsInputField::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -425,23 +426,13 @@
 }
 
 .rewardSettingsUpdateButton {
-  background-color: #EEEEEE;
-  border: none;
-  color: #1C2E35;
-  font-weight: bold;
-  font-family: Raleway-SemiBold;
   padding: 10px 25px;
+  margin-left: 35px;
+  line-height: 24px;
 }
 
-.rewardSettingsUpdateButton:focus,
-.rewardSettingsUpdateButton:active,
-.rewardSettingsUpdateButton:visited,
-.rewardSettingsUpdateButton:hover {
-  background-color: #aaaaaa;
-  color: #eeeeee;
-  border: none;
-  outline: none;
-  box-shadow: none;
+.rewardSettingsUpdateButton.disabled {
+  background-color: #1aa8f8 !important
 }
 
 .priceHistoryChartPeriodContainer {
