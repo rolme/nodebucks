@@ -34,6 +34,7 @@
   font-size: 16px;
   padding: 17px 20px;
   font-family: 'OpenSans';
+  cursor: pointer;
 }
 
 .affiliateDashboardReferralUrlContainer > input, ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
