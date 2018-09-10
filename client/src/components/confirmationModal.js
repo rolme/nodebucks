@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { EventEmitter } from 'events';
 
 class ConfirmationModal extends Component {
   constructor(props) {
@@ -7,12 +8,20 @@ class ConfirmationModal extends Component {
     this.state = {
       input: '',
       message: '',
+      open: false,
     };
   }
 
+  componentDidMount() {
+    EventEmitter.prototype.addListener('open-confirm-modal', this.openModal);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.prototype.removeListener('admin-confirm-modal', this.openModal);
+  }
+
   toggle = () => {
-    this.setState({ input: '', message: '' })
-    this.props.onClose();
+    this.setState({ input: '', message: '', open: false })
   }
 
   handleConfirmation = () => {
@@ -20,7 +29,7 @@ class ConfirmationModal extends Component {
     this.props.onConfirm(userSlug, this.state.input, (isValid) => {
       if(isValid) {
         this.props.onSuccess()
-        this.setState({ input: '', message: '' })
+        this.setState({ input: '', message: '', open: false })
       }
       else this.setState({ message: 'Wrong password, please try again.'})
     })
@@ -30,11 +39,15 @@ class ConfirmationModal extends Component {
     this.setState({ input: e.target.value })
   }
 
+  openModal = () => {
+    this.setState({ open: true });
+  }
+
   render() {
-    const { show, title, price } = this.props
+    const { title, price } = this.props
     return (
       <div>
-        <Modal isOpen={show} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.open} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
           <ModalBody>
             <p>Enter your password below:</p>
