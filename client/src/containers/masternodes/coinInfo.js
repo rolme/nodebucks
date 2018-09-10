@@ -46,8 +46,8 @@ class CoinInfo extends Component {
       <div className="coinInfoContainer">
         <div className="contentContainer">
           <Metatags
-            description="Rency criteria scores cryptocurrency across 10 different categories. Rency criteria grades coins from 0 to 100 measuring: fees, speed, wallets, governance, team, community, adoption, network, trust, and bonus."
-            title="Criteria - Rency"
+            description={data.description.substring(0, 170)}
+            title={`${data.name} (${data.symbol}) Cryptocurrency Price and Information | NodeBucks`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
             <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
@@ -68,7 +68,7 @@ class CoinInfo extends Component {
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0">
               <Col className="coinInfoDataSectionContainer">
                 <h6>Annual ROI</h6>
-                <p>{valueFormat(data.annualRoiPercentage*100, 2)} %</p>
+                <p>{valueFormat(data.annualRoiPercentage * 100, 2)} %</p>
               </Col>
               <Col className="coinInfoDataSectionContainer">
                 <h6>Yearly return</h6>
@@ -86,7 +86,7 @@ class CoinInfo extends Component {
               </Col>
               <Col className="coinInfoValueSectionContainer">
                 <h6>Volume (24h)</h6>
-                <p>{valueFormat(data.volume, 1)}  <span>USD</span></p>
+                <p>{valueFormat(data.volume, 1)} <span>USD</span></p>
               </Col>
               <Col className="coinInfoValueSectionContainer">
                 <h6>Circulating Supply</h6>
