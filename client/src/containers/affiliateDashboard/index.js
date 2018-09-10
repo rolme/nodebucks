@@ -74,7 +74,9 @@ class AffiliateDashboard extends Component {
           <h1 className="affiliateDashboardTitle pageTitle">Affiliate Dashboard</h1>
           <div className="affiliateDashboardReferralUrlContainer">
             <p>Referral URL:</p>
-            <Input type="text" value={affiliateLink} readOnly/>
+            <CopyToClipboard text={affiliateLink} onCopy={this.showCopiedMessage}>
+              <Input type="text" value={affiliateLink} readOnly/>
+            </CopyToClipboard>
             <CopyToClipboard text={affiliateLink} onCopy={this.showCopiedMessage}>
               <Button><img src="/assets/images/linkIcon.png" alt="Link"/></Button>
             </CopyToClipboard>
