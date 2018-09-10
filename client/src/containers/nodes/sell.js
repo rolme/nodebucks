@@ -8,7 +8,6 @@ import { Col, Container, Row, FormGroup, Label, Input, Button } from 'reactstrap
 import './index.css'
 
 import Countdown from '../../components/countdown'
-import ConfirmationModal from '../../components/confirmationModal'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
@@ -28,13 +27,15 @@ class SellNode extends Component {
 
     this.state = {
       validPrice: true,
-      showConfirmationModal: false,
-      address: ''
+      address: '',
+      password: '',
+      invalidPassword: false
     }
 
     this.handleGoBack = this.handleGoBack.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
-    this.handleAddressChange = this.handleAddressChange.bind(this)
+    this.handleInputValueChange = this.handleInputValueChange.bind(this)
+    this.validatePassword = this.validatePassword.bind(this)
   }
 
   componentWillMount() {
@@ -76,8 +77,8 @@ class SellNode extends Component {
     this.props.updateNode(node.slug, data)
   }
 
-  handleAddressChange(value) {
-    this.setState({ address: value })
+  handleInputValueChange(name, value) {
+    name === 'password' ? this.setState({ [ name ]: value, invalidPassword: false }) : this.setState({ [ name ]: value })
   }
 
   handleSellSettingClick(value) {
@@ -88,26 +89,23 @@ class SellNode extends Component {
     }
   }
 
-  handleSellClick = () => {
-    const { node } = this.props
-    this.props.sellNode(node.slug)
-    this.closeConfirmationModal()
+  handleSellClick = (isPasswordValid) => {
+    if ( isPasswordValid ) {
+      const { node } = this.props
+      this.props.sellNode(node.slug)
+    } else {
+      this.setState({invalidPassword: true})
+    }
   }
 
-  showConfirmationModal = () => {
-    this.setState({
-      showConfirmationModal: true,
-      onSuccessPasswordConfirmation: this.handleSellClick
-    })
+  validatePassword() {
+    const { password } = this.state
+    this.props.passwordConfirmation(this.props.userSlug, password, this.handleSellClick)
   }
 
-  closeConfirmationModal = () => {
-    this.setState({ showConfirmationModal: false })
-  }
 
   render() {
     const { node } = this.props
-    const { showConfirmationModal, onSuccessPasswordConfirmation } = this.state
 
     const available = (node.status !== 'sold')
     const sellPrice = valueFormat(+node.sellPrice, 2)
@@ -126,15 +124,6 @@ class SellNode extends Component {
               {available && this.displayActions(node)}
             </Col>
           </div>
-          <ConfirmationModal
-            show={showConfirmationModal}
-            onSuccess={onSuccessPasswordConfirmation}
-            onConfirm={this.props.passwordConfirmation}
-            onClose={this.closeConfirmationModal}
-            userSlug={this.props.userSlug}
-            title='Sell Confirmation'
-            price={sellPrice}
-          />
         </div>
       </Container>
     )
@@ -175,7 +164,7 @@ class SellNode extends Component {
   }
 
   displaySellSettings(node) {
-    const { address } = this.state
+    const { address, password, invalidPassword } = this.state
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
@@ -194,7 +183,12 @@ class SellNode extends Component {
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
             <Label for="address">{node.sellSetting === 10 ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
-            <Input value={address} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder={node.sellSetting === 10 ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleAddressChange(event.target.value)} onBlur={(event) => this.updateAddressValue(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+            <Input value={address} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder={node.sellSetting === 10 ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleInputValueChange('address', event.target.value)} onBlur={(event) => this.updateAddressValue(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+          </FormGroup>
+          <FormGroup className="w-100">
+            <Label for="address">Enter your password:</Label>
+            <Input value={password} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='password' name='password' id='password' placeholder="Password" onChange={(event) => this.handleInputValueChange('password', event.target.value)}/>
+            {invalidPassword && <Label for="address" className="text-danger">The Password is incorrect</Label>}
           </FormGroup>
         </div>
       </div>
@@ -230,16 +224,16 @@ class SellNode extends Component {
     // TODO: This should be moved to top of file
     const bitcoinWallet = 0
     const stripe = 10
-    const { validPrice } = this.state
+    const { validPrice, password, invalidPassword } = this.state
 
     if ( !validPrice ) {
       return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) || (node.sellSetting === stripe && !node.stripe) ) {
+    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) || (node.sellSetting === stripe && !node.stripe) || !password || invalidPassword ) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
-    return (<Button className="sellPageSubmitButton" onClick={this.showConfirmationModal}>Sell Server</Button>)
+    return (<Button className="sellPageSubmitButton" onClick={this.validatePassword}>Sell Server</Button>)
   }
 }
 
