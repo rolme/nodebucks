@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 
+import Metatags from '../../components/metatags'
+
 import { Col, Button } from 'reactstrap'
 import './index.css'
 
@@ -14,6 +16,10 @@ class CoinInfo extends Component {
     return (
       <div className="coinInfoContainer">
         <div className="contentContainer">
+          <Metatags
+            description="Rency criteria scores cryptocurrency across 10 different categories. Rency criteria grades coins from 0 to 100 measuring: fees, speed, wallets, governance, team, community, adoption, network, trust, and bonus."
+            title="Criteria - Rency"
+          />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
             <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
               <img alt={params.slug} src={`/assets/images/logos/${params.slug}.png`} width="93px"/>
