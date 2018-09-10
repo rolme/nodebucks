@@ -9,7 +9,6 @@ import './index.css'
 import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
-import { Elements } from 'react-stripe-elements'
 import { fetchCrypto } from '../../reducers/cryptos'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
@@ -186,16 +185,14 @@ class NewNode extends Component {
     return (
       <Col xl={12} className="px-0 pt-2">
         <div className='purchasePagePaymentFormContainer'>
-          <Elements>
-            <PaymentMethod
-              slug={item.nodeSlug}
-              onPurchase={this.handlePurchase}
-              setAsPurchased={this.setAsPurchased}
-              togglePurchasingStatus={this.togglePurchasingStatus}
-              refreshing={refreshing}
-              purchasing={purchasing}
-            />
-          </Elements>
+          <PaymentMethod
+            slug={item.nodeSlug}
+            onPurchase={this.handlePurchase}
+            setAsPurchased={this.setAsPurchased}
+            togglePurchasingStatus={this.togglePurchasingStatus}
+            refreshing={refreshing}
+            purchasing={purchasing}
+          />
         </div>
       </Col>
     )

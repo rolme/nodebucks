@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       patch :reserve # Reserve sell price
       patch :sell
     end
-    resources :masternodes, only: [:index]
+    resources :masternodes, only: [:index, :show], param: :slug
     resources :orders, only: [:index], param: :slug do
       patch :paid
       patch :unpaid
