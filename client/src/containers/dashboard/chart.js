@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { Line } from 'react-chartjs-2'
+import { RingLoader } from 'react-spinners'
 
 import { Row } from 'reactstrap'
 
@@ -11,19 +12,23 @@ export default class Chart extends Component {
     super(props)
     this.state = {
       selectedNodeSlug: '',
-      nodes: []
+      nodes: [],
+      calculating: true,
+      isEnoughData: false
     }
     this.handleTabClick = this.handleTabClick.bind(this)
   }
 
   componentWillMount() {
     const { nodes } = this.props
-    this.combineNodes(nodes)
+    if ( !!nodes.length )
+      this.combineNodes(nodes)
   }
 
   componentWillReceiveProps(nextProps) {
     const { nodes } = nextProps
-    this.combineNodes(nodes)
+    if ( !!nodes.length )
+      this.combineNodes(nodes)
   }
 
   combineNodes(nodes) {
@@ -41,7 +46,7 @@ export default class Chart extends Component {
         })
       } else {
         node.values = this.proceedNodeValues(node.values)
-        combinedNodes.push({...node})
+        combinedNodes.push({ ...node })
       }
     })
     this.setState({ nodes: combinedNodes })
@@ -57,7 +62,7 @@ export default class Chart extends Component {
     } else {
       selectedNodeSlug = ''
     }
-    this.setState({ selectedNodeSlug })
+    this.setState({ selectedNodeSlug, calculating: false })
   }
 
   chartData() {
@@ -76,7 +81,7 @@ export default class Chart extends Component {
             if ( matchTimeStampIndex !== -1 ) {
               nodeValues[ matchTimeStampIndex ].value += value.value
             } else {
-              nodeValues.push({...value})
+              nodeValues.push({ ...value })
             }
           })
         })
@@ -158,7 +163,7 @@ export default class Chart extends Component {
   }
 
   proceedNodeValues(values) {
-    let combinedDates = {}, newValues = []
+    let combinedDates = {}, newValues = [], dates = []
     values.forEach(value => {
       const date = moment(value.timestamp).format("MMM D YYYY")
       if ( !!combinedDates[ date ] ) {
@@ -177,7 +182,14 @@ export default class Chart extends Component {
         timestamp: date,
         value: combinedDates[ date ].sum / combinedDates[ date ].count
       })
+      dates.push(moment(date).valueOf())
     }
+    const daysInterval = Math.max(...dates) - Math.min(...dates)
+
+    if ( moment.duration(daysInterval).days() > 30 ) {
+      this.setState({ isEnoughData: true })
+    }
+
     return newValues
   }
 
@@ -192,8 +204,32 @@ export default class Chart extends Component {
   }
 
   render() {
-    const { nodes } = this.state
-    const { selectedNodeSlug } = this.state
+    const { nodes, calculating, selectedNodeSlug, isEnoughData } = this.state
+
+    if ( calculating ) {
+      return (
+        <div className="contentContainer dashboardChartSectionContentContainer">
+          <Row className="bg-white nodeValuesChartContainer">
+            <RingLoader
+              size={150}
+              color={'#3F89E8'}
+              loading={true}
+            />
+          </Row>
+        </div>
+      )
+    }
+
+    if ( !isEnoughData ) {
+      return (
+        <div className="contentContainer dashboardChartSectionContentContainer">
+          <Row className="bg-white nodeValuesChartContainer">
+           <h5 className="dashboardSectionHeader">Graph will appear 30 days after your first purchase.</h5>
+          </Row>
+        </div>
+      )
+    }
+
     return (
       <div className="contentContainer dashboardChartSectionContentContainer">
         <Row className="d-flex flex-wrap">
