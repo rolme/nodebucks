@@ -66,6 +66,14 @@ class Node extends Component {
   }
 
   showConfirmationModal = () => {
+    this.setState({
+      showConfirmationModal: true,
+      onSuccessPasswordConfirmation: this.handleRewardSettingChange
+    })
+  }
+
+  closeConfirmationModal = () => {
+    this.setState({ showConfirmationModal: false })
     EventEmitter.prototype.emit('open-confirm-modal');
   }
 
@@ -91,8 +99,9 @@ class Node extends Component {
               {this.displayROI(node)}
             </Col>
           </Row>
-          <ConfirmationModal 
-            onSuccess={this.handleRewardSettingChange}
+          <ConfirmationModal
+            show={showConfirmationModal}
+            onSuccess={onSuccessPasswordConfirmation}
             onConfirm={this.props.passwordConfirmation}
             userSlug={this.props.userSlug}
             title='Confirm Reward Changes'
@@ -186,8 +195,8 @@ class Node extends Component {
             <input type="radio" onChange={() => this.rewardSettingsChange(20)} checked={rewardSetting === 20} name="radio"/>
             <span className="radioButtonCheckmark"></span>
           </label>
-          <div className="d-flex justify-content-end">
-            <Button className="rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.showConfirmationModal}>Update</Button>
+          <div className="d-flex justify-content-start">
+            <Button className="submitButton rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.showConfirmationModal}>Update</Button>
           </div>
         </div>
       </div>
