@@ -30,9 +30,6 @@ gem "puma_worker_killer"
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-# Payment processing
-gem 'stripe' # TODO: Remove stripe
-
 gem "dynamic_sitemaps"
 
 group :development, :test do

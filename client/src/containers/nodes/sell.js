@@ -45,7 +45,7 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    if ( newNode.stripe !== oldNode.stripe || newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
+    if ( newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
       this.setState({ address: '' })
     }
   }
