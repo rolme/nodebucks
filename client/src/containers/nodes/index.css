@@ -485,6 +485,7 @@ dt {
 .withdrawPageContentContainer,
 .purchasePageContentContainer {
   max-width: 850px;
+  padding-bottom: 50px;
 }
 
 .sellPageBackButton,
@@ -541,14 +542,20 @@ dt {
 }
 
 .sellPagePriceAmount {
-  font-family: Raleway;
+  font-family: "OpenSans";
   font-weight: bold;
-  font-size: 18px;
+  font-size: 25px;
   color: #3B3B3B;
-  margin-bottom: 0;
   vertical-align: middle;
   align-items: center;
   display: flex;
+  margin-bottom: 0;
+}
+
+.sellPagePriceAmount > div,
+.sellPagePriceAmount > s,
+.sellPagePriceAmount > span {
+  margin: 0 10px;
 }
 
 .sellPagePaymentDestinationContainer {

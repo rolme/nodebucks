@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-
+import { EventEmitter } from 'events';
 import moment from 'moment'
 import { Col, Container, Row, Button, Table } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
@@ -27,7 +27,6 @@ class Node extends Component {
       rewardSetting: '',
       withdrawWallet: '',
       showAllHistoryData: false,
-      showConfirmationModal: false,
     }
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -61,8 +60,9 @@ class Node extends Component {
   handleRewardSettingChange = () => {
     const { node } = this.props
     const { rewardSetting, withdrawWallet } = this.state
-    rewardSetting === 20 ? this.props.updateNode(node.slug, { rewardSetting, withdrawWallet }) : this.props.updateNode(node.slug, { rewardSetting })
-    this.closeConfirmationModal()
+    rewardSetting === 20 ? 
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }) : 
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting })
   }
 
   showConfirmationModal = () => {
@@ -74,16 +74,16 @@ class Node extends Component {
 
   closeConfirmationModal = () => {
     this.setState({ showConfirmationModal: false })
+    EventEmitter.prototype.emit('open-confirm-modal');
   }
 
   render() {
     const { node, pending } = this.props
-    const { showConfirmationModal, onSuccessPasswordConfirmation } = this.state
 
     if ( pending || node.slug === undefined ) {
       return null
     }
-
+    console.log("RENDER")
     return (
       <Container fluid className="showPageContainer">
         <div className="showPageContentContainer contentContainer">
@@ -103,7 +103,6 @@ class Node extends Component {
             show={showConfirmationModal}
             onSuccess={onSuccessPasswordConfirmation}
             onConfirm={this.props.passwordConfirmation}
-            onClose={this.closeConfirmationModal}
             userSlug={this.props.userSlug}
             title='Confirm Reward Changes'
           />

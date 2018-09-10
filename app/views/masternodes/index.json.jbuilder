@@ -1,1 +1,1 @@
-json.partial! 'masternode', collection: @masternodes, as: :masternode
+json.partial! 'basic', collection: @masternodes, as: :masternode

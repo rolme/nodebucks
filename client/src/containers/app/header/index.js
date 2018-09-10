@@ -39,11 +39,7 @@ class Header extends Component {
           <NavLink to="/" className="headerLogo">
             <img src="/assets/images/headerLogo.png" alt="logo"/>
           </NavLink>
-          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
-            {/*{!!user &&
-            <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
-            }*/}
-          </NavbarToggler>
+          <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'/>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
             {!user &&
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
@@ -63,11 +59,11 @@ class Header extends Component {
             {!!user &&
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end pr-0">
               <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer justify-content-end mr-auto">
-                <NavLink isActive={(match, location) => location.pathname === '/masternodes'} to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/>  Add Node</NavLink>
+                <NavLink isActive={(match, location) => location.pathname === '/masternodes'} to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
                   <DropdownToggle nav caret className="headerLoggedInUserContainer pr-0">
                     <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
-                    <p className="headerUserName">{user.fullName}</p>
+                    <p className="headerUserName">{user.first}</p>
                   </DropdownToggle>
                   <DropdownMenu right className="p-0">
                     <DropdownItem className="headerUserDropDownItem">

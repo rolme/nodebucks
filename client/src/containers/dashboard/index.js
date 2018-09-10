@@ -12,6 +12,7 @@ import './index.css'
 
 import { fetchNodes } from '../../reducers/nodes'
 import { fetchAnnouncement } from '../../reducers/announcements'
+import { reset } from '../../reducers/user'
 
 import { valueFormat, disabledAnnouncements } from "../../lib/helpers";
 
@@ -21,21 +22,24 @@ class Dashboard extends Component {
     this.state = {
       showMessage: false,
       visibleAlert: false,
+      confirmMessage: ''
     }
   }
 
   componentWillMount() {
     window.scrollTo(0, 0)
+    const { confirmMessage } = this.props
+    this.setState({ confirmMessage }, () => setTimeout(() => this.setState({ confirmMessage: '' }), 5000))
     this.props.fetchNodes()
   }
 
   componentDidMount() {
     const { purchasedNode, message } = this.props
-    if (purchasedNode && message === 'Purchase node successful.') {
+    if ( purchasedNode && message === 'Purchase node successful.' ) {
       this.setState({ showMessage: true })
     }
     this.props.fetchAnnouncement()
-    if (!disabledAnnouncements()) {
+    if ( !disabledAnnouncements() ) {
       this.setState({ visibleAlert: true })
     }
   }
@@ -51,7 +55,7 @@ class Dashboard extends Component {
 
   render() {
     const { nodes, announcement, announcementError } = this.props
-    const { showMessage, visibleAlert } = this.state
+    const { showMessage, visibleAlert, confirmMessage } = this.state
     let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -69,8 +73,13 @@ class Dashboard extends Component {
     return (
       <Container fluid className="dashboardPageContainer">
         <div className="contentContainer px-0">
-          { announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
-            { announcement.text }
+          {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+            {announcement.text}
+          </Alert>
+          }
+          {!!confirmMessage &&
+          <Alert color='success'>
+            {confirmMessage}
           </Alert>
           }
         </div>
@@ -78,7 +87,7 @@ class Dashboard extends Component {
           <Alert className="messageBox statusSuccess" isOpen={showMessage} toggle={this.dissmissMessage}>
             <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
             <p className="messageText">
-              Please give us 24-48 hours to get your node up and running. 
+              Please give us 24-48 hours to get your node up and running.
               Your first reward is usually given after 2-3 days of node uptime.
             </p>
           </Alert>
@@ -108,10 +117,10 @@ class Dashboard extends Component {
             </Col>
             <Col xl={3} className="dashboardContentRightPartContainer align-items-xl-end align-items-center">
               {!!filteredNodes.length &&
-                <div className="dashboardButtonsContainer">
-                  <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add node</NavLink>
-                  <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
-                </div>
+              <div className="dashboardButtonsContainer">
+                <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add node</NavLink>
+                <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
+              </div>
               }
               <Summary list={filteredNodes}/>
               <Balance/>
@@ -127,6 +136,7 @@ const mapStateToProps = state => ({
   nodes: state.nodes.list,
   error: state.nodes.error,
   message: state.nodes.message,
+  confirmMessage: state.user.message === 'Your email address has been successfully verified. Thank you!' && state.user.message,
   pending: state.nodes.pending,
   purchasedNode: state.nodes.purchased,
   user: state.user.data,
@@ -136,6 +146,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchNodes,
   fetchAnnouncement,
+  reset
 }, dispatch)
 
 export default withRouter(connect(

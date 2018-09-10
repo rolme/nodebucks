@@ -6,4 +6,21 @@ class TransactionsController < ApplicationController
     @txs_processed = Transaction.processed.includes(account: :user).order(created_at: :desc).limit(15).offset(params[:processed_offset] || 0)
     @txs_canceled = Transaction.canceled.includes(account: :user).order(created_at: :desc).limit(15).offset(params[:canceled_offset] || 0)
   end
+
+  def update
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update(transaction_params)
+      render :show
+    else
+      render json: { status: 'error', message: @transaction.error }
+    end
+  end
+
+  def transaction_params
+    params.require(:transaction).permit(
+      :status,
+      :notes,
+      :amount,
+    )
+  end
 end

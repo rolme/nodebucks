@@ -84,7 +84,8 @@ class Home extends Component {
             </Col>
           </div>
         </div>
-        <Masternodes ref="homeMasternodesContainer"/>
+        <h1 className="masternodesSectionHeader text-center my-3">Compare Masternodes</h1>
+        <Masternodes ref="homeMasternodesContainer" bgColor="bg-white"/>
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">

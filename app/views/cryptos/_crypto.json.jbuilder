@@ -1,5 +1,8 @@
-json.annualRoi crypto.yearly_roi[:percentage]
+json.annualRoi crypto.yearly_roi[:value]
+json.annualRoiPercentage crypto.yearly_roi[:percentage]
+json.availableSupply crypto.available_supply
 json.hostingFee crypto.percentage_hosting_fee
+json.marketCap crypto.market_cap
 json.masternodes crypto.masternodes
 json.monthlyRoiValue crypto.monthly_roi[:value]
 json.monthlyRoiPercentage crypto.monthly_roi[:percentage]
@@ -8,8 +11,10 @@ json.nodePrice crypto.node_price
 json.slug crypto.slug
 json.stake crypto.stake
 json.symbol crypto.symbol
+json.totalSupply crypto.total_supply
 json.url crypto.url
 json.status crypto.status
+json.volume crypto.volume
 json.weeklyRoiValue crypto.weekly_roi[:value]
 json.weeklyRoiPercentage crypto.weekly_roi[:percentage]
 json.yearlyRoiValue crypto.yearly_roi[:value]

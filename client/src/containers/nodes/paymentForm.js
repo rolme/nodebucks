@@ -1,5 +1,4 @@
 import React from 'react'
-import { injectStripe } from 'react-stripe-elements'
 import { ClipLoader } from 'react-spinners'
 import { NavLink, withRouter } from 'react-router-dom'
 

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       patch :reserve # Reserve sell price
       patch :sell
     end
-    resources :masternodes, only: [:index]
+    resources :masternodes, only: [:index, :show], param: :slug
     resources :orders, only: [:index], param: :slug do
       patch :paid
       patch :unpaid
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       patch :reset_password
       patch :reset, on: :collection
     end
-    resources :transactions, only: [:index]
+    resources :transactions, only: [:index, :update]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
     end
