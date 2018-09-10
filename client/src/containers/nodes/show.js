@@ -25,11 +25,13 @@ class Node extends Component {
     super(props)
     this.state = {
       rewardSetting: '',
-      withdrawWallet: '',
       showAllHistoryData: false,
+      withdrawWallet: '',
     }
-    this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.onSuccessPasswordConfirmation = this.onSuccessPasswordConfirmation.bind(this)
+    this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
+    this.showConfirmationModal = this.showConfirmationModal.bind(this)
     this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
   }
 
@@ -60,8 +62,8 @@ class Node extends Component {
   handleRewardSettingChange = () => {
     const { node } = this.props
     const { rewardSetting, withdrawWallet } = this.state
-    rewardSetting === 20 ? 
-      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }) : 
+    rewardSetting === 20 ?
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }) :
       this.props.updateNode(node.slug, { reward_setting: rewardSetting })
   }
 
@@ -100,8 +102,8 @@ class Node extends Component {
             </Col>
           </Row>
           <ConfirmationModal
-            show={showConfirmationModal}
-            onSuccess={onSuccessPasswordConfirmation}
+            show={this.showConfirmationModal}
+            onSuccess={this.onSuccessPasswordConfirmation}
             onConfirm={this.props.passwordConfirmation}
             userSlug={this.props.userSlug}
             title='Confirm Reward Changes'
