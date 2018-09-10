@@ -9,3 +9,4 @@ json.type transaction.txn_type
 json.userEmail transaction.account.user.email
 json.userName transaction.account.user.full_name
 json.withdrawalId transaction.withdrawal_id
+json.Id transaction.id
