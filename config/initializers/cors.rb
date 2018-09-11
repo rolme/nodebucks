@@ -7,8 +7,6 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allowed_origins = (ENV['RAILS_ENV'] == 'production') ? ['https://nodebuckshq.com'] : '*'
-  Rails.logger.info ">>>>> allowed_origins: #{allowed_origins}"
-  Rails.logger.info ">>>>> RAILS_ENV: #{ENV['RAILS_ENV']}"
 
   allow do
     origins allowed_origins
