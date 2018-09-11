@@ -14,6 +14,9 @@ export const LOGIN_USER = 'user/LOGIN_USER'
 export const LOGIN_USER_SUCCESS = 'user/LOGIN_USER_SUCCESS'
 export const LOGIN_USER_FAILURE = 'user/LOGIN_USER_FAILURE'
 export const LOGOUT_USER_SUCCESS = 'user/LOGOUT_USER_SUCCESS'
+export const REQUEST_USER_LIST = 'user/REQUEST_USER_LIST'
+export const REQUEST_USER_LIST_SUCCESS = 'user/REQUEST_USER_LIST_SUCCESS'
+export const REQUEST_USER_LIST_FAILURE = 'user/REQUEST_USER_LIST_FAILURE'
 export const REGISTER_USER = 'user/REGISTER_USER'
 export const REGISTER_USER_SUCCESS = 'user/REGISTER_USER_SUCCESS'
 export const REGISTER_USER_FAILURE = 'user/REGISTER_USER_FAILURE'
@@ -36,6 +39,12 @@ export const REQUEST_REFERRER_FAILURE = 'user/REQUEST_REFERRER_FAILURE'
 export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
 export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
 export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
+export const REQUEST_IMPERSONATE = 'user/REQUEST_IMPERSONATE'
+export const REQUEST_IMPERSONATE_SUCCESS = 'user/REQUEST_IMPERSONATE_SUCCESS'
+export const REQUEST_IMPERSONATE_FAILURE = 'user/REQUEST_IMPERSONATE_FAILURE'
+export const REQUEST_STOP_IMPERSONATE = 'user/REQUEST_STOP_IMPERSONATE'
+export const REQUEST_STOP_IMPERSONATE_SUCCESS = 'user/REQUEST_STOP_IMPERSONATE_SUCCESS'
+export const REQUEST_STOP_IMPERSONATE_FAILURE  = 'user/REQUEST_STOP_IMPERSONATE_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -70,7 +79,9 @@ const initialState = {
   logInPending: false,
   signUpPending: false,
   requestResetPending: false,
-  token: TOKEN
+  list: [],
+  impersonator: null,
+  token: TOKEN,
 }
 
 // STATE ///////////////////////////////////////////////////////////////////////
@@ -305,6 +316,7 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER:
       return {
+        ...state,
         error: false,
         message: '',
         data: {},
@@ -312,6 +324,7 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER_SUCCESS:
       return {
+        ...state,
         error: false,
         data: action.payload,
         message: '',
@@ -319,10 +332,30 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER_FAILURE:
       return {
+        ...state,
         error: true,
         data: null,
         message: '',
         pending: false
+      }
+    case REQUEST_USER_LIST_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+      }
+    case REQUEST_IMPERSONATE_SUCCESS:
+      return {
+        ...state,
+        data: jwt_decode(action.payload.token),
+        token: action.payload.token,
+        impersonator: action.payload.impersonator,
+      }
+    case REQUEST_STOP_IMPERSONATE_SUCCESS:
+      const impersonator = state.impersonator
+      return {
+        ...state,
+        impersonator: null,
+        data: impersonator,
       }
     default:
       return state
@@ -350,6 +383,22 @@ export function isAuthenticated() {
       }
     }
     return false
+  }
+}
+
+export function fetchUsers() {
+  return dispatch => {
+    dispatch({ type: REQUEST_USER_LIST })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get('/api/users').then(response => {
+      if ( response.data.status !== 'error' ) {
+        dispatch({ type: REQUEST_USER_LIST_SUCCESS, payload: response.data })
+      } else {
+        dispatch({ type: REQUEST_USER_LIST_FAILURE, payload: response.data })
+      }
+    }).catch(error => {
+      dispatch({ type: REQUEST_USER_LIST_FAILURE, payload: error.data })
+    })
   }
 }
 
@@ -568,6 +617,31 @@ export function passwordConfirmation(slug, password, callback) {
   }
 }
 
+export function impersonate(slug) {
+  return dispatch => {
+    dispatch({ type: REQUEST_IMPERSONATE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post(`/api/users/${slug}/impersonate`).then(response => {
+      dispatch({ type: REQUEST_IMPERSONATE_SUCCESS, payload: response.data })
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_IMPERSONATE_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function stopImpersonating() {
+  return dispatch => {
+    dispatch({ type: REQUEST_STOP_IMPERSONATE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post('/api/users/stop_impersonating').then(response => {
+      dispatch({ type: REQUEST_STOP_IMPERSONATE_SUCCESS, payload: response.data })
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_STOP_IMPERSONATE_FAILURE, payload: error.message })
+      })
+  }
+}
 
 export function reset() {
   return dispatch => {

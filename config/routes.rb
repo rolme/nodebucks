@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       get :referrer, on: :collection
       patch :reset_password
       patch :reset, on: :collection
+      post :impersonate, on: :member
+      post :stop_impersonating, on: :collection
     end
     resources :transactions, only: [:index, :update]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
-  before_action :authenticate_admin_request, only: [:index, :show]
+  before_action :authenticate_admin_request, only: [:index, :show, :impersonate, :stop_impersonating]
   before_action :set_affiliate_key, only: [:referrer]
 
   def callback
@@ -198,6 +198,17 @@ class UsersController < ApplicationController
     render json: { status: :ok, valid: user.authenticate(params[:password]).present? }
   end
 
+  def impersonate
+    @user = User.find_by_slug(params[:slug])
+    impersonate_user(@user)
+    render json: { status: :ok, impersonator: true_user, token: generate_token }
+  end
+
+  def stop_impersonating
+    stop_impersonating_user
+    render json: { status: :ok }
+  end
+
 protected
 
   def user_params
@@ -217,7 +228,7 @@ protected
       :password,
       :password_confirmation,
       :state,
-      :zipcode
+      :zipcode,
     )
   end
 
@@ -263,7 +274,8 @@ private
       slug: @user.slug,
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
-      zipcode: @user.zipcode
+      zipcode: @user.zipcode,
+      admin: @user.admin,
     })
   end
 end
