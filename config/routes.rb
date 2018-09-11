@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :announcements, only: [:create] do
       get :last, on: :collection
     end
-    resources :cryptos, only: [:index, :show], param: :slug
+    resources :cryptos, only: [:index, :show, :update], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
       patch :online
       patch :offline
