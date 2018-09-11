@@ -29,7 +29,6 @@ class Node extends Component {
       withdrawWallet: '',
     }
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.onSuccessPasswordConfirmation = this.onSuccessPasswordConfirmation.bind(this)
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
     this.showConfirmationModal = this.showConfirmationModal.bind(this)
     this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
@@ -81,6 +80,7 @@ class Node extends Component {
 
   render() {
     const { node, pending } = this.props
+    const { onSuccessPasswordConfirmation } = this.state
 
     if ( pending || node.slug === undefined ) {
       return null
@@ -103,7 +103,7 @@ class Node extends Component {
           </Row>
           <ConfirmationModal
             show={this.showConfirmationModal}
-            onSuccess={this.onSuccessPasswordConfirmation}
+            onSuccess={onSuccessPasswordConfirmation}
             onConfirm={this.props.passwordConfirmation}
             userSlug={this.props.userSlug}
             title='Confirm Reward Changes'
