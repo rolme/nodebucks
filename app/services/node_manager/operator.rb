@@ -40,7 +40,7 @@ module NodeManager
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server offline for maintenance")
     end
 
-    def purchase(timestamp, paypal_json)
+    def purchase(timestamp, paypal_json, payment_method='paypal')
       return false if node.status != 'reserved' || !within_timeframe?(node.buy_priced_at)
 
       node.update_attribute(:status, 'new')
@@ -52,6 +52,7 @@ module NodeManager
         amount: node.cost,
         status: 'unpaid',
         order_type: 'buy',
+        payment_method: payment_method,
         paypal_response: paypal_json,
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
@@ -67,10 +68,10 @@ module NodeManager
       node.update_attributes(sell_price: node.value, sell_priced_at: DateTime.current)
     end
 
-    def sell(timestamp=DateTime.current)
+    def sell(payment_method, target, timestamp=DateTime.current)
       return false if node.status == 'sold' || !within_timeframe?(node.sell_priced_at)
 
-      node.update_attribute(:status, 'sold')
+      node.update_attributes(status: 'sold', sold_at: timestamp)
       # TODO: Make sure the sellable price is correct
       @order = Order.create(
         node_id: node.id,
@@ -79,7 +80,9 @@ module NodeManager
         amount: node.cost,
         status: 'unpaid',
         order_type: 'sold',
-        description: "#{node.user.email} sold #{node.crypto.name} masternode for $#{node.sellable_price}."
+        payment_method: payment_method,
+        target: target,
+        description: "#{node.user.email} sold #{node.crypto.name} masternode for $#{node.sell_price}."
       )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server sold")
     end
