@@ -93,7 +93,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: 'Update node successful.'
+        message: 'Successfully updated node'
       }
 
     case RESERVE_SUCCESS:
@@ -202,13 +202,14 @@ export function purchaseNode(paymentResponse, slug, callback) {
   }
 }
 
-export function updateNode(slug, data) {
+export function updateNode(slug, data, callback) {
   return dispatch => {
     dispatch({ type: UPDATE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}`, { node: data })
       .then((response) => {
         dispatch({ type: UPDATE_SUCCESS, payload: response.data })
+        callback()
       }).catch((error) => {
       dispatch({ type: UPDATE_ERROR, payload: { message: error.data } })
       console.log(error)

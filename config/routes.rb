@@ -20,10 +20,10 @@ Rails.application.routes.draw do
       get :balance, on: :collection
       get :confirm
       get :verify
-      get :password_confirmation
       get :referrer, on: :collection
       patch :reset_password
       patch :reset, on: :collection
+      post :password_confirmation
     end
     resources :transactions, only: [:index, :update]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
