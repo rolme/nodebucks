@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :nodes, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :withdrawals, dependent: :destroy
+  has_many :affiliates, dependent: :destroy
 
   has_secure_password
 

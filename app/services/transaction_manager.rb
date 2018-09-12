@@ -41,16 +41,19 @@ class TransactionManager
       if(affiliate_user_id_tier1_account.present?)
         affiliate_user_id_tier1_account.update_attribute(:balance, affiliate_user_id_tier1_account.balance + reward.fee * 0.2)
         affiliate_user_id_tier1_account_txn.update_attribute(:status, 'processed')
+        Affiliate.create(user_id: owner.affiliate_user_id_tier1, amount: reward.fee * 0.2)
       end
 
       if (affiliate_user_id_tier2_account.present?)
         affiliate_user_id_tier2_account.update_attribute(:balance, affiliate_user_id_tier2_account.balance + reward.fee * 0.1)
         affiliate_user_id_tier2_account_txn.update_attribute(:status, 'processed')
+        Affiliate.create(user_id: owner.affiliate_user_id_tier2, amount: reward.fee * 0.1)
       end
 
       if(affiliate_user_id_tier3_account.present?)
         affiliate_user_id_tier3_account.update_attribute(:balance, affiliate_user_id_tier3_account.balance + reward.fee * 0.05)
         affiliate_user_id_tier3_account_txn.update_attribute(:status, 'processed')
+        Affiliate.create(user_id: owner.affiliate_user_id_tier3, amount: reward.fee * 0.05)
       end
 
       system_account.update_attribute(:balance, system_account.balance + fee)
@@ -77,4 +80,7 @@ class TransactionManager
     end
   end
 
+  def save_affiliate(user_id, amount)
+    Affiliate.save(user_id: user_id, amount: amount)
+  end
 end
