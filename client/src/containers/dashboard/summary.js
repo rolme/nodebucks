@@ -5,7 +5,7 @@ import { valueFormat } from "../../lib/helpers";
 export default class Summary extends Component {
 
   render() {
-    const { list } = this.props
+    const list = JSON.parse(JSON.stringify(this.props.list))
     let summary = {}
 
     if ( list.length > 0 ) {
