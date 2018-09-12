@@ -166,7 +166,7 @@ class Header extends Component {
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
                   { 
-                  location.pathname.includes('/dashboard') ?
+                  location.pathname === '/dashboard' ?
                     impersonator ?
                     <Button onClick={this.handleStopImpersonating}>Stop Impersonate</Button> :
                     currentUser.admin &&
