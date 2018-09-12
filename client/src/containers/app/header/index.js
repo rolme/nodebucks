@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { NavHashLink as NavLink } from 'react-router-hash-link'
+import Autosuggest from 'react-autosuggest';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -20,7 +21,10 @@ import {
   fetchUsers,
   impersonate,
   stopImpersonating,
+  fetchBalance,
 } from '../../../reducers/user'
+
+import { fetchNodes } from '../../../reducers/nodes'
 
 import './index.css'
 
@@ -28,7 +32,9 @@ class Header extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: true
+      collapsed: true,
+      value: '',
+      suggestions: [],
     };
     this.toggle = this.toggle.bind(this)
     this.toggleNavbar = this.toggleNavbar.bind(this)
@@ -51,8 +57,61 @@ class Header extends Component {
     })
   }
 
+  getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0 ? [] : this.props.list.filter(user =>
+      user.email.toLowerCase().slice(0, inputLength) === inputValue && user.slug !== this.props.currentUser.slug
+    );
+  };
+
+  getSuggestionValue = suggestion => suggestion.name;
+
+  renderSuggestion = suggestion => (
+    <div key={suggestion.slug} onClick={() => this.handleImpersonate(suggestion.slug)}>{suggestion.email}</div>
+  );
+
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  handleImpersonate = (slug) => {
+    this.props.impersonate(slug, () => {
+      this.props.fetchBalance();
+      this.props.fetchNodes();
+    })
+  }
+
+  handleStopImpersonating = () => {
+    this.props.stopImpersonating(() => {
+      this.props.fetchBalance();
+      this.props.fetchNodes();
+    })
+  }
+
   render() {
-    const { currentUser, impersonator, list } = this.props
+    const { currentUser, location } = this.props
+    const impersonator = localStorage.getItem('impersonator-jwt-nodebucks')
+    const inputProps = {
+      placeholder: 'Type user email here',
+      value: this.state.value || '',
+      onChange: this.onChange
+    };
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">
@@ -106,20 +165,28 @@ class Header extends Component {
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
-                { impersonator ?
-                  <Button onClick={() => this.props.stopImpersonating()}>Stop Impersonate</Button> : 
-                  <UncontrolledDropdown>
-                    <DropdownToggle caret>
-                      Login as ...
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      { list.map(user => {
-                          if(user.slug === currentUser.slug) return null
-                          return <DropdownItem key={user.slug} onClick={() => this.props.impersonate(user.slug)}>{user.email}</DropdownItem>
-                        })
-                      }
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                  { 
+                  location.pathname.includes('/dashboard') ?
+                    impersonator ?
+                    <Button onClick={this.handleStopImpersonating}>Stop Impersonate</Button> :
+                    currentUser.admin &&
+                      <UncontrolledDropdown>
+                        <DropdownToggle caret>
+                          Login as ...
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <Autosuggest
+                            suggestions={this.state.suggestions}
+                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                            getSuggestionValue={this.getSuggestionValue}
+                            renderSuggestion={this.renderSuggestion}
+                            inputProps={inputProps}
+                          />
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
+                      :
+                      null
                 }
               </Col>
             </Col>
@@ -147,13 +214,14 @@ class Header extends Component {
 const mapStateToProps = state => ({
   currentUser: state.user.data,
   list: state.user.list,
-  impersonator: state.user.impersonator,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchUsers,
   impersonate,
   stopImpersonating,
+  fetchBalance,
+  fetchNodes,
 }, dispatch)
 
 export default withRouter(connect(

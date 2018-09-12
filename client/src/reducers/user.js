@@ -80,7 +80,6 @@ const initialState = {
   signUpPending: false,
   requestResetPending: false,
   list: [],
-  impersonator: null,
   token: TOKEN,
 }
 
@@ -344,18 +343,19 @@ export default (state = initialState, action) => {
         list: action.payload,
       }
     case REQUEST_IMPERSONATE_SUCCESS:
+      localStorage.setItem('impersonator-jwt-nodebucks', state.token)
+      localStorage.setItem('jwt-nodebucks', action.payload.token)
       return {
         ...state,
         data: jwt_decode(action.payload.token),
-        token: action.payload.token,
-        impersonator: action.payload.impersonator,
       }
     case REQUEST_STOP_IMPERSONATE_SUCCESS:
-      const impersonator = state.impersonator
+      const impersonatorToken = localStorage.getItem('impersonator-jwt-nodebucks')
+      localStorage.setItem('jwt-nodebucks', impersonatorToken)
+      localStorage.setItem('impersonator-jwt-nodebucks', '')
       return {
         ...state,
-        impersonator: null,
-        data: impersonator,
+        data: jwt_decode(impersonatorToken),
       }
     default:
       return state
@@ -453,6 +453,7 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
 export function logout() {
   return dispatch => {
     localStorage.setItem('jwt-nodebucks', '')
+    localStorage.setItem('impersonator-jwt-nodebucks', '')
     dispatch({ type: LOGOUT_USER_SUCCESS })
     dispatch(push('/login'))
   }
@@ -617,12 +618,13 @@ export function passwordConfirmation(slug, password, callback) {
   }
 }
 
-export function impersonate(slug) {
+export function impersonate(slug, callback) {
   return dispatch => {
     dispatch({ type: REQUEST_IMPERSONATE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/users/${slug}/impersonate`).then(response => {
       dispatch({ type: REQUEST_IMPERSONATE_SUCCESS, payload: response.data })
+      callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_IMPERSONATE_FAILURE, payload: error.message })
@@ -630,12 +632,13 @@ export function impersonate(slug) {
   }
 }
 
-export function stopImpersonating() {
+export function stopImpersonating(callback) {
   return dispatch => {
     dispatch({ type: REQUEST_STOP_IMPERSONATE })
-    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('impersonator-jwt-nodebucks')
     axios.post('/api/users/stop_impersonating').then(response => {
       dispatch({ type: REQUEST_STOP_IMPERSONATE_SUCCESS, payload: response.data })
+      callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_STOP_IMPERSONATE_FAILURE, payload: error.message })
