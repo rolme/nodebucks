@@ -149,6 +149,26 @@
   box-shadow: none !important;
 }
 
+.contactSalesNodeButton {
+  font-family: "Raleway-SemiBold";
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: #2283C6;
+  border: none;
+  padding: 20px 40px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.contactSalesNodeButton:hover,
+.contactSalesNodeButton:active,
+.contactSalesNodeButton:focus {
+  background-color: #299be7 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 .coinInfoMainDataPartContainer {
   margin-top: 35px;
 }
