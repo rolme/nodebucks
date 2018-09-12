@@ -10,7 +10,7 @@ class CryptosController < ApplicationController
     @crypto   = Crypto.find_by(slug: params[:slug])
     @show_roi = true
 
-    if params[:orders].to_bool && @current_user&.admin
+    if params[:orders]&.to_bool && @current_user&.admin
       @show_pricing = true
       @orders
 
