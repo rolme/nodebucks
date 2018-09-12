@@ -56,7 +56,7 @@ class Dashboard extends Component {
   render() {
     const { nodes, announcement, announcementError } = this.props
     const { showMessage, visibleAlert, confirmMessage } = this.state
-    let totalRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
+    let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
     const filteredNodes = nodes.filter(node => {
@@ -64,7 +64,7 @@ class Dashboard extends Component {
     })
 
     filteredNodes.forEach(node => {
-      totalRewards += (+node.rewardTotal)
+      monthlyRewards += (+node.crypto.monthlyRoiValue)
       nodeValue += (+node.value)
       costBases += (+node.cost)
       yearlyRoiValues += (+node.crypto.yearlyRoiValue)
@@ -94,20 +94,20 @@ class Dashboard extends Component {
           <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
-              <h5>Rewards Balance</h5>
-              <p>$ {valueFormat(+totalRewards, 2)}</p>
-            </Col>
-            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Total Node Value</h5>
               <p>$ {valueFormat(+nodeValue, 2)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
-              <h5>Cost Basis</h5>
-              <p>$ {valueFormat(+costBases, 2)}</p>
+              <h5>Projected Annual ROI</h5>
+              <p>{!!costBases ? valueFormat((yearlyRoiValues / costBases) * 100, 2) : 0}%</p>
+            </Col>
+            <Col xl={4} lg={6} md={5} sm={5} xs={12}>
+              <h5>Projected Monthly Returns </h5>
+              <p>$ {valueFormat(+monthlyRewards, 2)}</p>
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
-              <h5>Projected Annual</h5>
-              <p>{!!costBases ? valueFormat((yearlyRoiValues / costBases) * 100, 2) : 0}%</p>
+              <h5>Masternodes Owned </h5>
+              <p>{filteredNodes.length}</p>
             </Col>
           </Row>
           <Row>
@@ -118,7 +118,7 @@ class Dashboard extends Component {
             <Col xl={3} className="dashboardContentRightPartContainer align-items-xl-end align-items-center">
               {!!filteredNodes.length &&
               <div className="dashboardButtonsContainer">
-                <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add node</NavLink>
+                <NavLink to={`/masternodes`} className="btn dashboardMainTableAddNodeButton mb-3"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add Node</NavLink>
                 <NavLink to={`/nodes/withdraw`} className="btn dashboardBalanceWithdrawButton"><img src="/assets/images/downArrow.png" alt="withdraw" className="mr-2"/>Withdraw</NavLink>
               </div>
               }
