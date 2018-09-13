@@ -79,8 +79,4 @@ class TransactionManager
       system_fee_txn.update_attribute(:status, 'processed')
     end
   end
-
-  def save_affiliate(user_id, amount)
-    Affiliate.save(user_id: user_id, amount: amount)
-  end
 end

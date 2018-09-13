@@ -12,3 +12,7 @@ json.tier3_referrals @tier3_referrals.each do |t3_ref|
     json.name t3_ref.first
     json.createdAt t3_ref.created_at.to_formatted_s(:db)
 end
+
+json.affiliateBalance @referrer.affiliate_balance
+json.totalAffiliateEarned @referrer.total_affiliate_earned
+json.referralMasternodes @referrer.referral_masternodes

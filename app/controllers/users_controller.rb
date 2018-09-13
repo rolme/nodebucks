@@ -124,9 +124,9 @@ class UsersController < ApplicationController
 
   def referrer
     @referrer = current_user
-    @tier1_referrals = User.where(affiliate_user_id_tier1: current_user.id)
-    @tier2_referrals = User.where(affiliate_user_id_tier2: current_user.id)
-    @tier3_referrals = User.where(affiliate_user_id_tier3: current_user.id)
+    @tier1_referrals = @referrer.tier1_referrals
+    @tier2_referrals = @referrer.tier2_referrals
+    @tier3_referrals = @referrer.tier3_referrals
   end
 
   def create

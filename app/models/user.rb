@@ -146,6 +146,32 @@ class User < ApplicationRecord
     end
   end
 
+  def tier1_referrals
+    User.where(affiliate_user_id_tier1: id)
+  end
+
+  def tier2_referrals
+    User.where(affiliate_user_id_tier2: id)
+  end
+
+  def tier3_referrals
+    User.where(affiliate_user_id_tier3: id)
+  end
+
+  def affiliate_balance
+    affiliates.not_withdrawed.sum(:amount)
+  end
+
+  def total_affiliate_earned
+    affiliates.sum(:amount)
+  end
+
+  def referral_masternodes
+    tier1_referrals.map { |u| u.nodes.size }.sum + 
+    tier2_referrals.map { |u| u.nodes.size }.sum + 
+    tier3_referrals.map { |u| u.nodes.size }.sum
+  end
+
   private
 
   def generate_affiliate_key

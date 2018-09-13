@@ -125,19 +125,19 @@ class AffiliateDashboard extends Component {
               </CardBody>
             </Card>
             <Card className="affiliateDashboardCard">
-              <CardHeader>Balance <span><br/>$125.35</span></CardHeader>
+              <CardHeader>Balance <span><br/>${user.affiliateBalance}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Balance:</p>
-                  <h6>$125.35</h6>
+                  <h6>${user.affiliateBalance}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Total Earned:</p>
-                  <h6>$283.22</h6>
+                  <h6>${user.totalAffiliateEarned}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Referral Masternodes</p>
-                  <h6>135</h6>
+                  <h6>{user.referralMasternodes}</h6>
                 </Row>
               </CardBody>
             </Card>
