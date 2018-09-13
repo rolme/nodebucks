@@ -25,6 +25,9 @@ import {
 } from '../../../reducers/user'
 
 import { fetchNodes } from '../../../reducers/nodes'
+import { fetchOrders } from '../../../reducers/orders'
+import { fetchWithdrawals } from '../../../reducers/withdrawals'
+import { reserveWithdrawal } from '../../../reducers/withdrawals'
 
 import './index.css'
 
@@ -92,20 +95,36 @@ class Header extends Component {
 
   handleImpersonate = (slug) => {
     this.props.impersonate(slug, () => {
-      this.props.fetchBalance();
-      this.props.fetchNodes();
+      this.handleImpersonateStateChange();
     })
   }
 
   handleStopImpersonating = () => {
     this.props.stopImpersonating(() => {
-      this.props.fetchBalance();
-      this.props.fetchNodes();
+      this.handleImpersonateStateChange();
     })
   }
 
+  handleImpersonateStateChange = () => {
+    switch(this.props.location.pathname) {
+      case '/dashboard':
+        this.props.fetchBalance();
+        this.props.fetchNodes();
+        break;
+      case '/orders':
+        this.props.fetchOrders();
+        break;
+      case '/withdrawals':
+        this.props.fetchWithdrawals();
+        break;
+      case '/nodes/withdraw':
+        this.props.reserveWithdrawal();
+        break;
+    }
+  } 
+
   render() {
-    const { currentUser, location } = this.props
+    const { currentUser } = this.props
     const impersonator = localStorage.getItem('impersonator-jwt-nodebucks')
     const inputProps = {
       placeholder: 'Type user email here',
@@ -165,28 +184,25 @@ class Header extends Component {
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
-                  { 
-                  location.pathname === '/dashboard' ?
-                    impersonator ?
-                    <Button onClick={this.handleStopImpersonating}>Stop Impersonate</Button> :
-                    currentUser.admin &&
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret>
-                          Login as ...
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <Autosuggest
-                            suggestions={this.state.suggestions}
-                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                            getSuggestionValue={this.getSuggestionValue}
-                            renderSuggestion={this.renderSuggestion}
-                            inputProps={inputProps}
-                          />
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                      :
-                      null
+                { 
+                  impersonator ?
+                  <Button onClick={this.handleStopImpersonating}>Stop Impersonate</Button> :
+                  currentUser.admin &&
+                    <UncontrolledDropdown>
+                      <DropdownToggle caret>
+                        Login as ...
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <Autosuggest
+                          suggestions={this.state.suggestions}
+                          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                          getSuggestionValue={this.getSuggestionValue}
+                          renderSuggestion={this.renderSuggestion}
+                          inputProps={inputProps}
+                        />
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
                 }
               </Col>
             </Col>
@@ -222,6 +238,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   stopImpersonating,
   fetchBalance,
   fetchNodes,
+  fetchOrders,
+  fetchWithdrawals,
+  reserveWithdrawal,
 }, dispatch)
 
 export default withRouter(connect(

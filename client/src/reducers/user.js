@@ -452,8 +452,12 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
 
 export function logout() {
   return dispatch => {
-    localStorage.setItem('jwt-nodebucks', '')
-    localStorage.setItem('impersonator-jwt-nodebucks', '')
+    const impersonatorToken = localStorage.getItem('impersonator-jwt-nodebucks')
+    if(impersonatorToken)
+      localStorage.setItem('impersonator-jwt-nodebucks', '')
+    else
+      localStorage.setItem('jwt-nodebucks', '')
+
     dispatch({ type: LOGOUT_USER_SUCCESS })
     dispatch(push('/login'))
   }
