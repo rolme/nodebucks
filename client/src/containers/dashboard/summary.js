@@ -44,12 +44,12 @@ export default class Summary extends Component {
             <p>$ {rewardTotal}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
-            <h6>Total Node(s) Value</h6>
-            <p>{value}</p>
+            <h6>Total Node Value</h6>
+            <p>$ {value}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Cost Basis</h6>
-            <p>{cost}</p>
+            <p>$ {cost}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Projected Annual %</h6>
