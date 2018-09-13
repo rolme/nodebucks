@@ -30,3 +30,4 @@ json.state user.state
 json.updatedAt user.updated_at.to_formatted_s(:db)
 json.zipcode user.zipcode
 json.verified user.verified
+json.verificationImage user.verification_image

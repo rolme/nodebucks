@@ -48,7 +48,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where.not(email: nil)
+    if(params[:verifications_pending].present? && params[:verifications_pending].to_bool)
+      @users = User.where.not(email: nil).verifications_pending
+    else 
+      @users = User.where.not(email: nil)
+    end
   end
 
   def login
