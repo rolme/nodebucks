@@ -27,7 +27,8 @@ class AuthenticateUser
       affiliateKeyCreatedAt: user.affiliate_key_created_at&.to_formatted_s(:db),
       state: user.state,
       updatedAt: user.updated_at.to_formatted_s(:db),
-      zipcode: user.zipcode
+      zipcode: user.zipcode,
+      verified: user.verified,
     }) if user
   end
 

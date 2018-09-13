@@ -6,6 +6,7 @@ import './index.css'
 
 import Profile from './profile'
 import Security from './security'
+import Verification from './verification'
 
 class Settings extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Settings extends Component {
 
   handlePath(location) {
     const path = !!location.pathname.replace('/settings', '') ? location.pathname.replace('/settings', '') : '/profile'
-    if ( path !== '/profile' && path !== '/security' ) {
+    if ( path !== '/profile' && path !== '/security' && path !== '/verification' ) {
       this.props.history.push('/404')
       return
     }
@@ -51,14 +52,18 @@ class Settings extends Component {
             <ListGroup className="settingsSideBarItemsContainer">
               <ListGroupItem onClick={() => this.changeTab('profile')} className={path === 'profile' ? 'selected' : ''}><p>Contact Info</p></ListGroupItem>
               <ListGroupItem onClick={() => this.changeTab('security')} className={path === 'security' ? 'selected' : ''}><p>Password</p></ListGroupItem>
+              <ListGroupItem onClick={() => this.changeTab('verification')} className={path === 'verification' ? 'selected' : ''}><p>Verification</p></ListGroupItem>
             </ListGroup>
           </Col>
           <Col xl={{size: 8, offset: 0}} lg={{size: 9, offset: 0}} md={{size: 10, offset: 1}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}}>
-           {path === 'profile' &&
-            <Profile/>
+            { path === 'profile' &&
+              <Profile/>
             }
-            {path === 'security' &&
-            <Security/>
+            { path === 'security' &&
+              <Security/>
+            }
+            { path === 'verification' &&
+              <Verification />
             }
           </Col>
         </div>

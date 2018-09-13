@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation, :verification_image]
   before_action :authenticate_admin_request, only: [:index, :show]
   before_action :set_affiliate_key, only: [:referrer]
 
@@ -198,6 +198,15 @@ class UsersController < ApplicationController
     render json: { status: :ok, valid: user.authenticate(params[:user][:password]).present? }
   end
 
+  def verification_image
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_image: params[:user][:verification_image], verification_pending: true)
+      render json: { status: :ok, message: 'ID verification is successfully requested.' }
+    else
+      render json: { status: 'error', message: user.errors.full_messages.join(', ') }
+    end
+  end
+
 protected
 
   def user_params
@@ -217,7 +226,9 @@ protected
       :password,
       :password_confirmation,
       :state,
-      :zipcode
+      :zipcode,
+      :verified,
+      :verification_pending,
     )
   end
 
@@ -263,7 +274,8 @@ private
       slug: @user.slug,
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
-      zipcode: @user.zipcode
+      zipcode: @user.zipcode,
+      verified: @user.verified,
     })
   end
 end

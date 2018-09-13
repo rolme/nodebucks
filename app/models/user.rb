@@ -20,6 +20,8 @@ class User < ApplicationRecord
   before_create :generate_affiliate_key
   after_create :create_btc_account
 
+  mount_uploader :verification_image, VerificationImageUploader
+
   def self.system
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
   end
