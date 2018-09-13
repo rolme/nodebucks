@@ -27,9 +27,19 @@ class NodesController < ApplicationController
   end
 
   def sell
+    if !@current_user.authenticate(params[:password])
+      render json: { status: 'error', message: 'Password is incorrect.'}
+      return
+    end
+
+    if node_user_params[:currency].blank? || node_user_params[:target].blank?
+      render json: { status: 'error', message: 'Missing payment information.'}
+      return
+    end
+
     @node    = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
-    operator.sell
+    operator.sell(node_user_params[:currency], node_user_params[:target])
     @node.reload
     render :show
   end
@@ -85,9 +95,11 @@ protected
 
   def node_user_params
     params.require(:node).permit(
+      :currency,
       :reward_setting,
       :sell_setting,
       :sell_bitcoin_wallet,
+      :target,
       :withdraw_wallet
     )
   end

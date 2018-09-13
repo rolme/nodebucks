@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { EventEmitter } from 'events';
 import moment from 'moment'
-import { Col, Container, Row, Button, Table } from 'reactstrap'
+import { Col, Container, Row, Button, Table, Alert } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
 import ConfirmationModal from '../../components/confirmationModal'
 import './index.css'
@@ -27,11 +27,10 @@ class Node extends Component {
       rewardSetting: '',
       showAllHistoryData: false,
       withdrawWallet: '',
+      showAlert: false,
     }
     this.handleInputChange = this.handleInputChange.bind(this)
-    this.onSuccessPasswordConfirmation = this.onSuccessPasswordConfirmation.bind(this)
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
-    this.showConfirmationModal = this.showConfirmationModal.bind(this)
     this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
   }
 
@@ -63,32 +62,34 @@ class Node extends Component {
     const { node } = this.props
     const { rewardSetting, withdrawWallet } = this.state
     rewardSetting === 20 ?
-      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }) :
-      this.props.updateNode(node.slug, { reward_setting: rewardSetting })
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }, () => {
+        this.showAlert();
+      }) :
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting }, () => {
+        this.showAlert();
+      })
   }
 
   showConfirmationModal = () => {
-    this.setState({
-      showConfirmationModal: true,
-      onSuccessPasswordConfirmation: this.handleRewardSettingChange
-    })
-  }
-
-  closeConfirmationModal = () => {
-    this.setState({ showConfirmationModal: false })
     EventEmitter.prototype.emit('open-confirm-modal');
   }
 
+  showAlert = () => {
+    this.setState({ showAlert: true })
+    setTimeout(() => { this.setState({ showAlert: false }) }, 3000)
+  }
+
   render() {
-    const { node, pending } = this.props
+    const { node, pending, message } = this.props
 
     if ( pending || node.slug === undefined ) {
       return null
     }
-    console.log("RENDER")
+
     return (
       <Container fluid className="showPageContainer">
         <div className="showPageContentContainer contentContainer">
+          <Alert isOpen={this.state.showAlert}>{message}</Alert>
           {this.displayHeader(node)}
           <Row className="pt-3 mx-0">
             <Col xl={{ size: 8, offset: 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
@@ -103,7 +104,7 @@ class Node extends Component {
           </Row>
           <ConfirmationModal
             show={this.showConfirmationModal}
-            onSuccess={this.onSuccessPasswordConfirmation}
+            onSuccess={this.handleRewardSettingChange}
             onConfirm={this.props.passwordConfirmation}
             userSlug={this.props.userSlug}
             title='Confirm Reward Changes'

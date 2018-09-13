@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :announcements, only: [:create] do
       get :last, on: :collection
     end
-    resources :cryptos, only: [:index, :show], param: :slug
+    resources :cryptos, only: [:index, :show, :update], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
       patch :online
       patch :offline
@@ -20,12 +20,12 @@ Rails.application.routes.draw do
       get :balance, on: :collection
       get :confirm
       get :verify
-      get :password_confirmation
       get :referrer, on: :collection
       patch :reset_password
       patch :reset, on: :collection
       post :impersonate, on: :member
       post :stop_impersonating, on: :collection
+      post :password_confirmation
     end
     resources :transactions, only: [:index, :update]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
