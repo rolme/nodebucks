@@ -3,7 +3,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Container, Form, Col, Button, Alert } from 'reactstrap'
 import Dropzone from 'react-dropzone'
-import { uploadVerificationImage } from '../../reducers/user';
+import {
+  uploadVerificationImage 
+} from '../../reducers/user';
 
 class Verification extends Component {
   constructor(props) {

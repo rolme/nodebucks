@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Container, Col, ListGroup, ListGroupItem } from 'reactstrap'
@@ -7,6 +8,10 @@ import './index.css'
 import Profile from './profile'
 import Security from './security'
 import Verification from './verification'
+
+import {
+  fetchBalance 
+} from '../../reducers/user';
 
 class Settings extends Component {
   constructor(props) {
@@ -24,6 +29,7 @@ class Settings extends Component {
       return
     }
     this.handlePath(this.props.location)
+    this.props.fetchBalance()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,7 +84,12 @@ const mapStateToProps = state => ({
   user: state.user.data,
 })
 
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  fetchBalance 
+}, dispatch)
+
 export default withRouter(connect(
   mapStateToProps,
+  mapDispatchToProps
 )(Settings))
 

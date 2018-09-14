@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get :verify
       get :referrer, on: :collection
       patch :reset_password
+      patch :verify_id_image
       patch :reset, on: :collection
       post :password_confirmation
       post :verification_image
