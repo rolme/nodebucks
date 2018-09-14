@@ -30,9 +30,9 @@ class Dashboard extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    const { confirmMessage, sellServerMessage } = this.props
-    if(!!sellServerMessage){
-      this.setState({ sellServerMessage }, () => setTimeout(() => {
+    const { confirmMessage, message } = this.props
+    if(!!message && message.includes('You have successfully sold your')){
+      this.setState({ sellServerMessage: message }, () => setTimeout(() => {
         this.setState({ sellServerMessage: '' })
         this.props.resetSellServerMessage()
       }, 10000))
