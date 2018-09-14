@@ -13,6 +13,7 @@ import './index.css'
 import { fetchNodes } from '../../reducers/nodes'
 import { fetchAnnouncement } from '../../reducers/announcements'
 import { reset } from '../../reducers/user'
+import { reset as resetSellServerMessage } from '../../reducers/user'
 
 import { valueFormat, disabledAnnouncements } from "../../lib/helpers";
 
@@ -22,13 +23,20 @@ class Dashboard extends Component {
     this.state = {
       showMessage: false,
       visibleAlert: false,
-      confirmMessage: ''
+      confirmMessage: '',
+      sellServerMessage: ''
     }
   }
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    const { confirmMessage } = this.props
+    const { confirmMessage, sellServerMessage } = this.props
+    if(!!sellServerMessage){
+      this.setState({ sellServerMessage }, () => setTimeout(() => {
+        this.setState({ sellServerMessage: '' })
+        this.props.resetSellServerMessage()
+      }, 10000))
+    }
     this.setState({ confirmMessage }, () => setTimeout(() => this.setState({ confirmMessage: '' }), 5000))
     this.props.fetchNodes()
   }
@@ -55,7 +63,7 @@ class Dashboard extends Component {
 
   render() {
     const { nodes, announcement, announcementError } = this.props
-    const { showMessage, visibleAlert, confirmMessage } = this.state
+    const { showMessage, visibleAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -80,6 +88,11 @@ class Dashboard extends Component {
           {!!confirmMessage &&
           <Alert color='success'>
             {confirmMessage}
+          </Alert>
+          }
+          {!!sellServerMessage &&
+          <Alert color='success'>
+            {sellServerMessage}
           </Alert>
           }
         </div>
@@ -137,6 +150,7 @@ const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
   confirmMessage: state.user.message === 'Your email address has been successfully verified. Thank you!' && state.user.message,
+  sellServerMessage: state.nodes.message && state.nodes.message.includes('You have successfully sold your') && state.nodes.message,
   pending: state.nodes.pending,
   purchasedNode: state.nodes.purchased,
   user: state.user.data,
@@ -146,7 +160,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchNodes,
   fetchAnnouncement,
-  reset
+  reset,
+  resetSellServerMessage
 }, dispatch)
 
 export default withRouter(connect(
