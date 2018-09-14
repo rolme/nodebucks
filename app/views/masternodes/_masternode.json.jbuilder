@@ -2,6 +2,7 @@ json.annualRoi masternode.yearly_roi[:value]
 json.annualRoiPercentage masternode.yearly_roi[:percentage]
 json.availableSupply masternode.available_supply
 json.description masternode.description
+json.profile masternode.profile
 json.marketCap masternode.market_cap
 json.monthlyRoiValue masternode.monthly_roi[:value]
 json.monthlyRoiPercentage masternode.monthly_roi[:percentage]

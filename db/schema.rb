@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_055000) do
+ActiveRecord::Schema.define(version: 2018_09_14_100439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
+    t.text "profile"
   end
 
   create_table "events", force: :cascade do |t|
