@@ -79,7 +79,7 @@ class CryptoTable extends Component {
       let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) + ' USD' : '-'
       let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + valueFormat(+item.monthlyRoiValue) + ' USD' : '-'
       let yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + valueFormat(+item.yearlyRoiValue) + ' USD' : '-'
-      let annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : '-'
+      let annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? ((+item.annualRoiPercentage) * 100.0).toFixed(1) + ' %' : '-'
       return (
         <tr key={item.slug}>
           <td>
@@ -95,12 +95,7 @@ class CryptoTable extends Component {
           <td className="d-xl-table-cell d-lg-table-cell d-none">{yearlyRoiValue}</td>
           <td className="cryptosTableNodePriceCell">{nodePrice}</td>
           <td className="d-flex">
-            {+item.nodePrice < 50000 &&
             <NavLink to={`/masternodes/${item.slug}`} className="btn btn-primary addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
-            }
-            {+item.nodePrice > 50000 &&
-            <NavLink to={'/contact#contact-sales-' + item.name} className="btn btn-primary contactSalesButton"><img src="/assets/images/contactUsIcon.png" alt="contact us" className="mr-2"/>Contact Us</NavLink>
-            }
           </td>
         </tr>
       )

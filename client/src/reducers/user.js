@@ -608,7 +608,7 @@ export function passwordConfirmation(slug, password, callback) {
   return dispatch => {
     dispatch({ type: REQUEST_PASSWORD_CONFIRMATION })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.post(`/api/users/${slug}/password_confirmation?password=${password}`).then(response => {
+    axios.post(`/api/users/${slug}/password_confirmation`, { user: { password } }).then(response => {
       dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_SUCCESS, payload: response.data })
       callback(response.data.valid)
     })

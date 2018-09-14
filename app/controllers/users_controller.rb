@@ -195,7 +195,7 @@ class UsersController < ApplicationController
 
   def password_confirmation
     user = User.find_by(slug: params[:user_slug])
-    render json: { status: :ok, valid: user.authenticate(params[:password]).present? }
+    render json: { status: :ok, valid: user.authenticate(params[:user][:password]).present? }
   end
 
   def impersonate

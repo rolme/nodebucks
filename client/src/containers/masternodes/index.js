@@ -29,9 +29,9 @@ class Masternodes extends Component {
       const logoUrl = !!crypto.logo_url ? crypto.logo_url : `/assets/images/logos/${crypto.slug}.png`
       const cryptoUrlName = new URL(crypto.url).host
       const nodePrice = valueFormat(crypto.nodePrice, 0)
-      const annualRoi = valueFormat(crypto.annualRoi, 2)
+      const annualRoi = valueFormat(crypto.annualRoiPercentage * 100, 2)
       const yearlyRoiValue = valueFormat(crypto.yearlyRoiValue, 0)
-      const monthlyRoiPercentage = valueFormat(crypto.monthlyRoiPercentage * 100, 1)
+      const monthlyRoiValue = valueFormat(crypto.monthlyRoiValue, 0)
       return (
         <Col key={index} className="masternodesListingCoinInfoContainer">
           <Col xl={{ size: 2, offset: 0 }} lg={{ size: 2, offset: 0 }} md={{ size: 2, offset: 0 }} sm={{ size: 6, offset: 3 }} className="d-flex flex-xl-column flex-lg-column flex-md-column flex-row align-items-center justify-content-center px-0">
@@ -46,27 +46,22 @@ class Masternodes extends Component {
             <Col className="d-flex justify-content-between flex-wrap">
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
                 <h6>Annual ROI</h6>
-                <p>{annualRoi}</p>
+                <p>{annualRoi} %</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Yearly return</h6>
-                <p>{yearlyRoiValue}</p>
+                <h6>Yearly Return</h6>
+                <p>$ {yearlyRoiValue} USD</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Monthly return</h6>
-                <p>{monthlyRoiPercentage} %</p>
+                <h6>Monthly Return</h6>
+                <p>$ {monthlyRoiValue} USD</p>
               </div>
             </Col>
           </Col>
           <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 3, offset: 0 }} className="d-flex flex-column align-items-center justify-content-center px-0">
             <p className="masternodesListingCoinInfoPriceLabel">Node price</p>
-            <p className="masternodesListingCoinInfoPrice">$ {nodePrice}</p>
-            {+crypto.nodePrice < 50000 &&
+            <p className="masternodesListingCoinInfoPrice">$ {nodePrice} USD</p>
             <NavLink to={`/masternodes/${crypto.slug}`} className="btn btn-primary masternodesListingCoinInfoButton addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
-            }
-            {+crypto.nodePrice > 50000 &&
-            <NavLink to={'/contact#contact-sales-' + crypto.name} className="btn btn-primary masternodesListingCoinInfoButton contactSalesButton"><img src="/assets/images/contactUsIcon.png" alt="contact us" className="mr-2"/>Contact Us</NavLink>
-            }
           </Col>
         </Col>
       )
