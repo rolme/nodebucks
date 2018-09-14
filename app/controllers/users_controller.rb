@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
-  before_action :authenticate_admin_request, only: [:index, :show, :impersonate, :stop_impersonating]
+  before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
   before_action :set_affiliate_key, only: [:referrer]
 
   def callback
@@ -200,13 +200,7 @@ class UsersController < ApplicationController
 
   def impersonate
     @user = User.find_by_slug(params[:slug])
-    impersonate_user(@user)
-    render json: { status: :ok, impersonator: true_user, token: generate_token }
-  end
-
-  def stop_impersonating
-    stop_impersonating_user
-    render json: { status: :ok }
+    render json: { status: :ok, token: generate_token }
   end
 
 protected

@@ -3,8 +3,6 @@ class ApplicationController < ActionController::API
 
   include ExceptionHandler
 
-  impersonates :user
-
   def index
     render file: 'public/index.html', content_type: 'text/html'
   end

@@ -20,7 +20,6 @@ import {
 import { 
   fetchUsers,
   impersonate,
-  stopImpersonating,
   fetchBalance,
 } from '../../../reducers/user'
 
@@ -65,7 +64,7 @@ class Header extends Component {
     const inputLength = inputValue.length;
 
     return inputLength === 0 ? [] : this.props.list.filter(user =>
-      user.email.toLowerCase().slice(0, inputLength) === inputValue && user.slug !== this.props.currentUser.slug
+      user.email.toLowerCase().slice(0, inputLength) === inputValue && user.slug !== this.props.user.slug
     );
   };
 
@@ -99,12 +98,6 @@ class Header extends Component {
     })
   }
 
-  handleStopImpersonating = () => {
-    this.props.stopImpersonating(() => {
-      this.handleImpersonateStateChange();
-    })
-  }
-
   handleImpersonateStateChange = () => {
     switch(this.props.location.pathname) {
       case '/dashboard':
@@ -124,8 +117,8 @@ class Header extends Component {
   } 
 
   render() {
-    const { currentUser } = this.props
-    const impersonator = localStorage.getItem('impersonator-jwt-nodebucks')
+    const { user, userLogin } = this.props
+    const impersonate = localStorage.getItem('jwt-impersonate-nodebucks')
     const inputProps = {
       placeholder: 'Type user email here',
       value: this.state.value || '',
@@ -139,14 +132,14 @@ class Header extends Component {
           </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'/>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
-            {!currentUser &&
+            {!user &&
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
               <NavLink to="/" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Home</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
             </Col>
             }
-            {!!currentUser &&
+            {!!user &&
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
               <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
@@ -154,14 +147,14 @@ class Header extends Component {
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
             </Col>
             }
-            {!!currentUser &&
+            {!!user &&
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end pr-0">
               <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerMenuItemsContainer headerAuthMenuItemsContainer justify-content-end mr-auto">
                 <NavLink isActive={(match, location) => location.pathname === '/masternodes'} to="/masternodes" onClick={() => this.toggleNavbar(true)} className="btn headerAddNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Add Node</NavLink>
                 <UncontrolledDropdown nav inNavbar className="headerAuthMenuLoggedInDropDownItemsContainer">
                   <DropdownToggle nav caret className="headerLoggedInUserContainer pr-0">
-                    <img src={!!currentUser.avatar ? currentUser.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
-                    <p className="headerUserName">{currentUser.first}</p>
+                    <img src={!!user.avatar ? user.avatar : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+                    <p className="headerUserName">{user.first}</p>
                   </DropdownToggle>
                   <DropdownMenu right className="p-0">
                     <DropdownItem className="headerUserDropDownItem">
@@ -185,9 +178,7 @@ class Header extends Component {
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
                 { 
-                  impersonator ?
-                  <Button onClick={this.handleStopImpersonating}>Stop Impersonate</Button> :
-                  currentUser.admin &&
+                  user.admin && user.slug === userLogin.slug &&
                     <UncontrolledDropdown>
                       <DropdownToggle caret>
                         Login as ...
@@ -207,7 +198,7 @@ class Header extends Component {
               </Col>
             </Col>
             }
-            {!currentUser &&
+            {!user &&
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="navbar-nav headerAuthMenuItemsContainer mr-auto justify-content-end">
               <div className="dropdown-divider authMenuDivider"></div>
               {this.displayLoginLink()}
@@ -228,14 +219,14 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.data,
+  user: state.user.data,
+  userLogin: state.user.userLogin,
   list: state.user.list,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchUsers,
   impersonate,
-  stopImpersonating,
   fetchBalance,
   fetchNodes,
   fetchOrders,

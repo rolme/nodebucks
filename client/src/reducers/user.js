@@ -42,9 +42,6 @@ export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONF
 export const REQUEST_IMPERSONATE = 'user/REQUEST_IMPERSONATE'
 export const REQUEST_IMPERSONATE_SUCCESS = 'user/REQUEST_IMPERSONATE_SUCCESS'
 export const REQUEST_IMPERSONATE_FAILURE = 'user/REQUEST_IMPERSONATE_FAILURE'
-export const REQUEST_STOP_IMPERSONATE = 'user/REQUEST_STOP_IMPERSONATE'
-export const REQUEST_STOP_IMPERSONATE_SUCCESS = 'user/REQUEST_STOP_IMPERSONATE_SUCCESS'
-export const REQUEST_STOP_IMPERSONATE_FAILURE  = 'user/REQUEST_STOP_IMPERSONATE_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -67,6 +64,7 @@ try {
 
 const initialState = {
   data: TOKEN_USER,
+  userLogin: TOKEN_USER,
   error: false,
   message: null,
   pending: true,
@@ -113,9 +111,11 @@ export default (state = initialState, action) => {
       }
 
     case LOGIN_USER_SUCCESS:
+      const jwt_decoded = jwt_decode(action.payload.token)
       return {
         ...state,
-        data: jwt_decode(action.payload.token),
+        data: jwt_decoded,
+        userLogin: jwt_decoded,
         logInError: false,
         logInMessage: null,
         logInPending: false,
@@ -257,7 +257,7 @@ export default (state = initialState, action) => {
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        data: null,
+        data: state.userLogin.slug !== state.data.slug ? state.userLogin : null,
         error: true,
         message: 'Logged out.',
         pending: false,
@@ -343,19 +343,9 @@ export default (state = initialState, action) => {
         list: action.payload,
       }
     case REQUEST_IMPERSONATE_SUCCESS:
-      localStorage.setItem('impersonator-jwt-nodebucks', state.token)
-      localStorage.setItem('jwt-nodebucks', action.payload.token)
       return {
         ...state,
         data: jwt_decode(action.payload.token),
-      }
-    case REQUEST_STOP_IMPERSONATE_SUCCESS:
-      const impersonatorToken = localStorage.getItem('impersonator-jwt-nodebucks')
-      localStorage.setItem('jwt-nodebucks', impersonatorToken)
-      localStorage.setItem('impersonator-jwt-nodebucks', '')
-      return {
-        ...state,
-        data: jwt_decode(impersonatorToken),
       }
     default:
       return state
@@ -409,6 +399,7 @@ export function login(data) {
     axios.post(`/auth/login`, data).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
+        localStorage.setItem('jwt-impersonate-nodebucks', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
@@ -452,11 +443,16 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
 
 export function logout() {
   return dispatch => {
-    const impersonatorToken = localStorage.getItem('impersonator-jwt-nodebucks')
-    if(impersonatorToken)
+    const token = localStorage.getItem('jwt-nodebucks')
+    const impersonateToken = localStorage.getItem('jwt-impersonate-nodebucks')
+
+    if(token === impersonateToken) {
       localStorage.setItem('impersonator-jwt-nodebucks', '')
-    else
       localStorage.setItem('jwt-nodebucks', '')
+    }
+    else {
+      localStorage.setItem('jwt-nodebucks', impersonateToken)
+    }
 
     dispatch({ type: LOGOUT_USER_SUCCESS })
     dispatch(push('/login'))
@@ -627,25 +623,13 @@ export function impersonate(slug, callback) {
     dispatch({ type: REQUEST_IMPERSONATE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/users/${slug}/impersonate`).then(response => {
+      localStorage.setItem('jwt-nodebucks', response.data.token)
+      localStorage.setItem('impersonator-jwt-nodebucks', response.data.token)
       dispatch({ type: REQUEST_IMPERSONATE_SUCCESS, payload: response.data })
       callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_IMPERSONATE_FAILURE, payload: error.message })
-      })
-  }
-}
-
-export function stopImpersonating(callback) {
-  return dispatch => {
-    dispatch({ type: REQUEST_STOP_IMPERSONATE })
-    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('impersonator-jwt-nodebucks')
-    axios.post('/api/users/stop_impersonating').then(response => {
-      dispatch({ type: REQUEST_STOP_IMPERSONATE_SUCCESS, payload: response.data })
-      callback()
-    })
-      .catch((error) => {
-        dispatch({ type: REQUEST_STOP_IMPERSONATE_FAILURE, payload: error.message })
       })
   }
 }
