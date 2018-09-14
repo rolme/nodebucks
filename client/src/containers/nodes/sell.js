@@ -27,7 +27,7 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      currency: '',
+      currency: 'btc',
       target: '',
       validPrice: true,
       address: '',
