@@ -25,7 +25,7 @@ class Masternodes extends Component {
   }
 
   renderCoinsInfo(cryptos) {
-    return cryptos.map((crypto, index) => {
+    return cryptos.sort((a, b) => a.name > b.name).map((crypto, index) => {
       const logoUrl = !!crypto.logo_url ? crypto.logo_url : `/assets/images/logos/${crypto.slug}.png`
       const cryptoUrlName = new URL(crypto.url).host
       const nodePrice = valueFormat(crypto.nodePrice, 0)
@@ -59,7 +59,7 @@ class Masternodes extends Component {
             </Col>
           </Col>
           <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 3, offset: 0 }} className="d-flex flex-column align-items-center justify-content-center px-0">
-            <p className="masternodesListingCoinInfoPriceLabel">Node price</p>
+            <p className="masternodesListingCoinInfoPriceLabel">Node Price</p>
             <p className="masternodesListingCoinInfoPrice">$ {nodePrice} USD</p>
             <NavLink to={`/masternodes/${crypto.slug}`} className="btn btn-primary masternodesListingCoinInfoButton addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
           </Col>
