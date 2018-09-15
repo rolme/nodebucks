@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { valueFormat } from "../../lib/helpers";
+import { NavLink, withRouter } from 'react-router-dom'
+import { valueFormat } from "../../lib/helpers"
 
 import CryptoTable from '../../components/cryptos/table'
 
@@ -71,17 +71,17 @@ class Masternodes extends Component {
 
   render() {
     const { cryptos, user, bgColor } = this.props
-    console.log(this.props)
+    const showOnlyTable = !user && this.props.location.pathname === '/'
     return (
       <div className={`${!!bgColor ? bgColor : ""} masternodesContainer`}>
         <div className="contentContainer">
-          {!!user &&
+          {!showOnlyTable &&
           <div>
             <h1 className="masternodesSectionHeader">Select a Masternode</h1>
             {this.renderCoinsInfo(cryptos)}
           </div>
           }
-          {!!user &&
+          {!showOnlyTable &&
           <h1 className="masternodesSectionHeader">Compare Masternodes</h1>
           }
           <CryptoTable list={cryptos} user={user}/>
@@ -101,7 +101,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCryptos
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Masternodes)
+)(Masternodes))
