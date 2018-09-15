@@ -7,6 +7,7 @@ class Crypto < ApplicationRecord
   PERCENTAGE = false
   VALUE      = true
 
+  has_many :crypto_prices
   has_many :nodes
 
   scope :active, -> { where(status: 'active') }
