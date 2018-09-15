@@ -208,7 +208,7 @@ ActiveRecord::Schema.define(version: 2018_09_14_100439) do
     t.string "email"
     t.string "password_digest"
     t.string "nickname"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"
