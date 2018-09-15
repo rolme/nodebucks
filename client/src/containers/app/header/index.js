@@ -43,7 +43,7 @@ class Header extends Component {
 
   componentWillMount() {
     const { user } = this.props
-    if (user.admin) {
+    if (!!user && user.admin) {
       this.props.fetchUsers()
     }
   }
