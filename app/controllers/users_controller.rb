@@ -49,7 +49,7 @@ class UsersController < ApplicationController
 
   def index
     if !!params[:nonadmin]
-      @users = User.where.not(email: nil).where(admin: false)
+      @users = User.where.not(email: nil).where(admin: [false, nil])
     else
       @users = User.where.not(email: nil)
     end
