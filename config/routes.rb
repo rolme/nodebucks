@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :referrer, on: :collection
       patch :reset_password
       patch :reset, on: :collection
+      post :impersonate, on: :member
       post :password_confirmation
     end
     resources :transactions, only: [:index, :update]

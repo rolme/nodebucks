@@ -16,6 +16,7 @@ import { reset } from '../../reducers/user'
 import { reset as resetSellServerMessage } from '../../reducers/user'
 
 import { valueFormat, disabledAnnouncements } from "../../lib/helpers";
+import { ClipLoader } from "react-spinners";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -62,7 +63,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { nodes, announcement, announcementError } = this.props
+    const { pending, nodes, announcement, announcementError } = this.props
     const { showMessage, visibleAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
@@ -108,19 +109,47 @@ class Dashboard extends Component {
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
               <h5>Total Node Value</h5>
-              <p>$ {valueFormat(+nodeValue, 2)}</p>
+              {pending ?
+                <ClipLoader
+                  size={25}
+                  color={'#FFFFFF'}
+                  loading={true}
+                /> :
+                <p>$ {valueFormat(+nodeValue, 2)}</p>
+              }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Projected Annual ROI</h5>
-              <p>{!!costBases ? valueFormat((yearlyRoiValues / costBases) * 100, 2) : 0}%</p>
+              {pending ?
+                <ClipLoader
+                  size={25}
+                  color={'#FFFFFF'}
+                  loading={true}
+                /> :
+                <p>{!!costBases ? valueFormat((yearlyRoiValues / costBases) * 100, 2) : 0}%</p>
+              }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
               <h5>Projected Monthly Returns </h5>
-              <p>$ {valueFormat(+monthlyRewards, 2)}</p>
+              {pending ?
+                <ClipLoader
+                  size={25}
+                  color={'#FFFFFF'}
+                  loading={true}
+                /> :
+                <p>$ {valueFormat(+monthlyRewards, 2)}</p>
+              }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
               <h5>Masternodes Owned </h5>
-              <p>{filteredNodes.length}</p>
+              {pending ?
+                <ClipLoader
+                  size={25}
+                  color={'#FFFFFF'}
+                  loading={true}
+                /> :
+                <p>{filteredNodes.length}</p>
+              }
             </Col>
           </Row>
           <Row>
