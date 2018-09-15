@@ -48,7 +48,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where.not(email: nil)
+    if !!params[:nonadmin]
+      @users = User.where.not(email: nil).where(admin: false)
+    else
+      @users = User.where.not(email: nil)
+    end
   end
 
   def login

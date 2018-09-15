@@ -64,7 +64,6 @@ try {
 
 const initialState = {
   data: TOKEN_USER,
-  userLogin: TOKEN_USER,
   error: false,
   message: null,
   pending: true,
@@ -115,7 +114,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: jwt_decoded,
-        userLogin: jwt_decoded,
         logInError: false,
         logInMessage: null,
         logInPending: false,
@@ -257,7 +255,7 @@ export default (state = initialState, action) => {
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        data: state.userLogin.slug !== state.data.slug ? state.userLogin : null,
+        data: (!!action.payload) ? action.payload : null,
         error: true,
         message: 'Logged out.',
         pending: false,
@@ -362,12 +360,14 @@ export function isAuthenticated() {
         tokenUser = jwt_decode(token)
         if ( +tokenUser.exp < +moment("", "x") ) {
           localStorage.setItem('jwt-nodebucks', '')
+          localStorage.setItem('jwt-nodebucks-login', '')
           dispatch({ type: 'LOGOUT_USER_SUCCESS' })
           return false
         }
         return true
       } catch ( err ) {
         localStorage.setItem('jwt-nodebucks', '')
+        localStorage.setItem('jwt-nodebucks-login', '')
         dispatch({ type: 'LOGOUT_USER_SUCCESS' })
         return false
       }
@@ -380,7 +380,7 @@ export function fetchUsers() {
   return dispatch => {
     dispatch({ type: REQUEST_USER_LIST })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.get('/api/users').then(response => {
+    axios.get('/api/users?nonadmin=1').then(response => {
       if ( response.data.status !== 'error' ) {
         dispatch({ type: REQUEST_USER_LIST_SUCCESS, payload: response.data })
       } else {
@@ -399,7 +399,7 @@ export function login(data) {
     axios.post(`/auth/login`, data).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
-        localStorage.setItem('jwt-impersonate-nodebucks', response.data.token)
+        localStorage.setItem('jwt-nodebucks-login', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
@@ -430,6 +430,7 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
+        localStorage.setItem('jwt-nodebucks-login', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
@@ -444,18 +445,18 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
 export function logout() {
   return dispatch => {
     const token = localStorage.getItem('jwt-nodebucks')
-    const impersonateToken = localStorage.getItem('jwt-impersonate-nodebucks')
+    const login = localStorage.getItem('jwt-nodebucks-login')
 
-    if(token === impersonateToken) {
-      localStorage.setItem('impersonator-jwt-nodebucks', '')
+    if(token === login) {
       localStorage.setItem('jwt-nodebucks', '')
+      localStorage.setItem('jwt-nodebucks-login', '')
+      dispatch({ type: LOGOUT_USER_SUCCESS })
+      dispatch(push('/login'))
     }
     else {
-      localStorage.setItem('jwt-nodebucks', impersonateToken)
+      localStorage.setItem('jwt-nodebucks', login)
+      dispatch({ type: LOGOUT_USER_SUCCESS, payload: login })
     }
-
-    dispatch({ type: LOGOUT_USER_SUCCESS })
-    dispatch(push('/login'))
   }
 }
 
@@ -478,6 +479,7 @@ export function register(params, referrerCookie) {
         return
       }
       localStorage.setItem('jwt-nodebucks', response.data.token)
+      localStorage.setItem('jwt-nodebucks-login', response.data.token)
       dispatch({ type: REGISTER_USER_SUCCESS, payload: response.data })
     })
       .catch((error) => {
@@ -624,7 +626,6 @@ export function impersonate(slug, callback) {
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/users/${slug}/impersonate`).then(response => {
       localStorage.setItem('jwt-nodebucks', response.data.token)
-      localStorage.setItem('impersonator-jwt-nodebucks', response.data.token)
       dispatch({ type: REQUEST_IMPERSONATE_SUCCESS, payload: response.data })
       callback()
     })

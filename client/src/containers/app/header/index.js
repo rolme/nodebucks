@@ -5,19 +5,18 @@ import Autosuggest from 'react-autosuggest';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { 
+import {
   Navbar,
   Collapse,
   NavbarToggler,
   Col,
   UncontrolledDropdown,
-  DropdownToggle, 
+  DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button,
 } from 'reactstrap'
 
-import { 
+import {
   fetchUsers,
   impersonate,
   fetchBalance,
@@ -43,7 +42,10 @@ class Header extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUsers();
+    const { user } = this.props
+    if (user.admin) {
+      this.props.fetchUsers()
+    }
   }
 
   toggle(name) {
@@ -113,12 +115,12 @@ class Header extends Component {
       case '/nodes/withdraw':
         this.props.reserveWithdrawal();
         break;
+      default: return
     }
-  } 
+  }
 
   render() {
-    const { user, userLogin } = this.props
-    const impersonate = localStorage.getItem('jwt-impersonate-nodebucks')
+    const { user } = this.props
     const inputProps = {
       placeholder: 'Type user email here',
       value: this.state.value || '',
@@ -177,8 +179,8 @@ class Header extends Component {
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
-                { 
-                  user.admin && user.slug === userLogin.slug &&
+                {
+                  user.admin &&
                     <UncontrolledDropdown>
                       <DropdownToggle caret>
                         Login as ...
@@ -220,7 +222,6 @@ class Header extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
-  userLogin: state.user.userLogin,
   list: state.user.list,
 })
 
