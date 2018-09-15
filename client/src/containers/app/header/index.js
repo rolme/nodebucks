@@ -1,10 +1,31 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { NavHashLink as NavLink } from 'react-router-hash-link'
+import Autosuggest from 'react-autosuggest';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { Navbar, Collapse, NavbarToggler, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import {
+  Navbar,
+  Collapse,
+  NavbarToggler,
+  Col,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap'
+
+import {
+  fetchUsers,
+  impersonate,
+  fetchBalance,
+} from '../../../reducers/user'
+
+import { fetchNodes } from '../../../reducers/nodes'
+import { fetchOrders } from '../../../reducers/orders'
+import { fetchWithdrawals } from '../../../reducers/withdrawals'
+import { reserveWithdrawal } from '../../../reducers/withdrawals'
 
 import './index.css'
 
@@ -12,10 +33,19 @@ class Header extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      collapsed: true
+      collapsed: true,
+      value: '',
+      suggestions: [],
     };
     this.toggle = this.toggle.bind(this)
     this.toggleNavbar = this.toggleNavbar.bind(this)
+  }
+
+  componentWillMount() {
+    const { user } = this.props
+    if (user.admin) {
+      this.props.fetchUsers()
+    }
   }
 
   toggle(name) {
@@ -31,8 +61,71 @@ class Header extends Component {
     })
   }
 
+  getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0 ? [] : this.props.list.filter(user =>
+      user.email.toLowerCase().slice(0, inputLength) === inputValue && user.slug !== this.props.user.slug
+    );
+  };
+
+  getSuggestionValue = suggestion => suggestion.name;
+
+  renderSuggestion = suggestion => (
+    <div key={suggestion.slug} onClick={() => this.handleImpersonate(suggestion.slug)}>{suggestion.email}</div>
+  );
+
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  handleImpersonate = (slug) => {
+    this.props.impersonate(slug, () => {
+      this.handleImpersonateStateChange();
+    })
+  }
+
+  handleImpersonateStateChange = () => {
+    switch(this.props.location.pathname) {
+      case '/dashboard':
+        this.props.fetchBalance();
+        this.props.fetchNodes();
+        break;
+      case '/orders':
+        this.props.fetchOrders();
+        break;
+      case '/withdrawals':
+        this.props.fetchWithdrawals();
+        break;
+      case '/nodes/withdraw':
+        this.props.reserveWithdrawal();
+        break;
+      default: return
+    }
+  }
+
   render() {
     const { user } = this.props
+    const inputProps = {
+      placeholder: 'Type user email here',
+      value: this.state.value || '',
+      onChange: this.onChange
+    };
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">
@@ -86,6 +179,24 @@ class Header extends Component {
                 <NavLink to="/settings" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Settings</NavLink>
                 <div className="dropdown-divider authMenuDivider"></div>
                 <NavLink to="/logout" className="headerMenuItem headerMenuAuthItem headerAuthMenuLoggedInMobileItem nav-item nav-link" exact={true} onClick={() => this.toggleNavbar(true)}>Logout</NavLink>
+                {
+                  user.admin &&
+                    <UncontrolledDropdown>
+                      <DropdownToggle caret>
+                        Login as ...
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <Autosuggest
+                          suggestions={this.state.suggestions}
+                          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                          getSuggestionValue={this.getSuggestionValue}
+                          renderSuggestion={this.renderSuggestion}
+                          inputProps={inputProps}
+                        />
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                }
               </Col>
             </Col>
             }
@@ -110,10 +221,19 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.data
+  user: state.user.data,
+  list: state.user.list,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchUsers,
+  impersonate,
+  fetchBalance,
+  fetchNodes,
+  fetchOrders,
+  fetchWithdrawals,
+  reserveWithdrawal,
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,

@@ -15,6 +15,7 @@
     "query-string": "^5.1.0",
     "rc-checkbox": "^2.1.5",
     "react": "^16.4.2",
+    "react-autosuggest": "^9.4.1",
     "react-chartjs-2": "^2.7.2",
     "react-cookie": "^3.0.4",
     "react-copy-to-clipboard": "^5.0.1",
