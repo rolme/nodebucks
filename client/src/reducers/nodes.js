@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { valueFormat } from "../lib/helpers";
+import { RESET } from "./user";
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'
@@ -36,6 +38,15 @@ const initialState = {
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
   switch ( action.type ) {
+    case RESET:
+      return {
+        ...state,
+        data: {},
+        list: [],
+        pending: false,
+        error: false,
+        message: ''
+      }
     case FETCH:
     case FETCH_LIST:
     case RESERVE:
@@ -133,7 +144,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: 'Node sold successful.'
+        message:`You have successfully sold your ${action.payload.crypto.name} Masternode for $${valueFormat(+action.payload.sellPrice, 2)}. You will no longer receive rewards for that server. Your payment will be sent within 3 days. Thank you.`
       }
 
     default:
@@ -239,7 +250,7 @@ export function sellNode(slug, data) {
     axios.patch(`/api/nodes/${slug}/sell`, data)
       .then((response) => {
         if ( response.data.status === 'error' ) {
-          dispatch({ type: RESERVE_ERROR, payload: { message: response.data } })
+          dispatch({ type: SELL_ERROR, payload: { message: response.data } })
         } else {
           dispatch({ type: SELL_SUCCESS, payload: response.data })
         }
@@ -247,5 +258,11 @@ export function sellNode(slug, data) {
       dispatch({ type: SELL_ERROR, payload: { message: error.data } })
       console.log(error)
     })
+  }
+}
+
+export function reset() {
+  return dispatch => {
+    dispatch({ type: RESET })
   }
 }
