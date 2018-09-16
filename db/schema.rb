@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_14_100439) do
+ActiveRecord::Schema.define(version: 2018_09_16_122049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,16 @@ ActiveRecord::Schema.define(version: 2018_09_14_100439) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reviewed_by_user"], name: "index_contacts_on_reviewed_by_user"
+  end
+
+  create_table "crypto_price_histories", force: :cascade do |t|
+    t.bigint "crypto_id"
+    t.jsonb "data", default: {}, null: false
+    t.string "source"
+    t.decimal "usd", default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_crypto_price_histories_on_crypto_id"
   end
 
   create_table "crypto_prices", force: :cascade do |t|
@@ -208,7 +218,7 @@ ActiveRecord::Schema.define(version: 2018_09_14_100439) do
     t.string "email"
     t.string "password_digest"
     t.string "nickname"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"
@@ -252,6 +262,7 @@ ActiveRecord::Schema.define(version: 2018_09_14_100439) do
 
   add_foreign_key "accounts", "cryptos"
   add_foreign_key "accounts", "users"
+  add_foreign_key "crypto_price_histories", "cryptos"
   add_foreign_key "crypto_prices", "cryptos"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"

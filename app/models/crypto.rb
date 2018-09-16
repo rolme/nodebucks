@@ -7,6 +7,8 @@ class Crypto < ApplicationRecord
   PERCENTAGE = false
   VALUE      = true
 
+  has_many :prices, class_name: "CryptoPrice", dependent: :destroy
+  has_many :historic_prices, class_name: "CryptoPriceHistory", dependent: :destroy
   has_many :nodes
 
   scope :active, -> { where(status: 'active') }

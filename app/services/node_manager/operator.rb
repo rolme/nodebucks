@@ -44,7 +44,7 @@ module NodeManager
       return false if node.status != 'reserved' || !within_timeframe?(node.buy_priced_at)
 
       node.update_attribute(:status, 'new')
-      node.node_prices.create(source: 'system', value: node.cost)
+      node.historic_prices.create(source: 'system', value: node.cost)
       @order = Order.create(
         node_id: node.id,
         user_id: node.user_id,
