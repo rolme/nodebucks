@@ -15,6 +15,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 gem 'simple_command'
 
+# AWS S3
+gem 'aws-sdk-s3', '~> 1'
+
 # For scraping
 gem 'headless'
 gem 'phantomjs'
