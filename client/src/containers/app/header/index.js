@@ -134,7 +134,7 @@ class Header extends Component {
           </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             {!!user &&
-            <img src={user.avatar ? user.avatar.url : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
+            <img src={!!user.avatar ? user.avatar.url : '/assets/images/user.jpg'} className="headerUserAvatar" alt="avatar"/>
             }
           </NavbarToggler>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
