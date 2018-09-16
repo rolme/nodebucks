@@ -21,6 +21,7 @@ class UsersController < ApplicationController
 
     Rails.logger.info ">>>>> user present: #{@user.present?}"
     if @user.present?
+      Rails.logger.info ">>>>> user facebook: #{user_params[:facebook]}"
       sm = StorageManager.new
       avatar = sm.store_url(@user, user_params[:avatar])
       Rails.logger.info ">>>>> user: #{user_params[:avatar]}"
