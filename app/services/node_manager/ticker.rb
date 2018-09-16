@@ -10,13 +10,12 @@ module NodeManager
     end
 
     def evaluate
-      return if node.stake.blank?
-        node.node_prices.create(
-          data: 'from crypto prices table',
-          source: node.ticker_url,
-          value: node.stake * crypto.prices.find_by(amount: node.stake)
-        )
-      end
+      return if ['sold', 'reserved'].include?(node.status)
+      node.historic_prices.create(
+        data: 'from crypto prices table',
+        source: node.ticker_url,
+        value: node.stake * @crypto.prices.find_by(amount: 1).usdt
+      )
     end
 
     protected

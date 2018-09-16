@@ -47,6 +47,12 @@ class CryptoScraper
         crypto.available_supply = data["circulating_supply"]
         crypto.volume           = data["quotes"]["USD"]["volume_24h"].to_f
         crypto.market_cap       = data["quotes"]["USD"]["market_cap"].to_f
+
+        crypto.historic_prices.create(
+          data: data,
+          source: crypto.ticker_url,
+          usd: data["quotes"]["USD"]["price"].to_f
+        )
       end
       crypto.save
     end

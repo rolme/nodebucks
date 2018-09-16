@@ -21,7 +21,7 @@ class Node < ApplicationRecord
   belongs_to :user
 
   has_many :events, dependent: :destroy
-  has_many :node_prices, class_name: "NodePriceHistory", dependent: :destroy
+  has_many :historic_prices, class_name: "NodePriceHistory", dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :rewards, dependent: :destroy
 
