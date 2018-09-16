@@ -110,7 +110,7 @@ class Profile extends Component {
           multiple={ false }
           className="avatar-dropzone"
         >
-        <img src={ preview || ( avatar ? avatar.url : '/assets/images/user.jpg') } width="200" height="200" alt="preview" />
+        <img src={ preview || ( !!avatar.url ? avatar.url : '/assets/images/user.jpg') } width="200" height="200" alt="preview" />
         </Dropzone>
       </div>
     )
@@ -200,7 +200,7 @@ const mapStateToProps = state => ({
   error: state.user.error
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ 
+const mapDispatchToProps = dispatch => bindActionCreators({
   updateProfile,
 }, dispatch)
 

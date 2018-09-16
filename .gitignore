@@ -24,6 +24,7 @@
 # production
 /build
 /public/static
+/public/avatars
 
 # misc
 .DS_Store
