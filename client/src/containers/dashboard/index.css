@@ -1,5 +1,5 @@
 .dashboardPageContainer {
-  padding: 40px;
+  padding: 0px 40px 40px 40px;
   background-color: #fafafa;
   min-height: calc(100vh - 124px);
 }
@@ -12,6 +12,7 @@
 }
 
 .dashboardPageTitle {
+  padding-top: 40px;
   color: #3B3B3B;
 }
 

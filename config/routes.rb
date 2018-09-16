@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :announcements, only: [:create] do
       get :last, on: :collection
     end
-    resources :cryptos, only: [:index, :show], param: :slug
+    resources :cryptos, only: [:index, :show, :update], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
       patch :online
       patch :offline
@@ -11,7 +11,11 @@ Rails.application.routes.draw do
       patch :reserve # Reserve sell price
       patch :sell
     end
-    resources :orders, only: [:index]
+    resources :masternodes, only: [:index, :show], param: :slug
+    resources :orders, only: [:index], param: :slug do
+      patch :paid
+      patch :unpaid
+    end
     resources :users, except: [:edit, :new], param: :slug do
       get :balance, on: :collection
       get :confirm
@@ -20,8 +24,10 @@ Rails.application.routes.draw do
       patch :reset_password
       patch :profile
       patch :reset, on: :collection
+      post :impersonate, on: :member
+      post :password_confirmation
     end
-    resources :transactions, only: [:index]
+    resources :transactions, only: [:index, :update]
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
     end

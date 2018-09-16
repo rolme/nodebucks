@@ -17,7 +17,7 @@ module NodeManager
 
     def evaluate
       return if node.stake.blank?
-      response = Typhoeus::Request.get(node.ticker_url, verbose: DEBUG)
+      response = Typhoeus::Request.get(node.ticker_url, timeout: 3, verbose: DEBUG)
       if !!response.body['data']
         data = parsed_response(response.body)['data']
 

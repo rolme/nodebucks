@@ -8,7 +8,7 @@ module Api
 
     def initialize(type="sell")
       @type     = type.capitalize
-      response  = Typhoeus::Request.get("#{BASE_URI}/GetMarketOrders/BTC_USDT", verbose: DEBUG)
+      response  = Typhoeus::Request.get("#{BASE_URI}/GetMarketOrders/BTC_USDT", timeout: 3, verbose: DEBUG)
       data      = (response.body['Success']) ? parsed_response(response.body)['Data'] : []
       orders    = to_orders(data[@type])
       @btc_usdt =btc_order_price(orders, 1.0)
@@ -16,7 +16,7 @@ module Api
 
     def orders(symbol)
       @path    = "#{BASE_URI}/GetMarketOrders/#{symbol.upcase}_BTC?orderCount=1000"
-      response = Typhoeus::Request.get(@path, verbose: DEBUG)
+      response = Typhoeus::Request.get(@path, timeout: 3, verbose: DEBUG)
       data     = parsed_response(response.body)
       return [] unless data["Success"]
       return [] if parsed_response(response.body)['Data'].nil?

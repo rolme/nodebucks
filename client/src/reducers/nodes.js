@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { valueFormat } from "../lib/helpers";
+import { RESET } from "./user";
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'
@@ -36,6 +38,15 @@ const initialState = {
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
   switch ( action.type ) {
+    case RESET:
+      return {
+        ...state,
+        data: {},
+        list: [],
+        pending: false,
+        error: false,
+        message: ''
+      }
     case FETCH:
     case FETCH_LIST:
     case RESERVE:
@@ -93,7 +104,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: 'Update node successful.'
+        message: 'Successfully updated node'
       }
 
     case RESERVE_SUCCESS:
@@ -133,7 +144,7 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message: 'Node sold successful.'
+        message:`You have successfully sold your ${action.payload.crypto.name} Masternode for $${valueFormat(+action.payload.sellPrice, 2)}. You will no longer receive rewards for that server. Your payment will be sent within 3 days. Thank you.`
       }
 
     default:
@@ -187,11 +198,11 @@ export function reserveNode(cryptoSlug, isRefreshing) {
   }
 }
 
-export function purchaseNode(stripe, slug, callback) {
+export function purchaseNode(paymentResponse, slug, callback) {
   return dispatch => {
     dispatch({ type: PURCHASE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/nodes/${slug}/purchase`, { stripeToken: stripe })
+    axios.patch(`/api/nodes/${slug}/purchase`, { payment_response: paymentResponse })
       .then((response) => {
         dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
         callback()
@@ -202,13 +213,14 @@ export function purchaseNode(stripe, slug, callback) {
   }
 }
 
-export function updateNode(slug, data) {
+export function updateNode(slug, data, callback) {
   return dispatch => {
     dispatch({ type: UPDATE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}`, { node: data })
       .then((response) => {
         dispatch({ type: UPDATE_SUCCESS, payload: response.data })
+        callback()
       }).catch((error) => {
       dispatch({ type: UPDATE_ERROR, payload: { message: error.data } })
       console.log(error)
@@ -231,16 +243,26 @@ export function sellReserveNode(slug, isRefreshing) {
   }
 }
 
-export function sellNode(slug) {
+export function sellNode(slug, data) {
   return dispatch => {
     dispatch({ type: SELL })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
-    axios.patch(`/api/nodes/${slug}/sell`)
+    axios.patch(`/api/nodes/${slug}/sell`, data)
       .then((response) => {
-        dispatch({ type: SELL_SUCCESS, payload: response.data })
+        if ( response.data.status === 'error' ) {
+          dispatch({ type: SELL_ERROR, payload: { message: response.data } })
+        } else {
+          dispatch({ type: SELL_SUCCESS, payload: response.data })
+        }
       }).catch((error) => {
       dispatch({ type: SELL_ERROR, payload: { message: error.data } })
       console.log(error)
     })
+  }
+}
+
+export function reset() {
+  return dispatch => {
+    dispatch({ type: RESET })
   }
 }

@@ -64,6 +64,7 @@ module NodeManager
     # TOOD: Get what value we can for the amount passed in.
     def to_btc(crypto, amount)
       @orders = gather_orders(crypto)
+      Rails.logger.info ">>>>> gathering orders #{orders.inspect}"
       btc_order_price(@orders, amount)
     end
 

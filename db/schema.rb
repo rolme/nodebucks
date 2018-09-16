@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_011816) do
+ActiveRecord::Schema.define(version: 2018_09_14_100439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,13 @@ ActiveRecord::Schema.define(version: 2018_08_31_011816) do
     t.string "ticker_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "logo_url"
+    t.decimal "market_cap", precision: 15, scale: 1
+    t.decimal "volume", precision: 15, scale: 1
+    t.decimal "available_supply", precision: 15, scale: 1
+    t.decimal "total_supply", precision: 15, scale: 1
+    t.text "profile"
   end
 
   create_table "events", force: :cascade do |t|
@@ -152,6 +159,9 @@ ActiveRecord::Schema.define(version: 2018_08_31_011816) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "paypal_response"
+    t.string "target"
+    t.string "payment_method"
     t.index ["node_id"], name: "index_orders_on_node_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -198,7 +208,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_011816) do
     t.string "email"
     t.string "password_digest"
     t.string "nickname"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"

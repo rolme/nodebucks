@@ -7,11 +7,19 @@ import { getReferrer } from '../../reducers/user'
 
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-import { Input, Button, Col, Row, Card, CardHeader, CardBody } from 'reactstrap'
+import { Input, Button, Col, Row, Card, CardHeader, CardBody, Alert } from 'reactstrap'
 
 import './index.css'
 
 class AffiliateDashboard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showCopiedMessage: false
+    }
+    this.showCopiedMessage = this.showCopiedMessage.bind(this)
+  }
+
   componentDidMount() {
     this.props.getReferrer()
   }
@@ -22,6 +30,11 @@ class AffiliateDashboard extends Component {
     count += referrer.tier2_referrals.length
     count += referrer.tier3_referrals.length
     return count
+  }
+
+  showCopiedMessage() {
+    this.setState({ showCopiedMessage: true })
+    setTimeout(() => this.setState({ showCopiedMessage: false }), 3000)
   }
 
   lastNumberOfDays(referrer, numberOfDays) {
@@ -36,14 +49,15 @@ class AffiliateDashboard extends Component {
 
   countReferralsFromDate(startDate, referrals) {
     return referrals.map(r => new Date(r.createdAt))
-                    .filter(d => startDate <= d)
-                    .length
+      .filter(d => startDate <= d)
+      .length
   }
 
   render() {
     const { user } = this.props
+    const { showCopiedMessage } = this.state
 
-    if (!user.tier1_referrals) {
+    if ( !user.tier1_referrals ) {
       return null
     }
 
@@ -51,12 +65,19 @@ class AffiliateDashboard extends Component {
 
     return (
       <div className="affiliateDashboardContainer">
+        {showCopiedMessage &&
+        <Alert className="w-25 mx-auto" color='success'>
+          Copied to clipboard
+        </Alert>
+        }
         <div className="contentContainer">
           <h1 className="affiliateDashboardTitle pageTitle">Affiliate Dashboard</h1>
           <div className="affiliateDashboardReferralUrlContainer">
             <p>Referral URL:</p>
-            <Input type="text" value={affiliateLink} readOnly />
-            <CopyToClipboard text={affiliateLink}>
+            <CopyToClipboard text={affiliateLink} onCopy={this.showCopiedMessage}>
+              <Input type="text" value={affiliateLink} readOnly/>
+            </CopyToClipboard>
+            <CopyToClipboard text={affiliateLink} onCopy={this.showCopiedMessage}>
               <Button><img src="/assets/images/linkIcon.png" alt="Link"/></Button>
             </CopyToClipboard>
           </div>

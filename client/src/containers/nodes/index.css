@@ -263,6 +263,34 @@
   box-shadow: none !important;
 }
 
+.paypalButtonContainer {
+  position: relative;
+}
+
+.paypalButtonContainer > div > div > div > .xcomponent-outlet {
+  margin: 0 auto;
+  display: block !important;
+  width: 250px !important;
+  height: 64px !important;
+}
+
+.helpingElement {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.purchasePageWithCryptoPaymentMessage {
+  font-family: 'Raleway';
+  font-size: 16px;
+  color: #000000;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+}
+
 /*Show Page Style*/
 .showPageContainer {
   background-color: #FAFAFA;
@@ -281,33 +309,44 @@
 }
 
 .showPageHeaderCoinName {
-  font-family: Raleway;
-  font-weight: bold;
+  font-family: Raleway-Light;
   font-size: 30px;
-  color: #3B3B3B;
+  color: #000000;
 }
 
 .showPageHeaderInfo {
+  font-family: OpenSans;
   color: #383838;
   font-size: 16px;
 }
 
-.sellServerButton {
+.addNodeButton {
   background-color: #FC6422;
 }
 
-.sellServerButton:focus,
-.sellServerButton:active,
-.sellServerButton:hover {
+.addNodeButton:focus,
+.addNodeButton:active,
+.addNodeButton:hover {
   background-color: rgba(252, 100, 34, 0.67) !important;
 }
 
 .showPageSectionHeader {
   color: #3B3B3B;
   font-size: 24px;
-  font-family: Raleway;
-  font-weight: bold;
+  font-family: Raleway-Light;
   margin-bottom: 13px;
+}
+
+.showPageHistoryTable > thead > tr > th {
+  font-family: Raleway-SemiBold;
+  font-size: 14px;
+  color: #383838;
+}
+
+.showPageHistoryTable > tbody > tr > td {
+  font-family: OpenSans;
+  font-size: 14px;
+  color: #383838;
 }
 
 .showPageHistoryTable > thead > tr > th,
@@ -338,14 +377,15 @@
 }
 
 .showPageRadioButtonTitle {
-  color: #3B3B3B;
+  color: #383838;
   font-size: 14px;
   margin-bottom: 0;
-  font-weight: bold;
+  font-family: OpenSans-SemiBold;
 }
 
 .showPageRadioButtonDescription {
-  color: #7A7A7A;
+  font-family: OpenSans;
+  color: #686868;
   font-size: 12px;
   margin-bottom: 0;
 }
@@ -358,6 +398,7 @@
   font-family: Raleway;
   font-size: 14px;
   cursor: text !important;
+  width: 100%;
 }
 
 .showPageRewardSettingsInputField::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -385,23 +426,13 @@
 }
 
 .rewardSettingsUpdateButton {
-  background-color: #EEEEEE;
-  border: none;
-  color: #1C2E35;
-  font-weight: bold;
-  font-family: Raleway;
   padding: 10px 25px;
+  margin-left: 35px;
+  line-height: 24px;
 }
 
-.rewardSettingsUpdateButton:focus,
-.rewardSettingsUpdateButton:active,
-.rewardSettingsUpdateButton:visited,
-.rewardSettingsUpdateButton:hover {
-  background-color: #aaaaaa;
-  color: #eeeeee;
-  border: none;
-  outline: none;
-  box-shadow: none;
+.rewardSettingsUpdateButton.disabled {
+  background-color: #1aa8f8 !important
 }
 
 .priceHistoryChartPeriodContainer {
@@ -426,6 +457,22 @@
   color: #acacac;
 }
 
+.showPageSectionBorderedPartContainer {
+  border: 1px solid #E7E7E7;
+}
+
+dd {
+  font-family: OpenSans;
+  font-size: 14px;
+  color: #686868;
+}
+
+dt {
+  font-family: OpenSans-SemiBold;
+  font-size: 14px;
+  color: #383838;
+}
+
 /*Sell Page Style*/
 .sellPageContainer,
 .withdrawPageContainer,
@@ -438,6 +485,7 @@
 .withdrawPageContentContainer,
 .purchasePageContentContainer {
   max-width: 850px;
+  padding-bottom: 50px;
 }
 
 .sellPageBackButton,
@@ -494,14 +542,20 @@
 }
 
 .sellPagePriceAmount {
-  font-family: Raleway;
+  font-family: "OpenSans";
   font-weight: bold;
-  font-size: 18px;
+  font-size: 25px;
   color: #3B3B3B;
-  margin-bottom: 0;
   vertical-align: middle;
   align-items: center;
   display: flex;
+  margin-bottom: 0;
+}
+
+.sellPagePriceAmount > div,
+.sellPagePriceAmount > s,
+.sellPagePriceAmount > span {
+  margin: 0 10px;
 }
 
 .sellPagePaymentDestinationContainer {
@@ -599,9 +653,9 @@
   margin: 0 5px;
   background-color: #FC6422;
   color: white;
-  font-family: Raleway;
+  font-family: Raleway-SemiBold;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   padding: 15px 0;
 }

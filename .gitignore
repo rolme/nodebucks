@@ -37,7 +37,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /client/stats.html
-*.xml
 .idea/rency.iml
 /config/database_docker.yml
 

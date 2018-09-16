@@ -30,11 +30,14 @@ const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: 
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
+const CoinInfo = Loadable({ loader: () => import('../../containers/masternodes/coinInfo'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
 const Affiliate = Loadable({ loader: () => import('../../containers/affiliate'), loading: Loading })
 const ForgotPassword = Loadable({ loader: () => import('../authenticate/forgotPassword'), loading: Loading})
 const ResetPassword = Loadable({loader: () => import('../authenticate/resetPassword'), loading: Loading})
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
+const Withdrawals = Loadable({ loader: () => import('../../containers/withdrawals'), loading: Loading })
+const Orders = Loadable({ loader: () => import('../../containers/orders'), loading: Loading })
 
 class App extends Component {
   componentDidMount() {
@@ -69,7 +72,10 @@ class App extends Component {
               <Route exact path="/nodes/:slug" component={Node}/>
               <Route exact path="/dashboard" component={Dashboard}/>
               <Route exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
+              <Route exact path="/withdrawals" component={Withdrawals}/>
+              <Route exact path="/orders" component={Orders}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
+              <PublicRoute exact path="/masternodes/:slug" component={CoinInfo}/>
               <PublicRoute path="/settings" component={Settings}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>

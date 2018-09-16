@@ -1,25 +1,314 @@
+.masternodesContainer {
+  background-color: #FAFAFA;
+  min-height: calc(100vh - 120px);
+}
+
 .masternodesContainer > .contentContainer {
-  padding: 90px 0 0 0;
+  padding: 35px 0 50px 0;
 }
 
-.masternodesHeader {
+.masternodesSectionHeader {
   font-family: 'Raleway-Light';
-  font-size: 36px;
-  color: #3A3A3A;
-  text-align: center;
+  font-size: 30px;
+  color: #000000;
   margin-bottom: 40px;
+  padding-left: 30px;
 }
 
-.masternodeContactLink {
+.masternodesListingCoinInfoContainer {
+  display: flex;
+  background-color: white;
+  border: 1px solid #E7E7E7;
+  margin-bottom: 20px;
+  padding: 30px;
+}
+
+.masternodesListingCoinName {
+  color: #000000;
+  font-size: 26px;
   font-family: 'Raleway-Light';
-  color: #1982cb;
-  text-align: center;
-  display: block;
-  margin: 20px auto 40px auto;
+  margin: 13px 0 20px;
 }
 
-@media (max-width: 768px) {
-  .masternodesContainer > .contentContainer {
-    padding: 35px 0 !important;
+.masternodesListingCoinLink {
+  color: #2A87C9;
+  font-size: 14px;
+  font-family: 'Raleway';
+}
+
+.masternodesListingCoinInfoPriceLabel {
+  color: #535353;
+  font-family: 'OpenSans-Light';
+  font-size: 18px;
+}
+
+.masternodesListingCoinInfoPrice {
+  color: #3B3B3B;
+  font-family: 'OpenSans-Light';
+  font-size: 24px;
+}
+
+.masternodesListingCoinInfoButton {
+  width: 200px;
+  padding: 10px;
+}
+
+.masternodesListingCoinInfoDescriptionPartContainer {
+  border-left: 1px solid #E7E7E7;;
+  border-right: 1px solid #E7E7E7;;
+  padding: 20px 20px 0;
+}
+
+.masternodesListingCoinInfoDescription {
+  color: #3B3B3B;
+  font-family: 'Raleway';
+  font-size: 14px;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer > h6 {
+  color: #535353;
+  font-family: 'OpenSans-Light';
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.masternodesListingCoinInfoDescriptionDataContainer > p {
+  color: #3B3B3B;
+  font-family: 'OpenSans-Light';
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+.masternodesPageBottomLink {
+  font-family: "Raleway";
+  color: #777777;
+  padding: 20px 0;
+  display: block;
+  text-align: center;
+}
+
+.masternodesPageBottomLink:hover {
+  color: #4A4A4A;
+  text-decoration: none;
+}
+
+/*COIN INFO STYLE */
+.coinInfoContainer {
+  background-color: #FAFAFA;
+  min-height: calc(100vh - 120px);
+}
+
+.coinInfoContainer > .contentContainer {
+  padding: 35px 0 50px;
+}
+
+.coinInfoNameContainer {
+  margin-left: 27px;
+}
+
+.coinInfoNameContainer > p {
+  color: #535353;
+  font-size: 36px;
+  font-family: 'Raleway';
+}
+
+.coinInfoNameContainer > a {
+  color: #2A87C9;
+  font-size: 14px;
+  font-family: 'OpenSans';
+}
+
+.coinInfoNameContainer > a:hover {
+  text-decoration: none;
+}
+
+.buyNodeButton {
+  font-family: "Raleway-SemiBold";
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: #FC641C;
+  border: none;
+  padding: 20px 40px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.buyNodeButton:hover,
+.buyNodeButton:active,
+.buyNodeButton:focus {
+  background-color: rgba(252, 100, 28, 0.7) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.contactSalesNodeButton {
+  font-family: "Raleway-SemiBold";
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: #2283C6;
+  border: none;
+  padding: 20px 40px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.contactSalesNodeButton:hover,
+.contactSalesNodeButton:active,
+.contactSalesNodeButton:focus {
+  background-color: #299be7 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.coinInfoMainDataPartContainer {
+  margin-top: 35px;
+}
+
+.coinInfoDataSectionContainer,
+.coinInfoValueSectionContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px 10px;
+}
+
+.coinInfoDataSectionContainer {
+  background-color: #D4E3EF;
+  max-width: 32.5%;
+}
+
+.coinInfoValueSectionContainer {
+  background-color: #ffffff;
+  max-width: 24%;
+  border: 1px solid #E7E7E7;
+}
+
+.coinInfoDataSectionContainer > h6,
+.coinInfoValueSectionContainer > h6 {
+  font-family: 'OpenSans';
+  color: #7B7B7B;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.coinInfoHeaderPrice {
+  font-family: 'OpenSans';
+  color: #3B3B3B;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.coinInfoDataSectionContainer > p {
+  font-family: 'OpenSans';
+  color: #000000;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.coinInfoValueSectionContainer > p {
+  font-family: 'OpenSans';
+  color: #3B3B3B;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.coinInfoDataSectionContainer > p > span {
+  font-family: 'OpenSans';
+  color: #000000;
+  font-size: 24px;
+}
+
+.coinInfoValueSectionContainer > p > span,
+.coinInfoHeaderPrice > span {
+  font-family: 'OpenSans';
+  color: #7B7B7B;
+  font-size: 16px;
+}
+
+.coinInfoDescriptionsPartContainer {
+  padding: 40px 40px 30px 40px;
+  border: 1px solid #E7E7E7;
+  margin-top: 20px;
+}
+
+.coinInfoDescriptionContainer > h6 {
+  color: #000000;
+  font-family: 'Raleway';
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.coinInfoDescriptionContainer > p {
+  color: #000000;
+  font-family: 'Raleway';
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.coinInfoDescriptionsPartContainer > div > button {
+  color: #2283C7 !important;
+  font-family: 'Raleway';
+  font-size: 16px;
+}
+
+.coinInfoDescriptionsPartContainer > div > button:hover {
+  text-decoration: none !important;
+}
+
+@media (max-width: 991px) {
+  .coinInfoValueSectionContainer {
+    max-width: 49%;
+    min-width: 49%;
+    margin-bottom: 20px;
+  }
+
+  .masternodesListingCoinInfoContainer {
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .masternodesListingCoinInfoContainer {
+    flex-direction: column;
+  }
+
+  .masternodesListingCoinName {
+    margin: 0;
+  }
+
+  .masternodesListingCoinInfoDescriptionPartContainer {
+    border: none;
+    padding: 20px 5px;
+  }
+
+  .masternodesListingCoinInfoPriceLabel {
+    margin: 0;
+  }
+
+  .masternodesSectionHeader {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .coinInfoDataSectionContainer,
+  .coinInfoValueSectionContainer {
+    max-width: 100%;
+    min-width: 100%;
+    margin-bottom: 20px;
   }
 }

@@ -24,7 +24,7 @@ class WithdrawalsController < ApplicationController
 
   def index
     @withdrawals   = Withdrawal.all if current_user.admin? && params.has_key?(:all)
-    @withdrawals ||= Withdrawal.where(user_id: current_user.id)
+    @withdrawals ||= Withdrawal.where(user_id: current_user.id).where.not(status: 'reserved')
   end
 
   def show

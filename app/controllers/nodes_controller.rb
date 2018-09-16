@@ -1,7 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
   before_action :authenticate_admin_request, only: [:offline, :online]
-  before_action :set_customer, only: [:purchase]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -28,9 +27,19 @@ class NodesController < ApplicationController
   end
 
   def sell
+    if !@current_user.authenticate(params[:password])
+      render json: { status: 'error', message: 'Password is incorrect.'}
+      return
+    end
+
+    if node_user_params[:currency].blank? || node_user_params[:target].blank?
+      render json: { status: 'error', message: 'Missing payment information.'}
+      return
+    end
+
     @node    = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
-    operator.sell
+    operator.sell(node_user_params[:currency], node_user_params[:target])
     @node.reload
     render :show
   end
@@ -56,26 +65,16 @@ class NodesController < ApplicationController
 
   def purchase
     @node  = Node.find_by(slug: params[:node_slug], user_id: current_user.id)
-    charge = Stripe::Charge.create(
-      customer: @customer.id,
-      # TODO: Turn this back on when testing is over
-      # amount: (@node.cost.ceil * 100).to_i,
-      amount: 98,
-      description: "#{@node.name} masternode purchase at #{@node.cost}",
-      currency: 'usd'
-    )
+
     operator = NodeManager::Operator.new(@node)
-    operator.purchase
+    # TODO: Save PayPal payload as part of purchase
+    operator.purchase(DateTime.current, params[:payment_response])
     @node.reload
 
     # TODO: This is a bit brittle, need to rethink this later
     # TODO: Only works if purchasing a NEW node
-    ReceiptMailer.send_receipt(current_user, @node.cost.round(2), operator.order.slug).deliver_later
-
+    ReceiptMailer.send_receipt(current_user, @node.cost.ceil(2), operator.order.slug).deliver_later
     render :show
-
-  rescue Stripe::CardError => e
-    render json: { status: 'error', message: 'Card Error' }
   end
 
   def show
@@ -96,10 +95,11 @@ protected
 
   def node_user_params
     params.require(:node).permit(
+      :currency,
       :reward_setting,
       :sell_setting,
       :sell_bitcoin_wallet,
-      :stripe,
+      :target,
       :withdraw_wallet
     )
   end
@@ -110,20 +110,12 @@ protected
       :reward_setting,
       :sell_setting,
       :sell_bitcoin_wallet,
-      :stripe,
       :wallet,
       :withdraw_wallet,
       :version,
       :vps_provider,
       :vps_url,
       :vps_monthly_cost
-    )
-  end
-
-  def set_customer
-    @customer = Stripe::Customer.create(
-      email: current_user.email,
-      source: params[:stripeToken]
     )
   end
 end

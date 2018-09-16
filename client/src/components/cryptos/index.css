@@ -1,7 +1,7 @@
 .cryptosTable {
   table-layout: fixed;
-  max-width: 1170px !important;
-  min-width: 1170px !important;
+  max-width: 1230px !important;
+  min-width: 1230px !important;
 }
 
 .cryptosTable > thead > tr > th > p {
@@ -109,11 +109,11 @@
   margin: 0 15px !important;
 }
 
-.cryptosTableNodePriceCell {
+.cryptosTableSortedColumnCell {
   background-color: #E8F2FA;
 }
 
-th.cryptosTableNodePriceCell {
+th.cryptosTableSortedColumnCell {
   background-color: #D8E3EA;
 }
 

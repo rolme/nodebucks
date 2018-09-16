@@ -24,7 +24,7 @@ module Api
 
       response = Typhoeus::Request.get("#{BASE_URI}#{end_point}?#{params}", headers: {
         'X-MBX-APIKEY' => API_KEY
-      }, verbose: DEBUG)
+      }, timeout: 3, verbose: DEBUG)
       asks   = response.body[@type].present? ? parsed_response(response.body)[@type] : []
       orders = to_orders(asks)
 
@@ -38,7 +38,7 @@ module Api
 
       response = Typhoeus::Request.get("#{BASE_URI}#{end_point}?#{params}", headers: {
         'X-MBX-APIKEY' => API_KEY
-      }, verbose: DEBUG)
+      }, timeout: 3, verbose: DEBUG)
 
       data = parsed_response(response.body)
       return [] unless data[@type]

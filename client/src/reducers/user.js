@@ -14,6 +14,9 @@ export const LOGIN_USER = 'user/LOGIN_USER'
 export const LOGIN_USER_SUCCESS = 'user/LOGIN_USER_SUCCESS'
 export const LOGIN_USER_FAILURE = 'user/LOGIN_USER_FAILURE'
 export const LOGOUT_USER_SUCCESS = 'user/LOGOUT_USER_SUCCESS'
+export const REQUEST_USER_LIST = 'user/REQUEST_USER_LIST'
+export const REQUEST_USER_LIST_SUCCESS = 'user/REQUEST_USER_LIST_SUCCESS'
+export const REQUEST_USER_LIST_FAILURE = 'user/REQUEST_USER_LIST_FAILURE'
 export const REGISTER_USER = 'user/REGISTER_USER'
 export const REGISTER_USER_SUCCESS = 'user/REGISTER_USER_SUCCESS'
 export const REGISTER_USER_FAILURE = 'user/REGISTER_USER_FAILURE'
@@ -33,6 +36,12 @@ export const RESET = 'user/RESET'
 export const REQUEST_REFERRER = 'user/REQUEST_REFERRER'
 export const REQUEST_REFERRER_SUCCESS = 'user/REQUEST_REFERRER_SUCCESS'
 export const REQUEST_REFERRER_FAILURE = 'user/REQUEST_REFERRER_FAILURE'
+export const REQUEST_IMPERSONATE = 'user/REQUEST_IMPERSONATE'
+export const REQUEST_IMPERSONATE_SUCCESS = 'user/REQUEST_IMPERSONATE_SUCCESS'
+export const REQUEST_IMPERSONATE_FAILURE = 'user/REQUEST_IMPERSONATE_FAILURE'
+export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
+export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
+export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
 export const UPDATE_PROFILE = 'user/UPDATE_PROFILE'
 export const UPDATE_PROFILE_SUCCESS = 'user/UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_FAILURE = 'user/UPDATE_PROFILE_FAILURE'
@@ -70,7 +79,8 @@ const initialState = {
   logInPending: false,
   signUpPending: false,
   requestResetPending: false,
-  token: TOKEN
+  list: [],
+  token: TOKEN,
 }
 
 // STATE ///////////////////////////////////////////////////////////////////////
@@ -83,6 +93,7 @@ export default (state = initialState, action) => {
         signUpError: false,
         logInMessage: null,
         signUpMessage: null,
+        message: null,
         logInPending: false,
         signUpPending: false,
         requestResetPending: false,
@@ -102,9 +113,10 @@ export default (state = initialState, action) => {
       }
 
     case LOGIN_USER_SUCCESS:
+      const jwt_decoded = jwt_decode(action.payload.token)
       return {
         ...state,
-        data: jwt_decode(action.payload.token),
+        data: jwt_decoded,
         logInError: false,
         logInMessage: null,
         logInPending: false,
@@ -223,7 +235,7 @@ export default (state = initialState, action) => {
         requestResetMessage: action.payload.message,
         pending: false,
       }
-   case REQUEST_RESET_FAILURE:
+    case REQUEST_RESET_FAILURE:
       return {
         ...state,
         requestResetError: true,
@@ -241,7 +253,7 @@ export default (state = initialState, action) => {
         message: action.payload.message,
         error: false
       }
-      case RESET_PASSWORD_FAILURE:
+    case RESET_PASSWORD_FAILURE:
       return {
         ...state,
         message: action.payload.message,
@@ -250,7 +262,7 @@ export default (state = initialState, action) => {
     case LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        data: null,
+        data: (!!action.payload) ? action.payload : null,
         error: true,
         message: 'Logged out.',
         pending: false,
@@ -278,7 +290,7 @@ export default (state = initialState, action) => {
         message: action.payload.message,
       }
 
-      case CONFIRM_REGISTRATION:
+    case CONFIRM_REGISTRATION:
       return {
         ...state,
         error: false,
@@ -291,7 +303,7 @@ export default (state = initialState, action) => {
         ...state,
         data: jwt_decode(action.payload.token),
         error: false,
-        message: action.payload.message,
+        message: "Your email address has been successfully verified. Thank you!",
         pending: false,
         token: action.payload.token
       }
@@ -308,6 +320,7 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER:
       return {
+        ...state,
         error: false,
         message: '',
         data: {},
@@ -315,6 +328,7 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER_SUCCESS:
       return {
+        ...state,
         error: false,
         data: action.payload,
         message: '',
@@ -322,10 +336,21 @@ export default (state = initialState, action) => {
       }
     case REQUEST_REFERRER_FAILURE:
       return {
+        ...state,
         error: true,
         data: null,
         message: '',
         pending: false
+      }
+    case REQUEST_USER_LIST_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+      }
+    case REQUEST_IMPERSONATE_SUCCESS:
+      return {
+        ...state,
+        data: jwt_decode(action.payload.token),
       }
     default:
       return state
@@ -342,17 +367,35 @@ export function isAuthenticated() {
         tokenUser = jwt_decode(token)
         if ( +tokenUser.exp < +moment("", "x") ) {
           localStorage.setItem('jwt-nodebucks', '')
+          localStorage.setItem('jwt-nodebucks-login', '')
           dispatch({ type: 'LOGOUT_USER_SUCCESS' })
           return false
         }
         return true
       } catch ( err ) {
         localStorage.setItem('jwt-nodebucks', '')
+        localStorage.setItem('jwt-nodebucks-login', '')
         dispatch({ type: 'LOGOUT_USER_SUCCESS' })
         return false
       }
     }
     return false
+  }
+}
+
+export function fetchUsers() {
+  return dispatch => {
+    dispatch({ type: REQUEST_USER_LIST })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.get('/api/users?nonadmin=1').then(response => {
+      if ( response.data.status !== 'error' ) {
+        dispatch({ type: REQUEST_USER_LIST_SUCCESS, payload: response.data })
+      } else {
+        dispatch({ type: REQUEST_USER_LIST_FAILURE, payload: response.data })
+      }
+    }).catch(error => {
+      dispatch({ type: REQUEST_USER_LIST_FAILURE, payload: error.data })
+    })
   }
 }
 
@@ -363,6 +406,7 @@ export function login(data) {
     axios.post(`/auth/login`, data).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
+        localStorage.setItem('jwt-nodebucks-login', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
@@ -393,6 +437,7 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
     }).then((response) => {
       if ( response.data !== 'error' ) {
         localStorage.setItem('jwt-nodebucks', response.data.token)
+        localStorage.setItem('jwt-nodebucks-login', response.data.token)
         dispatch({ type: LOGIN_USER_SUCCESS, payload: response.data })
       } else {
         dispatch({ type: LOGIN_USER_FAILURE, payload: response.message })
@@ -406,9 +451,19 @@ export function socialMediaLogin(socialMedia, profile, referrerCookie) {
 
 export function logout() {
   return dispatch => {
-    localStorage.setItem('jwt-nodebucks', '')
-    dispatch({ type: LOGOUT_USER_SUCCESS })
-    dispatch(push('/login'))
+    const token = localStorage.getItem('jwt-nodebucks')
+    const login = localStorage.getItem('jwt-nodebucks-login')
+
+    if(token === login) {
+      localStorage.setItem('jwt-nodebucks', '')
+      localStorage.setItem('jwt-nodebucks-login', '')
+      dispatch({ type: LOGOUT_USER_SUCCESS })
+      dispatch(push('/login'))
+    }
+    else {
+      localStorage.setItem('jwt-nodebucks', login)
+      dispatch({ type: LOGOUT_USER_SUCCESS, payload: login })
+    }
   }
 }
 
@@ -431,6 +486,7 @@ export function register(params, referrerCookie) {
         return
       }
       localStorage.setItem('jwt-nodebucks', response.data.token)
+      localStorage.setItem('jwt-nodebucks-login', response.data.token)
       dispatch({ type: REGISTER_USER_SUCCESS, payload: response.data })
     })
       .catch((error) => {
@@ -573,6 +629,34 @@ export function updateProfile(slug, params) {
   }
 }
 
+export function passwordConfirmation(slug, password, callback) {
+  return dispatch => {
+    dispatch({ type: REQUEST_PASSWORD_CONFIRMATION })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post(`/api/users/${slug}/password_confirmation`, { user: { password } }).then(response => {
+      dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_SUCCESS, payload: response.data })
+      callback(response.data.valid)
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function impersonate(slug, callback) {
+  return dispatch => {
+    dispatch({ type: REQUEST_IMPERSONATE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post(`/api/users/${slug}/impersonate`).then(response => {
+      localStorage.setItem('jwt-nodebucks', response.data.token)
+      dispatch({ type: REQUEST_IMPERSONATE_SUCCESS, payload: response.data })
+      callback()
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_IMPERSONATE_FAILURE, payload: error.message })
+      })
+  }
+}
 
 export function reset() {
   return dispatch => {

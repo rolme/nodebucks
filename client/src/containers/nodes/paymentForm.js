@@ -1,13 +1,18 @@
 import React from 'react'
-import { CardElement, injectStripe } from 'react-stripe-elements'
 import { ClipLoader } from 'react-spinners'
 import { NavLink, withRouter } from 'react-router-dom'
 
-import { Col, Alert, Button, FormGroup, Label } from 'reactstrap'
+import { Col, Alert, FormGroup, Label } from 'reactstrap'
 import Checkbox from 'rc-checkbox'
+import PaypalExpressBtn from 'react-paypal-express-checkout';
 import 'rc-checkbox/assets/index.css'
 
-class _PaymentForm extends React.Component {
+const CLIENT = {
+  sandbox: process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
+  production: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
+};
+
+class PaymentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,41 +20,25 @@ class _PaymentForm extends React.Component {
       checkbox: false,
       checkboxError: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.showErrorMessage = this.showErrorMessage.bind(this)
     this.toggleCheckbox = this.toggleCheckbox.bind(this)
   }
 
   toggleCheckbox() {
-    this.setState({ checkbox: !this.state.checkbox })
+    const { checkbox, checkboxError } = this.state
+    this.setState({ checkbox: !checkbox, checkboxError: checkbox && checkboxError })
   }
 
-  handleSubmit = (ev) => {
-    ev.preventDefault()
-    const { checkbox, checkboxError } = this.state
-    if ( !checkbox ) {
-      this.setState({ checkboxError: true })
-      return
-    } else if ( checkboxError ) {
-      this.setState({ checkboxError: false })
-    }
+  showErrorMessage() {
+    this.setState({ checkboxError: true })
+  }
 
-    this.props.togglePurchasingStatus()
+  onSuccess = (payment) => {
+    this.props.onPurchase(payment, this.props.setAsPurchased)
+  }
 
-    if ( this.props.stripe ) {
-      this.props.stripe
-        .createToken({ name: 'test' })
-        .then((payload) => {
-          if ( !!payload.token ) {
-            this.props.togglePurchasingStatus()
-            this.props.onPurchase(payload.token.id, this.props.setAsPurchased)
-          } else if ( !!payload.error ) {
-            this.props.togglePurchasingStatus()
-            this.setState({ message: payload.error.message })
-          }
-        });
-    } else {
-      console.log("Stripe.js hasn't loaded yet.");
-    }
+  onError = (err) => {
+    this.setState({ message: err.message })
   }
 
   render() {
@@ -57,7 +46,7 @@ class _PaymentForm extends React.Component {
     const { purchasing } = this.props
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
         {!!message &&
         <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0 paymentFormMessageContainer">
           <Alert color='danger'>
@@ -65,10 +54,6 @@ class _PaymentForm extends React.Component {
           </Alert>
         </Col>
         }
-        <label className="w-100">
-          Card details
-          <CardElement style={{ base: { fontSize: '18px' } }}/>
-        </label>
         <div style={{ textAlign: 'center' }}>
           {
             purchasing && <div>
@@ -96,13 +81,21 @@ class _PaymentForm extends React.Component {
           <p className="text-danger">You must agree before purchasing.</p>
           }
         </Col>
-        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 10, offset: 1 }} className="d-flex justify-content-center">
-          <Button disabled={purchasing} className="submitButton purchaseNodeButton">Purchase Node</Button>
-        </Col>
-      </form>
+        <div className='mt-4 paypalButtonContainer' id="paypalButtonContainer">
+          {!checkbox && <div className="helpingElement" onClick={this.showErrorMessage}/>}
+          <PaypalExpressBtn
+            env={process.env.REACT_APP_PAYPAL_MODE}
+            client={CLIENT}
+            currency={'USD'}
+            total={1.00}
+            onSuccess={this.onSuccess}
+            onError={this.onError}
+            style={{ width: 500 }}
+          />
+        </div>
+      </div>
     )
   }
 }
 
-const PaymentForm = injectStripe(_PaymentForm)
 export default withRouter(PaymentForm)

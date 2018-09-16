@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-
+import { EventEmitter } from 'events';
 import moment from 'moment'
-import { Col, Container, Row, Button, Table } from 'reactstrap'
+import { Col, Container, Row, Button, Table, Alert } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
+import ConfirmationModal from '../../components/confirmationModal'
 import './index.css'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
@@ -15,20 +16,21 @@ import {
   fetchNode,
   updateNode
 } from '../../reducers/nodes'
+import { passwordConfirmation } from '../../reducers/user'
 
-import { valueFormat } from "../../lib/helpers";
+import { capitalize, valueFormat } from "../../lib/helpers";
 
 class Node extends Component {
   constructor(props) {
     super(props)
     this.state = {
       rewardSetting: '',
+      showAllHistoryData: false,
       withdrawWallet: '',
-      showAllHistoryData: false
+      showAlert: false,
     }
-    this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
-    this.handleRewardSettingChange = this.handleRewardSettingChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
     this.toggleHistoryDataAmount = this.toggleHistoryDataAmount.bind(this)
   }
 
@@ -56,14 +58,29 @@ class Node extends Component {
     this.setState({ rewardSetting: value })
   }
 
-  handleRewardSettingChange() {
+  handleRewardSettingChange = () => {
     const { node } = this.props
     const { rewardSetting, withdrawWallet } = this.state
-    rewardSetting === 20 ? this.props.updateNode(node.slug, { rewardSetting, withdrawWallet }) : this.props.updateNode(node.slug, { rewardSetting })
+    rewardSetting === 20 ?
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting, withdraw_wallet: withdrawWallet }, () => {
+        this.showAlert();
+      }) :
+      this.props.updateNode(node.slug, { reward_setting: rewardSetting }, () => {
+        this.showAlert();
+      })
+  }
+
+  showConfirmationModal = () => {
+    EventEmitter.prototype.emit('open-confirm-modal');
+  }
+
+  showAlert = () => {
+    this.setState({ showAlert: true })
+    setTimeout(() => { this.setState({ showAlert: false }) }, 3000)
   }
 
   render() {
-    const { node, pending } = this.props
+    const { node, pending, message } = this.props
 
     if ( pending || node.slug === undefined ) {
       return null
@@ -72,6 +89,7 @@ class Node extends Component {
     return (
       <Container fluid className="showPageContainer">
         <div className="showPageContentContainer contentContainer">
+          <Alert isOpen={this.state.showAlert}>{message}</Alert>
           {this.displayHeader(node)}
           <Row className="pt-3 mx-0">
             <Col xl={{ size: 8, offset: 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
@@ -84,6 +102,13 @@ class Node extends Component {
               {this.displayROI(node)}
             </Col>
           </Row>
+          <ConfirmationModal
+            show={this.showConfirmationModal}
+            onSuccess={this.handleRewardSettingChange}
+            onConfirm={this.props.passwordConfirmation}
+            userSlug={this.props.userSlug}
+            title='Confirm Reward Changes'
+          />
         </div>
       </Container>
     )
@@ -91,16 +116,16 @@ class Node extends Component {
 
   displayHeader(node) {
     const uptime = (node.onlineAt !== null) ? moment().diff(moment(node.onlineAt), 'days') : 0
-
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
           <img alt={node.crypto.slug} src={`/assets/images/logos/${node.crypto.slug}.png`} width="65px"/>
-          <h5 className="mb-0 ml-2 showPageHeaderCoinName ">{node.crypto.name}</h5>
+          <h5 className="mb-0 ml-4 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex flex-column justify-content-center align-items-xl-start align-items-lg-start  align-items-md-start  align-items-sm-center">
+          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Status:</b> {capitalize(node.status)}</h5>
+          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
-          <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
         </Col>
         {this.displayActions(node)}
       </Row>
@@ -115,7 +140,7 @@ class Node extends Component {
     return (
       <div>
         <h5 className="showPageSectionHeader"> Summary </h5>
-        <div className="bg-white p-3">
+        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <dl className="row mb-0">
             <dd className="col-6">Value</dd>
             <dt className="col-6 text-right">$ {value}</dt>
@@ -148,7 +173,7 @@ class Node extends Component {
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader"> Reward Settings </h5>
-        <div className="bg-white p-3">
+        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <label className="radioButtonContainer">
             <div>
               <p className="showPageRadioButtonTitle">Store on Nodebucks</p>
@@ -173,8 +198,8 @@ class Node extends Component {
             <input type="radio" onChange={() => this.rewardSettingsChange(20)} checked={rewardSetting === 20} name="radio"/>
             <span className="radioButtonCheckmark"></span>
           </label>
-          <div className="d-flex justify-content-end">
-            <Button className="rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.handleRewardSettingChange}>Update</Button>
+          <div className="d-flex justify-content-start">
+            <Button className="submitButton rewardSettingsUpdateButton" disabled={isButtonDisabled} onClick={this.showConfirmationModal}>Update</Button>
           </div>
         </div>
       </div>
@@ -188,7 +213,7 @@ class Node extends Component {
     return (
       <div className="mt-3">
         <h5 className="showPageSectionHeader">ROI</h5>
-        <div className="bg-white p-3">
+        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <dl className="row mb-0">
             <dd className="col-6">Last Week</dd>
             <dt className="col-6 text-right">$ {week}</dt>
@@ -207,20 +232,20 @@ class Node extends Component {
   displayActions(node) {
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
+    const isActive = node.status === 'online'
     return (
-      <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap">
+      <Col xl={6} lg={6} md={6} sm={12} xs={12} className="d-flex px-0 flex-wrap justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
         {sellable && (
           <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
             <NavLink to={`/nodes/${node.slug}/sell`}>
-              <Button className="submitButton sellServerButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
+              <Button disabled={!isActive} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
+            {!isActive &&
+            <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Disabled until activated</p>
+            }
           </Col>
         )}
-        <Col xl={6} lg={6} md={6} sm={6} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
-          <NavLink to={`/nodes/${node.crypto.slug}/new`}>
-            <Button className="submitButton col-xl-10 col-lg-10 col-md-11 col-sm-10 col-xs-10">Add {node.crypto.name} Node</Button>
-          </NavLink>
-        </Col>
+
       </Col>
     )
   }
@@ -232,7 +257,7 @@ class Node extends Component {
     return (
       <div>
         <h5 className="showPageSectionHeader"> History </h5>
-        <div className="bg-white p-3">
+        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <Table responsive className="showPageHistoryTable">
             <thead>
             <tr>
@@ -275,7 +300,7 @@ class Node extends Component {
     return (
       <div className="my-3">
         <h5 className="showPageSectionHeader">{node.crypto.name} Price</h5>
-        <div className="bg-white p-3">
+        <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <PriceHistoryChart node={node}/>
         </div>
       </div>
@@ -287,12 +312,14 @@ const mapStateToProps = state => ({
   node: state.nodes.data,
   error: state.nodes.error,
   message: state.nodes.message,
-  pending: state.nodes.pending
+  pending: state.nodes.pending,
+  userSlug: state.user.data.slug
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchNode,
-  updateNode
+  updateNode,
+  passwordConfirmation,
 }, dispatch)
 
 export default connect(

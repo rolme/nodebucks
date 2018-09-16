@@ -11,11 +11,11 @@ production:
   - mailers
 :schedule:
   crypto_scraper_worker:
-    cron: '54 * * * *' # Run every 1 hour starting at minute 54.
+    cron: '53 * * * *' # Run every 1 hour starting at minute 53.
     class: CryptoScraperWorker
 
   node_pricer_worker:
-    cron: '*/5 * * * *' # Run every 5 mins.
+    cron: '*/7 * * * *' # Run every 7 mins.
     class: NodePricerWorker
 
   node_rewarder_worker:
@@ -25,3 +25,8 @@ production:
   node_daily_ticker_worker:
     cron: '3 1 * * *' # Run every day at 1:03 AM
     class: NodeDailyTickerWorker
+
+  site_map_worker:
+    cron: '0 2 * * *' # Run every day at 2:00 AM
+    class: SiteMapWorker
+
