@@ -108,7 +108,7 @@ class CoinInfo extends Component {
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p>{data.description}</p>
+              <p>{data.profile}</p>
             </div>
           </Col>
         </div>

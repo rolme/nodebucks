@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
@@ -19,7 +18,6 @@ class Home extends Component {
       visibleAlert: false
     };
 
-    this.scrollToMasternodes = this.scrollToMasternodes.bind(this)
     this.onAlertDismiss = this.onAlertDismiss.bind(this)
   }
 
@@ -41,15 +39,6 @@ class Home extends Component {
     if ( !disabledAnnouncements() ) {
       this.setState({ visibleAlert: true })
     }
-    const hash = this.props.location.hash.substr(1)
-    if ( hash === 'masternodes' ) {
-      this.scrollToMasternodes()
-    }
-  }
-
-  scrollToMasternodes(event) {
-    const scrollNode = ReactDOM.findDOMNode(this.refs.homeMasternodesContainer)
-    setTimeout(() => window.scrollTo(0, !!scrollNode ? scrollNode.offsetTop : 0), !event ? 500 : 0)
   }
 
   render() {
@@ -85,7 +74,7 @@ class Home extends Component {
           </div>
         </div>
         <h1 className="masternodesSectionHeader text-center my-3">Compare Masternodes</h1>
-        <Masternodes ref="homeMasternodesContainer" bgColor="bg-white"/>
+        <Masternodes bgColor="bg-white"/>
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">
