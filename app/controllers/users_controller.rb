@@ -19,18 +19,22 @@ class UsersController < ApplicationController
       @user&.update_attribute(:linkedin, user_params[:linkedin]) if @user&.linkedin.blank?
     end
 
+    Rails.logger.info ">>>>> user present: #{@user.present?}"
     if @user.present?
       sm = StorageManager.new
       avatar = sm.store_url(@user, user_params[:avatar])
+      Rails.logger.info ">>>>> user: #{user_params[:avatar]}"
       @user.update_attribute(:avatar, avatar)
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
 
+      Rails.logger.info ">>>>> user affiliate: #{referrer_params[:referrer_affiliate_key]}"
       @user.set_affiliate_referrers(
         referrer_params[:referrer_affiliate_key]
       ) if !referrer_params[:referrer_affiliate_key].blank?
 
+      Rails.logger.info ">>>>> user present: #{@user.present?}"
       if @user.save
         sm = StorageManager.new
         avatar = sm.store_url(@user, user_params[:avatar])
