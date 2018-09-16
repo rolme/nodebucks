@@ -36,12 +36,15 @@ export const RESET = 'user/RESET'
 export const REQUEST_REFERRER = 'user/REQUEST_REFERRER'
 export const REQUEST_REFERRER_SUCCESS = 'user/REQUEST_REFERRER_SUCCESS'
 export const REQUEST_REFERRER_FAILURE = 'user/REQUEST_REFERRER_FAILURE'
-export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
-export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
-export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
 export const REQUEST_IMPERSONATE = 'user/REQUEST_IMPERSONATE'
 export const REQUEST_IMPERSONATE_SUCCESS = 'user/REQUEST_IMPERSONATE_SUCCESS'
 export const REQUEST_IMPERSONATE_FAILURE = 'user/REQUEST_IMPERSONATE_FAILURE'
+export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
+export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
+export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
+export const UPDATE_PROFILE = 'user/UPDATE_PROFILE'
+export const UPDATE_PROFILE_SUCCESS = 'user/UPDATE_PROFILE_SUCCESS'
+export const UPDATE_PROFILE_FAILURE = 'user/UPDATE_PROFILE_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -188,6 +191,7 @@ export default (state = initialState, action) => {
       }
 
     case UPDATE_USER:
+    case UPDATE_PROFILE:
       return {
         ...state,
         error: false,
@@ -196,6 +200,8 @@ export default (state = initialState, action) => {
       }
 
     case UPDATE_USER_SUCCESS:
+    case UPDATE_PROFILE_SUCCESS:
+      localStorage.setItem('jwt-nodebucks', action.payload.token)
       return {
         ...state,
         data: jwt_decode(action.payload.token),
@@ -206,6 +212,7 @@ export default (state = initialState, action) => {
       }
 
     case UPDATE_USER_FAILURE:
+    case UPDATE_PROFILE_FAILURE:
       return {
         ...state,
         error: true,
@@ -603,6 +610,22 @@ export function createContact(email, subject, message, callback) {
       .catch((error) => {
         dispatch({ type: CONTACT_TEAM_FAILURE, payload: error.message })
       })
+  }
+}
+
+export function updateProfile(slug, params) {
+  return dispatch => {
+    dispatch({ type: UPDATE_PROFILE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/users/${slug}/profile`, params).then(response => {
+      if ( response.data.status !== 'error' ) {
+        dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: response.data })
+      } else {
+        dispatch({ type: UPDATE_PROFILE_FAILURE, payload: response.data })
+      }
+    }).catch(error => {
+      dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error.data })
+    })
   }
 }
 
