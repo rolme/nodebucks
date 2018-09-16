@@ -22,8 +22,8 @@ class UsersController < ApplicationController
 
     if @user.present?
       sm = StorageManager.new
-      avatar = sm.store_url(@user, user_params[:avatar])
-      @user.update_attribute(:avatar, avatar)
+      @user.avatar ||= sm.store_url(@user, user_params[:avatar])
+      @user.save!
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
