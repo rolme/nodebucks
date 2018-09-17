@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
       @user.set_affiliate_referrers(
         referrer_params[:referrer_affiliate_key]
-      ) if !referrer_params[:referrer_affiliate_key].blank?
+      ) if referrer_params[:referrer_affiliate_key].present?
 
       if @user.save
         sm = StorageManager.new
@@ -141,7 +141,7 @@ class UsersController < ApplicationController
 
     @user.set_affiliate_referrers(
       referrer_params[:referrer_affiliate_key]
-    ) if !referrer_params[:referrer_affiliate_key].blank?
+    ) if referrer_params[:referrer_affiliate_key].present?
 
     if @user.save
       if ENV['RAILS_ENV'] == 'development'

@@ -21,17 +21,23 @@ class TransactionManager
 
     if(owner.affiliate_user_id_tier1.present?)
       affiliate_user_id_tier1_account = Account.where(user_id: owner.affiliate_user_id_tier1, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier1_account_txn = affiliate_user_id_tier1_account.transactions.create(amount: reward.fee * 0.2, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      if affiliate_user_id_tier1_account.present?
+        affiliate_user_id_tier1_account_txn = affiliate_user_id_tier1_account.transactions.create(amount: reward.fee * 0.2, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      end
     end
 
     if(owner.affiliate_user_id_tier2.present?)
       affiliate_user_id_tier2_account = Account.where(user_id: owner.affiliate_user_id_tier2, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier2_account_txn = affiliate_user_id_tier2_account.transactions.create(amount: reward.fee * 0.1, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      if affiliate_user_id_tier2_account.present?
+        affiliate_user_id_tier2_account_txn = affiliate_user_id_tier2_account.transactions.create(amount: reward.fee * 0.1, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      end
     end
 
     if(owner.affiliate_user_id_tier3.present?)
       affiliate_user_id_tier3_account = Account.where(user_id: owner.affiliate_user_id_tier3, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier3_account_txn = affiliate_user_id_tier3_account.transactions.create(amount: reward.fee * 0.05, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      if affiliate_user_id_tier3_account.present?
+        affiliate_user_id_tier3_account_txn = affiliate_user_id_tier3_account.transactions.create(amount: reward.fee * 0.05, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
+      end
     end
 
     Account.transaction do
@@ -41,19 +47,22 @@ class TransactionManager
       if(affiliate_user_id_tier1_account.present?)
         affiliate_user_id_tier1_account.update_attribute(:balance, affiliate_user_id_tier1_account.balance + reward.fee * 0.2)
         affiliate_user_id_tier1_account_txn.update_attribute(:status, 'processed')
-        Affiliate.create(user_id: owner.affiliate_user_id_tier1, amount: reward.fee * 0.2)
+        affiliate_user_id_tier1 = User.find(owner.affiliate_user_id_tier1)
+        affiliate_user_id_tier1.update_attribute(:affiliate_earnings, affiliate_user_id_tier1.affiliate_earnings + reward.fee * 0.2)
       end
 
       if (affiliate_user_id_tier2_account.present?)
         affiliate_user_id_tier2_account.update_attribute(:balance, affiliate_user_id_tier2_account.balance + reward.fee * 0.1)
         affiliate_user_id_tier2_account_txn.update_attribute(:status, 'processed')
-        Affiliate.create(user_id: owner.affiliate_user_id_tier2, amount: reward.fee * 0.1)
+        affiliate_user_id_tier2 = User.find(owner.affiliate_user_id_tier2)
+        affiliate_user_id_tier2.update_attribute(:affiliate_earnings, affiliate_user_id_tier2.affiliate_earnings + reward.fee * 0.1)
       end
 
       if(affiliate_user_id_tier3_account.present?)
         affiliate_user_id_tier3_account.update_attribute(:balance, affiliate_user_id_tier3_account.balance + reward.fee * 0.05)
         affiliate_user_id_tier3_account_txn.update_attribute(:status, 'processed')
-        Affiliate.create(user_id: owner.affiliate_user_id_tier3, amount: reward.fee * 0.05)
+        affiliate_user_id_tier3 = User.find(owner.affiliate_user_id_tier3)
+        affiliate_user_id_tier3.update_attribute(:affiliate_earnings, affiliate_user_id_tier3.affiliate_earnings + reward.fee * 0.05)
       end
 
       system_account.update_attribute(:balance, system_account.balance + fee)

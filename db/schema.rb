@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_113821) do
+ActiveRecord::Schema.define(version: 2018_09_17_084825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_113821) do
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
+    t.text "profile"
   end
 
   create_table "events", force: :cascade do |t|
@@ -174,6 +175,15 @@ ActiveRecord::Schema.define(version: 2018_09_12_113821) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "referrals", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "referred_by_user_id"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_referrals_on_user_id"
+  end
+
   create_table "rewards", force: :cascade do |t|
     t.bigint "node_id"
     t.string "cached_crypto_name"
@@ -240,6 +250,10 @@ ActiveRecord::Schema.define(version: 2018_09_12_113821) do
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified", default: false
+    t.boolean "verification_pending", default: false
+    t.string "verification_image"
+    t.decimal "affiliate_earnings"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
@@ -266,6 +280,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_113821) do
   add_foreign_key "node_price_histories", "nodes"
   add_foreign_key "orders", "nodes"
   add_foreign_key "orders", "users"
+  add_foreign_key "referrals", "users"
   add_foreign_key "rewards", "nodes"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "rewards"

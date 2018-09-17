@@ -11,7 +11,6 @@ class User < ApplicationRecord
   has_many :nodes, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :withdrawals, dependent: :destroy
-  has_many :affiliates, dependent: :destroy
 
   has_secure_password
 
@@ -135,15 +134,15 @@ class User < ApplicationRecord
 
   def set_affiliate_referrers(affiliate_key)
     referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
-    if !referrer_tier1.nil?
+    if referrer_tier1.present?
       self.affiliate_user_id_tier1 = referrer_tier1.id
 
       referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)
-      if !referrer_tier2.nil?
+      if referrer_tier2.present?
         self.affiliate_user_id_tier2 = referrer_tier2.id
 
         referrer_tier3 = User.find(referrer_tier2.affiliate_user_id_tier1)
-        self.affiliate_user_id_tier3 = referrer_tier3.id unless referrer_tier3.nil?
+        self.affiliate_user_id_tier3 = referrer_tier3.id if referrer_tier3.present?
       end
     end
   end
@@ -160,18 +159,12 @@ class User < ApplicationRecord
     User.where(affiliate_user_id_tier3: id)
   end
 
-  def affiliate_balance
-    affiliates.not_withdrawed.sum(:amount)
-  end
-
-  def total_affiliate_earned
-    affiliates.sum(:amount)
-  end
-
   def referral_masternodes
-    tier1_referrals.map { |u| u.nodes.size }.sum + 
-    tier2_referrals.map { |u| u.nodes.size }.sum + 
-    tier3_referrals.map { |u| u.nodes.size }.sum
+    tier1_referrals.size + tier2_referrals.size + tier3_referrals.size
+  end
+
+  def total_affiliate_earnings
+    accounts.map {|account| account.transactions.where(notes: 'Affiliate reward').sum(&:amount) }.sum
   end
 
   private
