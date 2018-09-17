@@ -7,7 +7,10 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
+  belongs_to :upline_user, foreign_key: :upline_user_id, class_name: 'User', optional: true
+
   has_many :accounts, dependent: :destroy
+  has_many :affiliates
   has_many :nodes, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :withdrawals, dependent: :destroy
@@ -132,39 +135,21 @@ class User < ApplicationRecord
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
   end
 
-  def set_affiliate_referrers(affiliate_key)
-    referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
-    if referrer_tier1.present?
-      self.affiliate_user_id_tier1 = referrer_tier1.id
+  def set_upline(affiliate_key)
+    return if affiliate_key.blank?
+    self.update_attribute(:upline_user_id, User.find_by(affiliate_key: affiliate_key)&.id)
+  end
 
-      referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)
-      if referrer_tier2.present?
-        self.affiliate_user_id_tier2 = referrer_tier2.id
+  def upline(level=1)
+    return nil if upline_user.blank?
+    return nil if (level > 3 || level < 1)
 
-        referrer_tier3 = User.find(referrer_tier2.affiliate_user_id_tier1)
-        self.affiliate_user_id_tier3 = referrer_tier3.id if referrer_tier3.present?
-      end
+    case level
+    when 1; upline_user
+    when 2; upline_user.upline
+    when 3; upline_user.upline(2)
+    else nil
     end
-  end
-
-  def tier1_referrals
-    User.where(affiliate_user_id_tier1: id)
-  end
-
-  def tier2_referrals
-    User.where(affiliate_user_id_tier2: id)
-  end
-
-  def tier3_referrals
-    User.where(affiliate_user_id_tier3: id)
-  end
-
-  def referral_masternodes
-    tier1_referrals.size + tier2_referrals.size + tier3_referrals.size
-  end
-
-  def total_affiliate_earnings
-    accounts.map {|account| account.transactions.where(notes: 'Affiliate reward').sum(&:amount) }.sum
   end
 
   private

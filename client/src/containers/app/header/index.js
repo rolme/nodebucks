@@ -126,7 +126,7 @@ class Header extends Component {
       value: this.state.value || '',
       onChange: this.onChange
     }
-    const avatarUrl = (!!user.avatar && !!user.avatar.url) ? user.avatar.url : '/assets/images/user.jpg'
+    const avatarUrl = (!!user && !!user.avatar && !!user.avatar.url) ? user.avatar.url : '/assets/images/user.jpg'
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">

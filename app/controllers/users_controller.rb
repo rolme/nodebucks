@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
   before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
-  before_action :set_affiliate_key, only: [:referrer]
   before_action :find_user, only: [:update, :profile]
 
   def callback
@@ -27,10 +26,7 @@ class UsersController < ApplicationController
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
-
-      @user.set_affiliate_referrers(
-        referrer_params[:referrer_affiliate_key]
-      ) if referrer_params[:referrer_affiliate_key].present?
+      @user.set_upline(referrer_params[:referrer_affiliate_key])
 
       if @user.save
         sm = StorageManager.new
@@ -130,19 +126,13 @@ class UsersController < ApplicationController
   end
 
   def referrer
-    @referrer = current_user
-    @tier1_referrals = @referrer.tier1_referrals
-    @tier2_referrals = @referrer.tier2_referrals
-    @tier3_referrals = @referrer.tier3_referrals
+    @user = current_user
   end
 
   def create
     @user = User.new(user_params)
 
-    @user.set_affiliate_referrers(
-      referrer_params[:referrer_affiliate_key]
-    ) if referrer_params[:referrer_affiliate_key].present?
-
+    @user.set_upline(referrer_params[:referrer_affiliate_key])
     if @user.save
       if ENV['RAILS_ENV'] == 'development'
         RegistrationMailer.send_verify_email(@user).deliver_now
@@ -238,10 +228,6 @@ protected
   end
 
 private
-
-  def set_affiliate_key
-    @affiliate_key = current_user.affiliate_key
-  end
 
   def authenticate(email, password)
     command = AuthenticateUser.call(email, password)

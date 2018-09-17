@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_17_084825) do
+ActiveRecord::Schema.define(version: 2018_09_17_203130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
 
   create_table "affiliates", force: :cascade do |t|
     t.bigint "user_id"
-    t.decimal "amount"
-    t.boolean "withdrawed", default: false
+    t.integer "affiliate_user_id"
+    t.integer "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_affiliates_on_user_id"
@@ -70,10 +70,12 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
     t.string "name"
     t.string "symbol"
     t.string "url"
+    t.string "logo_url"
     t.string "status", default: "active"
     t.bigint "masternodes"
     t.decimal "node_price", default: "0.0"
     t.decimal "daily_reward"
+    t.string "description"
     t.decimal "block_reward"
     t.decimal "price", default: "0.0"
     t.decimal "sellable_price", default: "0.0"
@@ -87,15 +89,14 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
     t.decimal "purchasable_price", default: "0.0"
     t.string "explorer_url"
     t.string "ticker_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "description"
-    t.string "logo_url"
     t.decimal "market_cap", precision: 15, scale: 1
+    t.decimal "decimal", precision: 15, scale: 1
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
     t.text "profile"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -165,23 +166,14 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
     t.decimal "amount"
     t.string "currency"
     t.string "status"
+    t.string "target"
     t.string "description"
+    t.string "payment_method"
+    t.text "paypal_response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "paypal_response"
-    t.string "target"
-    t.string "payment_method"
     t.index ["node_id"], name: "index_orders_on_node_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
-  end
-
-  create_table "referrals", force: :cascade do |t|
-    t.bigint "user_id"
-    t.integer "referred_by_user_id"
-    t.integer "level"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_referrals_on_user_id"
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -226,7 +218,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
     t.string "email"
     t.string "password_digest"
     t.string "nickname"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"
@@ -243,17 +235,12 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
     t.string "state"
     t.string "zipcode"
     t.string "country"
-    t.integer "affiliate_user_id_tier1"
-    t.integer "affiliate_user_id_tier2"
-    t.integer "affiliate_user_id_tier3"
+    t.integer "upline_user_id"
+    t.decimal "affiliate_earnings", default: "0.0"
     t.string "affiliate_key"
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified", default: false
-    t.boolean "verification_pending", default: false
-    t.string "verification_image"
-    t.decimal "affiliate_earnings"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
@@ -280,7 +267,6 @@ ActiveRecord::Schema.define(version: 2018_09_17_084825) do
   add_foreign_key "node_price_histories", "nodes"
   add_foreign_key "orders", "nodes"
   add_foreign_key "orders", "users"
-  add_foreign_key "referrals", "users"
   add_foreign_key "rewards", "nodes"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "rewards"
