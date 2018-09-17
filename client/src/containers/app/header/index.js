@@ -127,7 +127,6 @@ class Header extends Component {
       onChange: this.onChange
     }
     const avatarUrl = (!!user.avatar && !!user.avatar.url) ? user.avatar.url : '/assets/images/user.jpg'
-    console.log('avatar url', avatarUrl)
     return (
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">

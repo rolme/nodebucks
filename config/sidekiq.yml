@@ -15,7 +15,7 @@ production:
     class: CryptoScraperWorker
 
   node_pricer_worker:
-    cron: '*/7 * * * *' # Run every 7 mins.
+    cron: '*/10 * * * *' # Run every 10 mins.
     class: NodePricerWorker
 
   node_rewarder_worker:
@@ -29,4 +29,3 @@ production:
   site_map_worker:
     cron: '0 2 * * *' # Run every day at 2:00 AM
     class: SiteMapWorker
-
