@@ -15,15 +15,17 @@ import { fetchAnnouncement } from '../../reducers/announcements'
 import { reset } from '../../reducers/user'
 import { reset as resetSellServerMessage } from '../../reducers/user'
 
-import { valueFormat, disabledAnnouncements } from "../../lib/helpers";
+import { capitalize, valueFormat, disabledAnnouncements } from "../../lib/helpers";
 import { ClipLoader } from "react-spinners";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showMessage: false,
-      visibleAlert: false,
+      showPurchaseMessageAlert: false,
+      showAnnouncementAlert: false,
+      showConfirmMessageAlert: false,
+      showSellServerMessageAlert: false,
       confirmMessage: '',
       sellServerMessage: ''
     }
@@ -31,40 +33,43 @@ class Dashboard extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    const { confirmMessage, message } = this.props
-    if(!!message && message.includes('You have successfully sold your')){
-      this.setState({ sellServerMessage: message }, () => setTimeout(() => {
-        this.setState({ sellServerMessage: '' })
-        this.props.resetSellServerMessage()
-      }, 10000))
+    const { confirmMessage: propConfirmMessage, message } = this.props
+    let { confirmMessage, sellServerMessage, showConfirmMessageAlert, showSellServerMessageAlert } = this.state
+    if ( !!message && message.includes('You have successfully sold your') ) {
+      sellServerMessage = message
+      showSellServerMessageAlert = true
     }
-    this.setState({ confirmMessage }, () => setTimeout(() => this.setState({ confirmMessage: '' }), 5000))
+    if ( !!propConfirmMessage ) {
+      confirmMessage = propConfirmMessage
+      showConfirmMessageAlert = true
+    }
+    this.setState({ confirmMessage, showConfirmMessageAlert, sellServerMessage, showSellServerMessageAlert })
     this.props.fetchNodes()
   }
 
   componentDidMount() {
     const { purchasedNode, message } = this.props
+    let { showPurchaseMessageAlert, showAnnouncementAlert } = this.state
     if ( purchasedNode && message === 'Purchase node successful.' ) {
-      this.setState({ showMessage: true })
+      showPurchaseMessageAlert = true
+    }
+    if ( !disabledAnnouncements() ) {
+      showAnnouncementAlert = true
     }
     this.props.fetchAnnouncement()
-    if ( !disabledAnnouncements() ) {
-      this.setState({ visibleAlert: true })
-    }
+    this.setState({ showPurchaseMessageAlert, showAnnouncementAlert })
   }
 
-  dissmissMessage = () => {
-    this.setState({ showMessage: false })
-  }
-
-  onAlertDismiss = () => {
-    this.setState({ visibleAlert: false });
-    sessionStorage.setItem('announcementsVisible', false)
+  onAlertDismiss = (name) => {
+    name = 'show' + capitalize(name) + 'Alert'
+    this.setState({ [name]: false })
+    !!this.props[ 'reset' + name ] && this.props[ 'reset' + name ]()
+    sessionStorage.setItem(name + 'Visible', false)
   }
 
   render() {
     const { pending, nodes, announcement, announcementError } = this.props
-    const { showMessage, visibleAlert, confirmMessage, sellServerMessage } = this.state
+    const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -82,23 +87,20 @@ class Dashboard extends Component {
     return (
       <Container fluid className="dashboardPageContainer">
         <div className="contentContainer px-0">
-          {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
+          {announcement && announcement.text && !announcementError &&
+          <Alert className="alert" isOpen={showAnnouncementAlert} toggle={() => this.onAlertDismiss('announcement')}>
             {announcement.text}
           </Alert>
           }
-          {!!confirmMessage &&
-          <Alert color='success'>
+          <Alert color='success' isOpen={showConfirmMessageAlert} toggle={() => this.onAlertDismiss('confirmMessage')}>
             {confirmMessage}
           </Alert>
-          }
-          {!!sellServerMessage &&
-          <Alert color='success'>
+          <Alert color='success' isOpen={showSellServerMessageAlert} toggle={() => this.onAlertDismiss('sellServerMessage')}>
             {sellServerMessage}
           </Alert>
-          }
         </div>
         <div className="contentContainer px-0">
-          <Alert className="messageBox statusSuccess" isOpen={showMessage} toggle={this.dissmissMessage}>
+          <Alert className="messageBox statusSuccess" isOpen={showPurchaseMessageAlert} toggle={() => this.onAlertDismiss('purchaseMessage')}>
             <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
             <p className="messageText">
               Please give us 24-48 hours to get your node up and running.
