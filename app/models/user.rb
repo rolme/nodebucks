@@ -5,6 +5,8 @@ class User < ApplicationRecord
   SYSTEM_ACCOUNT_ID = 1
   TOKEN_AGE         = 15.minutes
 
+  mount_uploader :avatar, AvatarUploader
+
   has_many :accounts, dependent: :destroy
   has_many :nodes, dependent: :destroy
   has_many :orders, dependent: :destroy

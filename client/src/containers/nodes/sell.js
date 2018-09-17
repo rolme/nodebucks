@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import WAValidator from 'wallet-address-validator'
 
 import { ClipLoader } from 'react-spinners'
 import { Col, Container, Row, FormGroup, Label, Input, Button } from 'reactstrap'
@@ -26,16 +27,20 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
+      currency: 'btc',
+      target: '',
       validPrice: true,
       address: '',
       password: '',
-      invalidPassword: false
+      errorMessages: {
+        target: '',
+        password: ''
+      }
     }
-
     this.handleGoBack = this.handleGoBack.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handleInputValueChange = this.handleInputValueChange.bind(this)
-    this.validatePassword = this.validatePassword.bind(this)
+    this.validate = this.validate.bind(this)
   }
 
   componentWillMount() {
@@ -46,8 +51,18 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    if ( newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
-      this.setState({ address: '' })
+    if ( newNode.status === 'sold' ) {
+      this.props.history.push('/dashboard')
+      return
+    }
+    if ( !!nextProps.message && nextProps.message.status === 'error' ) {
+      let { errorMessages } = this.state
+      const errorName = nextProps.message.message.toLowerCase().includes('password') ? 'password' : 'target'
+      errorMessages[ errorName ] = nextProps.message.message
+      this.setState({ errorMessages })
+    } else if ( newNode.sellBitcoinWallet !== oldNode.sellBitcoinWallet ) {
+      const currency = newNode.sellSetting === 0 ? 'btc' : 'paypal'
+      this.setState({ currency })
     }
   }
 
@@ -69,38 +84,58 @@ class SellNode extends Component {
     window.history.back()
   }
 
-  updateAddressValue(name, value) {
-    const { node } = this.props
-    let data = {}
-    data[ name ] = value
-
-    this.props.updateNode(node.slug, data)
-  }
-
   handleInputValueChange(name, value) {
-    name === 'password' ? this.setState({ [ name ]: value, invalidPassword: false }) : this.setState({ [ name ]: value })
+    let { errorMessages } = this.state
+    errorMessages[ name ] = ''
+    this.setState({ [ name ]: value, errorMessages })
   }
 
   handleSellSettingClick(value) {
+    const { currency } = this.state
+    if ( currency !== value ) {
+      this.setState({ target: '', currency: value })
+    }
+  }
+
+  handleSell = () => {
     const { node } = this.props
-    if ( value !== node.sellSetting ) {
-      this.props.updateNode(node.slug, { sell_setting: value })
-      this.setState({ address: '' })
+    const { password, currency, target } = this.state
+    const data = {
+      password,
+      node: { currency, target }
     }
+    this.props.sellNode(node.slug, data)
   }
 
-  handleSellClick = (isPasswordValid) => {
-    if ( isPasswordValid ) {
-      const { node } = this.props
-      this.props.sellNode(node.slug)
+  validate() {
+    const { currency, target, password } = this.state
+    let { errorMessages } = this.state, isValid = !errorMessages.password && !errorMessages.target
+
+    if ( !password ) {
+      isValid = false
+      errorMessages.password = 'Please type the password.'
+    }
+
+    if ( !target ) {
+      isValid = false
+      errorMessages.target = 'Please enter your ' + currency === 'btc' ? 'Bitcoin Address.' : 'PayPal email.'
+    }
+
+    if ( currency === 'btc' ) {
+      isValid = WAValidator.validate(target, 'BTC')
+      errorMessages.target = isValid ? '' : 'Please type valid address.'
     } else {
-      this.setState({invalidPassword: true})
+      const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+      if ( !re.test(target) ) {
+        errorMessages.target = 'Please type valid email address.'
+        isValid = false
+      }
     }
-  }
 
-  validatePassword() {
-    const { password } = this.state
-    this.props.passwordConfirmation(this.props.userSlug, password, this.handleSellClick)
+    this.setState({ errorMessages })
+
+    isValid && this.handleSell()
+
   }
 
 
@@ -114,10 +149,10 @@ class SellNode extends Component {
         <div className="contentContainer sellPageContentContainer">
           <p onClick={this.handleGoBack} className="sellPageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="sellPageMainContentContainer">
-            <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
+            <Col xl={!available ? { size: 12, offset: 0 } : { size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
               {this.displayHeader(node)}
               {!available && (
-                <h1>This server sold for $ {sellPrice} USD.</h1>
+                <h1 className="text-center">This server sold for $ {sellPrice} USD.</h1>
               )}
               {available && this.displayPrice(node)}
               {available && this.displaySellSettings(node)}
@@ -163,32 +198,34 @@ class SellNode extends Component {
     )
   }
 
-  displaySellSettings(node) {
-    const { address, password, invalidPassword } = this.state
+  displaySellSettings() {
+    const { currency, target, password, errorMessages } = this.state
+    const disableFields = currency !== 'btc' && currency !== 'paypal'
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
           Select payment destination:
         </h5>
         <div className="d-flex sellPagePaymentDestinationSectionsContainer flex-wrap justify-content-center">
-          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 0)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 0) ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(node.sellSetting === 0)}</p>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'btc')} className={`sellPagePaymentDestinationSectionContainer ${currency === 'btc' ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(currency === 'btc')}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
           </Col>
-          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 10)} className={`sellPagePaymentDestinationSectionContainer ${(node.sellSetting === 10) ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/paypalIcon.png" width="20px" alt="paypal"/> PayPal {this.displayCheck(node.sellSetting === 10)}</p>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'paypal')} className={`sellPagePaymentDestinationSectionContainer ${currency === 'paypal' ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/paypalIcon.png" width="20px" alt="paypal"/> PayPal {this.displayCheck(currency === 'paypal')}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide your PayPal email below to receive payment via PayPal. </p>
           </Col>
         </div>
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
-            <Label for="address">{node.sellSetting === 10 ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
-            <Input value={address} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='text' name='address' id='address' placeholder={node.sellSetting === 10 ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleInputValueChange('address', event.target.value)} onBlur={(event) => this.updateAddressValue(node.sellSetting === 0 ? 'sell_bitcoin_wallet' : 'stripe', event.target.value)}/>
+            <Label for="address">{currency === 'paypal' ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
+            <Input value={target} disabled={disableFields} type='text' name='address' id='address' placeholder={currency === 'paypal' ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleInputValueChange('target', event.target.value)}/>
+            {!!errorMessages.target && <Label for="address" className="text-danger mb-0">{errorMessages.target}</Label>}
           </FormGroup>
           <FormGroup className="w-100">
-            <Label for="address">Enter your password:</Label>
-            <Input value={password} disabled={node.sellSetting !== 0 && node.sellSetting !== 10} type='password' name='password' id='password' placeholder="Password" onChange={(event) => this.handleInputValueChange('password', event.target.value)}/>
-            {invalidPassword && <Label for="address" className="text-danger">The Password is incorrect</Label>}
+            <Label for="password">Enter your password:</Label>
+            <Input value={password} disabled={disableFields} type='password' name='password' id='password' placeholder="Password" onChange={(event) => this.handleInputValueChange('password', event.target.value)}/>
+            {!!errorMessages.password && <Label for="password" className="text-danger mb-0">{errorMessages.password}</Label>}
           </FormGroup>
         </div>
       </div>
@@ -220,20 +257,19 @@ class SellNode extends Component {
     )
   }
 
-  sellServerButton(node) {
-    // TODO: This should be moved to top of file
-    const bitcoinWallet = 0
-    const stripe = 10
-    const { validPrice, password, invalidPassword } = this.state
+  sellServerButton() {
+    const { node, refreshing } = this.props
+    const { validPrice } = this.state
 
     if ( !validPrice ) {
       return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( (node.sellSetting === bitcoinWallet && !node.sellBitcoinWallet) || (node.sellSetting === stripe && !node.stripe) || !password || invalidPassword ) {
+    if ( !node || !node.sellPrice || refreshing ) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
-    return (<Button className="sellPageSubmitButton" onClick={this.validatePassword}>Sell Server</Button>)
+
+    return (<Button className="sellPageSubmitButton" onClick={this.validate}>Sell Server</Button>)
   }
 }
 
