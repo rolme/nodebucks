@@ -12,7 +12,7 @@ export default function Loading(props) {
     }
   } else if (props.error) {
     !!props.retry && typeof props.retry === "function" &&  props.retry();
-    console.log('ERROR:', props)
+    console.log('LOADING ERROR:', props)
     return <div>Error! Component failed to load</div>;
   } else {
     return null;
