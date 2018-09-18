@@ -42,8 +42,8 @@ User.create([
 ])
 
 puts "  - Setup affiliate program"
-User.find_by(email: 'jay.severson@gmail.com').set_upline(User.find(1).affiliate_key)
-User.find_by(email: 'ron.parnaso@gmail.com').set_upline(User.find(2).affiliate_key)
+User.find_by(email: 'jay.severson@gmail.com').set_upline(User.find_by(email: 'jackmanrick@gmail.com').affiliate_key)
+User.find_by(email: 'ron.parnaso@gmail.com').set_upline(User.find_by(email: 'jay.severson@gmail.com').affiliate_key)
 
 if ENV["RAILS_ENV"] != 'production'
   email = 'ron.parnaso@gmail.com'

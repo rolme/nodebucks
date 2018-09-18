@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_203130) do
     t.string "country"
     t.integer "upline_user_id"
     t.decimal "affiliate_earnings", default: "0.0"
+    t.decimal "affiliate_balance", default: "0.0"
     t.string "affiliate_key"
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false

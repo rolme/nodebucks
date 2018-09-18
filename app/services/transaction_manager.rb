@@ -16,32 +16,36 @@ class TransactionManager
     tier3 = owner.upline(3)
 
     reward_percentages = [0.2, 0.1, 0.05]
-    [tier1, tier2, tier3].compact.each do |upline|
-      percentage      = reward_percentages.shift
-      fee            -= reward.fee * percentage
-      upline_account  = Account.find_by(user_id: upline.id, crypto_id: node.crypto.id)
-      upline_account.transactions.create(amount: reward.fee * percentage, reward_id: reward.id, txn_type: 'deposit', notes: 'affiliate reward')
+    tiers = [tier1, tier2, tier3].reject{ |tier| tier.blank? }
+
+    tiers.each do |upline|
+      percentage       = reward_percentages.shift
+      fee             -= reward.fee * percentage
+      upline_account   = Account.find_by(user_id: upline.id, crypto_id: node.crypto_id)
+      upline_account ||= Account.create(user_id: upline.id, crypto_id: node.crypto_id)
+      amount           = reward.fee * percentage
+
+      # Deposit reward
+      upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'deposit', notes: "Affiliate reward")
+      upline_account.update_attribute(:balance, upline_account.balance + amount)
+      upline_txn.update_attribute(:status, 'processed')
+
+      # Convert reward to USD
+      upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'transfer', notes: "Transfer affiliate reward to affiliate earnings (USD)")
+      usdt = CryptoPrice.find_by(amount: 25, crypto_id: node.crypto_id).usdt
+      upline_account.update_attribute(:balance, upline_account.balance - amount)
+      upline.update_attributes(affiliate_earnings: upline.affiliate_earnings + amount * usdt, affiliate_balance: upline.affiliate_balance + amount * usdt)
+      upline_txn.update_attribute(:status, 'processed')
     end
 
     account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
-    system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit')
+    system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
     system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
       account.update_attribute(:balance, account.balance + reward.total_amount)
+      system_account.update_attribute(:balance, account.balance + fee)
       account_txn.update_attribute(:status, 'processed')
-
-      reward_percentages = [0.2, 0.1, 0.05]
-      [tier1, tier2, tier3].compact.each do |upline|
-        percentage      = reward_percentages.shift
-        upline_account  = Account.find_by(user_id: upline.id, crypto_id: node.crypto.id)
-        upline_account.update_attribute(:balance, upline_account.balance + reward.fee * percentage)
-        upline.update_attribute(:affiliate_earnings, upline.affiliate_earnings + reward.fee * percentage)
-        txn = upline_account.transactions.find(amount: reward.fee * percentage, reward_id: reward.id, txn_type: 'deposit', notes: 'affiliate reward')
-        txn.update_attribute(:status, 'processed')
-      end
-
-      system_account.update_attribute(:balance, system_account.balance + fee)
       system_txn.update_attribute(:status, 'processed')
     end
   end

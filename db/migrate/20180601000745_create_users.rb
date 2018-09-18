@@ -25,6 +25,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :country
       t.integer :upline_user_id
       t.decimal :affiliate_earnings, default: 0.0
+      t.decimal :affiliate_balance, default: 0.0
       t.string :affiliate_key, index: { unique: true }
       t.datetime :affiliate_key_created_at
 

@@ -137,7 +137,14 @@ class User < ApplicationRecord
 
   def set_upline(affiliate_key)
     return if affiliate_key.blank?
-    self.update_attribute(:upline_user_id, User.find_by(affiliate_key: affiliate_key)&.id)
+
+    referral_user = User.find_by(affiliate_key: affiliate_key)
+    return if referral_user.blank?
+
+    self.update_attribute(:upline_user_id, referral_user.id)
+    referral_user.affiliates.create(affiliate_user_id: id, level: 1)
+    referral_user.upline&.affiliates&.create(affiliate_user_id: id, level: 2)
+    referral_user.upline(2)&.affiliates&.create(affiliate_user_id: id, level: 3)
   end
 
   def upline(level=1)

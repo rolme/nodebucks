@@ -39,8 +39,8 @@ module Api
           id: id+=1,
           btc_ustd: @btc_usdt,
           exchange: EXCHANGE,
-          price: order['Price'].to_f,
-          volume: order['Volume'].to_f
+          price: order['Price']&.to_f,
+          volume: order['Volume']&.to_f
         }
       end.sort_by { |order| order [:price] }
     end
