@@ -108,7 +108,7 @@ class CoinInfo extends Component {
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p angerouslySetInnerHTML={{ __html: data.profile}}/>
+              <p dangerouslySetInnerHTML={{ __html: data.profile}}/>
             </div>
           </Col>
         </div>
