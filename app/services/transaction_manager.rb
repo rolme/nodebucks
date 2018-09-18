@@ -34,6 +34,7 @@ class TransactionManager
       upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'transfer', notes: "Transfer affiliate reward to affiliate earnings (USD)")
       usdt = CryptoPrice.find_by(amount: 25, crypto_id: node.crypto_id).usdt
       upline_account.update_attribute(:balance, upline_account.balance - amount)
+      upline_account.update_attribute(:affiliate_balance, upline_account.affiliate_balance + amount * usdt)
       upline.update_attributes(affiliate_earnings: upline.affiliate_earnings + amount * usdt, affiliate_balance: upline.affiliate_balance + amount * usdt)
       upline_txn.update_attribute(:status, 'processed')
     end

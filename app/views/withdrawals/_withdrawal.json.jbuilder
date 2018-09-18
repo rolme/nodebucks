@@ -12,6 +12,7 @@ json.balances withdrawal.user.balances.each do |balance|
   json.symbol balance[:symbol]
   json.usd balance[:usd]
   json.value balance[:value]
+  json.affiliate_balance balance[:affiliate_balance]
 end
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)

@@ -95,7 +95,8 @@ class User < ApplicationRecord
           symbol: crypto.symbol,
           usd: 0.0,
           value: 0.0,
-          wallet: nil
+          affiliate_balance: 0.0,
+          wallet: nil,
         }
       else
         {
@@ -106,10 +107,30 @@ class User < ApplicationRecord
           symbol: account.symbol,
           usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
           value: account.balance,
-          wallet: account.wallet
+          wallet: account.wallet,
+          affiliate_balance: account.affiliate_balance
         }
       end
     end
+  end
+
+  def affiliate_balances
+    Crypto.active.sort_by(&:name).map do |crypto|
+      account = accounts.find { |a| a.crypto_id == crypto.id }
+      if account.present?
+        {
+          name: account.name,
+          slug: crypto.slug,
+          symbol: account.symbol,
+          value: account.affiliate_balance,
+          wallet: account.wallet,
+        }
+      end
+    end.compact
+  end
+
+  def affiliate_balance_sum
+    affiliate_balances.sum {|h| h[:value] }
   end
 
   def btc_wallet
@@ -120,8 +141,8 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
-      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
+      btc += CryptoPricer.to_btc(account.crypto_id, account.balance) + CryptoPricer.to_btc(account.crypto_id, account.affiliate_balance)
+      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance) + CryptoPricer.to_usdt(account.crypto_id, account.affiliate_balance)
     end
     { btc: btc, usd: usd }
   end

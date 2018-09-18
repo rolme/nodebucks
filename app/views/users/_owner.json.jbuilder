@@ -13,4 +13,5 @@ json.balances user.balances.each do |balance|
   json.usd balance[:usd]
   json.value balance[:value]
   json.wallet balance[:wallet]
+  json.affiliate_balance balance[:affiliate_balance]
 end
