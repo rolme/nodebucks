@@ -31,6 +31,8 @@ module NodeManager
         when 'pivx'; scrape_pivx(browser)
         when 'spd'; scrape_stipend(browser)
         when 'gbx'; scrape_gobyte(browser)
+        when 'block'; scrape_blocknet(browser)
+        when 'phr'; scrape_phore(browser)
         end
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"
@@ -105,6 +107,44 @@ module NodeManager
     end
 
     def scrape_pivx(browser)
+      balance = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')[1].find_elements(tag_name: 'td')[1].text.split(" ")[0].to_f
+      node.update_attribute(:balance, balance)
+
+      rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
+      rows.reverse!.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
+        timestamp = data[2].text
+        txhash    = data[0].text
+        amount    = data[3].text.gsub(/[A-Z ]/, '').to_f
+
+        if has_new_rewards?(timestamp) && amount > 0.0
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_phore(browser)
+      balance = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')[1].find_elements(tag_name: 'td')[1].text.split(" ")[0].to_f
+      node.update_attribute(:balance, balance)
+
+      rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
+      rows.reverse!.each do |row|
+        data = row.find_elements(tag_name: 'td')
+        next if data.blank?
+
+        timestamp = data[2].text
+        txhash    = data[0].text
+        amount    = data[3].text.gsub(/[A-Z ]/, '').to_f
+
+        if has_new_rewards?(timestamp) && amount > 0.0
+          operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
+        end
+      end
+    end
+
+    def scrape_blocknet(browser)
       balance = browser.find_elements(tag_name: 'tbody')[1].find_elements(tag_name: 'tr')[1].find_elements(tag_name: 'td')[1].text.split(" ")[0].to_f
       node.update_attribute(:balance, balance)
 

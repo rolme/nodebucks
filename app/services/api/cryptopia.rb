@@ -10,7 +10,10 @@ module Api
       @type     = type.capitalize
       response  = Typhoeus::Request.get("#{BASE_URI}/GetMarketOrders/BTC_USDT", timeout: 3, verbose: DEBUG)
       data      = (response.body['Success']) ? parsed_response(response.body)['Data'] : []
-      orders    = to_orders(data[@type])
+      puts ">>>>>>>>>>> data: #{data.blank?}"
+      puts ">>>>>>>>>>> type: #{@type}"
+      puts ">>>>>>>>>>> data[#{@type}]: #{data[@type].blank?}"
+      orders    = (!!data && !!data[@type]) ? to_orders(data[@type]) : []
       @btc_usdt =btc_order_price(orders, 1.0)
     end
 
