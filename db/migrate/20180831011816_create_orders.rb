@@ -8,7 +8,10 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       t.decimal :amount
       t.string :currency
       t.string :status
+      t.string :target
       t.string :description
+      t.string :payment_method
+      t.text :paypal_response
 
       t.timestamps
     end

@@ -5,10 +5,12 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :symbol
       t.string :url
+      t.string :logo_url
       t.string :status, default: 'active'
       t.integer :masternodes, limit: 8
       t.decimal :node_price, default: 0.0
       t.decimal :daily_reward
+      t.string :description
       t.decimal :block_reward
       t.decimal :price, default: 0.0
       t.decimal :sellable_price, default: 0.0
@@ -22,6 +24,11 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.decimal :purchasable_price, default: 0.0
       t.string :explorer_url
       t.string :ticker_url
+      t.decimal :market_cap, :decimal, precision: 15, scale: 1
+      t.decimal :volume, :decimal, precision: 15, scale: 1
+      t.decimal :available_supply, :decimal, precision: 15, scale: 1
+      t.decimal :total_supply, :decimal, precision: 15, scale: 1
+      t.text :profile
 
       t.timestamps
     end
