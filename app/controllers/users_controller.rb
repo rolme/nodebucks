@@ -213,7 +213,8 @@ class UsersController < ApplicationController
     else
       render json: { status: 'error', message: user.errors.full_messages.join(', ') }
     end
-    
+  end
+  
   def impersonate
     @user = User.find_by_slug(params[:slug])
     render json: { status: :ok, token: generate_token }
