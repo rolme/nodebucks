@@ -157,7 +157,7 @@ class Dashboard extends Component {
           <Row>
             <Col xl={9}>
               <MainTable list={filteredNodes}/>
-              <Chart nodes={filteredNodes}/>
+              { !pending && filteredNodes.length > 0 && <Chart nodes={filteredNodes}/> }
             </Col>
             <Col xl={3} className="dashboardContentRightPartContainer align-items-xl-end align-items-center">
               {!!filteredNodes.length &&

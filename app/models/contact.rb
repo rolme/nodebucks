@@ -10,6 +10,6 @@ class Contact < ApplicationRecord
   private
 
   def send_email
-    SupportMailer.send_email(self).deliver_later
+    SupportMailer.send_email("#{self.email} contacted Nodebucks", self.message).deliver_later
   end
 end

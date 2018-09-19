@@ -27,7 +27,7 @@ a.headerMenuItem {
   font-family: Raleway;
   font-weight: bold;
   font-size: 16px;
-  margin: 0 30px !important;
+  margin: 0 20px !important;
   padding: 0 !important;
   border-bottom: 2px solid transparent !important;
   letter-spacing: 0.05em;
@@ -215,6 +215,10 @@ a.headerMenuItem.active:hover {
   .headerNavBarContainer > .contentContainer {
     margin: 0 10px;
   }
+
+  a.headerMenuItem {
+    margin: 0 15px !important;
+  }
 }
 
 @media (max-width: 1080px) {
@@ -227,7 +231,7 @@ a.headerMenuItem.active:hover {
   }
 
   a.headerMenuItem {
-    margin: 0 20px !important;
+    margin: 0 10px !important;
   }
 }
 

@@ -37,9 +37,11 @@ class NodesController < ApplicationController
       return
     end
 
-    @node    = Node.find_by(slug: params[:node_slug])
+    @node = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
-    operator.sell(node_user_params[:currency], node_user_params[:target])
+    if operator.sell(node_user_params[:currency], node_user_params[:target])
+      SupportMailerService.send_node_sold_notification(current_user, @node)
+    end
     @node.reload
     render :show
   end
@@ -68,7 +70,10 @@ class NodesController < ApplicationController
 
     operator = NodeManager::Operator.new(@node)
     # TODO: Save PayPal payload as part of purchase
-    operator.purchase(DateTime.current, params[:payment_response])
+    if operator.purchase(DateTime.current, params[:payment_response])
+      SupportMailerService.send_node_purchased_notification(current_user, @node)
+    end
+
     @node.reload
 
     # TODO: This is a bit brittle, need to rethink this later
