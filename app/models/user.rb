@@ -95,7 +95,7 @@ class User < ApplicationRecord
           symbol: crypto.symbol,
           usd: 0.0,
           value: 0.0,
-          wallet: nil
+          wallet: nil,
         }
       else
         {
@@ -106,7 +106,7 @@ class User < ApplicationRecord
           symbol: account.symbol,
           usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
           value: account.balance,
-          wallet: account.wallet
+          wallet: account.wallet,
         }
       end
     end
@@ -123,6 +123,8 @@ class User < ApplicationRecord
       btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
       usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
     end
+    usd += affiliate_balance
+    btc += Utils.usd_to_btc(affiliate_balance)
     { btc: btc, usd: usd }
   end
 

@@ -23,3 +23,4 @@ json.user do
   json.partial! 'users/owner', user: withdrawal.user
 end
 json.updatedAt withdrawal.updated_at.to_formatted_s(:db)
+json.affiliate_balance withdrawal.user.affiliate_balance
