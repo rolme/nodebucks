@@ -13,7 +13,7 @@ json.timeframe do
   json.quarter @user.affiliates.select { |a| a.created_at > 90.days.ago }.count
 end
 json.earnings do
-  json.balance @user.affiliate_balance_sum.to_f
+  json.balance @user.affiliate_balance.to_f
   json.total @user.affiliate_earnings.to_f
   json.masternodes @user.affiliates.map(&:affiliate_user).map(&:nodes).flatten.reject { |n| ['reserved', 'sold'].include?(n.status) }.count
 end

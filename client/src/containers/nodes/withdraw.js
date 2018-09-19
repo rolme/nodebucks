@@ -5,8 +5,6 @@ import { RingLoader } from 'react-spinners'
 import { Col, Container, Row, Button, Alert, FormGroup, Input, Label } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
-import { sumBy } from 'lodash'
-import InputField from '../../components/elements/inputField'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
 import WAValidator from 'wallet-address-validator'
@@ -28,10 +26,6 @@ class Withdraw extends Component {
       target: '',
       validPrice: true,
       address: '',
-      messages: {
-        wallet: '',
-        password: ''
-      },
       errorMessages: {
         target: '',
         password: ''
@@ -122,9 +116,7 @@ class Withdraw extends Component {
   }
 
   render() {
-    const { wallet, password, messages, errors, showPassword } = this.state
     const { withdrawal, message, error, pending } = this.props
-    const isButtonDisabled = !withdrawal || !withdrawal.amount || (+withdrawal.amount.usd) === 0 || !wallet || !password
 
     if ( pending || !withdrawal ) {
       return (
@@ -186,22 +178,16 @@ class Withdraw extends Component {
             <p className="withdrawInformationPartHeaderLabel">Total Balance, bitcoin</p>
             <p className="withdrawInformationPartHeaderValue">{totalBalance}</p>
           </Row>
+          <Row className="p-0 m-0 justify-content-between w-100">
+            <p className="withdrawInformationPartHeaderLabel">Affiliate</p>
+            <p className="withdrawInformationPartHeaderValue">
+            ${valueFormat(withdrawal.affiliate_balance , 2)}
+            </p>
+        </Row>
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
           {!!withdrawal.user && !!withdrawal.user.balances && this.renderBalances(withdrawal.user.balances)}
-        </Row>
-        <Row className="p-0 mx-0 withdrawInformationDivider"/>
-        <Row className="p-0 m-0 justify-content-between w-100">
-          <p className="withdrawInformationPartHeaderLabel">Affiliate</p>
-          <p className="withdrawInformationPartHeaderValue">
-            ${!!withdrawal.user && !!withdrawal.user.balances && 
-              valueFormat(sumBy(withdrawal.user.balances, function(c) { return c.affiliate_balance - c.affiliate_balance * c.fee}), 2)}
-          </p>
-        </Row>
-        <Row className="p-0 mx-0 withdrawInformationDivider"/>
-        <Row className="p-0 m-0">
-          {!!withdrawal.user && !!withdrawal.user.balances && this.renderAffiliateBalances(withdrawal.user.balances) }
         </Row>
       </Col>
     )
@@ -217,20 +203,8 @@ class Withdraw extends Component {
             <p className="withdrawInformationPartInfo">{value}</p>
           </Row>
         )
-      }
-    })
-  }
-
-  renderAffiliateBalances(withdrawal) {
-    return withdrawal.map((coin, index) => {
-      const affiliate_balance = valueFormat(+coin.affiliate_balance - coin.affiliate_balance * coin.fee, 2)
-      if(coin.affiliate_balance > 0) {
-        return (
-          <Row key={index} className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">{coin.name}</p>
-            <p className="withdrawInformationPartInfo">{affiliate_balance}</p>
-          </Row>
-        )
+      } else {
+        return null
       }
     })
   }
