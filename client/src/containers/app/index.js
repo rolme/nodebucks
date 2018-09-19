@@ -8,7 +8,7 @@ import { setReferer } from '../../lib/helpers'
 
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
-
+import Reloader from "../../components/reloader"
 
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
@@ -49,6 +49,9 @@ class App extends Component {
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'
     return (
       <div id="appContainer" className="appContainer">
+        <Reloader timer="300" onExpire={() => {
+          console.log('this should show alert to reload page')
+        }}/>
         {showHeader && <Header/>}
         <div className="pageContainer position-relative">
           <main>
