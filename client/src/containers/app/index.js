@@ -6,6 +6,7 @@ import { withCookies } from 'react-cookie'
 
 import { setReferer } from '../../lib/helpers'
 
+import { Alert } from 'reactstrap'
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
@@ -33,26 +34,40 @@ const Masternodes = Loadable({ loader: () => import('../../containers/masternode
 const CoinInfo = Loadable({ loader: () => import('../../containers/masternodes/coinInfo'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
 const Affiliate = Loadable({ loader: () => import('../../containers/affiliate'), loading: Loading })
-const ForgotPassword = Loadable({ loader: () => import('../authenticate/forgotPassword'), loading: Loading})
-const ResetPassword = Loadable({loader: () => import('../authenticate/resetPassword'), loading: Loading})
+const ForgotPassword = Loadable({ loader: () => import('../authenticate/forgotPassword'), loading: Loading })
+const ResetPassword = Loadable({ loader: () => import('../authenticate/resetPassword'), loading: Loading })
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
 const Withdrawals = Loadable({ loader: () => import('../../containers/withdrawals'), loading: Loading })
 const Orders = Loadable({ loader: () => import('../../containers/orders'), loading: Loading })
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showReloadRequestAlert: false
+    }
+    this.toggleReloadRequestAlert = this.toggleReloadRequestAlert.bind(this)
+  }
+
   componentDidMount() {
     const { cookies } = this.props
     setReferer(cookies)
   }
 
+  toggleReloadRequestAlert() {
+    this.setState({ showReloadRequestAlert: !this.state.showReloadRequestAlert })
+  }
+
   render() {
+    const { showReloadRequestAlert } = this.state
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'
     return (
       <div id="appContainer" className="appContainer">
-        <Reloader timer="300" onExpire={() => {
-          console.log('this should show alert to reload page')
-        }}/>
+        <Reloader timer="300" onExpire={this.toggleReloadRequestAlert}/>
         {showHeader && <Header/>}
+        <Alert color='success' isOpen={showReloadRequestAlert} toggle={this.toggleReloadRequestAlert}>
+          The content of web page was updated, please reload the page.
+        </Alert>
         <div className="pageContainer position-relative">
           <main>
             <Switch>
