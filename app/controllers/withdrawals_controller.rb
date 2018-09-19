@@ -16,6 +16,7 @@ class WithdrawalsController < ApplicationController
     withdrawal_manager = WithdrawalManager.new(current_user)
     if withdrawal_manager.save
       @withdrawal = withdrawal_manager.withdrawal
+      SupportMailerService.send_withdrawal_requested_notification(current_user, @withdrawal)
       render :show
     else
       render json: { status: 'error', message: @withdrawal.error }

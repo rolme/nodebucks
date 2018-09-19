@@ -148,8 +148,8 @@ class Header extends Component {
             {!!user &&
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
               <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
-              <NavLink to="/dashboard/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliates</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
+              <NavLink to="/dashboard/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliate</NavLink>
               <div className="dropdown-divider authMenuDivider"></div>
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
             </Col>
