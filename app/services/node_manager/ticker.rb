@@ -15,7 +15,7 @@ module NodeManager
 
     def evaluate
       return if node.stake.blank?
-      crypto_price = CryptoPrice.find_by(amount: node.stake, crypto_id: node.crypto.id).usdt.to_f
+      crypto_price = CryptoPrice.find_by(amount: 1, crypto_id: node.crypto.id).usdt.to_f
       node.node_prices.create(
         source: :system,
         value: node.stake * crypto_price
