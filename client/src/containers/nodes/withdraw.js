@@ -19,7 +19,6 @@ class Withdraw extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      wallet: '',
       password: '',
       showPassword: false,
       currency: 'btc',
@@ -69,11 +68,11 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { password, wallet } = this.state
+    const { password, target } = this.state
     this.props.withdraw({
       withdrawal: {
         password,
-        wallet
+        wallet: target
       }
     })
   }
