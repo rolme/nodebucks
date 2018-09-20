@@ -29,6 +29,7 @@ const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Load
 const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
+const Article = Loadable({ loader: () => import('../../components/article'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 const CoinInfo = Loadable({ loader: () => import('../../containers/masternodes/coinInfo'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })
@@ -63,6 +64,7 @@ class App extends Component {
               <PublicRoute exact path="/reset_password/:slug" component={ResetPassword}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/terms" component={Terms}/>
+              <PublicRoute exact path="/masternodes-online" component={Article}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute exact path="/contact" component={Contact}/>

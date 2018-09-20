@@ -1,0 +1,22 @@
+.articleThumbnail{
+  background-image: url('/assets/images/article/articleThumbnail.jpeg');
+  background-size: cover;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 10px;
+}
+
+.articleParagraph{
+  font-size: 15px;
+  font-family: 'Raleway';
+  margin-bottom: 5px;
+}
+
+.articleHeader{
+  font-family: 'Raleway';
+  margin-bottom: 5px;
+}
+
+.articleClickable{
+  cursor: pointer;
+}

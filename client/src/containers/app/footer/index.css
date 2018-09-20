@@ -31,16 +31,16 @@ a.footerText:hover {
   .footerContainer {
     padding: 10px 15px;
   }
+
+  .footerContainer > .container-fluid > div {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
   .footerContainer {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .footerContainer > .container-fluid > div {
-    justify-content: center;
   }
 
   .footerContainer > .container-fluid > div:last-child > .footerText {
