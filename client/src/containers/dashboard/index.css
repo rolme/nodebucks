@@ -231,7 +231,7 @@
 
 /*Balance Style*/
 .dashboardBalanceSectionContainer {
-  height: 350px;
+  min-height: 350px;
 }
 
 .dashboardBalanceTableContainer {
