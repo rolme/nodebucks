@@ -76,6 +76,7 @@ protected
       tm = TransactionManager.new(account)
       tm.withdraw(withdrawal)
     end
+    TransactionManager.withdraw_affiliate_reward(withdrawal)
     @withdrawal.update_attribute(:status, 'pending')
   end
 
