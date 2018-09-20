@@ -9,35 +9,17 @@ module NodeManager
   class Ticker
     attr_accessor :node
 
-    DEBUG = false
-
     def initialize(node)
       @node = node
     end
 
     def evaluate
       return if node.stake.blank?
-      response = Typhoeus::Request.get(node.ticker_url, timeout: 3, verbose: DEBUG)
-      if !!response.body['data']
-        data = parsed_response(response.body)['data']
-
-        node.node_prices.create(
-          data: data,
-          source: node.ticker_url,
-          value: node.stake * data["quotes"]["USD"]["price"].to_f
-        )
-      end
+      crypto_price = CryptoPrice.find_by(amount: node.stake, crypto_id: node.crypto.id).usdt.to_f
+      node.node_prices.create(
+        source: :system,
+        value: node.stake * crypto_price
+      )
     end
-
-    protected
-
-    def parsed_response(response)
-      begin
-        JSON.parse(response)
-      rescue JSON::ParserError => e
-        { error: e.to_s }
-      end
-    end
-
   end
 end
