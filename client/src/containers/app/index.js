@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route as PublicRoute, Switch, Redirect } from 'react-router-dom'
+import { Route as PublicRoute, Switch } from 'react-router-dom'
 import Route from '../authenticate/route'
 
 import { withCookies } from 'react-cookie'
@@ -97,7 +97,7 @@ class App extends Component {
               <PublicRoute path="/settings" component={Settings}/>
               <PublicRoute path="/401" component={ErrorPage401}/>
               <PublicRoute path="/404" component={ErrorPage404}/>
-              <Redirect from='*' to='/404'/>
+              <Route path='*' component={ErrorPage404}/>
             </Switch>
           </main>
         </div>

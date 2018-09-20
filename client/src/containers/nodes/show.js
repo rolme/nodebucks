@@ -8,7 +8,7 @@ import { Col, Container, Row, Button, Table, Alert } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
 import ConfirmationModal from '../../components/confirmationModal'
 import './index.css'
-
+import ErrorPage404 from '../../components/error_pages/404_error_page'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faChevronUp, faChevronDown } from '@fortawesome/fontawesome-free-solid'
 
@@ -80,7 +80,9 @@ class Node extends Component {
   }
 
   render() {
-    const { node, pending, message } = this.props
+    const { node, pending, message, error } = this.props
+
+    if(error) return <ErrorPage404 />
 
     if ( pending || node.slug === undefined ) {
       return null

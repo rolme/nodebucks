@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Metatags from '../../components/metatags'
-
+import ErrorPage404 from '../../components/error_pages/404_error_page'
 import { RingLoader } from 'react-spinners'
 import { Container, Col, Button } from 'reactstrap'
 import './index.css'
@@ -22,8 +22,10 @@ class CoinInfo extends Component {
   }
 
   render() {
-    const { data, pending } = this.props
+    const { data, pending, error } = this.props
 
+    if(error) return <ErrorPage404 />
+      
     if ( pending || !data.slug ) {
       return (
         <Container fluid className="coinInfoContainer">
@@ -120,7 +122,8 @@ class CoinInfo extends Component {
 
 const mapStateToProps = state => ({
   data: state.masternodes.data,
-  pending: state.masternodes.pending
+  pending: state.masternodes.pending,
+  error: state.masternodes.error,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
