@@ -120,9 +120,12 @@
   vertical-align: middle;
 }
 
+.dashboardMainTable > thead > tr > th {
+  text-align: center !important;
+}
+
 .dashboardMainTable > thead > tr > th,
 .dashboardMainTable > tbody > tr > td {
-  text-align: center !important;
   border: none;
 }
 
@@ -249,7 +252,6 @@
 }
 
 .dashboardBalanceTableContainer > table > tbody > tr > td {
-  text-align: center !important;
   border: none;
   vertical-align: middle;
   font-family: 'OpenSans';
