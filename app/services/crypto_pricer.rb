@@ -22,6 +22,8 @@ class CryptoPricer
   end
 
   def self.to_btc(crypto_id, total, type='buy')
+    return 0 if total <= 0
+
     case
     when total >= 10000; amount = 10000
     when total >= 5000; amount = 5000
@@ -40,6 +42,8 @@ class CryptoPricer
   end
 
   def self.to_usdt(crypto_id, total, type='buy')
+    return 0 if total <= 0
+
     case
     when total >= 10000; amount = 10000
     when total >= 5000; amount = 5000
