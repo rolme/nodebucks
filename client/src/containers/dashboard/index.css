@@ -16,7 +16,7 @@
   color: #3B3B3B;
 }
 
-.dashboardSectionNoDataMessage{
+.dashboardSectionNoDataMessage {
   margin: 0;
   font-family: 'OpenSans';
   color: #686868;
@@ -231,7 +231,7 @@
 
 /*Balance Style*/
 .dashboardBalanceSectionContainer {
-  height: 350px;
+  min-height: 350px;
 }
 
 .dashboardBalanceTableContainer {
@@ -255,6 +255,11 @@
   font-family: 'OpenSans';
   color: #686868;
   font-size: 14px;
+}
+
+.dashboardBalanceTableContainer > table > thead > tr > th:first-child,
+.dashboardBalanceTableContainer > table > tbody > tr > td:first-child {
+  padding: 0 !important;
 }
 
 .dashboardBalanceWithdrawButton {

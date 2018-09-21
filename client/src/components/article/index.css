@@ -1,0 +1,24 @@
+.articleContainer {
+  max-width: 700px;
+}
+
+.articleContainer > .contentContainer > img {
+  max-width: 100%;
+  margin: 10px 0;
+}
+
+.articleParagraph {
+  font-size: 15px;
+  font-family: 'Raleway';
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.articleHeader {
+  font-family: 'Raleway';
+  margin: 10px 0;
+}
+
+.articleClickable {
+  cursor: pointer;
+}

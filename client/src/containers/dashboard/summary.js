@@ -10,6 +10,7 @@ export default class Summary extends Component {
 
     if ( list.length > 0 ) {
       summary = list.reduce((data, item) => {
+        console.log(">>>>> reward total:", +data.rewardTotal, +item.rewardTotal)
         data.rewardTotal = +data.rewardTotal + +item.rewardTotal
         data.value = +data.value + +item.value
         data.cost = +data.cost + +item.cost

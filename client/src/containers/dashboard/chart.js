@@ -32,6 +32,7 @@ export default class Chart extends Component {
   }
 
   combineNodes(nodes) {
+    nodes = JSON.parse(JSON.stringify(nodes))
     let combinedNodes = []
     nodes.forEach((node) => {
       const matchNodeIndex = combinedNodes.findIndex(matchNode => matchNode.crypto.slug === node.crypto.slug)

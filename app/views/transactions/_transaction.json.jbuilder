@@ -10,3 +10,4 @@ json.userEmail transaction.account.user.email
 json.userName transaction.account.user.full_name
 json.withdrawalId transaction.withdrawal_id
 json.id transaction.id
+json.createdAt transaction.created_at.to_formatted_s(:db)

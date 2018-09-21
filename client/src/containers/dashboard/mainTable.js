@@ -22,7 +22,7 @@ class MainTable extends Component {
       return 0
     }).map(item => {
       const uptime = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
-      const annualRoi = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
+      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + ' %'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
       const yearlyRoiValue = valueFormat(+item.crypto.yearlyRoiValue, 2)

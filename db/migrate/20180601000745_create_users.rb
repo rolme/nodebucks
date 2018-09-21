@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :email
       t.string :password_digest
       t.string :nickname
-      t.boolean :admin
+      t.boolean :admin, default: false
       t.boolean :accessible, default: true
       t.string :slug
       t.datetime :confirmed_at
@@ -23,10 +23,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :state
       t.string :zipcode
       t.string :country
-
-      t.integer :affiliate_user_id_tier1
-      t.integer :affiliate_user_id_tier2
-      t.integer :affiliate_user_id_tier3
+      t.integer :upline_user_id
+      t.decimal :affiliate_earnings, default: 0.0
+      t.decimal :affiliate_balance, default: 0.0
       t.string :affiliate_key, index: { unique: true }
       t.datetime :affiliate_key_created_at
 

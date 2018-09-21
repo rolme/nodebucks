@@ -256,3 +256,8 @@ button.disabled {
 .alert > span {
   color: #1982CB;
 }
+
+.alert > button:focus {
+  border: none !important;
+  outline: none !important;
+}

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_12_055000) do
+ActiveRecord::Schema.define(version: 2018_09_21_000704) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -27,6 +28,15 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.datetime "updated_at", null: false
     t.index ["crypto_id"], name: "index_accounts_on_crypto_id"
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "affiliates", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "affiliate_user_id"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_affiliates_on_user_id"
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -53,6 +63,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.decimal "usdt", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "price_type", default: "buy"
     t.index ["crypto_id"], name: "index_crypto_prices_on_crypto_id"
   end
 
@@ -61,10 +72,12 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.string "name"
     t.string "symbol"
     t.string "url"
+    t.string "logo_url"
     t.string "status", default: "active"
     t.bigint "masternodes"
     t.decimal "node_price", default: "0.0"
     t.decimal "daily_reward"
+    t.string "description"
     t.decimal "block_reward"
     t.decimal "price", default: "0.0"
     t.decimal "sellable_price", default: "0.0"
@@ -78,14 +91,14 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.decimal "purchasable_price", default: "0.0"
     t.string "explorer_url"
     t.string "ticker_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "description"
-    t.string "logo_url"
     t.decimal "market_cap", precision: 15, scale: 1
+    t.decimal "decimal", precision: 15, scale: 1
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
+    t.text "profile"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -155,12 +168,12 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.decimal "amount"
     t.string "currency"
     t.string "status"
+    t.string "target"
     t.string "description"
+    t.string "payment_method"
+    t.text "paypal_response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "paypal_response"
-    t.string "target"
-    t.string "payment_method"
     t.index ["node_id"], name: "index_orders_on_node_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -207,7 +220,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.string "email"
     t.string "password_digest"
     t.string "nickname"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.boolean "accessible", default: true
     t.string "slug"
     t.datetime "confirmed_at"
@@ -224,9 +237,9 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
     t.string "state"
     t.string "zipcode"
     t.string "country"
-    t.integer "affiliate_user_id_tier1"
-    t.integer "affiliate_user_id_tier2"
-    t.integer "affiliate_user_id_tier3"
+    t.integer "upline_user_id"
+    t.decimal "affiliate_earnings", default: "0.0"
+    t.decimal "affiliate_balance", default: "0.0"
     t.string "affiliate_key"
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
@@ -251,6 +264,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_055000) do
 
   add_foreign_key "accounts", "cryptos"
   add_foreign_key "accounts", "users"
+  add_foreign_key "affiliates", "users"
   add_foreign_key "crypto_prices", "cryptos"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"

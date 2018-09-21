@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
-  before_action :authenticate_admin_request, only: [:index, :show]
-  before_action :set_affiliate_key, only: [:referrer]
+  before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
+  before_action :find_user, only: [:update, :profile]
 
   def callback
     @user = nil
@@ -21,15 +21,12 @@ class UsersController < ApplicationController
 
     if @user.present?
       sm = StorageManager.new
-      avatar = sm.store_url(@user, user_params[:avatar])
-      @user.update_attribute(:avatar, avatar)
+      @user.avatar ||= sm.store_url(@user, user_params[:avatar])
+      @user.save!
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
-
-      @user.set_affiliate_referrers(
-        referrer_params[:referrer_affiliate_key]
-      ) if !referrer_params[:referrer_affiliate_key].blank?
+      @user.set_upline(referrer_params[:referrer_affiliate_key])
 
       if @user.save
         sm = StorageManager.new
@@ -48,7 +45,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where.not(email: nil)
+    if !!params[:nonadmin]
+      @users = User.where.not(email: nil).where(admin: [false, nil])
+    else
+      @users = User.where.not(email: nil)
+    end
   end
 
   def login
@@ -56,12 +57,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(slug: params[:slug])
-    if @user.blank?
-      render json: { status: 'error', message: 'Could not find user.' }
-      return
-    end
-
     if !@user.authenticate(params[:current_password])
       render json: { status: 'error', message: 'Current password is incorrect.'}
       return
@@ -69,6 +64,14 @@ class UsersController < ApplicationController
 
     if @user.update(user_params)
       render json: { status: :ok, token: generate_token, message: 'User account updated.' }
+    else
+      render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
+    end
+  end
+
+  def profile
+    if @user.update(user_params)
+      render json: { status: :ok, token: generate_token, message: 'User profile updated.' }
     else
       render json: { status: 'error', message: @user.errors.full_messages.join(', ')}
     end
@@ -123,19 +126,13 @@ class UsersController < ApplicationController
   end
 
   def referrer
-    @referrer = current_user
-    @tier1_referrals = User.where(affiliate_user_id_tier1: current_user.id)
-    @tier2_referrals = User.where(affiliate_user_id_tier2: current_user.id)
-    @tier3_referrals = User.where(affiliate_user_id_tier3: current_user.id)
+    @user = current_user
   end
 
   def create
     @user = User.new(user_params)
 
-    @user.set_affiliate_referrers(
-      referrer_params[:referrer_affiliate_key]
-    ) if !referrer_params[:referrer_affiliate_key].blank?
-
+    @user.set_upline(referrer_params[:referrer_affiliate_key])
     if @user.save
       if ENV['RAILS_ENV'] == 'development'
         RegistrationMailer.send_verify_email(@user).deliver_now
@@ -198,6 +195,11 @@ class UsersController < ApplicationController
     render json: { status: :ok, valid: user.authenticate(params[:user][:password]).present? }
   end
 
+  def impersonate
+    @user = User.find_by_slug(params[:slug])
+    render json: { status: :ok, token: generate_token }
+  end
+
 protected
 
   def user_params
@@ -217,7 +219,7 @@ protected
       :password,
       :password_confirmation,
       :state,
-      :zipcode
+      :zipcode,
     )
   end
 
@@ -226,10 +228,6 @@ protected
   end
 
 private
-
-  def set_affiliate_key
-    @affiliate_key = current_user.affiliate_key
-  end
 
   def authenticate(email, password)
     command = AuthenticateUser.call(email, password)
@@ -242,6 +240,14 @@ private
       }
     else
       render json: { status: 'error', message: command.errors[:user_authentication] }, status: :unauthorized
+    end
+  end
+
+  def find_user
+    @user = User.find_by(slug: params[:slug] || params[:user_slug])
+    if @user.blank?
+      render json: { status: 'error', message: 'Could not find user.' }
+      return
     end
   end
 
@@ -263,7 +269,8 @@ private
       slug: @user.slug,
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
-      zipcode: @user.zipcode
+      zipcode: @user.zipcode,
+      admin: @user.admin,
     })
   end
 end

@@ -7,55 +7,51 @@ class TransactionManager
   end
 
   def deposit_reward(reward)
-    node = Node.find(reward.node_id)
+    node  = Node.find(reward.node_id)
     owner = node.user
-    fee = reward.fee
+    fee   = reward.fee
 
-    fee -= fee * 0.2  if owner.affiliate_user_id_tier1.present?
-    fee -= fee * 0.1  if owner.affiliate_user_id_tier2.present?
-    fee -= fee * 0.05 if owner.affiliate_user_id_tier3.present?
+    tier1 = owner.upline
+    tier2 = owner.upline(2)
+    tier3 = owner.upline(3)
+
+    reward_percentages = [0.2, 0.1, 0.05]
+    tiers = [tier1, tier2, tier3].reject{ |tier| tier.blank? }
+
+    tiers.each do |upline|
+      percentage       = reward_percentages.shift
+      fee             -= reward.fee * percentage
+      upline_account   = Account.find_by(user_id: upline.id, crypto_id: node.crypto_id)
+      upline_account ||= Account.create(user_id: upline.id, crypto_id: node.crypto_id)
+      amount           = reward.fee * percentage
+
+      # Deposit reward
+      upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'deposit', notes: "Affiliate reward")
+      upline_account.update_attribute(:balance, upline_account.balance + amount)
+      upline_txn.update_attribute(:status, 'processed')
+
+      # Convert reward to USD
+      upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'transfer', notes: "Transfer affiliate reward to affiliate earnings (USD)")
+      usdt = CryptoPrice.find_by(amount: 25, crypto_id: node.crypto_id).usdt
+      upline_account.update_attribute(:balance, upline_account.balance - amount)
+      upline.update_attributes(affiliate_earnings: upline.affiliate_earnings + amount * usdt, affiliate_balance: upline.affiliate_balance + amount * usdt)
+      upline_txn.update_attribute(:status, 'processed')
+    end
 
     account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
-    system_txn = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit')
-    system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee transfer from #{reward.node.wallet} to Nodebucks")
-
-    if(owner.affiliate_user_id_tier1.present?)
-      affiliate_user_id_tier1_account = Account.where(user_id: owner.affiliate_user_id_tier1, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier1_account_txn = affiliate_user_id_tier1_account.transactions.create(amount: reward.fee * 0.2, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
-    end
-
-    if(owner.affiliate_user_id_tier2.present?)
-      affiliate_user_id_tier2_account = Account.where(user_id: owner.affiliate_user_id_tier2, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier2_account_txn = affiliate_user_id_tier2_account.transactions.create(amount: reward.fee * 0.1, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
-    end
-
-    if(owner.affiliate_user_id_tier3.present?)
-      affiliate_user_id_tier3_account = Account.where(user_id: owner.affiliate_user_id_tier3, crypto_id: node.crypto.id).first
-      affiliate_user_id_tier3_account_txn = affiliate_user_id_tier3_account.transactions.create(amount: reward.fee * 0.05, reward_id: reward.id, txn_type: 'deposit', notes: 'Affiliate reward')
-    end
+    system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
+    system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
       account.update_attribute(:balance, account.balance + reward.total_amount)
+      system_account.update_attribute(:balance, account.balance + fee)
       account_txn.update_attribute(:status, 'processed')
-
-      if(affiliate_user_id_tier1_account.present?)
-        affiliate_user_id_tier1_account.update_attribute(:balance, affiliate_user_id_tier1_account.balance + reward.fee * 0.2)
-        affiliate_user_id_tier1_account_txn.update_attribute(:status, 'processed')
-      end
-
-      if (affiliate_user_id_tier2_account.present?)
-        affiliate_user_id_tier2_account.update_attribute(:balance, affiliate_user_id_tier2_account.balance + reward.fee * 0.1)
-        affiliate_user_id_tier2_account_txn.update_attribute(:status, 'processed')
-      end
-
-      if(affiliate_user_id_tier3_account.present?)
-        affiliate_user_id_tier3_account.update_attribute(:balance, affiliate_user_id_tier3_account.balance + reward.fee * 0.05)
-        affiliate_user_id_tier3_account_txn.update_attribute(:status, 'processed')
-      end
-
-      system_account.update_attribute(:balance, system_account.balance + fee)
       system_txn.update_attribute(:status, 'processed')
     end
+
+    # Notifications
+    SupportMailerService.send_user_received_reward(owner, reward.total_amount, node) if node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL
+    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost 
   end
 
   def withdraw(withdrawal)
@@ -77,4 +73,14 @@ class TransactionManager
     end
   end
 
+  def self.withdraw_affiliate_reward(withdrawal)
+    user = withdrawal.user
+    balance = user.affiliate_balance
+    txn = Transaction.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
+    
+    Account.transaction do
+      withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)
+      txn.update_attribute(:status, 'processed')
+    end
+  end
 end

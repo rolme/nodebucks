@@ -108,7 +108,7 @@ class CoinInfo extends Component {
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p>{data.description}</p>
+              <p dangerouslySetInnerHTML={{ __html: data.profile}}/>
             </div>
           </Col>
         </div>
@@ -131,4 +131,3 @@ export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
 )(CoinInfo))
-

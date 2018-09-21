@@ -64,6 +64,7 @@ class NewNode extends Component {
     let masternode = {}
     if ( item.crypto === undefined ) {
       masternode.annualRoi = item.annualRoi
+      masternode.annualRoiPercentage = item.annualRoiPercentage
       masternode.cryptoSlug = item.slug
       masternode.masternodes = item.masternodes
       masternode.name = item.name
@@ -71,6 +72,7 @@ class NewNode extends Component {
       masternode.url = item.url
     } else {
       masternode.annualRoi = item.crypto.annualRoi
+      masternode.annualRoiPercentage = item.crypto.annualRoiPercentage
       masternode.cryptoSlug = item.crypto.slug
       masternode.masternodes = item.crypto.masternodes
       masternode.name = item.crypto.name
@@ -233,7 +235,7 @@ class NewNode extends Component {
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
     const spread = (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
-    const annualRoi = (!!item.annualRoi || item.annualRoi === '0') ? ((+item.annualRoi) * 100.0).toFixed(1) + ' %' : ''
+    const annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? (valueFormat((+item.annualRoiPercentage) * 100, 2) + ' %') : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
 
     if ( !!user ) {
@@ -248,7 +250,7 @@ class NewNode extends Component {
       <Col xl={12} lg={12} md={12} className="px-0 pt-2">
         <Row className="purchasePageCrpytoDataContainer">
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
-            <h6 className="mb-0">Est. Annual ROI</h6>
+            <h6 className="mb-0">Estimated Annual ROI</h6>
             {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
               size={35}
               color={'#3F89E8'}

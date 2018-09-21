@@ -5,7 +5,12 @@ class User < ApplicationRecord
   SYSTEM_ACCOUNT_ID = 1
   TOKEN_AGE         = 15.minutes
 
+  mount_uploader :avatar, AvatarUploader
+
+  belongs_to :upline_user, foreign_key: :upline_user_id, class_name: 'User', optional: true
+
   has_many :accounts, dependent: :destroy
+  has_many :affiliates
   has_many :nodes, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_many :withdrawals, dependent: :destroy
@@ -90,7 +95,7 @@ class User < ApplicationRecord
           symbol: crypto.symbol,
           usd: 0.0,
           value: 0.0,
-          wallet: nil
+          wallet: nil,
         }
       else
         {
@@ -99,9 +104,9 @@ class User < ApplicationRecord
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
+          usd: CryptoPricer.to_usdt(account.crypto_id, account.balance, 'sell'),
           value: account.balance,
-          wallet: account.wallet
+          wallet: account.wallet,
         }
       end
     end
@@ -115,9 +120,11 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
-      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
+      btc += CryptoPricer.to_btc(account.crypto_id, account.balance, 'sell')
+      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance, 'sell')
     end
+    usd += affiliate_balance
+    btc += Utils.usd_to_btc(affiliate_balance)
     { btc: btc, usd: usd }
   end
 
@@ -130,18 +137,27 @@ class User < ApplicationRecord
     account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
   end
 
-  def set_affiliate_referrers(affiliate_key)
-    referrer_tier1 = User.find_by(affiliate_key: affiliate_key)
-    if !referrer_tier1.nil?
-      self.affiliate_user_id_tier1 = referrer_tier1.id
+  def set_upline(affiliate_key)
+    return if affiliate_key.blank?
 
-      referrer_tier2 = User.find(referrer_tier1.affiliate_user_id_tier1)
-      if !referrer_tier2.nil?
-        self.affiliate_user_id_tier2 = referrer_tier2.id
+    referral_user = User.find_by(affiliate_key: affiliate_key)
+    return if referral_user.blank?
 
-        referrer_tier3 = User.find(referrer_tier2.affiliate_user_id_tier1)
-        self.affiliate_user_id_tier3 = referrer_tier3.id unless referrer_tier3.nil?
-      end
+    self.update_attribute(:upline_user_id, referral_user.id)
+    referral_user.affiliates.create(affiliate_user_id: id, level: 1)
+    referral_user.upline&.affiliates&.create(affiliate_user_id: id, level: 2)
+    referral_user.upline(2)&.affiliates&.create(affiliate_user_id: id, level: 3)
+  end
+
+  def upline(level=1)
+    return nil if upline_user.blank?
+    return nil if (level > 3 || level < 1)
+
+    case level
+    when 1; upline_user
+    when 2; upline_user.upline
+    when 3; upline_user.upline(2)
+    else nil
     end
   end
 

@@ -49,7 +49,7 @@ class Settings extends Component {
         <div className="contentContainer settingsPageContentContainer">
           <Col xl={{size: 3, offset: 0}} lg={{size: 3, offset: 0}} md={{size: 6, offset: 3}} sm={{size: 8, offset: 2}} xs={{size: 10, offset: 1}} className="px-0">
             <ListGroup className="settingsSideBarItemsContainer">
-              <ListGroupItem onClick={() => this.changeTab('profile')} className={path === 'profile' ? 'selected' : ''}><p>Contact Info</p></ListGroupItem>
+              <ListGroupItem onClick={() => this.changeTab('profile')} className={path === 'profile' ? 'selected' : ''}><p>Profile</p></ListGroupItem>
               <ListGroupItem onClick={() => this.changeTab('security')} className={path === 'security' ? 'selected' : ''}><p>Password</p></ListGroupItem>
             </ListGroup>
           </Col>

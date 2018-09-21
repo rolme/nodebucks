@@ -24,27 +24,9 @@ class AffiliateDashboard extends Component {
     this.props.getReferrer()
   }
 
-  referralsCount(referrer) {
-    let count = 0
-    count += referrer.tier1_referrals.length
-    count += referrer.tier2_referrals.length
-    count += referrer.tier3_referrals.length
-    return count
-  }
-
   showCopiedMessage() {
     this.setState({ showCopiedMessage: true })
     setTimeout(() => this.setState({ showCopiedMessage: false }), 3000)
-  }
-
-  lastNumberOfDays(referrer, numberOfDays) {
-    const today = new Date()
-    const dateBeforeSevenDays = today.setDate(today.getDate() - numberOfDays)
-    let count = 0
-    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier1_referrals)
-    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier2_referrals)
-    count += this.countReferralsFromDate(dateBeforeSevenDays, referrer.tier3_referrals)
-    return count
   }
 
   countReferralsFromDate(startDate, referrals) {
@@ -57,7 +39,7 @@ class AffiliateDashboard extends Component {
     const { user } = this.props
     const { showCopiedMessage } = this.state
 
-    if ( !user.tier1_referrals ) {
+    if ( !user || !user.referrals ) {
       return null
     }
 
@@ -83,61 +65,57 @@ class AffiliateDashboard extends Component {
           </div>
           <Col className="d-flex justify-content-between affiliateDashboardCardsContainer">
             <Card className="affiliateDashboardCard">
-              <CardHeader>Referrals <span><br/>{this.referralsCount(user)}</span></CardHeader>
+              <CardHeader>Referrals <span><br/>{user.referrals.total}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Referrals</p>
-                  <h6>{this.referralsCount(user)}</h6>
+                  <h6>{user.referrals.total}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 1(20%)</p>
-                  <h6>{user.tier1_referrals.length}</h6>
+                  <p>Tier 1 (2%)</p>
+                  <h6>{user.referrals.tier1}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 2(10%)</p>
-                  <h6>{user.tier2_referrals.length}</h6>
+                  <p>Tier 2 (1%)</p>
+                  <h6>{user.referrals.tier2}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 3</p>
-                  <h6>{user.tier3_referrals.length}</h6>
+                  <p>Tier 3 (0.5%)</p>
+                  <h6>{user.referrals.tier3}</h6>
                 </Row>
               </CardBody>
             </Card>
             <Card className="affiliateDashboardCard">
-              <CardHeader>Last 7 days <span><br/>{this.lastNumberOfDays(user, 7)}</span></CardHeader>
+              <CardHeader>Last 7 days <span><br/>{user.timeframe.week}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 24 hours:</p>
-                  <h6>{this.lastNumberOfDays(user, 1)}</h6>
+                  <h6>{user.timeframe.day}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 7 days</p>
-                  <h6>{this.lastNumberOfDays(user, 7)}</h6>
+                  <h6>{user.timeframe.week}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 30 days</p>
-                  <h6>{this.lastNumberOfDays(user, 30)}</h6>
+                  <h6>{user.timeframe.month}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Last 90 days</p>
-                  <h6>{this.lastNumberOfDays(user, 90)}</h6>
+                  <h6>{user.timeframe.quarter}</h6>
                 </Row>
               </CardBody>
             </Card>
             <Card className="affiliateDashboardCard">
-              <CardHeader>Balance <span><br/>$125.35</span></CardHeader>
+              <CardHeader>Balance <span><br/>${user.earnings.balance.toFixed(2)}</span></CardHeader>
               <CardBody>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Balance:</p>
-                  <h6>$125.35</h6>
-                </Row>
-                <Row className="affiliateDashboardCardContentRow">
-                  <p>Total Earned:</p>
-                  <h6>$283.22</h6>
+                  <p>Total Earnings</p>
+                  <h6>{user.earnings.total.toFixed(2)}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
                   <p>Referral Masternodes</p>
-                  <h6>135</h6>
+                  <h6>{user.earnings.masternodes}</h6>
                 </Row>
               </CardBody>
             </Card>

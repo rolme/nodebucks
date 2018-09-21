@@ -22,4 +22,16 @@ json.status withdrawal.status
 json.user do
   json.partial! 'users/owner', user: withdrawal.user
 end
+json.transactions withdrawal.transactions.each do |txn|
+  json.amount transaction.amount
+  json.notes transaction.notes
+  json.slug transaction.slug
+  json.status transaction.status
+  json.type transaction.txn_type
+  json.userEmail transaction.account.user.email
+  json.userName transaction.account.user.full_name
+  json.id transaction.id
+  json.createdAt transaction.created_at.to_formatted_s(:db)
+end
 json.updatedAt withdrawal.updated_at.to_formatted_s(:db)
+json.affiliate_balance withdrawal.user.affiliate_balance

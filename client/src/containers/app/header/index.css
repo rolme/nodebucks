@@ -27,7 +27,7 @@ a.headerMenuItem {
   font-family: Raleway;
   font-weight: bold;
   font-size: 16px;
-  margin: 0 30px !important;
+  margin: 0 20px !important;
   padding: 0 !important;
   border-bottom: 2px solid transparent !important;
   letter-spacing: 0.05em;
@@ -133,8 +133,8 @@ a.headerMenuItem.active:hover {
 
 .headerUserAvatar {
   margin: 0 10px 0 0;
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
   border-radius: 50px;
   border: 1px solid white;
   padding: 2px;
@@ -215,6 +215,10 @@ a.headerMenuItem.active:hover {
   .headerNavBarContainer > .contentContainer {
     margin: 0 10px;
   }
+
+  a.headerMenuItem {
+    margin: 0 15px !important;
+  }
 }
 
 @media (max-width: 1080px) {
@@ -227,7 +231,7 @@ a.headerMenuItem.active:hover {
   }
 
   a.headerMenuItem {
-    margin: 0 20px !important;
+    margin: 0 10px !important;
   }
 }
 
@@ -279,4 +283,33 @@ a.headerMenuItem.active:hover {
   .headerNavBarContainer > .contentContainer {
     margin: 0;
   }
+}
+
+.react-autosuggest__container {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.react-autosuggest__input {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.react-autosuggest__suggestions-list {
+  margin-top: 4px;
+  padding-left: 10px;
+  padding-top: 2px;
+}
+
+.react-autosuggest__suggestion {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.react-autosuggest__input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
 }

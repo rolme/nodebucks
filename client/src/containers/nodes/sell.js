@@ -27,7 +27,7 @@ class SellNode extends Component {
     super(props)
 
     this.state = {
-      currency: '',
+      currency: 'btc',
       target: '',
       validPrice: true,
       address: '',
@@ -51,6 +51,10 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
+    if ( newNode.status === 'sold' ) {
+      this.props.history.push('/dashboard')
+      return
+    }
     if ( !!nextProps.message && nextProps.message.status === 'error' ) {
       let { errorMessages } = this.state
       const errorName = nextProps.message.message.toLowerCase().includes('password') ? 'password' : 'target'
@@ -105,7 +109,7 @@ class SellNode extends Component {
 
   validate() {
     const { currency, target, password } = this.state
-    let { errorMessages } = this.state, isValid =  !errorMessages.password && !errorMessages.target
+    let { errorMessages } = this.state, isValid = !errorMessages.password && !errorMessages.target
 
     if ( !password ) {
       isValid = false
