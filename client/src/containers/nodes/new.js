@@ -227,6 +227,21 @@ class NewNode extends Component {
     )
   }
 
+  renderSpreadWarning() {
+    const { node } = this.props
+    let difference = +node.value / node.cost
+    if ( difference < 0.75 ) {
+      const sellValue = valueFormat(+node.value, 2)
+      difference = '-' + ((1 - valueFormat(difference, 2)) * 100) + '%'
+      return (
+        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="spreadWarningMessageContainer d-flex flex-column align-items-center justify-content-center">
+          <p>Warning: Due to low liquidity on exchanges, the resell value of this masternode is well below the purchase price. </p>
+          <p>Sell Value: ${sellValue} ({difference})</p>
+        </Col>
+      )
+    }
+  }
+
   displayCryptoData(item) {
     const { user, refreshing, node, nodePending, cryptoPending } = this.props
 
@@ -282,6 +297,7 @@ class NewNode extends Component {
               <span>The spread is the difference between the buy and sell price of this masternode.</span> <br/>It is determined by the exchange order books. A spread of $100 means you will lose $100 if you sell your node immediately after purchasing it.
             </Tooltip>
           </Col>
+          {this.renderSpreadWarning(item)}
         </Row>
         }
       </Col>
