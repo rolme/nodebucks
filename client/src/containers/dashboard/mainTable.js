@@ -72,8 +72,8 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected returns</th>
-                <th colSpan="3" className="rightBorder">Actual returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Projected Returns</th>
+                <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
               <tr>
