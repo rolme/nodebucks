@@ -34,15 +34,15 @@ class MainTable extends Component {
       return (
         <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
-          <td>{uptime} days</td>
-          <td className="leftBorder">{annualRoi}</td>
-          <td>$ {weeklyRoiValue}</td>
-          <td>$ {monthlyRoiValue}</td>
-          <td>$ {yearlyRoiValue}</td>
-          <td className="leftBorder">$ {week}</td>
-          <td>$ {month}</td>
-          <td className="rightBorder">$ {year}</td>
-          <td>{capitalize(item.status)}</td>
+          <td className="text-center">{uptime} days</td>
+          <td className="leftBorder text-right">{annualRoi}</td>
+          <td className="text-right">$ {weeklyRoiValue}</td>
+          <td className="text-right">$ {monthlyRoiValue}</td>
+          <td className="text-right">$ {yearlyRoiValue}</td>
+          <td className="leftBorder text-right">$ {week}</td>
+          <td className="text-right">$ {month}</td>
+          <td className="rightBorder text-right">$ {year}</td>
+          <td className="text-center">{capitalize(item.status)}</td>
         </tr>
       )
     })
@@ -72,8 +72,8 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected returns</th>
-                <th colSpan="3" className="rightBorder">Actual returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Projected Returns</th>
+                <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
               <tr>
