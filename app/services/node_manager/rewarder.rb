@@ -213,10 +213,12 @@ module NodeManager
   private
 
     def has_new_rewards?(timestamp)
-      last_reward = node.rewards.last
-      return true if last_reward.blank?
+      return false if node.online_at.blank?
 
-      last_reward.timestamp < DateTime.parse(timestamp)
+      last_reward_timestamp   = node.rewards.last&.timestamp
+      last_reward_timestamp ||= node.online_at
+
+      last_reward_timestamp < DateTime.parse(timestamp)
     end
 
     def stake_amount?(amount)
