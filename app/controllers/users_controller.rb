@@ -200,6 +200,37 @@ class UsersController < ApplicationController
     render json: { status: :ok, token: generate_token }
   end
 
+  def enable_2fa
+    @user = User.find_by(slug: params[:user_slug])
+    if(@user.update(two_fa_secret: params[:user][:two_fa_secret]))
+      render json: { status: :ok, message: '2FA is successfully enabled.', token: generate_token }
+    else
+      render json: { status: :error, message: 'Error while enabling 2FA.' }
+    end
+  end
+
+  def disable_2fa
+    @user = User.find_by(slug: params[:user_slug])
+    if(@user.update(two_fa_secret: nil))
+      render json: { status: :ok, message: '2FA is successfully disabled.', token: generate_token }
+    else
+      render json: { status: :error, message: 'Error while disabling 2FA.' }
+    end
+  end
+
+  def secret_2fa
+    user = User.find_by_email(params[:email])
+    if user && user.authenticate(params[:password]).present?
+      if user.two_fa_secret.present?
+        render json: { status: :ok, enabled_2fa: true, secret: user.two_fa_secret }
+      else
+        render json: { status: :ok, enabled_2fa: false }
+      end
+    else
+      render json: { status: :error, message: 'Invalid credentials' }
+    end
+  end
+
 protected
 
   def user_params
@@ -271,6 +302,7 @@ private
       updatedAt: @user.updated_at.to_formatted_s(:db),
       zipcode: @user.zipcode,
       admin: @user.admin,
+      enabled2FA: @user.two_fa_secret.present?,
     })
   end
 end

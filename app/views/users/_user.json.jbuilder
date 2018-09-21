@@ -29,3 +29,4 @@ json.affiliateKeyCreatedAt user.affiliate_key_created_at.to_formatted_s(:db)
 json.state user.state
 json.updatedAt user.updated_at.to_formatted_s(:db)
 json.zipcode user.zipcode
+json.enabled2FA user.two_fa_secret.present?

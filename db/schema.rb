@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_21_000704) do
+ActiveRecord::Schema.define(version: 2018_09_21_095250) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -244,6 +243,10 @@ ActiveRecord::Schema.define(version: 2018_09_21_000704) do
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified", default: false
+    t.boolean "verification_pending", default: false
+    t.string "verification_image"
+    t.string "two_fa_secret"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
