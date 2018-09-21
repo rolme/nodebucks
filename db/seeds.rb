@@ -14,7 +14,8 @@ Crypto.create([
 puts "  - Create price lookup table"
 Crypto.all.each do |crypto|
   [1, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000].each do |amount|
-    CryptoPrice.create(crypto_id: crypto.id, amount: amount)
+    CryptoPrice.create(crypto_id: crypto.id, amount: amount, price_type: 'buy')
+    CryptoPrice.create(crypto_id: crypto.id, amount: amount, price_type: 'sell')
   end
 end
 

@@ -21,7 +21,7 @@ json.owner do
   json.partial! 'users/owner', user: node.user
 end
 json.rewardSetting node.reward_setting
-json.rewardTotal node.reward_total * node.crypto.price
+json.rewardTotal node.reward_total
 json.rewards do
   json.week node.week_reward
   json.quarter node.quarter_reward
