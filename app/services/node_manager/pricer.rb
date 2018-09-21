@@ -45,6 +45,7 @@ module NodeManager
           poloniex: available_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
         }
         if (@type == 'sell')
+          CryptoPricer.buy_price(@orders, crypto, @avg_btc_usdt)
           purchasing_price = @prices[crypto.symbol][:all]
           coin_price       = purchasing_price / crypto.stake
           crypto.update_attributes(
@@ -53,7 +54,7 @@ module NodeManager
             purchasable_price: purchasing_price
           ) if !!persist
         else
-          CryptoPricer.price(@orders, crypto, @avg_btc_usdt)
+          CryptoPricer.sell_price(@orders, crypto, @avg_btc_usdt)
           selling_price = @prices[crypto.symbol][:all]
           crypto.update_attribute(:sellable_price, selling_price) if !!persist
         end
