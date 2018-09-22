@@ -15,11 +15,11 @@ module NodeManager
         options.add_argument('--headless')
         browser = Selenium::WebDriver.for :chrome, options: options
         browser.navigate.to node.wallet_url
-        sleep 1
+        sleep 5
       else
         driver = Watir::Browser.new
         driver.goto node.wallet_url
-        sleep 1
+        sleep 5
         browser = driver.wd
       end
 
