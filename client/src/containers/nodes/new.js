@@ -153,12 +153,6 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            {!!masternode && !!masternode.url && !!masternode.name && !nodePending &&
-            <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
-              <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
-              <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
-            </Col>
-            }
             <Col xl={12} className="d-flex px-0 flex-wrap">
               {
                 !!nodePending || !!cryptoPending
