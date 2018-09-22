@@ -88,14 +88,14 @@
 
 .masternodesPageBottomLink {
   font-family: "Raleway";
-  color: #777777;
+  color: #2283c7;
   padding: 20px 0;
   display: block;
   text-align: center;
 }
 
 .masternodesPageBottomLink:hover {
-  color: #4A4A4A;
+  color: #2283c7;
   text-decoration: none;
 }
 
