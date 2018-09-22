@@ -68,10 +68,23 @@ class NodesController < ApplicationController
   def disburse
     @node = Node.find_by(slug: params[:node_slug])
     operator = NodeManager::Operator.new(@node)
-    operator.disburse
-    @node.reload
+    if operator.disburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to disburse funds. Is it sold?' }
+    end
+  end
 
-    render :show
+  def undisburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    if operator.undisburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to undo disbursement. Was it disbursed?' }
+    end
   end
 
   def purchase
