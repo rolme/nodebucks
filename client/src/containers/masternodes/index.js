@@ -19,9 +19,7 @@ class Masternodes extends Component {
     window.scrollTo(0, 0)
     const { cryptos } = this.props
 
-    if ( cryptos.length === 0 ) {
-      this.props.fetchCryptos()
-    }
+    this.props.fetchCryptos()
   }
 
   renderCoinsInfo(cryptos) {

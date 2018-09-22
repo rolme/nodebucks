@@ -57,6 +57,10 @@ module NodeManager
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+
+      # Get latest prices
+      pricer = NodeManager::Pricer.new({persist: true})
+      pricer.evaluate(node.crypto)
       # TODO: Do we need to track setup fee here?
     end
 
