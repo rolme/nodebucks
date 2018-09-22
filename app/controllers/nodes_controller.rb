@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
-  before_action :authenticate_admin_request, only: [:offline, :online]
+  before_action :authenticate_admin_request, only: [:offline, :online, :disburse]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -62,6 +62,15 @@ class NodesController < ApplicationController
       operator.online
       @node.reload
     end
+    render :show
+  end
+
+  def disburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    operator.disburse
+    @node.reload
+
     render :show
   end
 

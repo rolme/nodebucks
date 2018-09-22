@@ -34,6 +34,12 @@ module NodeManager
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server online")
     end
 
+    def disburse(timestamp=DateTime.current)
+      return false if node.status == 'sold'
+      node.update_attributes(status: 'disbursed', online_at: timestamp)
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server down and funds disbursed.")
+    end
+
     def offline(timestamp=DateTime.current)
       return false if node.status != 'online'
       node.update_attribute(:status, 'offline')

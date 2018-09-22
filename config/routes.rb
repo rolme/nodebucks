@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug
     resources :nodes, except: [:destroy, :edit, :new], param: :slug do
+      patch :disburse
       patch :online
       patch :offline
       patch :purchase

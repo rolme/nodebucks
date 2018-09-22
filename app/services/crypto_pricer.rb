@@ -19,7 +19,7 @@ class CryptoPricer
 
   def sell_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = btc_order_price(amount)
+      value = btc_order_price(amount, 'sell')
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'sell').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -68,14 +68,18 @@ class CryptoPricer
   end
 
   # Privatish
-  def btc_order_price(required_volume)
+  def btc_order_price(required_volume, type='buy')
     return 0.0 if orders.count == 0
     current_volume  = 0
     value           = 0
     reserved_value  = 0
 
     # Determine if we need to reserve any orders
-    required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
+    if type == 'buy'
+      required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
+    else
+      required_reserve = crypto.nodes.select{ |n| n.status == 'sold' }.count * crypto.stake
+    end
     current_reserve  = 0
 
     i = 0
