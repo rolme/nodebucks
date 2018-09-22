@@ -26,17 +26,20 @@ class MainTable extends Component {
         item.onlineAt += " +0000"
         uptime = moment().diff(moment(item.onlineAt), 'days')
       }
-      if ( uptime === 0 ) {
-        if ( !!moment().diff(moment(item.onlineAt), 'hours') ) {
-          uptime = moment().diff(moment(item.onlineAt), 'hours') + ' hrs'
-        } else if ( !!moment().diff(moment(item.onlineAt), 'minutes') ) {
-          uptime = moment().diff(moment(item.onlineAt), 'minutes') + ' min'
-        } else if ( !!moment().diff(moment(item.onlineAt), 'seconds') ) {
-          uptime = moment().diff(moment(item.onlineAt), 'seconds') + ' sec'
+      if ( uptime !== '-' ) {
+        if ( uptime === 0 ) {
+          if ( !!moment().diff(moment(item.onlineAt), 'hours') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'hours') + ' hrs'
+          } else if ( !!moment().diff(moment(item.onlineAt), 'minutes') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'minutes') + ' min'
+          } else if ( !!moment().diff(moment(item.onlineAt), 'seconds') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'seconds') + ' sec'
+          }
+        } else {
+          uptime += uptime > 1 ? ' days' : ' day'
         }
-      } else {
-        uptime += uptime > 1 ? ' days' : ' day'
       }
+
       const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + ' %'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
