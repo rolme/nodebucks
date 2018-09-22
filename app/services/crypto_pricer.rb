@@ -9,7 +9,7 @@ class CryptoPricer
 
   def buy_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = btc_order_price(amount) / amount
+      value = btc_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'buy').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -19,7 +19,7 @@ class CryptoPricer
 
   def sell_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = btc_order_price(amount) / amount
+      value = btc_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'sell').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -79,7 +79,6 @@ class CryptoPricer
     current_reserve  = 0
 
     i = 0
-    Rails.logger.info ">>>>> Crypto: #{crypto.name}"
     while (orders.count > i && required_volume > current_volume) do
       # Check to see if there is reserved volume
       # if there is start reserving until it is filled
@@ -94,9 +93,6 @@ class CryptoPricer
     end
 
     value += (current_volume >= required_volume) ? 0 : orders.last[:price] * (required_volume - current_volume)
-    Rails.logger.info ">>>>> Reserved value: #{(reserved_value == 0) ? 0 : reserved_value / current_reserve} (#{current_reserve})"
-    Rails.logger.info ">>>>> BTC value: #{value / current_volume}"
-    Rails.logger.info ">>>>> total volume: #{orders.map { |o| o[:volume] }.reduce(&:+)}"
     value / current_volume
   end
 end

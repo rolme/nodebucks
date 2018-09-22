@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { valueFormat } from "../lib/helpers";
-import { RESET } from "./user";
+import { valueFormat } from "../lib/helpers"
+import { RESET } from "./user"
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'

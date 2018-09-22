@@ -55,7 +55,7 @@ module NodeManager
           ) if !!persist
         else
           crypto_pricer.sell_price(@avg_btc_usdt)
-          selling_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt
+          selling_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt * crypto.stake
           crypto.update_attribute(:sellable_price, selling_price) if !!persist
         end
       end
