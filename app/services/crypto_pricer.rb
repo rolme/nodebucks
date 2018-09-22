@@ -1,9 +1,15 @@
 class CryptoPricer
+  attr_reader :crypto, :orders
   AMOUNTS = [1, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000]
 
-  def self.buy_price(orders, crypto, btc_usdt)
+  def initialize(crypto, orders=[])
+    @crypto = crypto
+    @orders = orders
+  end
+
+  def buy_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = self.btc_order_price(orders, amount) / amount
+      value = btc_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'buy').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -11,9 +17,9 @@ class CryptoPricer
     end
   end
 
-  def self.sell_price(orders, crypto, btc_usdt)
+  def sell_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = self.btc_order_price(orders, amount) / amount
+      value = btc_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'sell').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -21,7 +27,7 @@ class CryptoPricer
     end
   end
 
-  def self.to_btc(crypto_id, total, type='buy')
+  def to_btc(total, type='buy')
     return 0 if total <= 0
 
     case
@@ -38,10 +44,10 @@ class CryptoPricer
     else amount = 1
     end
 
-    CryptoPrice.find_by(crypto_id: crypto_id, amount: amount, price_type: type).btc * total
+    CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: type).btc * total
   end
 
-  def self.to_usdt(crypto_id, total, type='buy')
+  def to_usdt(total, type='buy')
     return 0 if total <= 0
 
     case
@@ -58,30 +64,35 @@ class CryptoPricer
     else amount = 1
     end
 
-    CryptoPrice.find_by(crypto_id: crypto_id, amount: amount, price_type: type).usdt * total
+    CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: type).usdt * total
   end
 
   # Privatish
-  def self.btc_order_price(orders, limit)
+  def btc_order_price(required_volume)
     return 0.0 if orders.count == 0
-    total  = 0
-    i      = 0
-    value  = 0
+    current_volume  = 0
+    value           = 0
+    reserved_value  = 0
 
-    while (orders.count > i && limit > total) do
-      remaining_units = limit - total
-      volume = (remaining_units <= orders[i][:volume]) ? remaining_units : orders[i][:volume]
-      total += volume
-      value += orders[i][:price] * volume
+    # Determine if we need to reserve any orders
+    required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
+    current_reserve  = 0
+
+    i = 0
+    while (orders.count > i && required_volume > current_volume) do
+      # Check to see if there is reserved volume
+      # if there is start reserving until it is filled
+      if required_reserve > 0 && required_reserve > current_reserve
+        current_reserve += orders[i][:volume]
+        reserved_value  += orders[i][:price] * orders[i][:volume]
+      else
+        current_volume += orders[i][:volume]
+        value          += orders[i][:price] * orders[i][:volume]
+      end
       i += 1
     end
-    return value if self.liquid?(orders, limit)
-    value + orders.last[:price] * (limit - total)
-  end
 
-  # Privatish
-  def self.liquid?(orders, limit)
-    return false if orders.empty?
-    orders.map{ |order| order[:volume] }.reduce(&:+) > limit.to_f
+    value += (current_volume >= required_volume) ? 0 : orders.last[:price] * (required_volume - current_volume)
+    value / current_volume
   end
 end

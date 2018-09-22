@@ -43,7 +43,8 @@ class Crypto < ApplicationRecord
 private
 
   def roi(days, format_type=VALUE)
-    value = daily_reward * days.to_f * price
+    @__usdt_price ||= CryptoPrice.find_by(crypto_id: id, amount: 10, price_type: 'buy').usdt
+    value = daily_reward * days.to_f * @__usdt_price
     (format_type) ? value : value/node_price
   end
 

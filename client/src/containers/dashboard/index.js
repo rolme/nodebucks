@@ -177,6 +177,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
+  masternodes: state.masternodes.list,
   nodes: state.nodes.list,
   error: state.nodes.error,
   message: state.nodes.message,
@@ -189,8 +190,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchNodes,
   fetchAnnouncement,
+  fetchNodes,
   reset,
   resetSellServerMessage
 }, dispatch)

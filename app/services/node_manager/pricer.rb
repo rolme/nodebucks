@@ -44,18 +44,18 @@ module NodeManager
           kucoin: available_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE),
           poloniex: available_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
         }
+        crypto_pricer = CryptoPricer.new(crypto, @orders)
         if (@type == 'sell')
-          CryptoPricer.buy_price(@orders, crypto, @avg_btc_usdt)
-          purchasing_price = @prices[crypto.symbol][:all]
-          coin_price       = purchasing_price / crypto.stake
+          crypto_pricer.buy_price(@avg_btc_usdt)
+          coin_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'buy').usdt
           crypto.update_attributes(
-            node_price: calculate_price(crypto, purchasing_price),
+            node_price: calculate_price(crypto, coin_price * crypto.stake),
             price: coin_price,
-            purchasable_price: purchasing_price
+            purchasable_price: coin_price * crypto.stake
           ) if !!persist
         else
-          CryptoPricer.sell_price(@orders, crypto, @avg_btc_usdt)
-          selling_price = @prices[crypto.symbol][:all]
+          crypto_pricer.sell_price(@avg_btc_usdt)
+          selling_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt * crypto.stake
           crypto.update_attribute(:sellable_price, selling_price) if !!persist
         end
       end
@@ -65,7 +65,6 @@ module NodeManager
     # TOOD: Get what value we can for the amount passed in.
     def to_btc(crypto, amount)
       @orders = gather_orders(crypto)
-      Rails.logger.info ">>>>> gathering orders #{orders.inspect}"
       btc_order_price(@orders, amount)
     end
 
