@@ -42,7 +42,7 @@ module NodeManager
 
     def undisburse(timestamp=DateTime.current)
       return false if node.status == 'disbursed'
-      node.update_attributes(status: 'sold', disbursed_at: nil)
+      node.update_attributes(status: 'sold')
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Undo fund disbursement.")
     end
 
