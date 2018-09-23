@@ -34,6 +34,18 @@ module NodeManager
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server online")
     end
 
+    def disburse(timestamp=DateTime.current)
+      return false if node.status == 'sold'
+      node.update_attributes(status: 'disbursed', disbursed_at: timestamp)
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server down and funds disbursed.")
+    end
+
+    def undisburse(timestamp=DateTime.current)
+      return false if node.status == 'disbursed'
+      node.update_attributes(status: 'sold')
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Undo fund disbursement.")
+    end
+
     def offline(timestamp=DateTime.current)
       return false if node.status != 'online'
       node.update_attribute(:status, 'offline')
@@ -57,6 +69,10 @@ module NodeManager
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+
+      # Get latest prices
+      pricer = NodeManager::Pricer.new({persist: true})
+      pricer.evaluate(node.crypto)
       # TODO: Do we need to track setup fee here?
     end
 

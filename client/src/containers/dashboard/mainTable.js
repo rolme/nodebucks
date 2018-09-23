@@ -21,7 +21,25 @@ class MainTable extends Component {
       if ( a.crypto.name > b.crypto.name ) return 1
       return 0
     }).map(item => {
-      const uptime = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
+      let uptime = '-'
+      if ( !!item.onlineAt ) {
+        item.onlineAt += " +0000"
+        uptime = moment().diff(moment(item.onlineAt), 'days')
+      }
+      if ( uptime !== '-' ) {
+        if ( uptime === 0 ) {
+          if ( !!moment().diff(moment(item.onlineAt), 'hours') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'hours') + ' hrs'
+          } else if ( !!moment().diff(moment(item.onlineAt), 'minutes') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'minutes') + ' min'
+          } else if ( !!moment().diff(moment(item.onlineAt), 'seconds') ) {
+            uptime = moment().diff(moment(item.onlineAt), 'seconds') + ' sec'
+          }
+        } else {
+          uptime += uptime > 1 ? ' days' : ' day'
+        }
+      }
+
       const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + ' %'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
@@ -34,15 +52,15 @@ class MainTable extends Component {
       return (
         <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
-          <td>{uptime} days</td>
-          <td className="leftBorder">{annualRoi}</td>
-          <td>$ {weeklyRoiValue}</td>
-          <td>$ {monthlyRoiValue}</td>
-          <td>$ {yearlyRoiValue}</td>
-          <td className="leftBorder">$ {week}</td>
-          <td>$ {month}</td>
-          <td className="rightBorder">$ {year}</td>
-          <td>{capitalize(item.status)}</td>
+          <td className="text-center">{uptime}</td>
+          <td className="leftBorder text-right">{annualRoi}</td>
+          <td className="text-right">$ {weeklyRoiValue}</td>
+          <td className="text-right">$ {monthlyRoiValue}</td>
+          <td className="text-right">$ {yearlyRoiValue}</td>
+          <td className="leftBorder text-right">$ {week}</td>
+          <td className="text-right">$ {month}</td>
+          <td className="rightBorder text-right">$ {year}</td>
+          <td className="text-center">{capitalize(item.status)}</td>
         </tr>
       )
     })
@@ -72,8 +90,8 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected returns</th>
-                <th colSpan="3" className="rightBorder">Actual returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Projected Returns</th>
+                <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
               <tr>

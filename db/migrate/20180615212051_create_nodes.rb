@@ -16,6 +16,7 @@ class CreateNodes < ActiveRecord::Migration[5.2]
       t.decimal :wallet_balance, default: 0.0
       t.datetime :online_at
       t.datetime :sold_at
+      t.datetime :disbursed_at
       t.string :wallet
       t.string :version
       t.datetime :last_upgraded_at
