@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_22_225847) do
+ActiveRecord::Schema.define(version: 2018_09_22_231409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,8 @@ ActiveRecord::Schema.define(version: 2018_09_22_225847) do
     t.text "profile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "buy_liquidity", default: true
+    t.boolean "sell_liquidity", default: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -136,6 +138,7 @@ ActiveRecord::Schema.define(version: 2018_09_22_225847) do
     t.decimal "wallet_balance", default: "0.0"
     t.datetime "online_at"
     t.datetime "sold_at"
+    t.datetime "disbursed_at"
     t.string "wallet"
     t.string "version"
     t.datetime "last_upgraded_at"
@@ -152,7 +155,6 @@ ActiveRecord::Schema.define(version: 2018_09_22_225847) do
     t.datetime "buy_priced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "disbursed_at"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"

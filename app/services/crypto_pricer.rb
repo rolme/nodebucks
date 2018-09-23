@@ -9,7 +9,7 @@ class CryptoPricer
 
   def buy_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = btc_order_price(amount)
+      value = btc_buy_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'buy').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -19,7 +19,7 @@ class CryptoPricer
 
   def sell_price(btc_usdt)
     AMOUNTS.each do |amount|
-      value = btc_order_price(amount, 'sell')
+      value = btc_sell_order_price(amount)
       CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: 'sell').update(
         btc: value,
         usdt: value * btc_usdt,
@@ -68,18 +68,14 @@ class CryptoPricer
   end
 
   # Privatish
-  def btc_order_price(required_volume, type='buy')
+  def btc_buy_order_price(required_volume)
     return 0.0 if orders.count == 0
     current_volume  = 0
     value           = 0
     reserved_value  = 0
 
     # Determine if we need to reserve any orders
-    if type == 'buy'
-      required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
-    else
-      required_reserve = crypto.nodes.select{ |n| n.status == 'sold' }.count * crypto.stake
-    end
+    required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
     current_reserve  = 0
 
     i = 0
@@ -96,7 +92,37 @@ class CryptoPricer
       i += 1
     end
 
+    crypto.update_attribute(:buy_liquidity, current_volume >= required_volume) if required_volume == crypto.stake
     value += (current_volume >= required_volume) ? 0 : orders.last[:price] * (required_volume - current_volume)
-    value / current_volume
+    (current_volume == 0) ? value / required_volume : value / current_volume
+  end
+
+  def btc_sell_order_price(required_volume)
+    return 0.0 if orders.count == 0
+    current_volume  = 0
+    value           = 0
+    reserved_value  = 0
+
+    # Determine if we need to reserve any orders
+    required_reserve = crypto.nodes.select{ |n| n.status == 'sold' }.count * crypto.stake
+    current_reserve  = 0
+
+    i = 0
+    while (orders.count > i && required_volume > current_volume) do
+      # Check to see if there is reserved volume
+      # if there is start reserving until it is filled
+      if required_reserve > 0 && required_reserve > current_reserve
+        current_reserve += orders[i][:volume]
+        reserved_value  += orders[i][:price] * orders[i][:volume]
+      else
+        current_volume += orders[i][:volume]
+        value          += orders[i][:price] * orders[i][:volume]
+      end
+      i += 1
+    end
+
+    crypto.update_attribute(:sell_liquidity, current_volume >= required_volume) if required_volume == crypto.stake
+    value += (current_volume >= required_volume) ? 0 : orders.last[:price] * (required_volume - current_volume)
+    (current_volume == 0) ? value / required_volume : value / current_volume
   end
 end
