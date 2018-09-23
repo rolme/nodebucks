@@ -17,7 +17,6 @@ class Masternodes extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    const { cryptos } = this.props
 
     this.props.fetchCryptos()
   }
