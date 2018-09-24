@@ -31,7 +31,7 @@ class Article extends Component {
   }
 
   changeTheHash(name) {
-    this.props.history.replace('/masternodes-online#' + name)
+    this.props.history.replace('/what-are-masternodes#' + name)
   }
 
   render() {
@@ -41,11 +41,12 @@ class Article extends Component {
         <div className="contentContainer px-0">
           <Metatags
             description="A masternode is a special node on the blockchain that has enhanced capabilities and voting rights within proof-of-stake (PoS) coins. By owning a masternode, the masternode operator is rewarded by the network for the time and energy of operating the node."
+            image="/assets/images/article/articleThumbnail.jpg"
             title="What is a Masternode? Step by Step Guide - Nodebucks"
           />
           <h1 className="articleHeader mt-3 text-center"><b>What is a Masternode?</b></h1>
           <h2 className="articleHeader mb-2 text-center"><b>Step by Step Guide</b></h2>
-          <img src="/assets/images/article/articleThumbnail.jpeg" alt="What is a Masternode? Step by Step Guide - Nodebucks"/>
+          <img src="/assets/images/article/articleThumbnail.jpg" alt="What is a Masternode? Step by Step Guide - Nodebucks"/>
           <p className="articleParagraph"> If you’re looking for ways to make money in the world of cryptocurrencies, you should know that there are quite a few. </p>
           <p className="articleParagraph"> You can strategically buy and sell cryptocurrencies through online exchanges using technical analysis, also known as day trading. However, this is very difficult and most day traders do not outperform the general market. You would need to be well-informed and thoroughly understand both the projects and how to read charts. </p>
           <p className="articleParagraph"> You could invest long term, the buy and hold strategy, also known as HODL’ing, but this won’t yield you much money in the short term. This is a multi year strategy. </p>

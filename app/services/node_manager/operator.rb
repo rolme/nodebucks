@@ -35,13 +35,13 @@ module NodeManager
     end
 
     def disburse(timestamp=DateTime.current)
-      return false if node.status == 'sold'
+      return false if node.status != 'sold'
       node.update_attributes(status: 'disbursed', disbursed_at: timestamp)
-      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server down and funds disbursed.")
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server stopped and funds disbursed.")
     end
 
     def undisburse(timestamp=DateTime.current)
-      return false if node.status == 'disbursed'
+      return false if node.status != 'disbursed'
       node.update_attributes(status: 'sold')
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Undo fund disbursement.")
     end

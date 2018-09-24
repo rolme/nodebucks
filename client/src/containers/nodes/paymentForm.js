@@ -34,7 +34,7 @@ class PaymentForm extends React.Component {
   }
 
   onSuccess = (payment) => {
-    this.props.onPurchase(payment, this.props.setAsPurchased)
+    this.props.onPurchase(payment)
   }
 
   onError = (err) => {
@@ -43,7 +43,7 @@ class PaymentForm extends React.Component {
 
   render() {
     const { message, checkbox, checkboxError } = this.state
-    const { purchasing } = this.props
+    const { purchasing, node } = this.props
 
     return (
       <div>
@@ -74,7 +74,9 @@ class PaymentForm extends React.Component {
                 defaultChecked={checkbox}
                 onChange={this.toggleCheckbox}
               />
-              &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>, <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>, and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
+              &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>, 
+                <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>, 
+                and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
             </Label>
           </FormGroup>
           {!!checkboxError &&
@@ -87,7 +89,7 @@ class PaymentForm extends React.Component {
             env={process.env.REACT_APP_PAYPAL_MODE}
             client={CLIENT}
             currency={'USD'}
-            total={1.00}
+            total={process.env.NODE_ENV === 'development' ? 1.00 : node.cost}
             onSuccess={this.onSuccess}
             onError={this.onError}
             style={{ width: 500 }}

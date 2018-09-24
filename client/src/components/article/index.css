@@ -8,7 +8,8 @@
 }
 
 .articleParagraph {
-  font-size: 15px;
+  font-size: 18px;
+  line-height: 2;
   font-family: 'Raleway';
   margin-bottom: 5px;
   width: 100%;
@@ -21,4 +22,5 @@
 
 .articleClickable {
   cursor: pointer;
+  color: #007bff;
 }

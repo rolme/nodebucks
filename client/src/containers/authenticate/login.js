@@ -19,6 +19,8 @@ import {
   socialMediaLogin 
 } from '../../reducers/user.js'
 
+import Metatags from "../../components/metatags";
+
 class LogIn extends Component {
   constructor(props) {
     super(props)
@@ -167,6 +169,7 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
+        <Metatags/>
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
