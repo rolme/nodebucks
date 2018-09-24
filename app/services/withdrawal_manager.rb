@@ -6,15 +6,13 @@ class WithdrawalManager
     @user         = user
     @withdrawal   = my_withdrawal
     @withdrawal ||= Withdrawal.find_by(user_id: user.id, status: 'reserved')
-    if(!@withdrawal)
-      @withdrawal ||= Withdrawal.new(
-        amount_btc: user.total_balance[:btc],
-        amount_usd: user.total_balance[:usd],
-        balances: user.balances,
-        user_id: user.id,
-        status: 'reserved'
-      )
-    end
+    @withdrawal ||= Withdrawal.new(
+      amount_btc: user.total_balance[:btc],
+      amount_usd: user.total_balance[:usd],
+      balances: user.balances,
+      user_id: user.id,
+      status: 'reserved'
+    )
   end
 
   def confirm(params)
