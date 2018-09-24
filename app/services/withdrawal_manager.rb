@@ -6,13 +6,15 @@ class WithdrawalManager
     @user         = user
     @withdrawal   = my_withdrawal
     @withdrawal ||= Withdrawal.find_by(user_id: user.id, status: 'reserved')
-    @withdrawal ||= Withdrawal.new(
-      amount_btc: user.total_balance[:btc],
-      amount_usd: user.total_balance[:usd],
-      balances: user.balances,
-      user_id: user.id,
-      status: 'reserved'
-    )
+    if(!@withdrawal)
+      @withdrawal ||= Withdrawal.new(
+        amount_btc: user.total_balance[:btc],
+        amount_usd: user.total_balance[:usd],
+        balances: user.balances,
+        user_id: user.id,
+        status: 'reserved'
+      )
+    end
   end
 
   def confirm(params)
@@ -76,7 +78,7 @@ protected
       tm = TransactionManager.new(account)
       tm.withdraw(withdrawal)
     end
-    TransactionManager.withdraw_affiliate_reward(withdrawal)
+    TransactionManager.withdraw_affiliate_reward(withdrawal) if user.affiliate_balance > 0
     @withdrawal.update_attribute(:status, 'pending')
   end
 
