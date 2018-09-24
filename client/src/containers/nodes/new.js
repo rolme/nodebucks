@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
@@ -16,7 +16,8 @@ import { faSyncAlt } from '@fortawesome/fontawesome-free-solid'
 
 import {
   purchaseNode,
-  reserveNode
+  reserveNode,
+  fetchNodes,
 } from '../../reducers/nodes'
 
 import { valueFormat } from "../../lib/helpers"
@@ -31,7 +32,6 @@ class NewNode extends Component {
       validPrice: true,
       spreadTooltipOpen: false,
       purchasing: false,
-      purchased: false,
     }
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handlePurchase = this.handlePurchase.bind(this)
@@ -89,21 +89,15 @@ class NewNode extends Component {
     this.setState({ validPrice: false })
   }
 
-  handlePurchase(paymentResponse, callback) {
+  handlePurchase(paymentResponse) {
     const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(paymentResponse, node.slug, callback)
+    this.props.purchaseNode(paymentResponse, node.slug, () => { this.props.fetchNodes() })
   }
 
   togglePurchasingStatus = () => {
     this.setState({
       purchasing: !this.state.purchasing
-    })
-  }
-
-  setAsPurchased = () => {
-    this.setState({
-      purchased: !this.state.purchased
     })
   }
 
@@ -122,8 +116,8 @@ class NewNode extends Component {
     const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
-    if ( nodeMessage === 'Purchase node successful.' ) {
-      history.push('/dashboard')
+    if (purchasing) {
+      return <Redirect to='/dashboard' />
     }
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
@@ -184,10 +178,10 @@ class NewNode extends Component {
           <PaymentMethod
             slug={item.nodeSlug}
             onPurchase={this.handlePurchase}
-            setAsPurchased={this.setAsPurchased}
             togglePurchasingStatus={this.togglePurchasingStatus}
             refreshing={refreshing}
             purchasing={purchasing}
+            node={this.props.node}
           />
         </div>
       </Col>
@@ -315,7 +309,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCrypto,
   purchaseNode,
-  reserveNode
+  reserveNode,
+  fetchNodes,
 }, dispatch)
 
 export default withRouter(connect(
