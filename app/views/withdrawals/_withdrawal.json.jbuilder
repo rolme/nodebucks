@@ -5,13 +5,13 @@ json.amount do
   json.btc withdrawal.amount_btc
   json.usd withdrawal.amount_usd
 end
-json.balances withdrawal.user.balances.each do |balance|
-  json.hasNodes balance[:has_nodes]
-  json.name balance[:name]
-  json.slug balance[:slug]
-  json.symbol balance[:symbol]
-  json.usd balance[:usd]
-  json.value balance[:value]
+json.balances withdrawal.balances.each do |balance|
+  json.hasNodes balance["has_nodes"]
+  json.name balance["name"]
+  json.slug balance["slug"]
+  json.symbol balance["symbol"]
+  json.usd balance["usd"]
+  json.value balance["value"]
 end
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)
