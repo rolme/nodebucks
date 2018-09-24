@@ -51,7 +51,8 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    if ( newNode.status === 'sold' ) {
+    console.log(newNode)
+    if ( newNode.status === 'sold' || !newNode.crypto.liquidity.sell ) {
       this.props.history.push('/dashboard')
       return
     }
@@ -265,7 +266,7 @@ class SellNode extends Component {
       return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( !node || !node.sellPrice || refreshing || !node.crypto.liquidity.sell) {
+    if ( !node || !node.sellPrice || refreshing || !node.crypto.liquidity.sell ) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
 
