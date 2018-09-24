@@ -9,6 +9,7 @@ import { RingLoader } from 'react-spinners'
 import { Container, Col, Button } from 'reactstrap'
 import './index.css'
 import { valueFormat } from "../../lib/helpers"
+import PriceGraph from "./priceLineGraph"
 
 import {
   fetchMasternode
@@ -96,6 +97,7 @@ class CoinInfo extends Component {
               </Col>
             </Col>
           </Col>
+          <PriceGraph data={data}/>
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
