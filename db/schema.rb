@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 2018_09_22_231409) do
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "two_fa_secret"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
