@@ -82,7 +82,7 @@ class App extends Component {
               <PublicRoute exact path="/reset_password/:slug" component={ResetPassword}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/terms" component={Terms}/>
-              <PublicRoute exact path="/masternodes-online" component={Article}/>
+              <PublicRoute exact path="/what-are-masternodes" component={Article}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute exact path="/contact" component={Contact}/>
