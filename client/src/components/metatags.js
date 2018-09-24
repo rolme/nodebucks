@@ -25,6 +25,7 @@ export default class Metatags extends Component {
     const { description, title, url, image } = this.state
     return(
       <Helmet>
+        <meta name="keywords" content="masternodes masternode node blockchain" />
         <meta name="description" content={description} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
