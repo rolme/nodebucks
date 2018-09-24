@@ -49,6 +49,19 @@ class NewNode extends Component {
     this.checkPriceDataAvailability()
   }
 
+
+  componentWillReceiveProps(nextProps) {
+    const { node, crypto } = nextProps
+    let buyLiquidity = true
+    if ( !!node && !!node.crypto && !!node.crypto.liquidity ) {
+      buyLiquidity = node.crypto.liquidity.buy
+    } else if ( !!crypto && !!crypto.liquidity ) {
+      buyLiquidity = crypto.liquidity.buy
+    }
+    !buyLiquidity && this.props.history.push('/dashboard')
+
+  }
+
   checkPriceDataAvailability() {
     const that = this
     const { crypto, node, user } = this.props
