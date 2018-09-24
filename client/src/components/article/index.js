@@ -41,6 +41,7 @@ class Article extends Component {
         <div className="contentContainer px-0">
           <Metatags
             description="A masternode is a special node on the blockchain that has enhanced capabilities and voting rights within proof-of-stake (PoS) coins. By owning a masternode, the masternode operator is rewarded by the network for the time and energy of operating the node."
+            image="/assets/images/article/articleSocialShare.jpg"
             title="What is a Masternode? Step by Step Guide - Nodebucks"
           />
           <h1 className="articleHeader mt-3 text-center"><b>What is a Masternode?</b></h1>
