@@ -62,9 +62,9 @@ class Home extends Component {
           </div>
         </div>
         <div className="homeAboutContainer">
-          <div className="contentContainer flex-wrap">
+          <div className="contentContainer align-items-start flex-wrap">
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="d-flex justify-content-center">
-              <img src="/assets/images/illustration.png" alt='Illustration'/>
+              <img src="/assets/images/dashboard.png" alt='dashboard'/>
             </Col>
             <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 10, offset: 1 }} className="homeAboutTextPartContainer">
               <h1>Blockchain is the Future</h1>
