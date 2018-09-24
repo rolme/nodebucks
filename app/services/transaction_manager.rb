@@ -77,7 +77,10 @@ class TransactionManager
     user = withdrawal.user
     balance = user.affiliate_balance
     txn = Transaction.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
-    withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)
-    txn.update_attribute(:status, 'processed')
+    
+    Account.transaction do
+      withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)
+      txn.update_attribute(:status, 'processed')
+    end
   end
 end
