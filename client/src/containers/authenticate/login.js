@@ -5,14 +5,21 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
-
+import speakeasy from 'speakeasy'
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import { capitalize } from '../../lib/helpers'
 import SocialButton from './socialButton'
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { login, reset, socialMediaLogin } from '../../reducers/user.js'
+import { 
+  login,
+  get2FASecret, 
+  reset, 
+  socialMediaLogin 
+} from '../../reducers/user.js'
+
+import Metatags from "../../components/metatags";
 
 class LogIn extends Component {
   constructor(props) {
@@ -21,15 +28,18 @@ class LogIn extends Component {
     this.state = {
       email: '',
       password: '',
+      token: '',
       showPassword: false,
       rememberMe: false,
       messages: {
         email: '',
         password: '',
+        token: '',
       },
       errors: {
         email: false,
         password: false,
+        token: false
       }
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
@@ -72,9 +82,33 @@ class LogIn extends Component {
     this.setState({ [name]: !this.state[ name ] })
   }
 
+  validateToken() {
+    const { email, password, token } = this.state
+    let isTokenValid = false
+    this.props.get2FASecret({ email, password }, (response) => {
+      if(response.status === 'ok' && response.enabled_2fa) {  // if user is enabled 2FA
+        isTokenValid = speakeasy.totp.verify({ 
+          secret: response.secret,
+          encoding: 'ascii',
+          token: token,
+        })
+      } else if(response.status === 'ok' && !response.enabled_2fa) { // if user is not enabled 2FA
+        isTokenValid = true
+      } else if(response.status === 'error') {
+        this.setState({ messages: { token: '' } , errors: { token: false } })
+        return
+      }
+
+      if(isTokenValid)
+        this.props.login({ email, password })
+      else
+        this.setState({ messages: { token: 'Auth token is invalid' } , errors: { token: true } })
+    })
+  }
+
   validation() {
     const { email, password } = this.state
-    let isValid = true, messages = { email: '*Required', password: '*Required' }, errors = { email: false, password: false }
+    let isValid = true, messages = { email: '*Required', password: '*Required', token: '' }, errors = { email: false, password: false, token: false }
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'
@@ -94,7 +128,7 @@ class LogIn extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && this.props.login({ email, password })
+    isValid && this.validateToken()
   }
 
   toggleElement(name) {
@@ -112,7 +146,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { email, password, showPassword, messages, errors, rememberMe } = this.state
+    const { email, password, showPassword, token, messages, errors, rememberMe } = this.state
     const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
@@ -135,6 +169,7 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
+        <Metatags/>
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
@@ -173,6 +208,15 @@ class LogIn extends Component {
                           onAddonClick={this.onAddonClick}
                           onKeyPress={true}
               />
+              <InputField label='Token (only if enabled 2FA)'
+                          name="token"
+                          id='logInToken'
+                          value={token}
+                          message={messages.token}
+                          error={errors.token}
+                          handleFieldValueChange={this.handleFieldValueChange}
+                          onKeyPress={true}
+              />
               <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 flex-row justify-content-between">
                 <FormGroup className="rememberMeCheckboxContainer">
                   <Label className="rememberMeCheckBox">
@@ -205,7 +249,12 @@ const mapStateToProps = state => ({
   message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ login, reset, socialMediaLogin }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  login,
+  get2FASecret,
+  reset,
+  socialMediaLogin,
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,

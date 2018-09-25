@@ -99,18 +99,19 @@ class User < ApplicationRecord
           symbol: crypto.symbol,
           usd: 0.0,
           value: 0.0,
-          wallet: nil
+          wallet: nil,
         }
       else
+        crypto_pricer = CryptoPricer.new(account.crypto)
         {
           fee: crypto.percentage_conversion_fee,
           has_nodes: filtered_nodes.present?,
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: CryptoPricer.to_usdt(account.crypto_id, account.balance),
+          usd: crypto_pricer.to_usdt(account.balance, 'sell'),
           value: account.balance,
-          wallet: account.wallet
+          wallet: account.wallet,
         }
       end
     end
@@ -124,9 +125,12 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      btc += CryptoPricer.to_btc(account.crypto_id, account.balance)
-      usd += CryptoPricer.to_usdt(account.crypto_id, account.balance)
+      crypto_pricer = CryptoPricer.new(account.crypto)
+      btc += crypto_pricer.to_btc(account.balance, 'sell')
+      usd += crypto_pricer.to_usdt(account.balance, 'sell')
     end
+    usd += affiliate_balance
+    btc += Utils.usd_to_btc(affiliate_balance)
     { btc: btc, usd: usd }
   end
 

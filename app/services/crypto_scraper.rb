@@ -23,7 +23,7 @@ class CryptoScraper
         driver.goto path
         browser = driver.wd
       end
-      sleep 1
+      sleep 5
 
       begin
         crypto.estimated_node_price   = browser.find_elements(tag_name: 'mnp-data-box')[1].text&.split(/\n/).first.gsub(/[^\d\.]/, '').to_f

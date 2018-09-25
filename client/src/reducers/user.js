@@ -48,6 +48,15 @@ export const REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE = 'user/REQUEST_UPDATE_VE
 export const UPDATE_PROFILE = 'user/UPDATE_PROFILE'
 export const UPDATE_PROFILE_SUCCESS = 'user/UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_FAILURE = 'user/UPDATE_PROFILE_FAILURE'
+export const ENABLE_2FA = 'user/ENABLE_2FA'
+export const ENABLE_2FA_SUCCESS = 'user/ENABLE_2FA_SUCCESS'
+export const ENABLE_2FA_FAILURE = 'user/ENABLE_2FA_FAILURE'
+export const DISABLE_2FA = 'user/DISABLE_2FA'
+export const DISABLE_2FA_SUCCESS = 'user/DISABLE_2FA_SUCCESS'
+export const DISABLE_2FA_FAILURE = 'user/DISABLE_2FA_FAILURE'
+export const GET_2FA_SECRET = 'user/GET_2FA_SECRET'
+export const GET_2FA_SECRET_SUCCESS = 'user/GET_2FA_SECRET_SUCCESS'
+export const GET_2FA_SECRET_FAILURE = 'user/GET_2FA_SECRET_FAILURE'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 
@@ -137,6 +146,20 @@ export default (state = initialState, action) => {
         token: ''
       }
 
+    case GET_2FA_SECRET:
+      return {
+        ...state,
+        logInError: false,
+        logInMessage: null,
+      }
+
+    case GET_2FA_SECRET_FAILURE:
+      return {
+        ...state,
+        logInError: true,
+        logInMessage: action.payload,
+      }
+
     case REGISTER_USER:
       return {
         ...state,
@@ -212,6 +235,15 @@ export default (state = initialState, action) => {
         error: false,
         message: action.payload.message,
         pending: false,
+        token: action.payload.token
+      }
+
+    case ENABLE_2FA_SUCCESS:
+    case DISABLE_2FA_SUCCESS:
+      localStorage.setItem('jwt-nodebucks', action.payload.token)
+      return {
+        ...state,
+        data: jwt_decode(action.payload.token),
         token: action.payload.token
       }
 
@@ -430,6 +462,7 @@ export function fetchUsers() {
 }
 
 export function login(data) {
+  console.log('Login entered!!!!')
   return dispatch => {
     dispatch({ type: LOGIN_USER })
 
@@ -697,6 +730,51 @@ export function impersonate(slug, callback) {
     })
       .catch((error) => {
         dispatch({ type: REQUEST_IMPERSONATE_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function enable2FA(slug, secret, callback) {
+  return dispatch => {
+    dispatch({ type: ENABLE_2FA })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/users/${slug}/enable_2fa`, { user: { two_fa_secret: secret }}).then(response => {
+      dispatch({ type: ENABLE_2FA_SUCCESS, payload: response.data })
+      callback(response.data)
+    })
+      .catch((error) => {
+        dispatch({ type: ENABLE_2FA_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function disable2FA(slug, callback) {
+  return dispatch => {
+    dispatch({ type: DISABLE_2FA })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.patch(`/api/users/${slug}/disable_2fa`).then(response => {
+      dispatch({ type: DISABLE_2FA_SUCCESS, payload: response.data })
+      callback(response.data)
+    })
+      .catch((error) => {
+        dispatch({ type: DISABLE_2FA_FAILURE, payload: error.message })
+      })
+  }
+}
+
+export function get2FASecret(data, callback) {
+  return dispatch => {
+    dispatch({ type: GET_2FA_SECRET })
+    axios.post(`/api/users/secret_2fa`, data).then(response => {
+      if (response.data.status === 'ok' ) {
+        dispatch({ type: GET_2FA_SECRET_SUCCESS, payload: response.data })
+        callback(response.data)
+      } else {
+        dispatch({ type: GET_2FA_SECRET_FAILURE, payload: 'Email and/or password is invalid.' })
+      }
+    })
+      .catch((error) => {
+        dispatch({ type: GET_2FA_SECRET_FAILURE, payload: error.message })
       })
   }
 }

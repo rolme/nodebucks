@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
-  before_action :authenticate_admin_request, only: [:offline, :online]
+  before_action :authenticate_admin_request, only: [:offline, :online, :disburse]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -63,6 +63,28 @@ class NodesController < ApplicationController
       @node.reload
     end
     render :show
+  end
+
+  def disburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    if operator.disburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to disburse funds. Is it sold?' }
+    end
+  end
+
+  def undisburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    if operator.undisburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to undo disbursement. Was it disbursed?' }
+    end
   end
 
   def purchase

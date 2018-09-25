@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_17_203130) do
+ActiveRecord::Schema.define(version: 2018_09_22_231409) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_203130) do
     t.decimal "usdt", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "price_type", default: "buy"
     t.index ["crypto_id"], name: "index_crypto_prices_on_crypto_id"
   end
 
@@ -97,6 +99,8 @@ ActiveRecord::Schema.define(version: 2018_09_17_203130) do
     t.text "profile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "buy_liquidity", default: true
+    t.boolean "sell_liquidity", default: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -152,6 +156,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_203130) do
     t.datetime "buy_priced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "disbursed_at"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
@@ -245,6 +250,7 @@ ActiveRecord::Schema.define(version: 2018_09_17_203130) do
     t.boolean "verified", default: false
     t.boolean "verification_pending", default: false
     t.string "verification_image"
+    t.string "two_fa_secret"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 

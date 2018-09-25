@@ -91,6 +91,18 @@
   display: none;
 }
 
+.spreadWarningMessageContainer {
+  font-family: 'Raleway';
+  color: #d32a2e;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.spreadWarningMessageContainer > p {
+  margin-bottom: 0;
+  text-align: center;
+}
+
 .purchasePagePricingInfoPartContainer {
   background-color: #FAFAFA;
   padding: 20px 0;
@@ -702,9 +714,12 @@ dt {
 }
 
 .withdrawPageInformationPartContainer {
+  margin: 0 auto;
   background-color: #EDEDED;
   padding: 20px 20px 5px;
-  margin: 30px 0 25px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  /*margin: 30px 0 25px 0;*/
 }
 
 .withdrawInformationPartHeaderLabel {

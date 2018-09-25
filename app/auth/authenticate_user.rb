@@ -30,6 +30,7 @@ class AuthenticateUser
       zipcode: user.zipcode,
       verified: user.verified_at,
       admin: user.admin,
+      enabled2FA: @user.two_fa_secret.present?,
     }) if user
   end
 

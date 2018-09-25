@@ -142,14 +142,14 @@ class Header extends Component {
               <NavLink to="/" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Home</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
-              <NavLink to="/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliate Program</NavLink>
+              <NavLink to="/what-are-masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Learn</NavLink>
             </Col>
             }
             {!!user &&
             <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
               <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
               <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
-              <NavLink to="/dashboard/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliate</NavLink>
+              <NavLink to="/what-are-masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Learn</NavLink>
               <div className="dropdown-divider authMenuDivider"></div>
               <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
             </Col>

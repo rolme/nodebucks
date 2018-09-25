@@ -72,7 +72,11 @@ class Node < ApplicationRecord
 
   # TODO: More math needed here
   def reward_total
-    rewards.map(&:total_amount).reduce(&:+) || 0.0
+    return @__reward_total if @__reward_total.present?
+
+     total = rewards.map(&:total_amount).reduce(&:+) || 0.0
+     crypto_pricer = CryptoPricer.new(crypto)
+     @__reward_total = crypto_pricer.to_usdt(total, 'sell')
   end
 
   def week_reward
@@ -113,6 +117,10 @@ private
   def reward_timeframe(timeframe)
     now   = DateTime.current
     range = ((now-timeframe)..now)
-    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:usd_value).reduce(&:+) || 0.0
+    # rewards.select{ |r| range.cover?(r.timestamp) }.map(&:usd_value).reduce(&:+) || 0.0
+
+    total = rewards.select{ |r| range.cover?(r.timestamp) }.map(&:total_amount).reduce(&:+) || 0.0
+    crypto_pricer = CryptoPricer.new(crypto)
+    crypto_pricer.to_usdt(total, 'sell')
   end
 end

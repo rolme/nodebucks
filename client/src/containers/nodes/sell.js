@@ -265,7 +265,7 @@ class SellNode extends Component {
       return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( !node || !node.sellPrice || refreshing ) {
+    if ( !node || !node.sellPrice || refreshing || !node.crypto.liquidity.sell) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
 
