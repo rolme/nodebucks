@@ -60,7 +60,7 @@ class CoinInfo extends Component {
             </Col>
             <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
               <p className="coinInfoHeaderPrice">$ {valueFormat(data.nodePrice, 2)} <span>USD</span></p>
-              { this.displayActionButton(data) }
+              {this.displayActionButton(data)}
             </Col>
           </Col>
           <Col className="coinInfoMainDataPartContainer px-0">
@@ -97,11 +97,11 @@ class CoinInfo extends Component {
               </Col>
             </Col>
           </Col>
-          <PriceGraph data={data}/>
+          <PriceGraph symbol={data.symbol} name={data.name} showPriceGraph={true}/>
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p dangerouslySetInnerHTML={{ __html: data.profile}}/>
+              <p dangerouslySetInnerHTML={{ __html: data.profile }}/>
             </div>
           </Col>
         </div>
@@ -110,14 +110,14 @@ class CoinInfo extends Component {
   }
 
   displayActionButton(masternode) {
-    if (masternode.nodePrice < 50000 && masternode.liquidity.buy) {
-      return(
+    if ( masternode.nodePrice < 50000 && masternode.liquidity.buy ) {
+      return (
         <NavLink to={`/nodes/${masternode.slug}/new`}>
           <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
         </NavLink>
       )
     } else {
-      return(
+      return (
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>

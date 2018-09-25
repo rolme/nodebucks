@@ -25,6 +25,9 @@ export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
 export const REFRESH = 'nodes/REFRESH'
+export const FETCH_PRICE = "reports/FETCH_PRICE"
+export const FETCH_PRICE_SUCCESS = "reports/FETCH_PRICE_SUCCESS"
+export const FETCH_PRICE_FAILURE = "reports/FETCH_PRICE_FAILURE"
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -32,7 +35,11 @@ const initialState = {
   list: [],
   pending: false,
   error: false,
-  message: ''
+  message: '',
+  priceData: [],
+  priceError: false,
+  pricpricePendingeError: false,
+  priceMessage: ''
 }
 
 // STATE ///////////////////////////////////////////////////////////////////////
@@ -45,7 +52,10 @@ export default (state = initialState, action) => {
         list: [],
         pending: false,
         error: false,
-        message: ''
+        message: '',
+        priceError: false,
+        pricePending: false,
+        priceMessage: ''
       }
     case FETCH:
     case FETCH_LIST:
@@ -144,7 +154,30 @@ export default (state = initialState, action) => {
         data: action.payload,
         pending: false,
         error: false,
-        message:`You have successfully sold your ${action.payload.crypto.name} Masternode for $${valueFormat(+action.payload.sellPrice, 2)}. You will no longer receive rewards for that server. Your payment will be sent within 3 days. Thank you.`
+        message: `You have successfully sold your ${action.payload.crypto.name} Masternode for $${valueFormat(+action.payload.sellPrice, 2)}. You will no longer receive rewards for that server. Your payment will be sent within 3 days. Thank you.`
+      }
+
+    case FETCH_PRICE:
+      return {
+        ...state,
+        priceError: false,
+        priceMessage: null,
+        pricePending: true
+      }
+    case FETCH_PRICE_SUCCESS:
+      return {
+        ...state,
+        priceData: action.payload.data,
+        priceError: false,
+        priceMessage: action.payload.message,
+        pricePending: false
+      }
+    case FETCH_PRICE_FAILURE:
+      return {
+        ...state,
+        priceError: true,
+        priceMessage: action.payload ? action.payload.message : '',
+        pricePending: false,
       }
 
     default:
@@ -264,5 +297,27 @@ export function sellNode(slug, data) {
 export function reset() {
   return dispatch => {
     dispatch({ type: RESET })
+  }
+}
+
+export const fetchPrice = (symbol, daysAmount, type) => {
+  return dispatch => {
+    dispatch({ type: FETCH_PRICE })
+    daysAmount = !!daysAmount ? daysAmount : 2000
+    type = !!type ? type : 'day'
+    delete axios.defaults.headers.common[ "Authorization" ]
+    axios.get(`https://min-api.cryptocompare.com/data/histo${type}?fsym=${symbol}&tsym=USD&limit=${daysAmount}`)
+      .then(response => {
+        if ( response.data.Response === 'error' ) {
+          dispatch({ type: FETCH_PRICE_FAILURE, payload: response.data })
+        } else {
+          const difference = Date.now() - daysAmount * 24 * 60 * 60 * 1000
+          const data = response.data.Data.filter(el => el.time * 1000 >= difference)
+          const { Message = 'Success' } = response.data
+          dispatch({ type: FETCH_PRICE_SUCCESS, payload: { data, message: Message } })
+        }
+      }).catch(err => {
+      dispatch({ type: FETCH_PRICE_FAILURE, payload: err.data })
+    })
   }
 }

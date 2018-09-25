@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import moment from 'moment'
 import { RingLoader } from 'react-spinners'
 import ReactHighstock from 'react-highcharts/ReactHighstock'
+import {fetchPrice} from '../../reducers/nodes'
 import { Container, Row, Col } from 'reactstrap'
 
-export default class PriceGraph extends Component {
+class PriceGraph extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -28,6 +31,16 @@ export default class PriceGraph extends Component {
     this.onPeriodChange = this.onPeriodChange.bind(this)
   }
 
+
+  componentWillMount() {
+    this.props.fetchPrice(this.props.symbol, this.state.daysAmount)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { data } = nextProps
+    this.setState({ data })
+  }
+
   renderZoomButtons() {
     const { zoomOptions, daysAmount } = this.state
     return zoomOptions.map((option, index) => {
@@ -37,7 +50,7 @@ export default class PriceGraph extends Component {
 
   onPeriodChange(amount, type) {
     const daysAmount = amount
-    //this.props.fetchPrice(this.props.symbol, daysAmount, type)
+    this.props.fetchPrice(this.props.symbol, daysAmount, type)
     this.setState({ daysAmount })
   }
 
@@ -57,14 +70,14 @@ export default class PriceGraph extends Component {
     let data = [], volume = []
     const { daysAmount, scaleType } = this.state
     const label = this.props.name + ' (' + this.props.symbol + ')'
-    /*this.props.data.forEach(el => {
+    this.state.data.forEach(el => {
       if ( !!el.close || !!el.high || !!el.low || !!el.open || !!el.volumefrom || !!el.volumeto ) {
         data.push([ el.time * 1000, el.open, el.high, el.low, el.close ])
         if ( !!el.close || !!el.high || !!el.low || !!el.open || !!el.volumefrom || !!el.volumeto ) {
           volume.push([ el.time * 1000, el.volumeto ])
         }
       }
-    })*/
+    })
 
     let tickInterval = null
     let dateTimeLabelFormat = "%b '%y"
@@ -203,28 +216,78 @@ export default class PriceGraph extends Component {
   }
 
   render() {
+    const { pending, showPriceGraph } = this.props
+    if ( pending ) {
+      return (
+        <Container fluid className="p-0">
+          <div className="spinnerContainer">
+            <RingLoader
+              size={150}
+              color={'#FD552D'}
+              loading={true}
+            />
+          </div>
+        </Container>
+      )
+    }
     return (
       <Row>
-        <Container fluid className="bg-white priceGraphsPartContainer">
-          <Col>
-            <p className="sectionTitle mb-3">Price Chart</p>
-          </Col>
-          <Container fluid className="p-0 mr-2">
-            <Col className="d-flex pr-0">
-              <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 3, offset: 0 }} sm={{ size: 3, offset: 0 }} xs={{ size: 4, offset: 0 }} className="lineGraphZoomButtonsContainer pl-0">
-                <p className="lineGraphZoomButtonsLabel">Value:</p>
-                {this.renderValueButtons()}
-              </Col>
-              <Col xl={{ size: 6, offset: 1 }} lg={{ size: 7, offset: 1 }} md={{ size: 7, offset: 2 }} sm={{ size: 7, offset: 2 }} xs={{ size: 7, offset: 1 }} className="lineGraphZoomButtonsContainer pr-0">
-                <p className="lineGraphZoomButtonsLabel">Zoom:</p>
-                {this.renderZoomButtons()}
-              </Col>
+        <Col xl={12} lg={12} md={12} sm={12}>
+          { showPriceGraph &&
+          <Container fluid className="bg-white priceGraphsPartContainer">
+            <Col>
+              <p className="sectionTitle mb-3">Price Chart</p>
             </Col>
-            <ReactHighstock config={this.lineGraphConfig()}/>
+            <Container fluid className="p-0 mr-2">
+              <Col className="d-flex pr-0">
+                <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 3, offset: 0 }} sm={{ size: 3, offset: 0 }} xs={{ size: 4, offset: 0 }} className="lineGraphZoomButtonsContainer pl-0">
+                  <p className="lineGraphZoomButtonsLabel">Value:</p>
+                  {this.renderValueButtons()}
+                </Col>
+                <Col xl={{ size: 6, offset: 1 }} lg={{ size: 7, offset: 1 }} md={{ size: 7, offset: 2 }} sm={{ size: 7, offset: 2 }} xs={{ size: 7, offset: 1 }} className="lineGraphZoomButtonsContainer pr-0">
+                  <p className="lineGraphZoomButtonsLabel">Zoom:</p>
+                  {this.renderZoomButtons()}
+                </Col>
+              </Col>
+              {pending &&
+              <Container fluid className="p-0">
+                <div className="spinnerContainer">
+                  <RingLoader
+                    size={150}
+                    color={'#FD552D'}
+                    loading={true}
+                  />
+                </div>
+              </Container>
+              }
+              {!pending &&
+              <ReactHighstock config={this.lineGraphConfig()}/>
+              }
+            </Container>
           </Container>
-        </Container>
+          }
+        </Col>
       </Row>
     )
   }
 }
+
+
+
+const mapStateToProps = state => ({
+  data: state.nodes.priceData,
+  error: state.nodes.priceError,
+  message: state.nodes.priceMessage,
+  pending: state.nodes.pricePending
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchPrice,
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PriceGraph)
+
 
