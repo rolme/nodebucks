@@ -79,8 +79,7 @@ class App extends Component {
           <meta name="twitter:title" content="test title" />
           <meta name="twitter:image" content='https://nodebucks.com/assets/images/og_nodebucks.png'/>
           <meta name="twitter:description" content="test description"  />
-          <title>{title}</title>
-          {this.props.children}
+          <title>Test Title</title>
         </Helmet>
         )
         <Reloader timer="300" onExpire={this.toggleReloadRequestAlert}/>
