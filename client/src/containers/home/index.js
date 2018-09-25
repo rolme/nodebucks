@@ -10,8 +10,7 @@ import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
-import { Helmet } from "react-helmet"
-import MetaTags from 'react-meta-tags'
+import DocumentMeta from 'react-document-meta'
 
 class Home extends Component {
   constructor(props) {
