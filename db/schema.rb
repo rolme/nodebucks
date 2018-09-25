@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_22_231409) do
+ActiveRecord::Schema.define(version: 2018_09_25_100145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2018_09_22_231409) do
     t.integer "amount"
     t.decimal "btc", default: "0.0"
     t.decimal "usdt", default: "0.0"
+    t.string "price_type", default: "buy"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "price_type", default: "buy"
@@ -92,7 +93,6 @@ ActiveRecord::Schema.define(version: 2018_09_22_231409) do
     t.string "explorer_url"
     t.string "ticker_url"
     t.decimal "market_cap", precision: 15, scale: 1
-    t.decimal "decimal", precision: 15, scale: 1
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2018_09_22_231409) do
     t.decimal "wallet_balance", default: "0.0"
     t.datetime "online_at"
     t.datetime "sold_at"
+    t.datetime "disbursed_at"
     t.string "wallet"
     t.string "version"
     t.datetime "last_upgraded_at"
@@ -247,8 +248,9 @@ ActiveRecord::Schema.define(version: 2018_09_22_231409) do
     t.datetime "affiliate_key_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified", default: false
-    t.boolean "verification_pending", default: false
+    t.string "two_fa_secret"
+    t.datetime "verified_at"
+    t.string "verification_status", default: "none"
     t.string "verification_image"
     t.string "two_fa_secret"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
