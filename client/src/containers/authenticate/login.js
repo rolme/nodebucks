@@ -12,11 +12,11 @@ import SocialButton from './socialButton'
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { 
+import {
   login,
-  get2FASecret, 
-  reset, 
-  socialMediaLogin 
+  get2FASecret,
+  reset,
+  socialMediaLogin
 } from '../../reducers/user.js'
 
 import Metatags from "../../components/metatags";
@@ -87,7 +87,7 @@ class LogIn extends Component {
     let isTokenValid = false
     this.props.get2FASecret({ email, password }, (response) => {
       if(response.status === 'ok' && response.enabled_2fa) {  // if user is enabled 2FA
-        isTokenValid = speakeasy.totp.verify({ 
+        isTokenValid = speakeasy.totp.verify({
           secret: response.secret,
           encoding: 'ascii',
           token: token,
@@ -169,7 +169,11 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
-        <Metatags/>
+        <Metatags
+          description="Manage your Masternodes directly from your account, monitor their progress and see the results you have achieved. All the data is ready in your own Dashboard."
+          title="Login into your Account - NodeBucks"
+          canonical="https://nodebucks.com/login"
+        />
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
@@ -249,7 +253,7 @@ const mapStateToProps = state => ({
   message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ 
+const mapDispatchToProps = dispatch => bindActionCreators({
   login,
   get2FASecret,
   reset,

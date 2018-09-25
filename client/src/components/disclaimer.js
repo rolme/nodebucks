@@ -11,7 +11,11 @@ export default class Disclaimer extends Component {
   render() {
     return (
       <Container>
-        <Metatags/>
+        <Metatags
+          description="Before using this site, please make sure that you note the following important information added in this page."
+          title="Disclaimer - NodeBucks"
+          canonical="https://nodebucks.com/disclaimer"
+        />
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} className="mb-5">
           <Row className="pt-4 flex-column">
             <p className="termOfUseTitle pageTitle">Disclaimer</p>
