@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :find_order, only: [:paid, :unpaid]
 
   def index
-    if current_user.admin?
+    if current_user.admin? && params.has_key?(:all)
       @orders = Order.includes(:node, :user)
                   .filter_by_node(params[:n])
                   .filter_by_user(params[:u])
