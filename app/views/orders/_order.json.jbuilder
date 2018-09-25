@@ -12,4 +12,4 @@ json.orderType order.order_type
 json.paymentMethod order.payment_method
 json.status order.status
 json.slug order.slug
-json.target target
+json.target order.target
