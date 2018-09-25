@@ -23,7 +23,7 @@ class MainTable extends Component {
     }).map(item => {
       let uptime = '-'
       if ( !!item.onlineAt ) {
-        item.onlineAt += " +0000"
+        item.onlineAt = new Date((item.onlineAt + ' +0000'))
         uptime = moment().diff(moment(item.onlineAt), 'days')
       }
       if ( uptime !== '-' ) {
