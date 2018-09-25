@@ -166,7 +166,7 @@ export default class Chart extends Component {
   proceedNodeValues(values) {
     let combinedDates = {}, newValues = [], dates = []
     values.forEach(value => {
-      const date = moment(value.timestamp).format("MMM D YYYY")
+      const date = moment(new Date(value.timestamp)).format("MMM D YYYY")
       if ( !!combinedDates[ date ] ) {
         combinedDates[ date ].sum += +value.value
         combinedDates[ date ].count += 1
@@ -183,7 +183,7 @@ export default class Chart extends Component {
         timestamp: date,
         value: combinedDates[ date ].sum / combinedDates[ date ].count
       })
-      dates.push(moment(date).valueOf())
+      dates.push(moment(new Date(date)).valueOf())
     }
     const daysInterval = Math.max(...dates) - Math.min(...dates)
 
@@ -225,7 +225,7 @@ export default class Chart extends Component {
       return (
         <div className="contentContainer dashboardChartSectionContentContainer">
           <Row className="bg-white nodeValuesChartContainer">
-           <h5 className="dashboardSectionHeader">Graph will appear 30 days after your first purchase.</h5>
+            <h5 className="dashboardSectionHeader">Graph will appear 30 days after your first purchase.</h5>
           </Row>
         </div>
       )
