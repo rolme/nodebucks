@@ -278,13 +278,13 @@ class Node extends Component {
           <Table responsive className="showPageHistoryTable">
             <thead>
             <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Total Rewards</th>
+              <th className="text-left">Date</th>
+              <th className="text-left">Event</th>
+              <th className="text-right">Total Rewards</th>
             </tr>
             </thead>
             <tbody>
-            {this.handleHistoryData(events)}
+            {this.handleHistoryData(events, node.events)}
             </tbody>
           </Table>
           {!!lastDaysData.length && lastDaysData.length !== node.events.length &&
@@ -297,15 +297,15 @@ class Node extends Component {
     )
   }
 
-  handleHistoryData(events) {
-    let total = events.map(e => e.value).length ? events.map(e => e.value).reduce((t, v) => +t + +v) : []
+  handleHistoryData(events, allEvents) {
+    let total = allEvents.map(e => e.value).length ? allEvents.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
-          <td>{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
-          <td>{event.description}</td>
-          <td>{valueFormat(total, 2)}</td>
+          <td className="text-left">{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
+          <td className="text-left">{event.description}</td>
+          <td className="text-right">{valueFormat(total, 2)}</td>
         </tr>
       )
       total = +total - +event.value

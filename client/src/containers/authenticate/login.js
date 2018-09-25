@@ -5,14 +5,22 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
-
+import speakeasy from 'speakeasy'
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
+import Modal2FA from '../../components/2faModal'
 import { capitalize } from '../../lib/helpers'
 import SocialButton from './socialButton'
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { login, reset, socialMediaLogin } from '../../reducers/user.js'
+import { 
+  login,
+  get2FASecret, 
+  reset, 
+  socialMediaLogin 
+} from '../../reducers/user.js'
+
+import Metatags from "../../components/metatags";
 
 class LogIn extends Component {
   constructor(props) {
@@ -21,6 +29,7 @@ class LogIn extends Component {
     this.state = {
       email: '',
       password: '',
+      token: '',
       showPassword: false,
       rememberMe: false,
       messages: {
@@ -30,7 +39,9 @@ class LogIn extends Component {
       errors: {
         email: false,
         password: false,
-      }
+      },
+      show2fa: false,
+      secret: '',
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
@@ -72,6 +83,17 @@ class LogIn extends Component {
     this.setState({ [name]: !this.state[ name ] })
   }
 
+  check2FA() {
+    const { email, password } = this.state
+    this.props.get2FASecret({email, password}, (response) => {
+      if(response.enabled_2fa) {
+        this.setState({ show2fa: true, secret: response.secret })
+      } else {
+        this.props.login({ email, password })
+      }
+    })
+  }
+
   validation() {
     const { email, password } = this.state
     let isValid = true, messages = { email: '*Required', password: '*Required' }, errors = { email: false, password: false }
@@ -94,11 +116,17 @@ class LogIn extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && this.props.login({ email, password })
+    isValid && this.check2FA()
   }
 
   toggleElement(name) {
     this.setState({ [name]: !this.state[ name ] })
+  }
+
+  toggleModal = () => {
+    this.setState({
+      show2fa: !this.state.show2fa
+    });
   }
 
   handleSocialLogin(sm, user) {
@@ -112,7 +140,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { email, password, showPassword, messages, errors, rememberMe } = this.state
+    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret } = this.state
     const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
@@ -135,6 +163,7 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
+        <Metatags/>
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
@@ -193,6 +222,14 @@ class LogIn extends Component {
             </Col>
           </Col>
         </div>
+        <Modal2FA 
+          show={show2fa} 
+          onToggle={this.toggleModal}
+          email={email}
+          password={password}
+          secret={secret}
+          login={this.props.login}
+        />
       </Container>
     )
   }
@@ -205,7 +242,12 @@ const mapStateToProps = state => ({
   message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ login, reset, socialMediaLogin }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+  login,
+  get2FASecret,
+  reset,
+  socialMediaLogin,
+}, dispatch)
 
 export default withRouter(connect(
   mapStateToProps,
