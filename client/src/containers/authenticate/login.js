@@ -5,7 +5,6 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
-import speakeasy from 'speakeasy'
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import Modal2FA from '../../components/2faModal'
 import { capitalize } from '../../lib/helpers'
@@ -13,11 +12,11 @@ import SocialButton from './socialButton'
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { 
+import {
   login,
-  get2FASecret, 
-  reset, 
-  socialMediaLogin 
+  get2FASecret,
+  reset,
+  socialMediaLogin
 } from '../../reducers/user.js'
 
 import Metatags from "../../components/metatags";
@@ -222,8 +221,8 @@ class LogIn extends Component {
             </Col>
           </Col>
         </div>
-        <Modal2FA 
-          show={show2fa} 
+        <Modal2FA
+          show={show2fa}
           onToggle={this.toggleModal}
           email={email}
           password={password}
@@ -242,7 +241,7 @@ const mapStateToProps = state => ({
   message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ 
+const mapDispatchToProps = dispatch => bindActionCreators({
   login,
   get2FASecret,
   reset,
