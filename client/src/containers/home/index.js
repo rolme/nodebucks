@@ -10,6 +10,7 @@ import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
+import { Helmet } from "react-helmet";
 
 class Home extends Component {
   constructor(props) {
@@ -46,6 +47,20 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
+        <Helmet
+          title="Test Title 2"
+          meta={[
+            { name: 'keywords', content: 'masternodes masternode node blockchain' },
+            { name: 'description', content: 'test description' },
+            { property: 'og:locale', content: 'en_US' },
+            { property: 'og:type', content: 'website' },
+            { property: 'og:title', content: 'test title 2' },
+            { property: 'og:url', content: 'https://nodebucks.com' },
+            { property: 'og:site_name', content: 'test name' },
+            { property: 'og:image', content: 'https://nodebucks.com/assets/images/og_nodebucks.png' },
+            { property: 'og:description', content: 'test description' },
+          ]}
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             {announcement.text}
