@@ -51,7 +51,6 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    console.log(newNode)
     if ( newNode.status === 'sold' || !newNode.crypto.liquidity.sell ) {
       this.props.history.push('/dashboard')
       return
