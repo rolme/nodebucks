@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_request, only: [:index]
+  before_action :authenticate_request, only: [:index, :show]
   before_action :find_order, only: [:paid, :unpaid]
 
   def index
@@ -10,6 +10,11 @@ class OrdersController < ApplicationController
     else
       @orders = Order.includes(:node, :user).where(user_id: current_user.id)
     end
+  end
+
+  def show
+    @order   = Order.includes(:node, :user).find_by(slug: params[:slug]) if current_user.admin?
+    @order ||= Order.includes(:node, :user).find_by(slug: params[:slug], user_id: current_user.id)
   end
 
   def paid
