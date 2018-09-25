@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   mount_uploader :verification_image, VerificationImageUploader
 
-  scope :verifications_pending, -> { where(verification_pending: true) }
+  scope :verifications_pending, -> { where(verification_status: :pending) }
 
   def self.system
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)

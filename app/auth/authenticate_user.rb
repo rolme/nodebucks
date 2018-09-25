@@ -28,7 +28,7 @@ class AuthenticateUser
       state: user.state,
       updatedAt: user.updated_at.to_formatted_s(:db),
       zipcode: user.zipcode,
-      verified: user.verified,
+      verified: user.verified_at,
       admin: user.admin,
     }) if user
   end

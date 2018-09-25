@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    if(params[:verifications_pending].present? && params[:verifications_pending].to_bool)
+    if(params[:verification_pending_users].present? && params[:verification_pending_users].to_bool)
       @users = User.where.not(email: nil).verifications_pending 
     elsif params[:nonadmin].present? && params[:nonadmin].to_bool
       @users = User.where.not(email: nil).where(admin: [false, nil])
@@ -199,19 +199,28 @@ class UsersController < ApplicationController
 
   def verification_image
     user = User.find_by(slug: params[:user_slug])
-    if user.update(verification_image: params[:user][:verification_image], verification_pending: true)
+    if user.update(verification_image: params[:user][:verification_image], verification_status: :pending)
       render json: { status: :ok, message: 'ID verification is successfully requested.' }
     else
-      render json: { status: 'error', message: user.errors.full_messages.join(', ') }
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
     end
   end
 
-  def verify_id_image
+  def approved
     user = User.find_by(slug: params[:user_slug])
-    if user.update(verified: params[:user][:verified], verification_pending: false)
-      render json: { status: :ok }
+    if user.update(verified_at: Time.zone.now, verification_status: :approved)
+      render json: { status: :ok, message: 'ID verification is successfully approved.' }
     else
-      render json: { status: 'error', message: user.errors.full_messages.join(', ') }
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
+  def denied
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_status: :denied)
+      render json: { status: :ok, message: 'ID verification is successfully denied.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
     end
   end
   
@@ -240,8 +249,6 @@ protected
       :password_confirmation,
       :state,
       :zipcode,
-      :verified,
-      :verification_pending,
     )
   end
 
@@ -292,7 +299,7 @@ private
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
       zipcode: @user.zipcode,
-      verified: @user.verified,
+      verified: @user.verified_at,
       admin: @user.admin,
     })
   end

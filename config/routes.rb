@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       patch :reset_password
       patch :verify_id_image
       patch :profile
+      patch :approved
+      patch :denied
       patch :reset, on: :collection
       post :impersonate, on: :member
       post :password_confirmation
