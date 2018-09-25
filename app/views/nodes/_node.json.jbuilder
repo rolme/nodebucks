@@ -6,6 +6,7 @@ end
 json.crypto do
   json.partial! 'cryptos/crypto', crypto: node.crypto
 end
+json.deletedAt node.deleted_at&.to_formatted_s(:db)
 json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do |event|
   json.id event.id
   json.timestamp event.timestamp.to_formatted_s(:db)

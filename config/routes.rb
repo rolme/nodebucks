@@ -4,12 +4,13 @@ Rails.application.routes.draw do
       get :last, on: :collection
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug
-    resources :nodes, except: [:destroy, :edit, :new], param: :slug do
+    resources :nodes, except: [:edit, :new], param: :slug do
       patch :disburse
       patch :online
       patch :offline
       patch :purchase
       patch :reserve # Reserve sell price
+      patch :restore
       patch :sell
       patch :undisburse
     end
