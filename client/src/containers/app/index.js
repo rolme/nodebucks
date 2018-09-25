@@ -10,7 +10,7 @@ import { Alert } from 'reactstrap'
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
-import Metatags from "../../components/metatags";
+import { Helmet } from "react-helmet";
 
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
@@ -65,7 +65,24 @@ class App extends Component {
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'
     return (
       <div id="appContainer" className="appContainer">
-        <Metatags/>
+        <Helmet>
+          <meta name="keywords" content="masternodes masternode node blockchain" />
+          <meta name="description" content="test description" />
+          <meta property="og:locale" content="en_US" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="test title" />
+          <meta property="og:url" content="https://nodebucks.com" />
+          <meta property="og:site_name" content="test name" />
+          <meta property="og:image" content='https://nodebucks.com/assets/images/og_nodebucks.png' />
+          <meta property="og:description" content="test description" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="test title" />
+          <meta name="twitter:image" content='https://nodebucks.com/assets/images/og_nodebucks.png'/>
+          <meta name="twitter:description" content="test description"  />
+          <title>{title}</title>
+          {this.props.children}
+        </Helmet>
+        )
         <Reloader timer="300" onExpire={this.toggleReloadRequestAlert}/>
         {showHeader && <Header/>}
         <Alert color='success' isOpen={showReloadRequestAlert} toggle={this.toggleReloadRequestAlert}>
