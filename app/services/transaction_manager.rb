@@ -50,8 +50,9 @@ class TransactionManager
     end
 
     # Notifications
+    # TODO: This should also send an email to admin to transfer to withdraw wallet for this coin
     SupportMailerService.send_user_received_reward(owner, reward.total_amount, node) if node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL
-    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost 
+    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost
   end
 
   def withdraw(withdrawal)
@@ -77,7 +78,7 @@ class TransactionManager
     user = withdrawal.user
     balance = user.affiliate_balance
     txn = Transaction.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
-    
+
     Account.transaction do
       withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)
       txn.update_attribute(:status, 'processed')

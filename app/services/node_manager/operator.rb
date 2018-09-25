@@ -26,6 +26,9 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
+      if (node.reward_setting === Node::REWARD_AUTO_WITHDRAWAL && !!node.withdraw_wallet)
+        # TODO: Send an email to transfer funds to admin
+      end
     end
 
     def online(timestamp=DateTime.current)
