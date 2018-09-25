@@ -284,7 +284,7 @@ class Node extends Component {
             </tr>
             </thead>
             <tbody>
-            {this.handleHistoryData(events)}
+            {this.handleHistoryData(events, node.events)}
             </tbody>
           </Table>
           {!!lastDaysData.length && lastDaysData.length !== node.events.length &&
@@ -297,8 +297,8 @@ class Node extends Component {
     )
   }
 
-  handleHistoryData(events) {
-    let total = events.map(e => e.value).length ? events.map(e => e.value).reduce((t, v) => +t + +v) : []
+  handleHistoryData(events, allEvents) {
+    let total = allEvents.map(e => e.value).length ? allEvents.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
