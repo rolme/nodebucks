@@ -10,7 +10,6 @@ import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
-import DocumentMeta from 'react-document-meta'
 
 class Home extends Component {
   constructor(props) {
@@ -45,27 +44,7 @@ class Home extends Component {
   render() {
     const { announcement, announcementError } = this.props
     const { visibleAlert } = this.state
-    const meta = {
-      title: "Test Title 4",
-      description: "test description 1",
-      canonical: "https://nodebucks.com",
-      meta: {
-        charset: 'utf-8',
-        name: {
-          keywords: 'masternodes masternode node blockchain',
-          description: 'test description',
-          'og:locale': 'en_US',
-          'og:type': 'website',
-          'og:title': 'test title 4',
-          'og:url': 'https://nodebucks.com',
-          'og:site_name': 'test name',
-          'og:image': 'https://nodebucks.com/assets/images/og_nodebucks.png',
-          'og:description': 'test description',
-        }
-      }
-    }
     return (
-      <DocumentMeta {...meta} extend>
         <div className="homeContainer">
           <div className="contentContainer px-0">
             {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
@@ -152,8 +131,6 @@ class Home extends Component {
             </div>
           </div>
         </div>
-      </DocumentMeta>
-
     )
   }
 }
