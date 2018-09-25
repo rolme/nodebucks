@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { Container, Col } from 'reactstrap'
 import './index.css'
-import { connect } from 'react-redux'
 
 class Footer extends Component {
   render() {
-    const { user } = this.props
     return (
       <div className="footerContainer mx-auto">
         <Container fluid className="px-0 flex-wrap">
@@ -27,12 +25,6 @@ class Footer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user.data
-})
 
-
-export default withRouter(connect(
-  mapStateToProps
-)(Footer))
+export default withRouter(Footer)
 
