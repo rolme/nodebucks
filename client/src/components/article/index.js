@@ -43,6 +43,7 @@ class Article extends Component {
             description="A masternode is a special node on the blockchain that has enhanced capabilities and voting rights within proof-of-stake (PoS) coins. By owning a masternode, the masternode operator is rewarded by the network for the time and energy of operating the node."
             image="/assets/images/article/articleThumbnail.jpg"
             title="What is a Masternode? Step by Step Guide - Nodebucks"
+            url="https://nodebucks.com/what-are-masternodes"
           />
           <h1 className="articleHeader mt-3 text-center"><b>What is a Masternode?</b></h1>
           <h2 className="articleHeader mb-2 text-center"><b>Step by Step Guide</b></h2>
