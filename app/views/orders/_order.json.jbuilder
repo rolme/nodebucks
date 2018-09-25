@@ -9,7 +9,7 @@ json.node do
 end
 json.orderId order.slug
 json.orderType order.order_type
-json.paymentMethod payment_method
+json.paymentMethod order.payment_method
 json.status order.status
 json.slug order.slug
 json.target target
