@@ -119,7 +119,7 @@ class Node extends Component {
   displayHeader(node) {
     let uptime = '-'
     if ( !!node.onlineAt ) {
-      node.onlineAt += " +0000"
+      node.onlineAt = new Date((node.onlineAt + ' +0000'))
       uptime = moment().diff(moment(node.onlineAt), 'days')
     }
     if ( uptime === 0 ) {
@@ -284,7 +284,7 @@ class Node extends Component {
             </tr>
             </thead>
             <tbody>
-            {this.handleHistoryData(events)}
+            {this.handleHistoryData(events, node.events)}
             </tbody>
           </Table>
           {!!lastDaysData.length && lastDaysData.length !== node.events.length &&
@@ -297,13 +297,13 @@ class Node extends Component {
     )
   }
 
-  handleHistoryData(events) {
-    let total = events.map(e => e.value).length ? events.map(e => e.value).reduce((t, v) => +t + +v) : []
+  handleHistoryData(events, allEvents) {
+    let total = allEvents.map(e => e.value).length ? allEvents.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
-          <td className="text-left">{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
+          <td className="text-left">{moment(new Date(event.timestamp)).format("MMM D, YYYY  HH:mm")}</td>
           <td className="text-left">{event.description}</td>
           <td className="text-right">{valueFormat(total, 2)}</td>
         </tr>
