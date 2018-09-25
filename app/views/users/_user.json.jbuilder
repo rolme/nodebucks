@@ -30,5 +30,6 @@ json.state user.state
 json.updatedAt user.updated_at.to_formatted_s(:db)
 json.zipcode user.zipcode
 json.verified user.verified_at
+json.verificationStatus user.verification_status
 json.verificationImage user.verification_image
 json.enabled2FA user.two_fa_secret.present?
