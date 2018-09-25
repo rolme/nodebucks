@@ -70,7 +70,7 @@ class App extends Component {
           <meta name="description" content="test description"/>
           <meta property="og:locale" content="en_US"/>
           <meta property="og:type" content="website"/>
-          <meta property="og:title" content="test title"/>
+          <meta property="og:title" content="test title 1"/>
           <meta property="og:url" content="https://nodebucks.com"/>
           <meta property="og:site_name" content="test name"/>
           <meta property="og:image" content='https://nodebucks.com/assets/images/og_nodebucks.png'/>
