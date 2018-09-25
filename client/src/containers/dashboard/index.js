@@ -48,7 +48,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { purchasedNode, message } = this.props
     let { showAnnouncementAlert } = this.state
 
     if ( !disabledAnnouncements() ) {
@@ -72,7 +71,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { pending, nodes, announcement, announcementError, purchasedNode, purchaseError } = this.props
+    const { pending, nodes, announcement, announcementError, purchaseError } = this.props
     const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 

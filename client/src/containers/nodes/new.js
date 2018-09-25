@@ -126,7 +126,7 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
+    const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
     if (purchasing) {
