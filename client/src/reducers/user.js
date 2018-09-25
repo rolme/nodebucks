@@ -42,6 +42,9 @@ export const REQUEST_IMPERSONATE_FAILURE = 'user/REQUEST_IMPERSONATE_FAILURE'
 export const REQUEST_PASSWORD_CONFIRMATION = 'user/REQUEST_PASSWORD_CONFIRMATION'
 export const REQUEST_PASSWORD_CONFIRMATION_SUCCESS = 'user/REQUEST_PASSWORD_CONFIRMATION_SUCCESS'
 export const REQUEST_PASSWORD_CONFIRMATION_FAILURE = 'user/REQUEST_PASSWORD_CONFIRMATION_FAILURE'
+export const REQUEST_UPDATE_VERIFICATION_IMAGE = 'user/REQUEST_UPDATE_VERIFICATION_IMAGE'
+export const REQUEST_UPDATE_VERIFICATION_IMAGE_SUCCESS = 'user/REQUEST_UPDATE_VERIFICATION_IMAGE_SUCCESS'
+export const REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE = 'user/REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE'
 export const UPDATE_PROFILE = 'user/UPDATE_PROFILE'
 export const UPDATE_PROFILE_SUCCESS = 'user/UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_FAILURE = 'user/UPDATE_PROFILE_FAILURE'
@@ -88,6 +91,7 @@ const initialState = {
   logInPending: false,
   signUpPending: false,
   requestResetPending: false,
+  verificationMessage: '',
   list: [],
   token: TOKEN,
 }
@@ -350,6 +354,7 @@ export default (state = initialState, action) => {
         pending: false,
         token: ''
       }
+      
     case REQUEST_REFERRER:
       return {
         ...state,
@@ -358,6 +363,7 @@ export default (state = initialState, action) => {
         data: {},
         pending: true
       }
+      
     case REQUEST_REFERRER_SUCCESS:
       return {
         ...state,
@@ -366,6 +372,7 @@ export default (state = initialState, action) => {
         message: '',
         pending: false
       }
+      
     case REQUEST_REFERRER_FAILURE:
       return {
         ...state,
@@ -374,16 +381,39 @@ export default (state = initialState, action) => {
         message: '',
         pending: false
       }
+      
+    case REQUEST_UPDATE_VERIFICATION_IMAGE:
+      return {
+         ...state,
+        error: false,
+        verificationMessage: '',
+      }
+      
+    case REQUEST_UPDATE_VERIFICATION_IMAGE_SUCCESS:
+      return {
+         ...state,
+        verificationMessage: action.payload.message,
+      }
+      
+    case REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE:
+      return {
+         ...state,
+        error: true,
+        verificationMessage: action.payload,
+      }
+      
     case REQUEST_USER_LIST_SUCCESS:
       return {
         ...state,
         list: action.payload,
       }
+      
     case REQUEST_IMPERSONATE_SUCCESS:
       return {
         ...state,
         data: jwt_decode(action.payload.token),
       }
+      
     default:
       return state
   }
@@ -673,6 +703,19 @@ export function passwordConfirmation(slug, password, callback) {
       .catch((error) => {
         dispatch({ type: REQUEST_PASSWORD_CONFIRMATION_FAILURE, payload: error.message })
       })
+  }
+}
+
+export function uploadVerificationImage(slug, data) {
+  return dispatch => {
+    dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE })
+    axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
+    axios.post(`/api/users/${slug}/verification_image`, data).then(response => {
+      dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE_SUCCESS, payload: response.data })
+    })
+      .catch((error) => {
+        dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE, payload: error.message })
+    })
   }
 }
 

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation, :verification_image]
   before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
   before_action :find_user, only: [:update, :profile]
 
@@ -45,7 +45,9 @@ class UsersController < ApplicationController
   end
 
   def index
-    if !!params[:nonadmin]
+    if(params[:verification_pending_users].present? && params[:verification_pending_users].to_bool)
+      @users = User.where.not(email: nil).verifications_pending 
+    elsif params[:nonadmin].present? && params[:nonadmin].to_bool
       @users = User.where.not(email: nil).where(admin: [false, nil])
     else
       @users = User.where.not(email: nil)
@@ -195,6 +197,33 @@ class UsersController < ApplicationController
     render json: { status: :ok, valid: user.authenticate(params[:user][:password]).present? }
   end
 
+  def verification_image
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_image: params[:user][:verification_image], verification_status: :pending)
+      render json: { status: :ok, message: 'ID verification is successfully requested.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
+  def approved
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verified_at: Time.zone.now, verification_status: :approved)
+      render json: { status: :ok, message: 'ID verification is successfully approved.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
+  def denied
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_status: :denied)
+      render json: { status: :ok, message: 'ID verification is successfully denied.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+  
   def impersonate
     @user = User.find_by_slug(params[:slug])
     render json: { status: :ok, token: generate_token }
@@ -301,6 +330,9 @@ private
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
       zipcode: @user.zipcode,
+      verified: @user.verified_at,
+      verificationStatus: @user.verification_status,
+      verificationImage: @user.verification_image,
       admin: @user.admin,
       enabled2FA: @user.two_fa_secret.present?,
     })

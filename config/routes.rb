@@ -24,12 +24,16 @@ Rails.application.routes.draw do
       get :verify
       get :referrer, on: :collection
       patch :reset_password
+      patch :verify_id_image
       patch :profile
+      patch :approved
+      patch :denied
       patch :enable_2fa
       patch :disable_2fa
       patch :reset, on: :collection
       post :impersonate, on: :member
       post :password_confirmation
+      post :verification_image
       post :secret_2fa, on: :collection
     end
     resources :transactions, only: [:index, :update]

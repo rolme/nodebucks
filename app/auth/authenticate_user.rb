@@ -28,6 +28,9 @@ class AuthenticateUser
       state: user.state,
       updatedAt: user.updated_at.to_formatted_s(:db),
       zipcode: user.zipcode,
+      verified: user.verified_at,
+      verificationStatus: user.verification_status,
+      verificationImage: user.verification_image,
       admin: user.admin,
       enabled2FA: @user.two_fa_secret.present?,
     }) if user

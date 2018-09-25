@@ -25,6 +25,7 @@
 /build
 /public/static
 /public/avatars
+/public/ids
 
 # misc
 .DS_Store
