@@ -10,6 +10,7 @@ import { Alert } from 'reactstrap'
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
+import Metatags from "../../components/metatags";
 
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
@@ -64,6 +65,7 @@ class App extends Component {
     const showHeader = window.location.pathname !== "/login" && window.location.pathname !== '/reset_password'
     return (
       <div id="appContainer" className="appContainer">
+        <Metatags/>
         <Reloader timer="300" onExpire={this.toggleReloadRequestAlert}/>
         {showHeader && <Header/>}
         <Alert color='success' isOpen={showReloadRequestAlert} toggle={this.toggleReloadRequestAlert}>
