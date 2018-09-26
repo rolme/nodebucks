@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  include Sluggable
+
   belongs_to :account
   belongs_to :reward, optional: true
   belongs_to :withdrawal, optional: true

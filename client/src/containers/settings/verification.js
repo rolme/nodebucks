@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Container, Form, Col, Button, Alert } from 'reactstrap'
 import Dropzone from 'react-dropzone'
+import { ClipLoader } from 'react-spinners'
 import {
   uploadVerificationImage 
 } from '../../reducers/user';
@@ -14,6 +15,7 @@ class Verification extends Component {
     this.state = {
       image: null,
       formError: null,
+      isUploading: false,
     }
   }
 
@@ -26,8 +28,10 @@ class Verification extends Component {
   uploadImage = () => {
     let formData = new FormData();
     formData.append('user[verification_image]', this.state.image)
-    this.props.uploadVerificationImage(this.props.user.slug, formData)
-    this.setState({ formError: null })
+    this.props.uploadVerificationImage(this.props.user.slug, formData, () => {
+      this.setState({ isUploading: false })
+    })
+    this.setState({ formError: null, isUploading: true })
   }
 
   validation = () => {
@@ -46,7 +50,7 @@ class Verification extends Component {
 
   render() {
     const { user, message, error } = this.props
-    const { formError } = this.state
+    const { formError, isUploading } = this.state
     return (
       <Container fluid className="settingsContainer">
         <div className="contentContainer px-0">
@@ -65,7 +69,7 @@ class Verification extends Component {
                 { this.renderImageDropzone() }
               </Col>
               <Col className="d-flex verificationFooterButtonsContainer justify-content-center">
-                <Button onClick={this.validation} className="submitButton">UPLOAD</Button>
+                <Button onClick={this.validation} className="submitButton" disabled={isUploading}>UPLOAD</Button>
               </Col>
               { formError && <p className="verificationFormError">{formError}</p> }
             </Form>
@@ -76,7 +80,7 @@ class Verification extends Component {
   }
 
   renderImageDropzone() {
-    const { image } = this.state
+    const { image, isUploading } = this.state
     return (
       <div className="avatar-dropzone-container">
         <Dropzone
@@ -85,8 +89,23 @@ class Verification extends Component {
           multiple={ false }
           className="avatar-dropzone"
         >
-        <img src={ image ? image.preview : '/assets/images/user.jpg' } width="200" height="200" alt="preview" />
+          { isUploading ?
+            this.renderSpinner() :
+            <img src={ image ? image.preview : '/assets/images/user.jpg' } width="200" height="200" alt="preview" />
+          }
         </Dropzone>
+      </div>
+    )
+  }
+
+  renderSpinner() {
+    return (
+      <div className="spinnerContainer">
+        <ClipLoader
+          size={35}
+          color={'#3F89E8'}
+          loading={true}
+        />
       </div>
     )
   }

@@ -28,20 +28,31 @@ export default (state = initialState, action) => {
   switch ( action.type ) {
     case RESERVE:
     case FETCH_LIST:
-    case WITHDRAW:
       return {
         ...state,
         pending: true,
         error: false,
         message: ''
       }
+    case WITHDRAW:
+      return {
+        ...state,
+        error: false,
+        message: ''
+      }
 
     case RESERVE_ERROR:
     case FETCH_LIST_ERROR:
-    case WITHDRAW_ERROR:
       return {
         ...state,
         pending: false,
+        error: true,
+        message: action.payload.message
+      }
+
+    case WITHDRAW_ERROR:
+      return {
+        ...state,
         error: true,
         message: action.payload.message
       }
@@ -68,9 +79,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         data: action.payload,
-        pending: false,
         error: false,
-        message: 'Success. You will be redirected to the dashboard page.'
+        message: `You have successfully requested a withdrawal. 
+          Please allow for up to 3 days for this withdrawal to be processed.`,
       }
 
     default:
@@ -104,13 +115,19 @@ export function fetchWithdrawals() {
   }
 }
 
-export function withdraw(data) {
+export function withdraw(data, callback) {
   return dispatch => {
     dispatch({ type: WITHDRAW })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch('/api/withdrawals/confirm', data)
       .then((response) => {
-        dispatch({ type: WITHDRAW_SUCCESS, payload: response.data })
+        if(response.data.status === 'error') {
+          dispatch({ type: WITHDRAW_ERROR, payload: response.data })
+        }
+        else {
+          dispatch({ type: WITHDRAW_SUCCESS, payload: response.data })
+        }
+        callback(response.data)
       }).catch((error) => {
       dispatch({ type: WITHDRAW_ERROR, payload: { message: error.data } })
     })
