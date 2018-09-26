@@ -76,7 +76,9 @@ class Node extends Component {
 
   showAlert = () => {
     this.setState({ showAlert: true })
-    setTimeout(() => { this.setState({ showAlert: false }) }, 3000)
+    setTimeout(() => {
+      this.setState({ showAlert: false })
+    }, 3000)
   }
 
   render() {
@@ -115,7 +117,22 @@ class Node extends Component {
   }
 
   displayHeader(node) {
-    const uptime = (node.onlineAt !== null) ? moment().diff(moment(node.onlineAt), 'days') : 0
+    let uptime = '-'
+    if ( !!node.onlineAt ) {
+      node.onlineAt = new Date((node.onlineAt + ' +0000'))
+      uptime = moment().diff(moment(node.onlineAt), 'days')
+    }
+    if ( uptime === 0 ) {
+      if ( !!moment().diff(moment(node.onlineAt), 'hours') ) {
+        uptime = moment().diff(moment(node.onlineAt), 'hours') + ' hrs'
+      } else if ( !!moment().diff(moment(node.onlineAt), 'minutes') ) {
+        uptime = moment().diff(moment(node.onlineAt), 'minutes') + ' min'
+      } else if ( !!moment().diff(moment(node.onlineAt), 'seconds') ) {
+        uptime = moment().diff(moment(node.onlineAt), 'seconds') + ' sec'
+      }
+    } else {
+      uptime += uptime > 1 ? ' days' : ' day'
+    }
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
@@ -124,7 +141,7 @@ class Node extends Component {
         </Col>
         <Col xl={3} lg={3} md={3} sm={6} xs={6} className="d-flex flex-column justify-content-center align-items-xl-start align-items-lg-start  align-items-md-start  align-items-sm-center">
           <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Status:</b> {capitalize(node.status)}</h5>
-          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} days</h5>
+          <h5 className="mb-1 ml-2 showPageHeaderInfo"><b>Uptime:</b> {uptime} </h5>
           <h5 className="mb-0 ml-2 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
         </Col>
         {this.displayActions(node)}
@@ -261,13 +278,13 @@ class Node extends Component {
           <Table responsive className="showPageHistoryTable">
             <thead>
             <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Total Rewards</th>
+              <th className="text-left">Date</th>
+              <th className="text-left">Event</th>
+              <th className="text-right">Total Rewards</th>
             </tr>
             </thead>
             <tbody>
-            {this.handleHistoryData(events)}
+            {this.handleHistoryData(events, node.events)}
             </tbody>
           </Table>
           {!!lastDaysData.length && lastDaysData.length !== node.events.length &&
@@ -280,15 +297,15 @@ class Node extends Component {
     )
   }
 
-  handleHistoryData(events) {
-    let total = events.map(e => e.value).length ? events.map(e => e.value).reduce((t, v) => +t + +v) : []
+  handleHistoryData(events, allEvents) {
+    let total = allEvents.map(e => e.value).length ? allEvents.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
-          <td>{moment(event.timestamp).format("MMM D, YYYY  HH:mm")}</td>
-          <td>{event.description}</td>
-          <td>{valueFormat(total, 2)}</td>
+          <td className="text-left">{moment(new Date(event.timestamp)).format("MMM D, YYYY  HH:mm")}</td>
+          <td className="text-left">{event.description}</td>
+          <td className="text-right">{valueFormat(total, 2)}</td>
         </tr>
       )
       total = +total - +event.value

@@ -19,7 +19,6 @@ class Withdraw extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      wallet: '',
       password: '',
       showPassword: false,
       currency: 'btc',
@@ -69,11 +68,11 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { password, wallet } = this.state
+    const { password, target } = this.state
     this.props.withdraw({
       withdrawal: {
         password,
-        wallet
+        wallet: target
       }
     })
   }
@@ -195,7 +194,7 @@ class Withdraw extends Component {
 
   renderBalances(withdrawal) {
     return withdrawal.map((coin, index) => {
-      const value = valueFormat(+coin.value - coin.value * coin.fee, 2)
+      const value = valueFormat(+coin.value, 2)
       if(coin.value > 0) {
         return (
           <Row key={index} className="p-0 m-0 justify-content-between w-100">

@@ -59,16 +59,7 @@ class CoinInfo extends Component {
             </Col>
             <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
               <p className="coinInfoHeaderPrice">$ {valueFormat(data.nodePrice, 2)} <span>USD</span></p>
-              {data.nodePrice < 50000 &&
-              <NavLink to={`/nodes/${data.slug}/new`}>
-                <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
-              </NavLink>
-              }
-              {data.nodePrice > 50000 &&
-              <NavLink to={'/contact#contact-sales-' + data.name}>
-                <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
-              </NavLink>
-              }
+              { this.displayActionButton(data) }
             </Col>
           </Col>
           <Col className="coinInfoMainDataPartContainer px-0">
@@ -115,12 +106,38 @@ class CoinInfo extends Component {
       </div>
     )
   }
+
+  displayActionButton(masternode) {
+    const { user } = this.props
+    
+    if(masternode.nodePrice > 10000 && user.verificationStatus !== 'approved') 
+      return(
+        <NavLink to={'/contact#contact-sales-' + masternode.name}>
+          <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
+        </NavLink>
+      )
+
+    if (masternode.nodePrice < 50000 && masternode.liquidity.buy) {
+      return(
+        <NavLink to={`/nodes/${masternode.slug}/new`}>
+          <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
+        </NavLink>
+      )
+    } else {
+      return(
+        <NavLink to={'/contact#contact-sales-' + masternode.name}>
+          <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
+        </NavLink>
+      )
+    }
+  }
 }
 
 
 const mapStateToProps = state => ({
   data: state.masternodes.data,
-  pending: state.masternodes.pending
+  pending: state.masternodes.pending,
+  user: state.user.data,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

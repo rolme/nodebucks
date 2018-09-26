@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  include Sluggable
+
   belongs_to :user
   belongs_to :node
 

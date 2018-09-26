@@ -16,7 +16,7 @@
   color: #3B3B3B;
 }
 
-.dashboardSectionNoDataMessage{
+.dashboardSectionNoDataMessage {
   margin: 0;
   font-family: 'OpenSans';
   color: #686868;
@@ -120,9 +120,12 @@
   vertical-align: middle;
 }
 
+.dashboardMainTable > thead > tr > th {
+  text-align: center !important;
+}
+
 .dashboardMainTable > thead > tr > th,
 .dashboardMainTable > tbody > tr > td {
-  text-align: center !important;
   border: none;
 }
 
@@ -231,7 +234,7 @@
 
 /*Balance Style*/
 .dashboardBalanceSectionContainer {
-  height: 350px;
+  min-height: 350px;
 }
 
 .dashboardBalanceTableContainer {
@@ -249,12 +252,16 @@
 }
 
 .dashboardBalanceTableContainer > table > tbody > tr > td {
-  text-align: center !important;
   border: none;
   vertical-align: middle;
   font-family: 'OpenSans';
   color: #686868;
   font-size: 14px;
+}
+
+.dashboardBalanceTableContainer > table > thead > tr > th:first-child,
+.dashboardBalanceTableContainer > table > tbody > tr > td:first-child {
+  padding: 0 !important;
 }
 
 .dashboardBalanceWithdrawButton {

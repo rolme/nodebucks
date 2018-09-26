@@ -5,6 +5,7 @@ class CreateCryptoPrices < ActiveRecord::Migration[5.2]
       t.integer :amount
       t.decimal :btc, default: 0.0
       t.decimal :usdt, default: 0.0
+      t.string :price_type, default: 'buy'
 
       t.timestamps
     end

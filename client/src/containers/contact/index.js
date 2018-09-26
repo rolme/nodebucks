@@ -7,6 +7,7 @@ import InputField from '../../components/elements/inputFieldWithAddonMessages'
 import { createContact } from '../../reducers/user'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
+import Metatags from "../../components/metatags";
 
 class Contact extends Component {
   constructor(props) {
@@ -116,9 +117,10 @@ class Contact extends Component {
 
     return (
       <Container fluid className="contactPageContainer">
+        <Metatags/>
         <div className="contentContainer d-flex justify-content-center">
-          { contactCreated ? 
-            this.renderContactCreated() 
+          { contactCreated ?
+            this.renderContactCreated()
             :
             <Col className="authContainer px-0">
               {!!message && !!error &&

@@ -12,6 +12,7 @@ import { withCookies } from 'react-cookie'
 import './index.css'
 
 import { register, reset, socialMediaLogin } from '../../reducers/user.js'
+import Metatags from "../../components/metatags";
 
 class SignUp extends Component {
   constructor(props) {
@@ -182,6 +183,7 @@ class SignUp extends Component {
 
     return (
       <Container fluid className="signUpPageContainer authPageContainer">
+        <Metatags/>
         <div className="contentContainer signUpPageContentContainer d-flex justify-content-center bg-white">
           <Col className="authContainer align-items-center flex-wrap justify-content-center d-flex">
             {!!message &&

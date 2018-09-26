@@ -24,6 +24,7 @@
     "chart.js": "^2.7.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.1",
+    "qrcode": "^1.2.2",
     "query-string": "^5.1.0",
     "rc-checkbox": "^2.1.5",
     "react": "^16.4.2",
@@ -32,7 +33,7 @@
     "react-cookie": "^3.0.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",
-    "react-dropzone": "^5.0.1",
+    "react-dropzone": "^5.1.0",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.4.0",
     "react-paypal-express-checkout": "^1.0.4",
@@ -52,6 +53,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
+    "speakeasy": "^2.0.0",
     "wallet-address-validator": "^0.2.0"
   },
   "scripts": {

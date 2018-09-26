@@ -20,7 +20,7 @@ class Account < ApplicationRecord
   end
 
   def has_nodes?
-    !nodes.where.not(status: ['sold', 'reserved']).empty?
+    !nodes.where.not(status: ['disbursed', 'sold', 'reserved']).empty?
   end
 
   def name

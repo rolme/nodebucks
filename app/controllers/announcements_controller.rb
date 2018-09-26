@@ -15,7 +15,7 @@ class AnnouncementsController < ApplicationController
     @announcement = Announcement.last
 
     if @announcement.nil?
-      head :not_found
+      render json: { status: :ok, message: 'No announcement to show' }
     else
       render :show
     end

@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
-  before_action :authenticate_admin_request, only: [:offline, :online]
+  before_action :authenticate_admin_request, only: [:offline, :online, :disburse]
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -15,7 +15,7 @@ class NodesController < ApplicationController
 
   def index
     @nodes   = Node.unreserved if current_user.admin? && params.has_key?(:all)
-    @nodes ||= Node.unreserved.where(user_id: current_user.id)
+    @nodes ||= Node.unreserved.where(user_id: current_user.id, deleted_at: nil)
   end
 
   def offline
@@ -55,6 +55,26 @@ class NodesController < ApplicationController
     render :show
   end
 
+  def destroy
+    @node = Node.find_by(slug: params[:slug])
+    if !!@node && !@node.deleted?
+      @node.delete
+      render :show
+    else
+      render json: { status: 'error', message: "Unable to delete #{params[:slug]} node." }
+    end
+  end
+
+  def restore
+    @node = Node.find_by(slug: params[:node_slug])
+    if @node&.deleted?
+      @node.restore
+      render :show
+    else
+      render json: { status: 'error', message: "Unable to restore #{params[:slug]} node." }
+    end
+  end
+
   def online
     @node = Node.find_by(slug: params[:node_slug])
     if @node.ready?
@@ -63,6 +83,28 @@ class NodesController < ApplicationController
       @node.reload
     end
     render :show
+  end
+
+  def disburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    if operator.disburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to disburse funds. Is it sold?' }
+    end
+  end
+
+  def undisburse
+    @node = Node.find_by(slug: params[:node_slug])
+    operator = NodeManager::Operator.new(@node)
+    if operator.undisburse
+      @node.reload
+      render :show
+    else
+      render json: { status: 'error', message: 'Unable to undo disbursement. Was it disbursed?' }
+    end
   end
 
   def purchase
