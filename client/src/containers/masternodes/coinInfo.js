@@ -117,7 +117,7 @@ class CoinInfo extends Component {
         </NavLink>
       )
     }
-    else if(masternode.nodePrice >= 25000) {
+    else if(masternode.nodePrice >= 25000 || !masternode.liquidity.buy) {
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
