@@ -41,13 +41,13 @@ class CoinInfo extends Component {
     }
 
     const cryptoUrlName = new URL(data.url).host
-
     return (
       <div className="coinInfoContainer">
         <div className="contentContainer">
           <Metatags
             description={data.description.substring(0, 170)}
             title={`${data.name} (${data.symbol}) Cryptocurrency Price and Information | NodeBucks`}
+            image={`/assets/images/seo/seo-${data.slug}.jpg`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
             <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
@@ -109,8 +109,8 @@ class CoinInfo extends Component {
 
   displayActionButton(masternode) {
     const { user } = this.props
-    
-    if(masternode.nodePrice > 10000 && user.verificationStatus !== 'approved') 
+
+    if(masternode.nodePrice > 10000 && user.verificationStatus !== 'approved')
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>

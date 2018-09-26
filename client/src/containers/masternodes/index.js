@@ -75,6 +75,7 @@ class Masternodes extends Component {
         <Metatags
           description="Masternodes are the future. Invest on your own Masternode and collect rewards. You can choose between Blocknet, Dash, GoByte, PIVX, Phore, Polis and ZCoin."
           title="The 7 Best Masternodes in Which to Invest - NodeBucks"
+          image="/assets/images/seo/masternodes.jpg"
           canonical="https://nodebucks.com/masternodes"
         />
         <div className="contentContainer">

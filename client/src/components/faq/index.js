@@ -18,6 +18,7 @@ export default class FAQ extends Component {
         <Metatags
           description="Do you have questions about Masternodes? How they work and which one you should use? Check out our Frequently Asked Questions that will provide you with all the answers."
           title="Masternodes | Frequently Asked Questions - NodeBucks"
+          image="/assets/images/seo/faq.jpg"
           canonical="https://nodebucks.com/faq"
         />
         <div className="contentContainer faqContentContainer d-flex flex-column align-items-center">
