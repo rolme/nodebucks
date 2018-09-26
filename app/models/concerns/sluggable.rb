@@ -12,8 +12,6 @@ module Sluggable
   end
 
   included do
-    validates :slug, uniqueness: true
-
     before_create :generate_slug
 
     def generate_slug(force=false)
