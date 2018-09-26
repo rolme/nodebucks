@@ -109,8 +109,8 @@ class CoinInfo extends Component {
 
   displayActionButton(masternode) {
     const { user } = this.props
-    
-    if(masternode.nodePrice > 10000 && masternode.nodePrice < 25000 && user.verificationStatus !== 'approved') {
+
+    if(masternode.nodePrice > 10000 && masternode.nodePrice < 25000 && !user.verificationStatus && user.verificationStatus !== 'approved') {
       return(
         <NavLink to={'/settings/verification'}>
           <Button className="contactSalesNodeButton">Verify Account</Button>
