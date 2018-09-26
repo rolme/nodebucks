@@ -89,7 +89,7 @@ class PaymentForm extends React.Component {
             env={process.env.REACT_APP_PAYPAL_MODE}
             client={CLIENT}
             currency={'USD'}
-            total={process.env.NODE_ENV === 'development' ? 1.00 : node.cost}
+            total={process.env.NODE_ENV === 'development' ? 1.00 : parseFloat(node.cost).toFixed(2)}
             onSuccess={this.onSuccess}
             onError={this.onError}
             style={{ width: 500 }}
