@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
     if @transaction.update(transaction_params)
       render :show
     else
-      render json: { status: 'error', message: @transaction.error }
+      render json: { status: 'error', message: @transaction.errors.full_messages.join(', ') }
     end
   end
 
