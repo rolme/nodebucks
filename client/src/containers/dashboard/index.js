@@ -71,7 +71,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { pending, nodes, announcement, announcementError, purchaseError } = this.props
+    const { pending, nodes, announcement, announcementError, purchaseError, messageWithdrawal, errorWithdrawal } = this.props
     const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
@@ -101,6 +101,7 @@ class Dashboard extends Component {
           <Alert color='success' isOpen={showSellServerMessageAlert} toggle={() => this.onAlertDismiss('sellServerMessage')}>
             {sellServerMessage}
           </Alert>
+          { messageWithdrawal && <UncontrolledAlert color={errorWithdrawal ? 'danger' : 'success'}>{messageWithdrawal}</UncontrolledAlert> }
         </div>
         <div className="contentContainer px-0">
           { purchaseError ?
@@ -193,6 +194,8 @@ const mapStateToProps = state => ({
   purchasedNode: state.nodes.purchased,
   user: state.user.data,
   announcement: state.announcements.data,
+  messageWithdrawal: state.withdrawals.message,
+  errorWithdrawal: state.withdrawals.error,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

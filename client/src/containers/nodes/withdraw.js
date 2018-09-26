@@ -3,11 +3,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
 import { Col, Container, Row, Button, Alert, FormGroup, Input, Label } from 'reactstrap'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
 import WAValidator from 'wallet-address-validator'
+import { ClipLoader } from 'react-spinners'
 import './index.css'
 
 import {
@@ -23,12 +24,14 @@ class Withdraw extends Component {
       showPassword: false,
       currency: 'btc',
       target: '',
-      validPrice: true,
       address: '',
       errorMessages: {
         target: '',
         password: ''
-      }
+      },
+      isProcessing: false,
+      redirect: false,
+      showAlert: false,
     }
 
     this.handleInputValueChange = this.handleInputValueChange.bind(this)
@@ -41,11 +44,6 @@ class Withdraw extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( nextProps.message === 'Success. You will be redirected to the dashboard page.' ) {
-      setTimeout(() => {
-        this.props.history.push('/dashboard')
-      }, 2000)
-    }
     const { withdrawal } = nextProps
     if ( !!withdrawal && !!withdrawal.user && !!withdrawal.user.btcWallet ) {
       this.setState({ wallet: withdrawal.user.btcWallet })
@@ -68,13 +66,13 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { password, target } = this.state
-    this.props.withdraw({
-      withdrawal: {
-        password,
-        wallet: target
-      }
+    const { password, target, currency } = this.state
+    const withdrawal = currency === 'btc' ? { password, wallet: target, payment: 'btc' } : { password, paypal_email: target, payment: 'paypal' }
+    this.props.withdraw({ withdrawal: withdrawal }, (response) => {
+      this.setState({ isProcessing: false, redirect: response.status !== 'error', showAlert: response.status === 'error' })
+      if(response.status === 'error') setTimeout(() => { this.setState({ showAlert: false }) }, 3000);
     })
+    this.setState({ isProcessing: true })
   }
 
   validation() {
@@ -116,6 +114,9 @@ class Withdraw extends Component {
 
   render() {
     const { withdrawal, message, error, pending } = this.props
+    const { isProcessing, redirect, showAlert } = this.state
+
+    if(redirect) return <Redirect to='/dashboard' />
 
     if ( pending || !withdrawal ) {
       return (
@@ -145,15 +146,16 @@ class Withdraw extends Component {
           <div className="withdrawPageMainContentContainer">
             {!!message &&
             <Col xl={12} lg={12} md={12} sm={12} xs={12} className="mb-1 px-0">
-              <Alert color={error ? 'danger' : 'success'}>
+              <Alert color={error ? 'danger' : 'success'} isOpen={showAlert}>
                 {message}
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 10, offset: 2 }} lg={{ size: 10, offset: 2 }} md={{ size: 10, offset: 2 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
+            <Col className="center" xl={{ size: 10 }} lg={{ size: 10 }} md={{ size: 10, }} sm={{ size: 12 }} xs={{ size: 12 }}>
               <h5 className="withdrawPageTitle pageTitle">Withdraw</h5>
-              {this.renderInformationPart()}
-              { this.displaySellSettings() }
+              { isProcessing && this.renderSpinner() }
+              { !isProcessing && this.renderInformationPart() }
+              { !isProcessing && this.displaySellSettings() }
               { this.displayActions() }
             </Col>
           </div>
@@ -249,20 +251,38 @@ class Withdraw extends Component {
   }
 
   displayActions() {
+    let disabled = true 
+    if(this.props.withdrawal.amount) {
+      disabled = parseFloat(this.props.withdrawal.amount.btc) === 0 && parseFloat(this.props.withdrawal.amount.usd) === 0
+    }
     return (
-      <Row className="mx-0">
-        <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
-          <Button onClick={this.validation} className="sellPageSubmitButton">Withdraw</Button>
-        </Col>
-        <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
-          <NavLink to='/dashboard'>
-            <Button className="sellPageCancelButton">Cancel</Button>
-          </NavLink>
-        </Col>
-      </Row>
+      <div>
+        <Row className="mx-0">
+          <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
+            <Button onClick={this.validation} className="sellPageSubmitButton" disabled={disabled}>Withdraw</Button>
+            { disabled && <p className="text-danger mt-1">Your withdrawal balance is $0.</p> }
+          </Col>
+          <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
+            <NavLink to='/dashboard'>
+              <Button className="sellPageCancelButton">Cancel</Button>
+            </NavLink>
+          </Col>
+        </Row>
+      </div>
     )
   }
 
+  renderSpinner() {
+    return (
+      <div className="spinnerContainerWithdrawal">
+        <ClipLoader
+          size={35}
+          color={'#3F89E8'}
+          loading={true}
+        />
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({

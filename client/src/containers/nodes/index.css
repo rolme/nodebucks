@@ -800,3 +800,9 @@ dt {
 .loadingSnipperContainer {
   margin: 0 auto;
 }
+
+.spinnerContainerWithdrawal {
+  text-align: center;
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
