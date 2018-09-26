@@ -1,5 +1,6 @@
 class Node < ApplicationRecord
   include Sluggable
+  include SoftDeletable
 
   TIME_LIMIT = 180.seconds
 
@@ -42,10 +43,12 @@ class Node < ApplicationRecord
 
   validates :cost, presence: true
 
-  scope :online,     -> { where(status: 'online') }
+  scope :offline,    -> { where(status: 'offline', deleted_at: nil) }
+  scope :online,     -> { where(status: 'online', deleted_at: nil) }
   scope :reserved,   -> { where(status: 'reserved') }
   scope :unreserved, -> { where.not(status: 'reserved') }
-  scope :unsold,     -> { where.not(status: 'sold') }
+  scope :unsold,     -> { where.not(status: 'sold').where(deleted_at: nil) }
+  scope :sold,       -> { where(status: 'sold').where(deleted_at: nil) }
 
   before_create :cache_values
 

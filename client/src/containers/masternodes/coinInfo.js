@@ -46,21 +46,20 @@ class CoinInfo extends Component {
       <div className="coinInfoContainer">
         <div className="contentContainer">
           <Metatags
-            description={`Build your own ${data.name} (${data.symbol}) Masternode and earn rewards for the work your masternode performs on the blockchain, confirming and verifying transactions of this cryptocurrency.`}
-            title={`${data.name} (${data.symbol}) Masternode Price and Information | NodeBucks`}
-            canonical={`https://nodebucks.com/masternodes/${data.slug}`}
+            description={data.description.substring(0, 170)}
+            title={`${data.name} (${data.symbol}) Cryptocurrency Price and Information | NodeBucks`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
-            <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
+            <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
               <img alt={data.slug} src={`/assets/images/logos/${data.slug}.png`} width="93px"/>
               <div className="coinInfoNameContainer">
-                <h1 className="mb-0">{data.name} ({data.symbol})</h1>
+                <p className="mb-0">{data.name}</p>
                 <a href={data.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="23px" className="mr-2"/>{cryptoUrlName}</a>
               </div>
             </Col>
             <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
               <p className="coinInfoHeaderPrice">$ {valueFormat(data.nodePrice, 2)} <span>USD</span></p>
-              {this.displayActionButton(data)}
+              { this.displayActionButton(data) }
             </Col>
           </Col>
           <Col className="coinInfoMainDataPartContainer px-0">
@@ -100,7 +99,7 @@ class CoinInfo extends Component {
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p dangerouslySetInnerHTML={{ __html: data.profile }}/>
+              <p dangerouslySetInnerHTML={{ __html: data.profile}}/>
             </div>
           </Col>
         </div>
@@ -110,20 +109,22 @@ class CoinInfo extends Component {
 
   displayActionButton(masternode) {
     const { user } = this.props
-    if ( !user ) {
-      return (
-        <NavLink to='/sign-up'>
-          <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
+    
+    if(masternode.nodePrice > 10000 && user.verificationStatus !== 'approved') 
+      return(
+        <NavLink to={'/contact#contact-sales-' + masternode.name}>
+          <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>
       )
-    } else if ( masternode.nodePrice < 50000 && masternode.liquidity.buy ) {
-      return (
+
+    if (masternode.nodePrice < 50000 && masternode.liquidity.buy) {
+      return(
         <NavLink to={`/nodes/${masternode.slug}/new`}>
           <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
         </NavLink>
       )
     } else {
-      return (
+      return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>
@@ -134,9 +135,9 @@ class CoinInfo extends Component {
 
 
 const mapStateToProps = state => ({
-  user: state.user.data,
   data: state.masternodes.data,
-  pending: state.masternodes.pending
+  pending: state.masternodes.pending,
+  user: state.user.data,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
