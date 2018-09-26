@@ -231,7 +231,7 @@ class NewNode extends Component {
   renderSpreadWarning() {
     const { node } = this.props
     let difference = +node.value / node.cost
-    if ( difference < 0.75 ) {
+    if ( difference < 0.85 ) {
       const sellValue = valueFormat(+node.value, 2)
       difference = '-' + ((1 - valueFormat(difference, 2)) * 100) + '%'
       return (
