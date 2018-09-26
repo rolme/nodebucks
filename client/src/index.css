@@ -261,3 +261,7 @@ button.disabled {
   border: none !important;
   outline: none !important;
 }
+
+.center {
+  margin: 0 auto;
+}
