@@ -40,7 +40,7 @@ class MainTable extends Component {
         }
       }
 
-      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + ' %'
+      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + '%'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
       const yearlyRoiValue = valueFormat(+item.crypto.yearlyRoiValue, 2)
@@ -54,12 +54,12 @@ class MainTable extends Component {
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
           <td className="text-center">{uptime}</td>
           <td className="leftBorder text-right">{annualRoi}</td>
-          <td className="text-right">$ {weeklyRoiValue}</td>
-          <td className="text-right">$ {monthlyRoiValue}</td>
-          <td className="text-right">$ {yearlyRoiValue}</td>
-          <td className="leftBorder text-right">$ {week}</td>
-          <td className="text-right">$ {month}</td>
-          <td className="rightBorder text-right">$ {year}</td>
+          <td className="text-right">${weeklyRoiValue}</td>
+          <td className="text-right">${monthlyRoiValue}</td>
+          <td className="text-right">${yearlyRoiValue}</td>
+          <td className="leftBorder text-right">${week}</td>
+          <td className="text-right">${month}</td>
+          <td className="rightBorder text-right">${year}</td>
           <td className="text-center">{capitalize(item.status)}</td>
         </tr>
       )
