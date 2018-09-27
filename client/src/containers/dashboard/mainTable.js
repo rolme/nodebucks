@@ -90,7 +90,7 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected Returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Estimated Returns*</th>
                 <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
@@ -112,6 +112,7 @@ class MainTable extends Component {
               </tbody>
             </Table>
           </div>
+          <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
         </div>
       </div>
     )

@@ -265,3 +265,9 @@ button.disabled {
 .center {
   margin: 0 auto;
 }
+
+.disclaimerText {
+  font-family: 'OpenSans';
+  color: #686868;
+  font-size: 14px;
+}
