@@ -54,9 +54,7 @@ class TransactionManager
       system_txn.update_attribute(:status, 'processed')
     end
 
-    # Notifications
-    # TODO: This should also send an email to admin to transfer to withdraw wallet for this coin
-    SupportMailerService.send_user_received_reward(owner, reward.total_amount, node) if node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL
+    SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw?
     SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost
   end
 

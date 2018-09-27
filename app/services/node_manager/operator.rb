@@ -26,9 +26,6 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
-      if (node.reward_setting === Node::REWARD_AUTO_WITHDRAWAL && !!node.withdraw_wallet)
-        SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward)
-      end
     end
 
     def online(timestamp=DateTime.current)
