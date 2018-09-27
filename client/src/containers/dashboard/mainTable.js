@@ -90,7 +90,7 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Estimated Returns*</th>
+                <th colSpan="4" className="leftBorder rightBorder">Estimated Returns<span className="asteriskSign">*</span></th>
                 <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>

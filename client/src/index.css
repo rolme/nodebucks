@@ -271,3 +271,9 @@ button.disabled {
   color: #686868;
   font-size: 14px;
 }
+
+.asteriskSign {
+  font-size: 26px;
+  line-height: 5px;
+  vertical-align: middle;
+}
