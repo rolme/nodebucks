@@ -65,18 +65,19 @@ class CoinInfo extends Component {
           <Col className="coinInfoMainDataPartContainer px-0">
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0">
               <Col className="coinInfoDataSectionContainer">
-                <h6>Annual ROI</h6>
+                <h6>Estimated Annual ROI*</h6>
                 <p>{valueFormat(data.annualRoiPercentage * 100, 2)} %</p>
               </Col>
               <Col className="coinInfoDataSectionContainer">
-                <h6>Yearly Return</h6>
+                <h6>Estimated Yearly Return*</h6>
                 <p>$ {valueFormat(data.annualRoi, 2)} USD</p>
               </Col>
               <Col className="coinInfoDataSectionContainer">
-                <h6>Monthly Return</h6>
+                <h6>Estimated Monthly Return*</h6>
                 <p>$ {valueFormat(data.monthlyRoiValue, 2)} USD</p>
               </Col>
             </Col>
+            <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0 mt-xl-3 mt-lg-3 mt-md-3 mt-sm-3 mt-0">
               <Col className="coinInfoValueSectionContainer">
                 <h6>Market Cap</h6>
