@@ -27,13 +27,6 @@ class SupportMailerService
     ).deliver_later
   end
 
-  def self.send_user_received_reward(user, amount, node)
-    SupportMailer.send_email(
-      "User #{user.email} received new reward",
-      "User #{user.email} received $ #{amount} from #{node.cached_crypto_name} node server."
-    ).deliver_later
-  end
-
   def self.send_user_balance_reached_masternode_price_notification(user, node)
     SupportMailer.send_email(
       "#{user.email} account balance reached new node price",

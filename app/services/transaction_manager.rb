@@ -38,7 +38,7 @@ class TransactionManager
       upline_txn.update_attribute(:status, 'processed')
     end
 
-    auto_withdraw? = reward.node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL && reward.node.withdraw_wallet.present?
+    auto_withdraw = reward.node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL && reward.node.withdraw_wallet.present?
     if auto_withdraw?
       system_account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.total_amount} #{reward.symbol} transfer from #{reward.node.wallet} to #{reward.node.withdraw_wallet}")
     else
