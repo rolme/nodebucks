@@ -57,9 +57,9 @@ class CryptoTable extends Component {
             <thead>
             <tr className="cryptosTableHeaderRow">
               <th>Coin</th>
-              <th className={`${sortedColumnName === 'annualRoiPercentage' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('annualRoiPercentage')} className="mb-0 text-right">Annual ROI <FontAwesomeIcon onClick={() => this.sortTable('annualRoiPercentage')} icon={sortedColumnName === 'annualRoiPercentage' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th className={`${sortedColumnName === 'monthlyRoiValue' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 text-right">Monthly Return <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
-              <th className={`${sortedColumnName === 'yearlyRoiValue' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 text-right">Yearly Return <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className={`${sortedColumnName === 'annualRoiPercentage' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('annualRoiPercentage')} className="mb-0 text-right">Annual ROI<span className="asteriskSign">*</span> <FontAwesomeIcon onClick={() => this.sortTable('annualRoiPercentage')} icon={sortedColumnName === 'annualRoiPercentage' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className={`${sortedColumnName === 'monthlyRoiValue' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('monthlyRoiValue')} className="mb-0 text-right">Monthly Return<span className="asteriskSign">*</span> <FontAwesomeIcon onClick={() => this.sortTable('monthlyRoiValue')} icon={sortedColumnName === 'monthlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
+              <th className={`${sortedColumnName === 'yearlyRoiValue' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none`}><p onClick={() => this.sortTable('yearlyRoiValue')} className="mb-0 text-right">Yearly Return<span className="asteriskSign">*</span> <FontAwesomeIcon onClick={() => this.sortTable('yearlyRoiValue')} icon={sortedColumnName === 'yearlyRoiValue' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th className={`${sortedColumnName === 'nodePrice' ? 'cryptosTableSortedColumnCell' : ''}`}><p onClick={() => this.sortTable('nodePrice')} className="mb-0 text-right">Node Price <FontAwesomeIcon onClick={() => this.sortTable('nodePrice')} icon={sortedColumnName === 'nodePrice' && !isDescending ? faAngleUp : faAngleDown} color="#9E9E9E" className="ml-2"/></p></th>
               <th></th>
             </tr>
@@ -68,6 +68,7 @@ class CryptoTable extends Component {
             {this.displayCryptos(sortedList)}
             </tbody>
           </Table>
+          <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
         </div>
       </div>
     )
