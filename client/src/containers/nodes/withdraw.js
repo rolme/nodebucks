@@ -182,7 +182,7 @@ class Withdraw extends Component {
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Affiliate</p>
             <p className="withdrawInformationPartHeaderValue">
-            ${valueFormat(withdrawal.affiliate_balance , 2)}
+            ${valueFormat(withdrawal.affiliateBalance , 2)}
             </p>
         </Row>
         </Row>
@@ -251,7 +251,7 @@ class Withdraw extends Component {
   }
 
   displayActions() {
-    let disabled = true 
+    let disabled = true
     if(this.props.withdrawal.amount) {
       disabled = parseFloat(this.props.withdrawal.amount.btc) === 0 && parseFloat(this.props.withdrawal.amount.usd) === 0
     }
