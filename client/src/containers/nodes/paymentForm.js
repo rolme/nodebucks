@@ -43,7 +43,8 @@ class PaymentForm extends React.Component {
 
   render() {
     const { message, checkbox, checkboxError } = this.state
-    const { purchasing, node } = this.props
+    const { purchasing } = this.props
+    const nodeCost = 1.00 // TODO: When live, change to parseFloat(node.cost).toFixed(2)
 
     return (
       <div>
@@ -74,8 +75,8 @@ class PaymentForm extends React.Component {
                 defaultChecked={checkbox}
                 onChange={this.toggleCheckbox}
               />
-              &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>, 
-                <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>, 
+              &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>,
+                <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>,
                 and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
             </Label>
           </FormGroup>
@@ -89,7 +90,7 @@ class PaymentForm extends React.Component {
             env={process.env.REACT_APP_PAYPAL_MODE}
             client={CLIENT}
             currency={'USD'}
-            total={process.env.NODE_ENV === 'development' ? 1.00 : node.cost}
+            total={process.env.NODE_ENV === 'development' ? 1.00 : nodeCost}
             onSuccess={this.onSuccess}
             onError={this.onError}
             style={{ width: 500 }}

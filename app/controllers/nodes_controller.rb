@@ -15,7 +15,7 @@ class NodesController < ApplicationController
 
   def index
     @nodes   = Node.unreserved if current_user.admin? && params.has_key?(:all)
-    @nodes ||= Node.unreserved.where(user_id: current_user.id, deleted_at: nil)
+    @nodes ||= Node.where(user_id: current_user.id, deleted_at: nil, status: ['offline', 'online', 'new'])
   end
 
   def offline

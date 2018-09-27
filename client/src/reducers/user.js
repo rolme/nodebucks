@@ -393,6 +393,10 @@ export default (state = initialState, action) => {
       return {
          ...state,
         verificationMessage: action.payload.message,
+        data: { 
+          ...state.data,
+          verificationStatus: 'pending'
+        },
       }
       
     case REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE:
@@ -706,12 +710,13 @@ export function passwordConfirmation(slug, password, callback) {
   }
 }
 
-export function uploadVerificationImage(slug, data) {
+export function uploadVerificationImage(slug, data, callback) {
   return dispatch => {
     dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.post(`/api/users/${slug}/verification_image`, data).then(response => {
       dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE_SUCCESS, payload: response.data })
+      callback()
     })
       .catch((error) => {
         dispatch({ type: REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE, payload: error.message })

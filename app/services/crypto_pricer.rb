@@ -75,7 +75,7 @@ class CryptoPricer
     reserved_value  = 0
 
     # Determine if we need to reserve any orders
-    required_reserve = crypto.nodes.select{ |n| n.status == 'new' }.count * crypto.stake
+    required_reserve = crypto.nodes.select{ |n| n.status == 'new' && !n.deleted? }.count * crypto.stake
     current_reserve  = 0
 
     i = 0
@@ -104,7 +104,7 @@ class CryptoPricer
     reserved_value  = 0
 
     # Determine if we need to reserve any orders
-    required_reserve = crypto.nodes.select{ |n| n.status == 'sold' }.count * crypto.stake
+    required_reserve = crypto.nodes.select{ |n| n.status == 'sold' && !n.deleted? }.count * crypto.stake
     current_reserve  = 0
 
     i = 0

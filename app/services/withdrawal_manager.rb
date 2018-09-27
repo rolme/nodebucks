@@ -5,19 +5,20 @@ class WithdrawalManager
   def initialize(user, my_withdrawal=nil)
     @user         = user
     @withdrawal   = my_withdrawal
-    @withdrawal ||= Withdrawal.find_by(user_id: user.id, status: 'reserved')
+    @withdrawal ||= Withdrawal.find_by(user_id: user.id, status: :reserved)
     @withdrawal ||= Withdrawal.new(
       amount_btc: user.total_balance[:btc],
       amount_usd: user.total_balance[:usd],
+      affiliate_balance: user.affiliate_balance,
       balances: user.balances,
       user_id: user.id,
-      status: 'reserved'
+      status: :reserved
     )
   end
 
   def confirm(params)
     if !user.authenticate(params[:password])
-      @error = 'Incorrect password'
+      @error = 'Incorrect password.'
       return false
     end
 
@@ -26,13 +27,15 @@ class WithdrawalManager
       return false
     end
 
-    account = user.accounts.find{ |a| a.symbol == 'btc' }
-    if params[:wallet].blank? && account.wallet.blank?
-      @error = 'BTC wallet not present. Please provide a withdrawal wallet.'
-      return false
+    if(params[:payment] === 'btc')
+      account = user.accounts.find{ |a| a.symbol == 'btc' }
+      if params[:wallet].blank? && account.wallet.blank?
+        @error = 'BTC wallet not present. Please provide a withdrawal wallet.'
+        return false
+      end
+      account.update_attribute(:wallet, params[:wallet]) if params[:wallet] != account.wallet
     end
 
-    account.update_attribute(:wallet, params[:wallet]) if params[:wallet] != account.wallet
     pending
   end
 
@@ -66,18 +69,18 @@ protected
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       cancelled_at: DateTime.current,
-      status: 'cancelled'
+      status: :cancelled
     )
   end
 
   def pending
     user = withdrawal.user
-    user.accounts.reject{ |a| a.symbol == 'btc' }.each do |account|
+    user.accounts.reject{ |a| a.symbol == 'btc' || a.balance == 0 }.each do |account|
       tm = TransactionManager.new(account)
       tm.withdraw(withdrawal)
     end
     TransactionManager.withdraw_affiliate_reward(withdrawal) if user.affiliate_balance > 0
-    @withdrawal.update_attribute(:status, 'pending')
+    @withdrawal.update_attribute(:status, :pending)
   end
 
   def process
@@ -86,7 +89,7 @@ protected
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       processed_at: DateTime.current,
-      status: 'processed'
+      status: :processed
     )
   end
 

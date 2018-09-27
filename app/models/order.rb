@@ -18,10 +18,18 @@ class Order < ApplicationRecord
 
   def paid!
     update_attribute(:status, :paid)
+    if order_type == 'sold' && node.status == 'sold'
+      operator = NodeManager::Operator.new(node)
+      operator.disburse
+    end
   end
 
   def unpaid!
     update_attribute(:status, :unpaid)
+    if order_type == 'sold' && node.status == 'disbursed'
+      operator = NodeManager::Operator.new(node)
+      operator.undisburse
+    end
   end
 
 private

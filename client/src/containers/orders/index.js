@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { capitalize, valueFormat } from '../../lib/helpers'
+import {NavLink} from 'react-router-dom'
 
 import './index.css'
 import { Table } from 'reactstrap'
@@ -54,7 +55,7 @@ class Orders extends Component {
           <tr key={order.orderId}>
             <td>{moment(order.node.createdAt).format("MMM D, YYYY  HH:mm")}</td>
             <td>{order.orderId}</td>
-            <td>{order.node.id}</td>
+            <td><NavLink to={`/nodes/${order.node.slug}`}>{order.node.id}</NavLink></td>
             <td>{order.node.crypto.name}</td>
             <td>{order.orderType}</td>
             <td>{amount}</td>
