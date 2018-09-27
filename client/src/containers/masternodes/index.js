@@ -42,15 +42,15 @@ class Masternodes extends Component {
             <p className="masternodesListingCoinInfoDescription">{crypto.description}</p>
             <Col className="d-flex justify-content-between flex-wrap">
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Annual ROI</h6>
+                <h6>Estimated Annual ROI*</h6>
                 <p>{annualRoi} %</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Yearly Return</h6>
+                <h6>Estimated Yearly Return*</h6>
                 <p>$ {yearlyRoiValue} USD</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Monthly Return</h6>
+                <h6>Estimated Monthly Return*</h6>
                 <p>$ {monthlyRoiValue} USD</p>
               </div>
             </Col>
@@ -76,6 +76,7 @@ class Masternodes extends Component {
           <div>
             <h1 className="masternodesSectionHeader">Select a Masternode</h1>
             {this.renderCoinsInfo(cryptos)}
+            <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
           </div>
           }
           {!showOnlyTable &&
