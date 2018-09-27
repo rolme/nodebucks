@@ -42,6 +42,8 @@ class Node < ApplicationRecord
           prefix: true
 
   validates :cost, presence: true
+  validates :ip, uniqueness: { constraint: -> { where(crypto_id: crypto.id) } }, allow_blank: true
+  validates :wallet, uniqueness: { constraint: -> { where(crypto_id: crypto.id) } }, allow_blank: true
 
   scope :offline,    -> { where(status: 'offline', deleted_at: nil) }
   scope :online,     -> { where(status: 'online', deleted_at: nil) }
