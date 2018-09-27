@@ -23,17 +23,17 @@ class MainTable extends Component {
     }).map(item => {
       let uptime = '-'
       if ( !!item.onlineAt ) {
-        item.onlineAt = new Date((item.onlineAt + ' +0000'))
-        uptime = moment().diff(moment(item.onlineAt), 'days')
+        item.onlineAt += ' +0000'
+        uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
       }
       if ( uptime !== '-' ) {
         if ( uptime === 0 ) {
-          if ( !!moment().diff(moment(item.onlineAt), 'hours') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'hours') + ' hrs'
-          } else if ( !!moment().diff(moment(item.onlineAt), 'minutes') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'minutes') + ' min'
-          } else if ( !!moment().diff(moment(item.onlineAt), 'seconds') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'seconds') + ' sec'
+          if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
+          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
+          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') + ' sec'
           }
         } else {
           uptime += uptime > 1 ? ' days' : ' day'
