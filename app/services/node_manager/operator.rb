@@ -27,7 +27,7 @@ module NodeManager
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
       if (node.reward_setting === Node::REWARD_AUTO_WITHDRAWAL && !!node.withdraw_wallet)
-        # TODO: Send an email to transfer funds to admin
+        SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward)
       end
     end
 
