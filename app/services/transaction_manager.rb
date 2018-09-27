@@ -38,8 +38,9 @@ class TransactionManager
       upline_txn.update_attribute(:status, 'processed')
     end
 
-    if reward.node.reward_setting != Node::REWARD_AUTO_WITHDRAWAL && reward.node.withdraw_wallet.present?
-      system_account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.total_amount} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to #{reward.node.withdraw_wallet}")
+    auto_withdraw? = reward.node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL && reward.node.withdraw_wallet.present?
+    if auto_withdraw?
+      system_account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.total_amount} #{reward.symbol} transfer from #{reward.node.wallet} to #{reward.node.withdraw_wallet}")
     else
       account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
     end
@@ -47,9 +48,9 @@ class TransactionManager
     system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
-      account.update_attribute(:balance, account.balance + reward.total_amount)
+      account.update_attribute(:balance, account.balance + reward.total_amount) unless auto_withdraw?
       system_account.update_attribute(:balance, account.balance + fee)
-      account_txn.update_attribute(:status, 'processed')
+      account_txn.update_attribute(:status, 'processed') unless auto_withdraw?
       system_txn.update_attribute(:status, 'processed')
     end
 
