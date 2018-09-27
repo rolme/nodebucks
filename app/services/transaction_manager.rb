@@ -49,8 +49,10 @@ class TransactionManager
       system_txn.update_attribute(:status, 'processed')
     end
 
+    account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'transfer', notes: "Transfer #{reward.total_amount} #{reward.symbol} from Nodebucks to #{reward.node.wallet}")
+
     # Notifications
-    SupportMailerService.send_user_received_reward(owner, reward.total_amount, node) if node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL
+    SupportMailerService.send_auto_withdrawal_notification(node.account, reward.total_amount, reward.usd_value)
     SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost 
   end
 
