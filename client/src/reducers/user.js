@@ -393,6 +393,10 @@ export default (state = initialState, action) => {
       return {
          ...state,
         verificationMessage: action.payload.message,
+        data: { 
+          ...state.data,
+          verificationStatus: 'pending'
+        },
       }
       
     case REQUEST_UPDATE_VERIFICATION_IMAGE_FAILURE:
