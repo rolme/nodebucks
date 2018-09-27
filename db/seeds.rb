@@ -74,6 +74,9 @@ if ENV["RAILS_ENV"] != 'production'
   puts "    * Set IP and wallet"
   node.ip     = '127.0.0.1'
   node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
+  puts "    * Turn auto withdrawal on"
+  node.withdraw_wallet = 'dksfjdsfkjasdlfjdasklfj'
+  node.reward_setting = 20
   node.save
   puts "    * put online"
   operator.online(DateTime.current - (3.months - 2.days))
