@@ -280,7 +280,7 @@ class Node extends Component {
             <tr>
               <th className="text-left">Date</th>
               <th className="text-left">Event</th>
-              <th className="text-right">Total Rewards</th>
+              <th className="text-right">Total Rewards ({node.crypto.symbol})</th>
             </tr>
             </thead>
             <tbody>
