@@ -16,6 +16,7 @@ class Verification extends Component {
       image: null,
       formError: null,
       isUploading: false,
+      showAlert: false,
     }
   }
 
@@ -29,7 +30,8 @@ class Verification extends Component {
     let formData = new FormData();
     formData.append('user[verification_image]', this.state.image)
     this.props.uploadVerificationImage(this.props.user.slug, formData, () => {
-      this.setState({ isUploading: false })
+      this.setState({ isUploading: false, showAlert: true })
+      setTimeout(() => { this.setState({ showAlert: false }) }, 3000);
     })
     this.setState({ formError: null, isUploading: true })
   }
@@ -49,29 +51,37 @@ class Verification extends Component {
   }
 
   render() {
-    const { user, message, error } = this.props
-    const { formError, isUploading } = this.state
+    const { user, message, error, pending } = this.props
+    const { formError, isUploading, showAlert } = this.state
+
+    if(pending) return <div />
+
     return (
       <Container fluid className="settingsContainer">
         <div className="contentContainer px-0">
           <Col className="settingsContentContainer px-0" xl={{ size: 12 }} lg={{ size: 12 }} md={{ size: 12 }} sm={{ size: 12 }} xs={{ size: 12 }}>
             <h1 className="settingsTitleText pageTitle">Verification</h1>
           </Col>
-          <p className="verificationMessage">{user.verified ? 'Your account is already verified!' : 'Please upload a picture of your photo ID or passport.'}</p>
+          {(!!message) &&
+            <Alert className="mt-1" color={error ? 'danger' : 'success'} isOpen={showAlert}>
+              { message }
+            </Alert>
+          }
+          {user.verificationStatus === 'pending' ?
+            <p className="verificationMessage">ID verification is pending.</p> :
+            <p className="verificationMessage">{user.verified ? 'Your account is already verified!' : 'Click on the image below to upload a photo ID or passport.'}</p>
+          }
           { !user.verified &&
             <Form className="mt-4">
               <Col className="changeInputFieldsContainer">
-                {(!!message) &&
-                  <Alert color={error ? 'danger' : 'success'}>
-                    { message}
-                  </Alert>
-                }
-                { this.renderImageDropzone() }
+                { user.verificationStatus !== 'pending' && this.renderImageDropzone() }
               </Col>
-              <Col className="d-flex verificationFooterButtonsContainer justify-content-center">
-                <Button onClick={this.validation} className="submitButton" disabled={isUploading}>UPLOAD</Button>
-              </Col>
-              { formError && <p className="verificationFormError">{formError}</p> }
+              { user.verificationStatus !== 'pending' &&
+                <Col className="d-flex verificationFooterButtonsContainer justify-content-center">
+                  <Button onClick={this.validation} className="submitButton" disabled={isUploading}>SUBMIT</Button>
+                </Col>
+              }
+              { user.verificationStatus !== 'pending' && formError && <p className="verificationFormError">{formError}</p> }
             </Form>
           }
         </div>
@@ -115,6 +125,7 @@ const mapStateToProps = state => ({
   user: state.user.data,
   message: state.user.verificationMessage,
   error: state.user.error,
+  pending: state.user.pending,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

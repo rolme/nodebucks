@@ -200,7 +200,7 @@ class UsersController < ApplicationController
   def verification_image
     user = User.find_by(slug: params[:user_slug])
     if user.update(verification_image: params[:user][:verification_image], verification_status: :pending)
-      render json: { status: :ok, message: 'ID verification is successfully requested.' }
+      render json: { status: :ok, message: 'Photo successfully uploaded.' }
     else
       render json: { status: :error, message: user.errors.full_messages.join(', ') }
     end
