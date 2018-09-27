@@ -9,6 +9,7 @@ class WithdrawalManager
     @withdrawal ||= Withdrawal.new(
       amount_btc: user.total_balance[:btc],
       amount_usd: user.total_balance[:usd],
+      affiliate_balance: user.affiliate_balance,
       balances: user.balances,
       user_id: user.id,
       status: :reserved
