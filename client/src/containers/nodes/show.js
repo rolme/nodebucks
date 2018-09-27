@@ -119,16 +119,16 @@ class Node extends Component {
   displayHeader(node) {
     let uptime = '-'
     if ( !!node.onlineAt ) {
-      node.onlineAt = new Date((node.onlineAt + ' +0000'))
-      uptime = moment().diff(moment(node.onlineAt), 'days')
+      node.onlineAt +=  ' +0000'
+      uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
     }
     if ( uptime === 0 ) {
-      if ( !!moment().diff(moment(node.onlineAt), 'hours') ) {
-        uptime = moment().diff(moment(node.onlineAt), 'hours') + ' hrs'
-      } else if ( !!moment().diff(moment(node.onlineAt), 'minutes') ) {
-        uptime = moment().diff(moment(node.onlineAt), 'minutes') + ' min'
-      } else if ( !!moment().diff(moment(node.onlineAt), 'seconds') ) {
-        uptime = moment().diff(moment(node.onlineAt), 'seconds') + ' sec'
+      if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
+        uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
+      } else if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
+        uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
+      } else if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
+        uptime = moment().diff(moment(node.onlineAt), "YYYY-MM-DD HH:mm:ss", 'seconds') + ' sec'
       }
     } else {
       uptime += uptime > 1 ? ' days' : ' day'
@@ -303,7 +303,7 @@ class Node extends Component {
       total = (total < 0) ? 0.00 : +total
       const row = (
         <tr key={event.id}>
-          <td className="text-left">{moment(new Date(event.timestamp)).format("MMM D, YYYY  HH:mm")}</td>
+          <td className="text-left">{moment(event.timestamp, "YYYY-MM-DD HH:mm:ss").format("MMM D, YYYY  HH:mm")}</td>
           <td className="text-left">{event.description}</td>
           <td className="text-right">{valueFormat(total, 2)}</td>
         </tr>
