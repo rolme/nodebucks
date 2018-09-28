@@ -37,7 +37,7 @@ export default class Modal2FA extends Component {
         <ModalHeader toggle={this.props.onToggle}>Two Factor Authentication</ModalHeader>
         <ModalBody>
           <Input 
-            type="password"
+            type="text"
             name="2fa"
             placeholder="Enter Google authenticator token here"
             value={this.state.token}
