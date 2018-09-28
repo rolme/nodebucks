@@ -118,7 +118,7 @@ class CoinInfo extends Component {
     } else if(masternode.nodePrice > 10000 && masternode.nodePrice < 25000 && !!user && user.verificationStatus !== 'approved') {
       return(
         <NavLink to={'/settings/verification'}>
-          <Button className="infoNodeButton">Verify Account</Button>
+          <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
     } else if(masternode.nodePrice >= 25000 || !masternode.liquidity.buy) {
