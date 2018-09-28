@@ -81,7 +81,7 @@ class CryptoTable extends Component {
       let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) + ' USD' : '-'
       let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + valueFormat(+item.monthlyRoiValue) + ' USD' : '-'
       let yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + valueFormat(+item.yearlyRoiValue) + ' USD' : '-'
-      let annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? ((+item.annualRoiPercentage) * 100.0).toFixed(1) + ' %' : '-'
+      let annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? ((+item.annualRoiPercentage) * 100.0).toFixed(1) + '%' : '-'
       return (
         <tr key={item.slug}>
           <td>

@@ -179,13 +179,13 @@ class Node extends Component {
             <dt className="col-6 text-right"> {node.id}</dt>
 
             <dd className="col-6">Value</dd>
-            <dt className="col-6 text-right">$ {value}</dt>
+            <dt className="col-6 text-right">${value}</dt>
 
             <dd className="col-6">Cost</dd>
-            <dt className="col-6 text-right">$ {cost}</dt>
+            <dt className="col-6 text-right">${cost}</dt>
 
             <dd className="col-6">Total Rewards</dd>
-            <dt className="col-6 text-right">$ {rewardTotal}</dt>
+            <dt className="col-6 text-right">${rewardTotal}</dt>
 
             <dd className="col-6">Reward %</dd>
             <dt className="col-6 text-right">{rewardPercentage}%</dt>
@@ -255,13 +255,13 @@ class Node extends Component {
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <dl className="row mb-0">
             <dd className="col-6">Last Week</dd>
-            <dt className="col-6 text-right">$ {week}</dt>
+            <dt className="col-6 text-right">${week}</dt>
 
             <dd className="col-6">Last Month</dd>
-            <dt className="col-6 text-right">$ {month}</dt>
+            <dt className="col-6 text-right">${month}</dt>
 
             <dd className="col-6">Last Year</dd>
-            <dt className="col-6 text-right">$ {year}</dt>
+            <dt className="col-6 text-right">${year}</dt>
           </dl>
         </div>
       </div>
