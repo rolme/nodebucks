@@ -37,13 +37,14 @@ class Node < ApplicationRecord
            :ticker_url,
            to: :crypto
 
- delegate :price,
+  delegate :price,
           to: :crypto,
           prefix: true
 
   validates :cost, presence: true
-  validates :ip, uniqueness: { constraint: -> { where(crypto_id: crypto.id) } }, allow_blank: true
-  validates :wallet, uniqueness: { constraint: -> { where(crypto_id: crypto.id) } }, allow_blank: true
+
+  validates_uniqueness_of :ip, scope: :crypto_id, allow_blank: true
+  validates_uniqueness_of :wallet, scope: :crypto_id, allow_blank: true
 
   scope :offline,    -> { where(status: 'offline', deleted_at: nil) }
   scope :online,     -> { where(status: 'online', deleted_at: nil) }
@@ -115,6 +116,14 @@ class Node < ApplicationRecord
   def sell!
     self.status = 'sold'
     save!
+  end
+
+  def duplicated_ip?
+    ip.present? ? Node.where(crypto_id: crypto.id, ip: ip).count > 1 : false
+  end
+
+  def duplicated_wallet?
+    wallet.present? ? Node.where(crypto_id: crypto.id, wallet: wallet).count > 1 : false
   end
 
 private

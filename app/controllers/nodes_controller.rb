@@ -134,7 +134,7 @@ class NodesController < ApplicationController
     if @node.update(current_user.admin? ? node_params : node_user_params)
       render :show
     else
-      render json: { status: 'error', message: builder.error }
+      render json: { status: 'error', message: @node.errors.full_messages.join(', ') }
     end
   end
 
