@@ -44,7 +44,7 @@ class PaymentForm extends React.Component {
   render() {
     const { message, checkbox, checkboxError } = this.state
     const { purchasing } = this.props
-    const nodeCost = parseFloat(node.cost).toFixed(2)
+    const nodeCost = parseFloat(this.props.node.cost).toFixed(2)
 
     return (
       <div>
