@@ -39,6 +39,7 @@ class CryptosController < ApplicationController
       :name,
       :status,
       :url,
+      :enabled,
     )
   end
 end
