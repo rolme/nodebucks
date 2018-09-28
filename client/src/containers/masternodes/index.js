@@ -43,21 +43,21 @@ class Masternodes extends Component {
             <Col className="d-flex justify-content-between flex-wrap">
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
                 <h6>Estimated Annual ROI*</h6>
-                <p>{annualRoi} %</p>
+                <p>{annualRoi}%</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
                 <h6>Estimated Yearly Return*</h6>
-                <p>$ {yearlyRoiValue} USD</p>
+                <p>${yearlyRoiValue} USD</p>
               </div>
               <div className="masternodesListingCoinInfoDescriptionDataContainer">
                 <h6>Estimated Monthly Return*</h6>
-                <p>$ {monthlyRoiValue} USD</p>
+                <p>${monthlyRoiValue} USD</p>
               </div>
             </Col>
           </Col>
           <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 3, offset: 0 }} className="d-flex flex-column align-items-center justify-content-center px-0">
             <p className="masternodesListingCoinInfoPriceLabel">Node Price</p>
-            <p className="masternodesListingCoinInfoPrice">$ {nodePrice} USD</p>
+            <p className="masternodesListingCoinInfoPrice">${nodePrice} USD</p>
             <NavLink to={`/masternodes/${crypto.slug}`} className="btn btn-primary masternodesListingCoinInfoButton addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
           </Col>
         </Col>

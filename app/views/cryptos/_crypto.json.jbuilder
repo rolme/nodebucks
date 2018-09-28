@@ -25,6 +25,7 @@ json.weeklyRoiValue crypto.weekly_roi[:value]
 json.weeklyRoiPercentage crypto.weekly_roi[:percentage]
 json.yearlyRoiValue crypto.yearly_roi[:value]
 json.yearlyRoiPercentage crypto.yearly_roi[:percentage]
+json.enabled crypto.enabled
 
 if @show_pricing
   json.estimatedNodePrice crypto.estimated_node_price
