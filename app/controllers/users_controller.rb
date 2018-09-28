@@ -55,7 +55,9 @@ class UsersController < ApplicationController
   end
 
   def login
-    authenticate params[:email], params[:password]
+    if authenticate params[:email], params[:password]
+      User.find_by_email(params[:email]).update_trusted_ip(request.remote_ip) if params[:trusted]
+    end
   end
 
   def update
@@ -250,7 +252,15 @@ class UsersController < ApplicationController
   def secret_2fa
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password]).present?
-      if user.two_fa_secret.present?
+      if user.two_fa_secret.present? && user.trusted_ip && user.trusted_ip_expired?
+        render json: { status: :ok, expired: true, secret: user.two_fa_secret }
+      elsif user.trusted_ip.present? && !user.trusted_ip_expired?
+        if request.remote_ip == user.trusted_ip
+          render json: { status: :ok, trusted: true }
+        elsif request.remote_ip != user.trusted_ip
+          render json: { status: :ok, other_ip: true, secret: user.two_fa_secret  }
+        end
+      elsif user.two_fa_secret.present?
         render json: { status: :ok, enabled_2fa: true, secret: user.two_fa_secret }
       else
         render json: { status: :ok, enabled_2fa: false }

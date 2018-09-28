@@ -32,7 +32,7 @@ class AuthenticateUser
       verificationStatus: user.verification_status,
       verificationImage: user.verification_image,
       admin: user.admin,
-      enabled2FA: @user.two_fa_secret.present?,
+      enabled2FA: user.two_fa_secret.present?,
     }) if user
   end
 

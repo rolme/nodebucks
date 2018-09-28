@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
 import speakeasy from 'speakeasy'
 
 export default class Modal2FA extends Component {
@@ -9,6 +9,7 @@ export default class Modal2FA extends Component {
     this.state = {
       token: '',
       message: '',
+      trusted: false,
     }
   }
 
@@ -18,17 +19,26 @@ export default class Modal2FA extends Component {
 
   handleSubmit = () => {
     const { email, password, secret } = this.props
+    const { trusted } = this.state
     const isTokenValid = speakeasy.totp.verify({ 
       secret: secret,
       encoding: 'ascii',
       token: this.state.token,
     })
 
-    if(isTokenValid) {
+    if(trusted) {
+      this.props.login({ email, password, trusted })
+    }
+    else if(isTokenValid) {
       this.props.login({ email, password })
       this.props.onToggle()
-    } else
+    } else {
       this.setState({ message: 'Token is invalid.'})
+    }
+  }
+
+  handleCheckboxChange = () => {
+    this.setState({ trusted: !this.state.trusted })
   }
 
   render() {
@@ -45,6 +55,18 @@ export default class Modal2FA extends Component {
             autoFocus={true}
           />
           <p className="text-danger mt-2">{this.state.message}</p>
+          { !this.props.isOtherIP &&
+            <div>
+              <Label for="trusted">This is a trusted computer</Label>
+              <Input
+                type="checkbox"
+                name="trusted"
+                onChange={this.handleCheckboxChange}
+                checked={this.state.trusted}
+                className="ml-2"
+              />
+            </div>
+          }
         </ModalBody>
         <ModalFooter>
           <Button 
