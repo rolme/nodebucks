@@ -43,6 +43,7 @@ class NewNode extends Component {
     window.scrollTo(0, 0)
     if ( !!user ) {
       this.props.reserveNode(params.crypto)
+    } else {
       this.props.fetchCrypto(params.crypto)
     }
     this.checkPriceDataAvailability()
