@@ -75,7 +75,7 @@ class TwoFactorAuthentication extends Component {
                         name="userToken"
                         placeholder="Enter code here"
                         id="userToken"
-                        type='password'
+                        type='text'
                         autoFocus={true}
                         value={userToken}
                         onChange={this.verifyToken}
