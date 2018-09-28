@@ -124,7 +124,7 @@ class Dashboard extends Component {
                   color={'#FFFFFF'}
                   loading={true}
                 /> :
-                <p>$ {valueFormat(+nodeValue, 2)}</p>
+                <p>${valueFormat(+nodeValue, 2)}</p>
               }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
@@ -146,7 +146,7 @@ class Dashboard extends Component {
                   color={'#FFFFFF'}
                   loading={true}
                 /> :
-                <p>$ {valueFormat(+monthlyRewards, 2)}</p>
+                <p>${valueFormat(+monthlyRewards, 2)}</p>
               }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
