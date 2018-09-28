@@ -131,6 +131,7 @@ class Node extends Component {
 
   displayHeader(node) {
     const { status } = this.state
+    if (!status) { return }
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={12} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
