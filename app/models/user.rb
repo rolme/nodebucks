@@ -167,6 +167,14 @@ class User < ApplicationRecord
     end
   end
 
+  def update_trusted_ip(remote_ip)
+    update_attributes(trusted_ip: remote_ip, trusted_at: Time.zone.now)
+  end
+
+  def trusted_ip_expired?
+    (Time.current - trusted_at).days <= 30
+  end
+
   private
 
   def generate_affiliate_key

@@ -41,6 +41,7 @@ class LogIn extends Component {
       },
       show2fa: false,
       secret: '',
+      isOtherIP: false,
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
@@ -85,7 +86,13 @@ class LogIn extends Component {
   check2FA() {
     const { email, password } = this.state
     this.props.get2FASecret({email, password}, (response) => {
-      if(response.enabled_2fa) {
+      if(response.other_ip) {
+        this.setState({ show2fa: true, secret: response.secret, isOtherIP: true })
+      } else if(response.expired) {
+        this.setState({ show2fa: true, secret: response.secret })
+      } else if(response.trusted) {
+        this.props.login({ email, password })
+      } else if(response.enabled_2fa) {
         this.setState({ show2fa: true, secret: response.secret })
       } else {
         this.props.login({ email, password })
@@ -139,7 +146,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret } = this.state
+    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret, isOtherIP } = this.state
     const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
@@ -228,6 +235,7 @@ class LogIn extends Component {
           password={password}
           secret={secret}
           login={this.props.login}
+          isOtherIP={isOtherIP}
         />
       </Container>
     )
