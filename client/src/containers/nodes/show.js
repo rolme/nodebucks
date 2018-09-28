@@ -28,6 +28,7 @@ class Node extends Component {
       showAllHistoryData: false,
       withdrawWallet: '',
       showAlert: false,
+      status: ''
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.rewardSettingsChange = this.rewardSettingsChange.bind(this)
@@ -42,7 +43,15 @@ class Node extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { node } = nextProps
-    !!node && this.setState({ rewardSetting: node.rewardSetting, withdrawWallet: node.withdrawWallet })
+    let { status } = node
+    if ( !!status ) {
+      if ( !!node.deletedAt ) {
+        status = 'shutdown'
+      } else if ( status === 'disbursed' ) {
+        status = 'sold'
+      }
+    }
+    !!node && this.setState({ rewardSetting: node.rewardSetting, withdrawWallet: node.withdrawWallet, status })
   }
 
   toggleHistoryDataAmount() {
@@ -83,6 +92,8 @@ class Node extends Component {
 
   render() {
     const { node, pending, message } = this.props
+    const { status } = this.state
+    const isSold = status === 'sold'
 
     if ( pending || node.slug === undefined ) {
       return null
@@ -94,15 +105,17 @@ class Node extends Component {
           <Alert isOpen={this.state.showAlert}>{message}</Alert>
           {this.displayHeader(node)}
           <Row className="pt-3 mx-0">
-            <Col xl={{ size: 8, offset: 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
+            <Col xl={{ size: 8, offset: isSold ? 2 : 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
               {this.displayHistory(node)}
               {this.displayPriceHistoryChart(node)}
             </Col>
+            {!isSold &&
             <Col xl={{ size: 4, offset: 0 }} lg={{ size: 6, offset: 3 }} md={{ size: 8, offset: 2 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pr-0">
               {this.displaySummary(node)}
               {this.displayRewardSettings(node)}
               {this.displayROI(node)}
             </Col>
+            }
           </Row>
           <ConfirmationModal
             show={this.showConfirmationModal}
@@ -117,6 +130,7 @@ class Node extends Component {
   }
 
   displayHeader(node) {
+    const { status } = this.state
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={12} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
@@ -124,10 +138,12 @@ class Node extends Component {
           <h5 className="mb-0 ml-4 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={12} className="d-flex pl-0 my-xl-0 my-lg-0 my-md-0 my-3 justify-content-xl-center justify-content-lg-center justify-content-md-center align-items-center  justify-content-start">
-          <h5 className="mb-0 showPageHeaderInfo"><b>Status:</b> {capitalize(node.status)}</h5>
-          <h5 className="mb-0 ml-3 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>
+          <h5 className="mb-0 showPageHeaderInfo"><b>Status:</b> {capitalize(status)}</h5>
+          {status !== 'sold' && <h5 className="mb-0 ml-3 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>}
         </Col>
-        {this.displayActions(node)}
+        {status !== 'sold' &&
+        this.displayActions(node)
+        }
       </Row>
     )
   }
