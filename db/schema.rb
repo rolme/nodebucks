@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_27_040349) do
+ActiveRecord::Schema.define(version: 2018_09_28_092815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2018_09_27_040349) do
     t.datetime "updated_at", null: false
     t.boolean "buy_liquidity", default: true
     t.boolean "sell_liquidity", default: true
+    t.boolean "enabled", default: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -250,6 +251,8 @@ ActiveRecord::Schema.define(version: 2018_09_27_040349) do
     t.datetime "verified_at"
     t.string "verification_status", default: "none"
     t.string "verification_image"
+    t.string "trusted_ip"
+    t.datetime "trusted_at"
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 

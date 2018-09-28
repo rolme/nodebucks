@@ -5,7 +5,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
-
+import { isEmpty } from 'lodash'
 import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
@@ -43,7 +43,6 @@ class NewNode extends Component {
     window.scrollTo(0, 0)
     if ( !!user ) {
       this.props.reserveNode(params.crypto)
-    } else {
       this.props.fetchCrypto(params.crypto)
     }
     this.checkPriceDataAvailability()
@@ -131,9 +130,8 @@ class NewNode extends Component {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
-    if ( purchasing ) {
-      return <Redirect to='/dashboard'/>
-    }
+    if (purchasing) return <Redirect to='/dashboard'/>
+    if (!isEmpty(crypto) && !crypto.enabled) return <Redirect to={`/masternodes/${crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
