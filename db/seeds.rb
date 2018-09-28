@@ -60,7 +60,7 @@ if ENV["RAILS_ENV"] != 'production'
   operator = NodeManager::Operator.new(node)
   operator.purchase(DateTime.current - (6.months - 2.days), { source: 'seed' })
   puts "    * Set IP and wallet"
-  node.ip     = '127.0.0.1'
+  node.ip     = '127.0.0.2'
   node.wallet = 'PKe7MGTEXaunMhSXwT2D88QEk8JLXbYn7u'
   node.save
   puts "    * put online"
@@ -75,7 +75,7 @@ if ENV["RAILS_ENV"] != 'production'
   node.ip     = '127.0.0.1'
   node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
   puts "    * Turn auto withdrawal on"
-  node.withdraw_wallet = 'dksfjdsfkjasdlfjdasklfj'
+  node.withdraw_wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHb'
   node.reward_setting = 20
   node.save
   puts "    * put online"
