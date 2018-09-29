@@ -160,7 +160,7 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            <Col xl={12} className="d-flex px-0 flex-wrap">
+            <Col xl={12} className="d-flex px-0 flex-wrap justify-content-center">
               {
                 !!nodePending || !!cryptoPending
                   ? <div className="loadingSnipperContainer">
