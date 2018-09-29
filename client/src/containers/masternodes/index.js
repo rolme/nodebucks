@@ -40,16 +40,16 @@ class Masternodes extends Component {
           </Col>
           <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 7, offset: 0 }} className="masternodesListingCoinInfoDescriptionPartContainer">
             <p className="masternodesListingCoinInfoDescription">{crypto.description}</p>
-            <Col className="d-flex justify-content-between flex-wrap">
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+            <Col className="d-flex justify-content-xl-between justify-content-lg-between justify-content-md-between justify-content-center flex-wrap">
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
                 <h6>Estimated Annual ROI*</h6>
                 <p>{annualRoi}%</p>
               </div>
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
                 <h6>Estimated Yearly Return*</h6>
                 <p>${yearlyRoiValue} USD</p>
               </div>
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
                 <h6>Estimated Monthly Return*</h6>
                 <p>${monthlyRoiValue} USD</p>
               </div>
