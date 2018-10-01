@@ -30,6 +30,14 @@ export default class Disclaimer extends Component {
             <p className="paragraphText">Accordingly, we will not be liable, whether in contract, tort (including negligence) or otherwise, in respect of any damage, expense or other loss you may suffer arising out of the purchases you make here. </p>
           </Row>
           <Row className="pt-4 flex-column">
+            <p className="termOfUseSectionTitle pb-2">No uptime guarantee</p>
+            <p className="paragraphText">Nodebucks does not guarantee 100% uptime of its masternodes. We work diligently to restore outages, but sometimes rewards may be lost due to hardware or network failures outside our control. </p>
+          </Row>
+          <Row className="pt-4 flex-column">
+            <p className="termOfUseSectionTitle pb-2">No blockchain guarantees</p>
+            <p className="paragraphText">We do not own or operate the actual blockchains. We are not responsible for blockchain hard forks that may result in downtime of masternodes. We are not responsible for 51% attacks of the blockchain. We are not responsible for data corruption of the blockchain or any other blockchain issues that may result in the loss of coins, rewards, or masternode operation. </p>
+          </Row>
+          <Row className="pt-4 flex-column">
             <p className="termOfUseSectionTitle pb-2">Investment Warnings</p>
             <p className="paragraphText">We would like to draw your attention to the following important investment warnings.</p>
             <ul className="disclaimerUnorderedList">
