@@ -7,6 +7,10 @@ class ApplicationController < ActionController::API
     render file: 'public/index.html', content_type: 'text/html'
   end
 
+  def counts
+    render :counts
+  end
+
 private
 
   def authenticate_request_optional

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/counts', to: 'application#counts', defaults: { format: :json }
   post 'auth/login', to: 'users#login'
   post 'auth/admin', to: 'users#admin_login'
   post 'auth/oauth', to: 'users#callback'

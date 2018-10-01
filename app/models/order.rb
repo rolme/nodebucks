@@ -6,6 +6,8 @@ class Order < ApplicationRecord
 
   before_create :generate_slug
 
+  scope :unpaid, -> { where(status: :unpaid) }
+
   scope :filter_by_node, ->(node_slug) {
     return unless node_slug.present?
     joins(:node).where("nodes.slug LIKE ?", node_slug)
