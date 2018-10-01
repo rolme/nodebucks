@@ -201,7 +201,6 @@ class SignUp extends Component {
                               name="first"
                               id="signUpFirst"
                               type='text'
-                              autoFocus={true}
                               value={first}
                               message={messages.first}
                               error={errors.first}
