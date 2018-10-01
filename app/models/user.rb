@@ -172,7 +172,9 @@ class User < ApplicationRecord
   end
 
   def trusted_ip_expired?
-    (Time.current - trusted_at).days <= 30
+    expired = (Time.current - trusted_at).days <= 30
+    update_attributes(trusted_ip: nil, trusted_at: nil) if expired
+    expired
   end
 
   private

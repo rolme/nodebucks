@@ -14,7 +14,12 @@ export default class Modal2FA extends Component {
   }
 
   handleTokenChange = (e) => {
-    this.setState({ token: e.target.value, message: '' })
+    const token = e.target.value
+    this.setState({ token: token, message: '' }, () => {
+      if (token.length === 6) {
+        this.handleSubmit()
+      }
+    })
   }
 
   handleSubmit = () => {
@@ -33,7 +38,7 @@ export default class Modal2FA extends Component {
       this.props.login({ email, password })
       this.props.onToggle()
     } else {
-      this.setState({ message: 'Token is invalid.'})
+      this.setState({ token: '', message: 'Token is invalid.'})
     }
   }
 
@@ -55,27 +60,27 @@ export default class Modal2FA extends Component {
             autoFocus={true}
           />
           <p className="text-danger mt-2">{this.state.message}</p>
+          <hr />
           { !this.props.isOtherIP &&
-            <div>
-              <Label for="trusted">This is a trusted computer</Label>
-              <Input
-                type="checkbox"
-                name="trusted"
-                onChange={this.handleCheckboxChange}
-                checked={this.state.trusted}
-                className="ml-2"
-              />
+            <div className="d-flex justify-content-between">
+              <div className="ml-4">
+                <Input
+                  type="checkbox"
+                  name="trusted"
+                  onChange={this.handleCheckboxChange}
+                  checked={this.state.trusted}
+                />
+                <Label for="trusted">This is a trusted computer</Label>
+              </div>
+              <Button 
+                color="primary" 
+                onClick={this.handleSubmit}
+              >
+                Submit
+              </Button>
             </div>
           }
         </ModalBody>
-        <ModalFooter>
-          <Button 
-            color="primary" 
-            onClick={this.handleSubmit}
-          >
-            Submit
-          </Button>
-        </ModalFooter>
       </Modal>
     );
   }
