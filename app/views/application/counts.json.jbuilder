@@ -6,3 +6,4 @@ json.verifications User.where.not(email: nil).verifications_pending.count
 json.pendingTransactions Transaction.pending.count
 json.contacts Contact.count
 json.unpaidOrders Order.unpaid.count
+json.ordersAll Order.count 
