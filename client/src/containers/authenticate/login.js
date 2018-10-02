@@ -3,12 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
+import { withCookies } from 'react-cookie';
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import Modal2FA from '../../components/2faModal'
 import { capitalize } from '../../lib/helpers'
 import SocialButton from './socialButton'
+import localIpUrl from 'local-ip-url';
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
@@ -85,19 +87,21 @@ class LogIn extends Component {
 
   check2FA() {
     const { email, password } = this.state
-    this.props.get2FASecret({email, password}, (response) => {
-      if(response.other_ip) {
-        this.setState({ show2fa: true, secret: response.secret, isOtherIP: true })
-      } else if(response.expired) {
-        this.setState({ show2fa: true, secret: response.secret })
-      } else if(response.trusted) {
-        this.props.login({ email, password })
-      } else if(response.enabled_2fa) {
-        this.setState({ show2fa: true, secret: response.secret })
-      } else {
-        this.props.login({ email, password })
-      }
-    })
+    const trustedIp = this.props.cookies.get('trustedIpNodebucks')
+
+    if(trustedIp && trustedIp === localIpUrl()) {
+      this.props.login({ email, password })
+    } else {
+      this.props.get2FASecret({email, password}, (response) => {
+        if(trustedIp && trustedIp !== localIpUrl()) {
+          this.setState({ show2fa: true, secret: response.secret, isOtherIP: true })
+        } else if(response.enabled_2fa) {
+          this.setState({ show2fa: true, secret: response.secret })
+        } else {
+          this.props.login({ email, password })
+        }
+      })
+    }
   }
 
   validation() {
@@ -256,7 +260,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   socialMediaLogin,
 }, dispatch)
 
-export default withRouter(connect(
+export default withRouter(withCookies(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LogIn))
+)(LogIn)))
