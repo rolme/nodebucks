@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
 import speakeasy from 'speakeasy'
+import { withCookies } from 'react-cookie';
+import localIpUrl from 'local-ip-url';
 
-export default class Modal2FA extends Component {
+class Modal2FA extends Component {
   constructor(props) {
     super(props)
 
@@ -10,7 +12,12 @@ export default class Modal2FA extends Component {
       token: '',
       message: '',
       trusted: false,
+      visible: false,
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.showModal(nextProps.show);
   }
 
   handleTokenChange = (e) => {
@@ -23,7 +30,7 @@ export default class Modal2FA extends Component {
   }
 
   handleSubmit = () => {
-    const { email, password, secret } = this.props
+    const { email, password, secret, cookies } = this.props
     const { trusted } = this.state
     const isTokenValid = speakeasy.totp.verify({ 
       secret: secret,
@@ -32,7 +39,9 @@ export default class Modal2FA extends Component {
     })
 
     if(trusted) {
-      this.props.login({ email, password, trusted })
+      cookies.set("trustedIp", localIpUrl(), 
+        { path: "/", secure: process.env.NODE_ENV !== 'development', sameSite: true, maxAge: 2592000 }) // 30 days in seconds
+      this.props.login({ email, password })
     }
     else if(isTokenValid) {
       this.props.login({ email, password })
@@ -46,9 +55,15 @@ export default class Modal2FA extends Component {
     this.setState({ trusted: !this.state.trusted })
   }
 
+  showModal = (val) => {
+    this.setState({ visible: val }, ()=> {
+      setTimeout(()=>{this.twoFAInput && this.twoFAInput.focus()}, 1);
+    });
+ }
+
   render() {
     return (
-      <Modal isOpen={this.props.show} toggle={this.props.onToggle} className={this.props.className}>
+      <Modal isOpen={this.state.visible} toggle={this.props.onToggle} className={this.props.className} autoFocus={false}>
         <ModalHeader toggle={this.props.onToggle}>Two Factor Authentication</ModalHeader>
         <ModalBody>
           <Input 
@@ -57,11 +72,12 @@ export default class Modal2FA extends Component {
             placeholder="Enter Google authenticator token here"
             value={this.state.token}
             onChange={this.handleTokenChange}
-            autoFocus={true}
+            ref={(input) => { this.twoFAInput = input; }}
+            autoFocus
           />
           <p className="text-danger mt-2">{this.state.message}</p>
           <hr />
-          { !this.props.isOtherIP &&
+          { !this.props.isOtherIP && navigator.cookieEnabled &&
             <div className="d-flex justify-content-between">
               <div className="ml-4">
                 <Input
@@ -85,3 +101,5 @@ export default class Modal2FA extends Component {
     );
   }
 }
+
+export default withCookies(Modal2FA);
