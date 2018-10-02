@@ -87,7 +87,7 @@ class LogIn extends Component {
 
   check2FA() {
     const { email, password } = this.state
-    const trustedIp = this.props.cookies.get('trustedIp')
+    const trustedIp = this.props.cookies.get('trustedIpNodebucks')
 
     if(trustedIp && trustedIp === localIpUrl()) {
       this.props.login({ email, password })
