@@ -52,6 +52,8 @@ class Node < ApplicationRecord
   scope :unreserved, -> { where.not(status: 'reserved') }
   scope :unsold,     -> { where.not(status: 'sold').where(deleted_at: nil) }
   scope :sold,       -> { where(status: 'sold').where(deleted_at: nil) }
+  scope :_new,       -> { where(status: 'new').where(deleted_at: nil) }
+  scope :down,       -> { where(status: 'down').where(deleted_at: nil) }
 
   before_create :cache_values
 

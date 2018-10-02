@@ -34,3 +34,6 @@ production:
     cron: '0 */4 * * *' # Run every 4 hours
     class: NodeOfflineNotifierWorker
 
+  masternodes_report_worker:
+    cron: '0 8 * * *' # Run every day at 8:00 AM
+    class: MasternodesReportWorker
