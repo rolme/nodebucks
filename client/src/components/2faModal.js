@@ -40,7 +40,7 @@ class Modal2FA extends Component {
 
     if(trusted) {
       cookies.set("trustedIp", localIpUrl(), 
-        { path: "/", secure: process.env.NODE_ENV !== 'development', sameSite: true, maxAge: 2592000 }) // 30 days in seconds
+        { path: "/", secure: process.env.NODE_ENV !== 'development', maxAge: 2592000 }) // 30 days in seconds
       this.props.login({ email, password })
     }
     else if(isTokenValid) {
