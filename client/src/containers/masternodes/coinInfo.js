@@ -121,7 +121,7 @@ class CoinInfo extends Component {
           <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
-    } else if(masternode.nodePrice >= 25000 || !masternode.liquidity.buy) {
+    } else if(masternode.nodePrice >= 10000 || !masternode.liquidity.buy) {
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
