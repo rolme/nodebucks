@@ -168,8 +168,6 @@ class Node extends Component {
     }
 
     const value = valueFormat(+node.sellPrice, 2)
-    console.log('sell price', node.sellPrice)
-    console.log('value', node.value)
     const cost = valueFormat(+node.cost, 2)
     const rewardTotal = valueFormat(+node.rewardTotal, 2)
     const rewardPercentage = valueFormat(node.rewardTotal / node.cost, 2)
