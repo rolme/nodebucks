@@ -14,6 +14,7 @@ json.name crypto.name
 json.description crypto.description
 json.profile crypto.profile
 json.nodePrice crypto.node_price
+json.nodeSellPrice crypto.node_sell_price
 json.slug crypto.slug
 json.stake crypto.stake
 json.symbol crypto.symbol
@@ -35,8 +36,10 @@ if @show_pricing
   json.percentageConversionFee crypto.percentage_conversion_fee
   json.percentageHostingFee crypto.percentage_hosting_fee
   json.percentageSetupFee crypto.percentage_setup_fee
+  json.percentageDecommissionFee crypto.percentage_decommission_fee
   json.price crypto.price
   json.purchasablePrice crypto.purchasable_price
+  json.sellablePrice crypto.sellable_price
 end
 
 if !!@orders
