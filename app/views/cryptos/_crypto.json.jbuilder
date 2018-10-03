@@ -11,7 +11,9 @@ json.masternodes crypto.masternodes
 json.monthlyRoiValue crypto.monthly_roi[:value]
 json.monthlyRoiPercentage crypto.monthly_roi[:percentage]
 json.name crypto.name
+json.dailyReward crypto.daily_reward
 json.description crypto.description
+json.price crypto.price
 json.profile crypto.profile
 json.nodePrice crypto.node_price
 json.nodeSellPrice crypto.node_sell_price
