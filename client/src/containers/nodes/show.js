@@ -167,7 +167,7 @@ class Node extends Component {
       uptime += uptime > 1 ? ' days' : ' day'
     }
 
-    const value = valueFormat(+node.value, 2)
+    const value = valueFormat(+node.sellPrice, 2)
     const cost = valueFormat(+node.cost, 2)
     const rewardTotal = valueFormat(+node.rewardTotal, 2)
     const rewardPercentage = valueFormat(node.rewardTotal / node.cost, 2)

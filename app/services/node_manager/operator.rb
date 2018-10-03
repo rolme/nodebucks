@@ -83,7 +83,7 @@ module NodeManager
       np = NodeManager::Pricer.new(persist: true, type: 'buy')
       np.evaluate(node.crypto)
       node.reload
-      node.update_attributes(sell_price: node.value, sell_priced_at: DateTime.current)
+      node.update_attributes(sell_price: node.crypto.node_sell_price, sell_priced_at: DateTime.current)
     end
 
     def sell(payment_method, target, timestamp=DateTime.current)
