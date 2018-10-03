@@ -14,9 +14,4 @@ class Utils
       { error: e.to_s }
     end
   end
-
-  def self.server_up?(host)
-    check = Net::Ping::External.new(host)
-    check.ping?
-  end
 end
