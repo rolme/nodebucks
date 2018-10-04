@@ -5,7 +5,7 @@ class SiteMapWorker
   def perform(*args)
     Nodebucks::Application.load_tasks
     Rake::Task['sitemap:generate'].invoke
-    FileUtils.cp("#{Rails.root}/public/sitemaps/sitemap.xml", "#{Rails.root}/public/sitemap.xml")
-    FileUtils.cp("#{Rails.root}/public/sitemaps/sitemap.xml", "#{Rails.root}/client/public/sitemap.xml")
+    FileUtils.cp("#{Rails.root}/public/sitemaps/sitemap.xml", "#{Rails.root}/public/sitemap.xml", remove_destination: true)
+    FileUtils.cp("#{Rails.root}/public/sitemaps/sitemap.xml", "#{Rails.root}/client/public/sitemap.xml", remove_destination: true)
   end
 end

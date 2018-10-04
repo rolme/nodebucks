@@ -98,4 +98,8 @@ class HomeController < ActionController::Base
 
     render :index
   end
+
+  def sitemap
+    render file: Rails.public_path.join("sitemap.xml"), layout: false
+  end
 end
