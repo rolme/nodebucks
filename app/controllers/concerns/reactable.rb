@@ -7,12 +7,14 @@ module Reactable
   end
 
   def define_asset_location
-    if Rails.env.production?
+    if Rails.env.production? || Rails.env.staging?
       path = '/app/public/index.html'
       page = Nokogiri::HTML(open(path))
 
       @css = page.css('link')[2].attributes["href"].value
       @js  = page.css('script')[0].attributes["src"].value
+      Rails.logger.info ">>>>> css: #{@css}"
+      Rails.logger.info ">>>>> js: #{@js}"
     end
   end
 end
