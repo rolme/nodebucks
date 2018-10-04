@@ -12,7 +12,7 @@ module Reactable
       page = Nokogiri::HTML(open(path))
 
       @css = page.css('link')[2].attributes["href"].value
-      @js  = page.css('script')[0].attributes["src"].value
+      @js  = page.css('script')[1].attributes["src"].value
       Rails.logger.info ">>>>> css: #{@css}"
       Rails.logger.info ">>>>> js: #{@js}"
     end
