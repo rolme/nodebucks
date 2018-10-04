@@ -102,6 +102,6 @@ class HomeController < ActionController::Base
   def sitemap
     Rails.logger.info ">>>>>> public path? #{Rails.public_path.join("sitemap.xml")}"
     Rails.logger.info ">>>>>> root? #{Rails.root}/public/sitemap.xml"
-    render file: "#{Rails.root}/public/sitemap.xml", content_type: 'application/xml'
+    render file: "#{Rails.root}/public/sitemap.xml", content_type: 'application/xml', layout: false
   end
 end

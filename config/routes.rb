@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   get '/privacy', to: 'home#privacy'
   get '/disclaimer', to: 'home#disclaimer'
   get '/masternode/:slug', to: 'home#masternode'
+  get '/sitemap.xml', to: 'home#sitemap'
 
   get '*path', to: 'application#index'
 end
