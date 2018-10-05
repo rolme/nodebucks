@@ -10,6 +10,7 @@ import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
+import Metatags from "../../components/metatags";
 
 class Home extends Component {
   constructor(props) {
@@ -46,6 +47,11 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
+        <Metatags
+          description="Operate your very own masternode and collect rewards in exchange for the work your masternode performs on the blockchain, confirming and verifying transactions of cryptocurrencies."
+          title="NodeBucks - Build your Masternode and Collect Rewards"
+          canonical="https://nodebucks.com/"
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             {announcement.text}

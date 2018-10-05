@@ -1,100 +1,55 @@
 import React, { Component } from 'react'
-import { Container, Col, CardTitle, CardText, Collapse, Card } from 'reactstrap'
+import { Container, Col } from 'reactstrap'
 
 import './index.css'
 
-export default class FAQ extends Component {
-  constructor(props) {
-    super(props)
+import Metatags from "./../metatags"
 
-    this.state = {
-      question1: false,
-      question2: false,
-      question3: false,
-      question4: false,
-      question5: false,
-      question6: false,
-      question7: false,
-      question8: false
-    }
-    this.toggleQuestion = this.toggleQuestion.bind(this)
-  }
+export default class FAQ extends Component {
 
   componentDidMount() {
     // Reset to top of window.
     window.scrollTo(0, 0)
   }
 
-  toggleQuestion(name) {
-    const questions = this.state
-    const openedQuestionName = Object.keys(questions).find(question => questions[ question ])
-    if ( !!openedQuestionName ) {
-      if ( openedQuestionName === name ) {
-        return
-      }
-      this.setState({ [ name ]: !this.state[ name ], [ openedQuestionName ]: !this.state[ openedQuestionName ] })
-    } else {
-      this.setState({ [ name ]: !this.state[ name ] })
-    }
-  }
-
   render() {
-    const { question1, question2, question3, question4, question5, question6, question7, question8 } = this.state
     return (
       <Container fluid>
+        <Metatags
+          description="Do you have questions about Masternodes? How they work and which one you should use? Check out our Frequently Asked Questions that will provide you with all the answers."
+          title="Masternodes | Frequently Asked Questions - NodeBucks"
+          image="/assets/images/seo/faq.jpg"
+          canonical="https://nodebucks.com/faq"
+        />
         <div className="contentContainer faqContentContainer d-flex flex-column align-items-center">
           <Col xl={12} className="faqPageHeader">
-            <p className="faqPageTitle pageTitle">Frequently Asked Questions </p>
+            <h1 className="faqPageTitle pageTitle">Frequently Asked Questions </h1>
           </Col>
           <Col xl={12}>
-            <Card body onClick={() => this.toggleQuestion('question1')}>
-              <CardTitle className={question1 ? "faqCardHeader open" : "faqCardHeader"}><img src={question1 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What is a Masternode?</CardTitle>
-              <Collapse isOpen={question1}>
-                <CardText className="faqCardText">A masternode is a computer/server that sits on the network (blockchain) and processes transactions. In return for processing transactions, a reward is given.</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question2')}>
-              <CardTitle className={question2 ? "faqCardHeader open" : "faqCardHeader"}><img src={question2 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>Do you guarantee 100% uptime of my server?</CardTitle>
-              <Collapse isOpen={question2}>
-                <CardText className="faqCardText">Although we strive for 100% uptime, all servers crash and all servers need to be upgraded from time to time. We do our best to ensure your server has as little downtime as possible. We make money when your server makes money so we have the same goals!</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question3')}>
-              <CardTitle className={question3 ? "faqCardHeader open" : "faqCardHeader"}><img src={question3 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What are the risks involved?</CardTitle>
-              <Collapse isOpen={question3}>
-                <CardText className="faqCardText">A coin can always go down in value, which results in a decreased value of the associated masternodes and the returns. The other variable out of our control is the number of masternodes. As more masternodes come online, the ROI will decrease because the rewards are split amongst all masternode owners.</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question4')}>
-              <CardTitle className={question4 ? "faqCardHeader open" : "faqCardHeader"}><img src={question4 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>Which Masternode should I use?</CardTitle>
-              <Collapse isOpen={question4}>
-                <CardText className="faqCardText">Since the beginning of 2018 there has been a dramatic increase in the number of Masternodes. We list many different masternodes, but a listing does not equate to an endorsement of the underlying coin or project. You should do your own research before purchasing. We recommend you visit the website, learn about the team, read the whitepaper, and talk to others in the community.</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question5')}>
-              <CardTitle className={question5 ? "faqCardHeader open" : "faqCardHeader"}><img src={question5 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>How is Nodebucks different from an Exchange?</CardTitle>
-              <Collapse isOpen={question5}>
-                <CardText className="faqCardText">Unlike an exchange, we at Nodebucks do not hold any of your assets nor do we have any control over what price you will pay. We are a full service masternode operator.</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question6')}>
-              <CardTitle className={question6 ? "faqCardHeader open" : "faqCardHeader"}><img src={question6 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>What are the fees?</CardTitle>
-              <Collapse isOpen={question6}>
-                <CardText className="faqCardText">We charge a 2.95% hosting fee on all rewards that Nodebucks masternodes receive.</CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question7')}>
-              <CardTitle className={question7 ? "faqCardHeader open" : "faqCardHeader"}><img src={question7 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>How do you determine your masternode price and value?</CardTitle>
-              <Collapse isOpen={question7}>
-                <CardText className="faqCardText">Nodebucks looks at the order books across several exchanges to determine the best possible price to purchase the required number of coins to setup a masternode. The order books on the exchanges determines the actual price of a masternode when buying it and also determines the value when selling it. </CardText>
-              </Collapse>
-            </Card>
-            <Card body onClick={() => this.toggleQuestion('question8')}>
-              <CardTitle className={question8 ? "faqCardHeader open" : "faqCardHeader"}><img src={question8 ? "/assets/images/down-arrow.svg" : "/assets/images/right-arrow.svg"} alt="Caret" className="faqCaret"/>Do you accept Bitcoin or other cryptocurrencies as payment?</CardTitle>
-              <Collapse isOpen={question8}>
-                <CardText className="faqCardText">Yes! Please <a href="/contact" target="_blank" rel="noopener noreferrer">contact us</a> with the node(s) you would like to purchase, the cryptocurrency you would like to use as payment, and we will arrange a payment wallet for the transaction. </CardText>
-              </Collapse>
-            </Card>
+            <h2 className="faqQuestionHeader">What is a Masternode?</h2>
+            <p className="faqQuestionText">A masternode is a computer/server that sits on the network (blockchain) and processes transactions. In return for processing transactions, a reward is given.</p>
+
+            <h2 className="faqQuestionHeader">Do you guarantee 100% uptime of my server?</h2>
+            <p className="faqQuestionText">Although we strive for 100% uptime, all servers crash and all servers need to be upgraded from time to time. We do our best to ensure your server has as little downtime as possible. We make money when your server makes money so we have the same goals!</p>
+
+            <h2 className="faqQuestionHeader">What are the risks involved?</h2>
+            <p className="faqQuestionText">A coin can always go down in value, which results in a decreased value of the associated masternodes and the returns. The other variable out of our control is the number of masternodes. As more masternodes come online, the ROI will decrease because the rewards are split amongst all masternode owners.</p>
+
+            <h2 className="faqQuestionHeader">Which Masternode should I use?</h2>
+            <p className="faqQuestionText">Since the beginning of 2018 there has been a dramatic increase in the number of Masternodes. We list many different masternodes, but a listing does not equate to an endorsement of the underlying coin or project. You should do your own research before purchasing. We recommend you visit the website, learn about the team, read the whitepaper, and talk to others in the community.</p>
+
+            <h2 className="faqQuestionHeader">How is Nodebucks different from an Exchange?</h2>
+            <p className="faqQuestionText">Unlike an exchange, we at Nodebucks do not hold any of your assets nor do we have any control over what price you will pay. We are a full service masternode operator.</p>
+
+            <h2 className="faqQuestionHeader">What are the fees?</h2>
+            <p className="faqQuestionText">We charge a 2.95% hosting fee on all rewards that Nodebucks masternodes receive.</p>
+
+            <h2 className="faqQuestionHeader">How do you determine your masternode price and value?</h2>
+            <p className="faqQuestionText">Nodebucks looks at the order books across several exchanges to determine the best possible price to purchase the required number of coins to setup a masternode. The order books on the exchanges determines the actual price of a masternode when buying it and also determines the value when selling it.</p>
+
+            <h2 className="faqQuestionHeader">Do you accept Bitcoin or other cryptocurrencies as payment?</h2>
+            <p className="faqQuestionText">Yes! Please <a href="/contact" target="_blank" rel="noopener noreferrer">contact us</a> with the node(s) you would like to purchase, the cryptocurrency you would like to use as payment, and we will arrange a payment wallet for the transaction.</p>
+
           </Col>
         </div>
       </Container>

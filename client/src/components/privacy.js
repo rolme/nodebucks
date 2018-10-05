@@ -11,7 +11,11 @@ export default class Privacy extends Component {
   render() {
     return (
       <Container>
-        <Metatags/>
+        <Metatags
+          description="This privacy notice discloses the privacy practices for Nodebucks.com. This privacy notice applies solely to information collected by this website. It will notify you of the following."
+          title="Privacy Notice - NodeBucks"
+          canonical="https://nodebucks.com/privacy"
+        />
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} className="mb-5">
           <Row className="pt-4 flex-column">
             <p className="termOfUseTitle pageTitle">Privacy Notice</p>
@@ -30,12 +34,12 @@ export default class Privacy extends Component {
           <Row className="pt-4 flex-column">
             <p className="termOfUseSectionTitle pb-2">Your Access to and Control Over Information</p>
             <p className="paragraphText">You may opt out of any future contacts from us at any time. You can do the following at any time by contacting us via the email address on our website:</p>
-              <ul className="disclaimerUnorderedList">
-                <li>See what data we have about you, if any.</li>
-                <li>Change/correct any data we have about you.</li>
-                <li>Have us delete any data we have about you.</li>
-                <li>Express any concern you have about our use of your data.</li>
-              </ul>
+            <ul className="disclaimerUnorderedList">
+              <li>See what data we have about you, if any.</li>
+              <li>Change/correct any data we have about you.</li>
+              <li>Have us delete any data we have about you.</li>
+              <li>Express any concern you have about our use of your data.</li>
+            </ul>
           </Row>
           <Row className="pt-4 flex-column">
             <p className="termOfUseSectionTitle pb-2">Security</p>

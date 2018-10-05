@@ -183,7 +183,11 @@ class SignUp extends Component {
 
     return (
       <Container fluid className="signUpPageContainer authPageContainer">
-        <Metatags/>
+        <Metatags
+          description="Are you interested in the Blockchain world? Sign up now for free and create your own Masternode, thanks to which you will be able to earn rewards. "
+          title="Create your own Masternode | Sign Up - NodeBucks"
+          canonical="https://nodebucks.com/sign-up"
+        />
         <div className="contentContainer signUpPageContentContainer d-flex justify-content-center bg-white">
           <Col className="authContainer align-items-center flex-wrap justify-content-center d-flex">
             {!!message &&

@@ -12,6 +12,7 @@ import './index.css'
 import {
   fetchCryptos
 } from '../../reducers/cryptos'
+import Metatags from "../../components/metatags";
 
 class Masternodes extends Component {
 
@@ -71,6 +72,12 @@ class Masternodes extends Component {
     const showOnlyTable = !user && this.props.location.pathname === '/'
     return (
       <div className={`${!!bgColor ? bgColor : ""} masternodesContainer`}>
+        <Metatags
+          description="Masternodes are the future. Invest on your own Masternode and collect rewards. You can choose between Blocknet, Dash, GoByte, PIVX, Phore, Polis and ZCoin."
+          title="The 7 Best Masternodes in Which to Invest - NodeBucks"
+          image="/assets/images/seo/masternodes.jpg"
+          canonical="https://nodebucks.com/masternodes"
+        />
         <div className="contentContainer">
           {!showOnlyTable &&
           <div>

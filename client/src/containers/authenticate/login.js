@@ -173,7 +173,11 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
-        <Metatags/>
+        <Metatags
+          description="Manage your Masternodes directly from your account, monitor their progress and see the results you have achieved. All the data is ready in your own Dashboard."
+          title="Login into your Account - NodeBucks"
+          canonical="https://nodebucks.com/login"
+        />
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&

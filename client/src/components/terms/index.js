@@ -13,7 +13,11 @@ export default class Terms extends Component {
   render() {
     return (
       <Container>
-        <Metatags/>
+        <Metatags
+          description='The use of services provided by Nodebucks (hereafter referred to as "NB") is subject to the following Terms and Conditions.'
+          title="Terms of Use - NodeBucks"
+          canonical="https://nodebucks.com/terms"
+        />
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} className="mb-5">
           <Row className="pt-4 flex-column">
             <p className="termOfUseTitle pageTitle"> Terms Of Use</p>
