@@ -280,7 +280,7 @@ class Node extends Component {
   displayActions(node) {
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
-    const isActive = node.status === 'online'
+    const isActive = ['offline', 'online'].includes(node.status) && node.deletedAt === null
     return (
       <Col xl={5} lg={5} md={5} sm={12} xs={12} className="d-flex px-0 flex-wrap justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
         {sellable && (
