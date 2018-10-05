@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Table, Badge } from 'reactstrap'
 import { NavLink, withRouter } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
-import moment from 'moment'
 
 class MainTable extends Component {
   constructor(props) {
