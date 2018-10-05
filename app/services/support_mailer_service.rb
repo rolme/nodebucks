@@ -43,8 +43,8 @@ class SupportMailerService
 
   def self.send_node_failed_ping_notification(node)
     SupportMailer.send_email(
-      "#{node.cached_crypto_name} node failed ping. Maybe offline.",
-      "#{node.cached_crypto_name} node #{node.slug} with ip address: #{node.ip} is #{node.status}."
+      "#{node.cached_crypto_name} node failed ping. Server may be offline.",
+      "#{node.cached_crypto_name} node #{node.slug} with ip address: #{node.ip} is #{node.status}. Please ping server to verify."
     ).deliver_later
   end
 end
