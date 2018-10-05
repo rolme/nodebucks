@@ -70,7 +70,7 @@ module NodeManager
         paypal_response: paypal_json,
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
-      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server purchased.")
 
       # Get latest prices
       pricer = NodeManager::Pricer.new({persist: true})
