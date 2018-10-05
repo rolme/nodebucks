@@ -73,6 +73,11 @@ class Node < ApplicationRecord
     @_value ||= crypto.sellable_price * (1.0 - percentage_conversion_fee)
   end
 
+  def uptime
+    return 0 if online_at.blank? || status != 'online' || deleted_at.present?
+    DateTime.current.to_i - online_at.to_i
+  end
+
   def wallet_url
     return "#{explorer_url}#{wallet}.htm" if symbol == 'pivx'
     "#{explorer_url}#{wallet}"
