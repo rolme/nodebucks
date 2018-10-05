@@ -21,22 +21,18 @@ class MainTable extends Component {
       if ( a.crypto.name > b.crypto.name ) return 1
       return 0
     }).map(item => {
-      let uptime = '-'
-      if ( !!item.onlineAt ) {
-        item.onlineAt += ' +0000'
-        uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
-      }
-      if ( uptime !== '-' ) {
-        if ( uptime === 0 ) {
-          if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
-          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
-          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') + ' sec'
-          }
+      let uptime = item.uptime
+      if ( +uptime === 0 ) {
+        uptime = '0 days'
+      } else {
+        if ( +uptime < 60 ) {
+          uptime = uptime + ' secs'
+        } else if ( +uptime < 3600 ) {
+          uptime = (+uptime/60).toFixed(0) + ' mins'
+        } else if ( +uptime < 86400 ) {
+          uptime = (+uptime/3600).toFixed(0) + ' hrs'
         } else {
-          uptime += uptime > 1 ? ' days' : ' day'
+          uptime = (+uptime/86400).toFixed(0) + ' days'
         }
       }
 

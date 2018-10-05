@@ -158,21 +158,19 @@ class Node extends Component {
   }
 
   displaySummary(node) {
-    let uptime = '-'
-    if ( !!node.onlineAt ) {
-      node.onlineAt += ' +0000'
-      uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
-    }
-    if ( uptime === 0 ) {
-      if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
-        uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
-      } else if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
-        uptime = moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
-      } else if ( !!moment().diff(moment(node.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
-        uptime = moment().diff(moment(node.onlineAt), "YYYY-MM-DD HH:mm:ss", 'seconds') + ' sec'
-      }
+    let uptime = node.uptime
+    if ( +uptime === 0 ) {
+      uptime = '0 days'
     } else {
-      uptime += uptime > 1 ? ' days' : ' day'
+      if ( +uptime < 60 ) {
+        uptime = uptime + ' sec'
+      } else if ( +uptime < 3600 ) {
+        uptime = (+uptime/60).toFixed(0) + ' min'
+      } else if ( +uptime < 86400 ) {
+        uptime = (+uptime/3600).toFixed(0) + ' hrs'
+      } else {
+        uptime = (+uptime/86400).toFixed(0) + ' days'
+      }
     }
 
     const value = valueFormat(+node.value, 2)
