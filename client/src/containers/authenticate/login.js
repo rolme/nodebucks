@@ -3,12 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
+import { withCookies } from 'react-cookie';
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
 import Modal2FA from '../../components/2faModal'
 import { capitalize } from '../../lib/helpers'
 import SocialButton from './socialButton'
+import localIpUrl from 'local-ip-url';
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
@@ -41,6 +43,7 @@ class LogIn extends Component {
       },
       show2fa: false,
       secret: '',
+      isOtherIP: false,
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
@@ -84,18 +87,26 @@ class LogIn extends Component {
 
   check2FA() {
     const { email, password } = this.state
-    this.props.get2FASecret({email, password}, (response) => {
-      if(response.enabled_2fa) {
-        this.setState({ show2fa: true, secret: response.secret })
-      } else {
-        this.props.login({ email, password })
-      }
-    })
+    const trustedIp = this.props.cookies.get('trustedIpNodebucks')
+
+    if(trustedIp && trustedIp === localIpUrl()) {
+      this.props.login({ email, password })
+    } else {
+      this.props.get2FASecret({email, password}, (response) => {
+        if(trustedIp && trustedIp !== localIpUrl()) {
+          this.setState({ show2fa: true, secret: response.secret, isOtherIP: true })
+        } else if(response.enabled_2fa) {
+          this.setState({ show2fa: true, secret: response.secret })
+        } else {
+          this.props.login({ email, password })
+        }
+      })
+    }
   }
 
   validation() {
     const { email, password } = this.state
-    let isValid = true, messages = { email: '*Required', password: '*Required' }, errors = { email: false, password: false }
+    let isValid = true, messages = { email: '', password: '' }, errors = { email: false, password: false }
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'
@@ -139,7 +150,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret } = this.state
+    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret, isOtherIP } = this.state
     const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
@@ -232,6 +243,7 @@ class LogIn extends Component {
           password={password}
           secret={secret}
           login={this.props.login}
+          isOtherIP={isOtherIP}
         />
       </Container>
     )
@@ -252,7 +264,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   socialMediaLogin,
 }, dispatch)
 
-export default withRouter(connect(
+export default withRouter(withCookies(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LogIn))
+)(LogIn)))

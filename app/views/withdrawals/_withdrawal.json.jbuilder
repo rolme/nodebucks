@@ -1,3 +1,4 @@
+json.affiliateBalance withdrawal.affiliate_balance
 json.admin do
   json.partial! 'users/creator', user: withdrawal.admin if withdrawal.admin.present?
 end
@@ -16,6 +17,7 @@ end
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)
 json.destination withdrawal.destination
+json.id withdrawal.id
 json.processedAt withdrawal.processed_at&.to_formatted_s(:db)
 json.slug withdrawal.slug
 json.status withdrawal.status
@@ -34,4 +36,3 @@ json.transactions withdrawal.transactions.each do |transaction|
   json.createdAt transaction.created_at.to_formatted_s(:db)
 end
 json.updatedAt withdrawal.updated_at.to_formatted_s(:db)
-json.affiliate_balance withdrawal.user.affiliate_balance

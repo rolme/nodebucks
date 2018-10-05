@@ -58,25 +58,26 @@ class CoinInfo extends Component {
               </div>
             </Col>
             <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
-              <p className="coinInfoHeaderPrice">$ {valueFormat(data.nodePrice, 2)} <span>USD</span></p>
+              <p className="coinInfoHeaderPrice">${valueFormat(data.nodePrice, 2)} <span>USD</span></p>
               { this.displayActionButton(data) }
             </Col>
           </Col>
           <Col className="coinInfoMainDataPartContainer px-0">
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0">
               <Col className="coinInfoDataSectionContainer">
-                <h6>Annual ROI</h6>
-                <p>{valueFormat(data.annualRoiPercentage * 100, 2)} %</p>
+                <h6>Estimated Annual ROI*</h6>
+                <p>{valueFormat(data.annualRoiPercentage * 100, 2)}%</p>
               </Col>
               <Col className="coinInfoDataSectionContainer">
-                <h6>Yearly Return</h6>
-                <p>$ {valueFormat(data.annualRoi, 2)} USD</p>
+                <h6>Estimated Yearly Return*</h6>
+                <p>${valueFormat(data.annualRoi, 2)} USD</p>
               </Col>
               <Col className="coinInfoDataSectionContainer">
-                <h6>Monthly Return</h6>
-                <p>$ {valueFormat(data.monthlyRoiValue, 2)} USD</p>
+                <h6>Estimated Monthly Return*</h6>
+                <p>${valueFormat(data.monthlyRoiValue, 2)} USD</p>
               </Col>
             </Col>
+            <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0 mt-xl-3 mt-lg-3 mt-md-3 mt-sm-3 mt-0">
               <Col className="coinInfoValueSectionContainer">
                 <h6>Market Cap</h6>
@@ -110,23 +111,26 @@ class CoinInfo extends Component {
   displayActionButton(masternode) {
     const { user } = this.props
 
-    if(masternode.nodePrice > 10000 && user.verificationStatus !== 'approved')
+    if(!masternode.enabled) {
       return(
-        <NavLink to={'/contact#contact-sales-' + masternode.name}>
-          <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
+        <Button className="infoNodeButton" disabled>Unavailable</Button>
+      )
+    } else if(masternode.nodePrice > 10000 && masternode.nodePrice < 25000 && !!user && user.verificationStatus !== 'approved') {
+      return(
+        <NavLink to={'/settings/verification'}>
+          <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
-
-    if (masternode.nodePrice < 50000 && masternode.liquidity.buy) {
+    } else if(masternode.nodePrice >= 10000 || !masternode.liquidity.buy) {
       return(
-        <NavLink to={`/nodes/${masternode.slug}/new`}>
-          <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
+        <NavLink to={'/contact#contact-sales-' + masternode.name}>
+          <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>
       )
     } else {
       return(
-        <NavLink to={'/contact#contact-sales-' + masternode.name}>
-          <Button className="contactSalesNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
+        <NavLink to={`/nodes/${masternode.slug}/new`}>
+          <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
         </NavLink>
       )
     }

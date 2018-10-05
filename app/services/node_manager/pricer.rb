@@ -55,8 +55,11 @@ module NodeManager
           ) if !!persist
         else
           crypto_pricer.sell_price(@avg_btc_usdt)
-          selling_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt * crypto.stake
-          crypto.update_attribute(:sellable_price, selling_price) if !!persist
+          coin_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt
+          crypto.update_attributes(
+            node_sell_price: calculate_selling_price(crypto, coin_price * crypto.stake),
+            sellable_price: coin_price * crypto.stake
+          ) if !!persist
         end
       end
       @prices
@@ -101,6 +104,13 @@ module NodeManager
       conversion_cost    = purchasing_price * crypto.percentage_conversion_fee
 
       purchasing_price + setup_cost + conversion_cost
+    end
+
+    def calculate_selling_price(crypto, sell_price)
+      decommission_cost  = (sell_price * crypto.percentage_decommission_fee)
+      conversion_cost = sell_price * crypto.percentage_conversion_fee
+
+      sell_price - decommission_cost - conversion_cost
     end
   end
 end

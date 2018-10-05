@@ -47,3 +47,7 @@ yarn-error.log*
 config/master.key
 /.idea
 /*.lock
+
+# Sitemap, should be generated on server
+/client/public/sitemap.xml
+/public/sitemaps/sitemap.xml

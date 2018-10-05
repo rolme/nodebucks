@@ -46,9 +46,22 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/counts', to: 'application#counts', defaults: { format: :json }
   post 'auth/login', to: 'users#login'
   post 'auth/admin', to: 'users#admin_login'
   post 'auth/oauth', to: 'users#callback'
+
+  get '/masternodes', to: 'home#masternodes'
+  get '/contact', to: 'home#contact'
+  get '/what-are-masternodes', to: 'home#masternodes_description'
+  get '/login', to: 'home#login'
+  get '/sign-up', to: 'home#sign_up'
+  get '/faq', to: 'home#faq'
+  get '/terms', to: 'home#terms'
+  get '/privacy', to: 'home#privacy'
+  get '/disclaimer', to: 'home#disclaimer'
+  get '/masternode/:slug', to: 'home#masternode'
+  get '/sitemap.xml', to: 'home#sitemap'
 
   get '*path', to: 'application#index'
 end

@@ -23,24 +23,24 @@ class MainTable extends Component {
     }).map(item => {
       let uptime = '-'
       if ( !!item.onlineAt ) {
-        item.onlineAt = new Date((item.onlineAt + ' +0000'))
-        uptime = moment().diff(moment(item.onlineAt), 'days')
+        item.onlineAt += ' +0000'
+        uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
       }
       if ( uptime !== '-' ) {
         if ( uptime === 0 ) {
-          if ( !!moment().diff(moment(item.onlineAt), 'hours') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'hours') + ' hrs'
-          } else if ( !!moment().diff(moment(item.onlineAt), 'minutes') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'minutes') + ' min'
-          } else if ( !!moment().diff(moment(item.onlineAt), 'seconds') ) {
-            uptime = moment().diff(moment(item.onlineAt), 'seconds') + ' sec'
+          if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
+          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
+          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
+            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') + ' sec'
           }
         } else {
           uptime += uptime > 1 ? ' days' : ' day'
         }
       }
 
-      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + ' %'
+      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + '%'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
       const yearlyRoiValue = valueFormat(+item.crypto.yearlyRoiValue, 2)
@@ -54,12 +54,12 @@ class MainTable extends Component {
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
           <td className="text-center">{uptime}</td>
           <td className="leftBorder text-right">{annualRoi}</td>
-          <td className="text-right">$ {weeklyRoiValue}</td>
-          <td className="text-right">$ {monthlyRoiValue}</td>
-          <td className="text-right">$ {yearlyRoiValue}</td>
-          <td className="leftBorder text-right">$ {week}</td>
-          <td className="text-right">$ {month}</td>
-          <td className="rightBorder text-right">$ {year}</td>
+          <td className="text-right">${weeklyRoiValue}</td>
+          <td className="text-right">${monthlyRoiValue}</td>
+          <td className="text-right">${yearlyRoiValue}</td>
+          <td className="leftBorder text-right">${week}</td>
+          <td className="text-right">${month}</td>
+          <td className="rightBorder text-right">${year}</td>
           <td className="text-center">{capitalize(item.status)}</td>
         </tr>
       )
@@ -90,7 +90,7 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected Returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Estimated Returns<span className="asteriskSign">*</span></th>
                 <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
@@ -112,6 +112,7 @@ class MainTable extends Component {
               </tbody>
             </Table>
           </div>
+          <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
         </div>
       </div>
     )

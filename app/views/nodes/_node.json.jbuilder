@@ -14,6 +14,7 @@ json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do 
   json.description event.description
   json.value event.value
 end
+json.id node.id + 10000
 json.ip node.ip
 json.isReady node.ready?
 json.lastUpgradedAt node.last_upgraded_at&.to_formatted_s(:db)
@@ -48,3 +49,5 @@ json.version node.version
 json.vpsMonthlyCost node.vps_monthly_cost
 json.vpsProvider node.vps_provider
 json.vpsUrl node.vps_url
+json.duplicatedIp node.duplicated_ip?
+json.duplicatedWallet node.duplicated_wallet?

@@ -41,24 +41,24 @@ class Masternodes extends Component {
           </Col>
           <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 7, offset: 0 }} className="masternodesListingCoinInfoDescriptionPartContainer">
             <p className="masternodesListingCoinInfoDescription">{crypto.description}</p>
-            <Col className="d-flex justify-content-between flex-wrap">
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Annual ROI</h6>
-                <p>{annualRoi} %</p>
+            <Col className="d-flex justify-content-xl-between justify-content-lg-between justify-content-md-between justify-content-center flex-wrap">
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
+                <h6>Estimated Annual ROI*</h6>
+                <p>{annualRoi}%</p>
               </div>
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Yearly Return</h6>
-                <p>$ {yearlyRoiValue} USD</p>
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
+                <h6>Estimated Yearly Return*</h6>
+                <p>${yearlyRoiValue} USD</p>
               </div>
-              <div className="masternodesListingCoinInfoDescriptionDataContainer">
-                <h6>Monthly Return</h6>
-                <p>$ {monthlyRoiValue} USD</p>
+              <div className="masternodesListingCoinInfoDescriptionDataContainer mx-xl-0 mx-lg-0 mx-md-0 mx-3">
+                <h6>Estimated Monthly Return*</h6>
+                <p>${monthlyRoiValue} USD</p>
               </div>
             </Col>
           </Col>
           <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 3, offset: 0 }} className="d-flex flex-column align-items-center justify-content-center px-0">
             <p className="masternodesListingCoinInfoPriceLabel">Node Price</p>
-            <p className="masternodesListingCoinInfoPrice">$ {nodePrice} USD</p>
+            <p className="masternodesListingCoinInfoPrice">${nodePrice} USD</p>
             <NavLink to={`/masternodes/${crypto.slug}`} className="btn btn-primary masternodesListingCoinInfoButton addNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Select</NavLink>
           </Col>
         </Col>
@@ -83,6 +83,7 @@ class Masternodes extends Component {
           <div>
             <h1 className="masternodesSectionHeader">Select a Masternode</h1>
             {this.renderCoinsInfo(cryptos)}
+            <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
           </div>
           }
           {!showOnlyTable &&

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_25_210739) do
+ActiveRecord::Schema.define(version: 2018_10_02_234651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,9 @@ ActiveRecord::Schema.define(version: 2018_09_25_210739) do
     t.datetime "updated_at", null: false
     t.boolean "buy_liquidity", default: true
     t.boolean "sell_liquidity", default: true
+    t.boolean "enabled", default: true
+    t.decimal "percentage_decommission_fee", default: "0.0"
+    t.decimal "node_sell_price"
   end
 
   create_table "events", force: :cascade do |t|
@@ -265,6 +268,7 @@ ActiveRecord::Schema.define(version: 2018_09_25_210739) do
     t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "affiliate_balance", default: "0.0"
     t.index ["user_id"], name: "index_withdrawals_on_user_id"
   end
 

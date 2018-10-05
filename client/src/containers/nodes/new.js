@@ -5,7 +5,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
-
+import { isEmpty } from 'lodash'
 import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
@@ -105,7 +105,9 @@ class NewNode extends Component {
   handlePurchase(paymentResponse) {
     const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(paymentResponse, node.slug, () => { this.props.fetchNodes() })
+    this.props.purchaseNode(paymentResponse, node.slug, () => {
+      this.props.fetchNodes()
+    })
   }
 
   togglePurchasingStatus = () => {
@@ -129,9 +131,8 @@ class NewNode extends Component {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
-    if (purchasing) {
-      return <Redirect to='/dashboard' />
-    }
+    if (purchasing) return <Redirect to='/dashboard'/>
+    if (!isEmpty(crypto) && !crypto.enabled) return <Redirect to={`/masternodes/${crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
@@ -160,7 +161,7 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            <Col xl={12} className="d-flex px-0 flex-wrap">
+            <Col xl={12} className="d-flex px-0 flex-wrap justify-content-center">
               {
                 !!nodePending || !!cryptoPending
                   ? <div className="loadingSnipperContainer">
@@ -231,9 +232,9 @@ class NewNode extends Component {
   renderSpreadWarning() {
     const { node } = this.props
     let difference = +node.value / node.cost
-    if ( difference < 0.75 ) {
+    if ( difference < 0.85 ) {
       const sellValue = valueFormat(+node.value, 2)
-      difference = '-' + ((1 - valueFormat(difference, 2)) * 100) + '%'
+      difference = '-' + (valueFormat((1 - difference)*100, 2)) + '%'
       return (
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="spreadWarningMessageContainer d-flex flex-column align-items-center justify-content-center">
           <p>Warning: Due to low liquidity on exchanges, the resell value of this masternode is well below the purchase price. </p>

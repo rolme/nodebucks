@@ -15,7 +15,7 @@ class NodesController < ApplicationController
 
   def index
     @nodes   = Node.unreserved if current_user.admin? && params.has_key?(:all)
-    @nodes ||= Node.unreserved.where(user_id: current_user.id, deleted_at: nil)
+    @nodes ||= Node.where(user_id: current_user.id, deleted_at: nil, status: ['offline', 'online', 'new'])
   end
 
   def offline
@@ -134,7 +134,7 @@ class NodesController < ApplicationController
     if @node.update(current_user.admin? ? node_params : node_user_params)
       render :show
     else
-      render json: { status: 'error', message: builder.error }
+      render json: { status: 'error', message: @node.errors.full_messages.join(', ') }
     end
   end
 

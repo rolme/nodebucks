@@ -6,6 +6,8 @@ class Order < ApplicationRecord
 
   before_create :generate_slug
 
+  scope :unpaid, -> { where(status: :unpaid) }
+
   scope :filter_by_node, ->(node_slug) {
     return unless node_slug.present?
     joins(:node).where("nodes.slug LIKE ?", node_slug)
@@ -18,10 +20,18 @@ class Order < ApplicationRecord
 
   def paid!
     update_attribute(:status, :paid)
+    if order_type == 'sold' && node.status == 'sold'
+      operator = NodeManager::Operator.new(node)
+      operator.disburse
+    end
   end
 
   def unpaid!
     update_attribute(:status, :unpaid)
+    if order_type == 'sold' && node.status == 'disbursed'
+      operator = NodeManager::Operator.new(node)
+      operator.undisburse
+    end
   end
 
 private

@@ -8,7 +8,7 @@ import './index.css'
 import Profile from './profile'
 import Security from './security'
 import Verification from './verification'
-import { fetchBalance } from '../../reducers/user';
+import { fetchBalance, reset } from '../../reducers/user';
 import TwoFactorAuthentication from './2fa'
 
 class Settings extends Component {
@@ -22,7 +22,7 @@ class Settings extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    if(!this.props.user){
+    if ( !this.props.user ) {
       this.props.history.push('/login')
       return
     }
@@ -44,7 +44,10 @@ class Settings extends Component {
   }
 
   changeTab(name) {
-    this.props.history.push('/settings/' + name)
+    if ( this.props.location.pathname.replace('/settings/', '') !== name ) {
+      this.props.reset()
+      this.props.history.push('/settings/' + name)
+    }
   }
 
   render() {
@@ -52,7 +55,7 @@ class Settings extends Component {
     return (
       <Container fluid className="settingsPageContainer">
         <div className="contentContainer settingsPageContentContainer">
-          <Col xl={{size: 3, offset: 0}} lg={{size: 3, offset: 0}} md={{size: 6, offset: 3}} sm={{size: 8, offset: 2}} xs={{size: 10, offset: 1}} className="px-0">
+          <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 6, offset: 3 }} sm={{ size: 8, offset: 2 }} xs={{ size: 10, offset: 1 }} className="px-0">
             <ListGroup className="settingsSideBarItemsContainer">
               <ListGroupItem onClick={() => this.changeTab('profile')} className={path === 'profile' ? 'selected' : ''}><p>Profile</p></ListGroupItem>
               <ListGroupItem onClick={() => this.changeTab('security')} className={path === 'security' ? 'selected' : ''}><p>Password</p></ListGroupItem>
@@ -60,15 +63,15 @@ class Settings extends Component {
               <ListGroupItem onClick={() => this.changeTab('2fa')} className={path === '2fa' ? 'selected' : ''}><p>2FA</p></ListGroupItem>
             </ListGroup>
           </Col>
-          <Col xl={{size: 8, offset: 0}} lg={{size: 9, offset: 0}} md={{size: 10, offset: 1}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}}>
-            { path === 'profile' &&
-              <Profile/>
+          <Col xl={{ size: 8, offset: 0 }} lg={{ size: 9, offset: 0 }} md={{ size: 10, offset: 1 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }}>
+            {path === 'profile' &&
+            <Profile/>
             }
-            { path === 'security' &&
-              <Security/>
+            {path === 'security' &&
+            <Security/>
             }
-            { path === 'verification' &&
-              <Verification />
+            {path === 'verification' &&
+            <Verification/>
             }
             {path === '2fa' &&
             <TwoFactorAuthentication/>
@@ -86,8 +89,9 @@ const mapStateToProps = state => ({
   user: state.user.data,
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ 
-  fetchBalance 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchBalance,
+  reset
 }, dispatch)
 
 export default withRouter(connect(

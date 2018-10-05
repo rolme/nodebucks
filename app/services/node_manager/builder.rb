@@ -36,7 +36,6 @@ module NodeManager
 
       node.account ||= user.accounts.create(crypto_id: crypto.id)
       if node.save
-        node.events.create(event_type: 'ops', description: 'Server price reserved', timestamp: timestamp)
         node
       else
         @error = @node.errors.full_messages.join(', ')

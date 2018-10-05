@@ -21,10 +21,6 @@ sitemap :site do
     url "https://nodebucks.com/nodes/#{crypto.slug}/new", last_mod: Time.zone.now, change_freq: "daily"
     url "https://nodebucks.com/masternodes/#{crypto.slug}", last_mod: Time.zone.now, change_freq: "daily"
   end
-
-  Node.all.each do |node|
-    url "https://nodebucks.com/nodes/#{node.slug}", last_mod: Time.zone.now, change_freq: "daily"
-  end
 end
 
 # Ping search engines after sitemap generation

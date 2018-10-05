@@ -12,7 +12,7 @@ class TwoFactorAuthentication extends Component {
     super(props)
 
     let QRCodeUrl 
-    let secret = speakeasy.generateSecret({ length: 20 })
+    let secret = speakeasy.generateSecret({ length: 20, name: 'Nodebucks' })
     QRCode.toDataURL(secret.otpauth_url, function(err, data_url) {
       QRCodeUrl = data_url;
     });
@@ -75,7 +75,7 @@ class TwoFactorAuthentication extends Component {
                         name="userToken"
                         placeholder="Enter code here"
                         id="userToken"
-                        type='password'
+                        type='text'
                         autoFocus={true}
                         value={userToken}
                         onChange={this.verifyToken}

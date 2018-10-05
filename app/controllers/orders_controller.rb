@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
       @orders = Order.includes(:node, :user)
                   .filter_by_node(params[:n])
                   .filter_by_user(params[:u])
+                  .limit(params[:limit].to_i || 25)
+                  .offset((params[:page].to_i || 0) * 25)
     else
       @orders = Order.includes(:node, :user).where(user_id: current_user.id)
     end
