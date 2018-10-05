@@ -30,9 +30,9 @@ production:
     cron: '0 2 * * *' # Run every day at 2:00 AM
     class: SiteMapWorker
 
-  node_offline_notifier_worker:
-    cron: '5-59/10 * * * *' # Run every 10 mins starting at 5 mins after hour
-    class: NodeOfflineNotifierWorker
+  # node_offline_notifier_worker:
+  #   cron: '5-59/10 * * * *' # Run every 10 mins starting at 5 mins after hour
+  #   class: NodeOfflineNotifierWorker
 
   masternodes_report_worker:
     cron: '0 8 * * *' # Run every day at 8:00 AM
