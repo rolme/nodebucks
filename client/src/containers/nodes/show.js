@@ -163,9 +163,9 @@ class Node extends Component {
       uptime = '0 days'
     } else {
       if ( +uptime < 60 ) {
-        uptime = uptime + ' sec'
+        uptime = uptime + ' secs'
       } else if ( +uptime < 3600 ) {
-        uptime = (+uptime/60).toFixed(0) + ' min'
+        uptime = (+uptime/60).toFixed(0) + ' mins'
       } else if ( +uptime < 86400 ) {
         uptime = (+uptime/3600).toFixed(0) + ' hrs'
       } else {
