@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { EventEmitter } from 'events';
 import moment from 'moment'
-import { Col, Container, Row, Button, Table, Alert } from 'reactstrap'
+import { Col, Container, Row, Button, Table, Alert, Badge } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
 import ConfirmationModal from '../../components/confirmationModal'
 import './index.css'
@@ -131,7 +131,15 @@ class Node extends Component {
 
   displayHeader(node) {
     const { status } = this.state
-    if (!status) { return }
+    if ( !status ) {
+      return
+    }
+    let statusColor = 'secondary'
+    if ( status === 'online' ) {
+      statusColor = 'success'
+    } else if ( status === 'offline' || status === 'down' ) {
+      statusColor = 'danger'
+    }
     return (
       <Row className="showPageHeaderContainer  mx-0">
         <Col xl={3} lg={3} md={3} sm={6} xs={12} className="d-flex align-items-center justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-center px-0">
@@ -139,7 +147,7 @@ class Node extends Component {
           <h5 className="mb-0 ml-4 showPageHeaderCoinName ">{node.crypto.name}</h5>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={12} className="d-flex pl-0 my-xl-0 my-lg-0 my-md-0 my-3 justify-content-xl-center justify-content-lg-center justify-content-md-center align-items-center  justify-content-start">
-          <h5 className="mb-0 showPageHeaderInfo"><b>Status:</b> {capitalize(status)}</h5>
+          <h5 className="mb-0 showPageHeaderInfo"><b>Status:</b> <Badge color={statusColor} className="px-2 py-1">{capitalize(status)}</Badge></h5>
           {status !== 'sold' && <h5 className="mb-0 ml-3 showPageHeaderInfo"><b>IP:</b> {(!!node.ip) ? node.ip : 'Pending'}</h5>}
         </Col>
         {status !== 'sold' &&

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
+import { Table, Badge } from 'reactstrap'
 import { NavLink, withRouter } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
 import moment from 'moment'
@@ -48,6 +48,12 @@ class MainTable extends Component {
       const week = valueFormat(+item.rewards.week, 2)
       const month = valueFormat(+item.rewards.month, 2)
       const year = valueFormat(+item.rewards.year, 2)
+      let statusColor = 'secondary'
+      if ( item.status === 'online' ) {
+        statusColor = 'success'
+      } else if ( item.status === 'offline' || item.status === 'down' ) {
+        statusColor = 'danger'
+      }
 
       return (
         <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
@@ -60,7 +66,7 @@ class MainTable extends Component {
           <td className="leftBorder text-right">${week}</td>
           <td className="text-right">${month}</td>
           <td className="rightBorder text-right">${year}</td>
-          <td className="text-center">{capitalize(item.status)}</td>
+          <td className="text-center"><Badge color={statusColor} className="px-2 py-1">{capitalize(item.status)}</Badge></td>
         </tr>
       )
     })
