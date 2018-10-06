@@ -25,6 +25,7 @@
     "jwt-decode": "^2.2.0",
     "local-ip-url": "^1.0.1",
     "moment": "^2.22.1",
+    "moment-timezone": "^0.5.21",
     "qrcode": "^1.2.2",
     "query-string": "^5.1.0",
     "rc-checkbox": "^2.1.5",
