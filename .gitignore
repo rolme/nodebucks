@@ -51,3 +51,4 @@ config/master.key
 # Sitemap, should be generated on server
 /client/public/sitemap.xml
 /public/sitemaps/sitemap.xml
+/client/*.lock
