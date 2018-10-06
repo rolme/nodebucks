@@ -1,6 +1,26 @@
 class NodesController < ApplicationController
   before_action :authenticate_request, only: [:create, :index, :purchase, :reserve, :sell, :show, :update]
-  before_action :authenticate_admin_request, only: [:offline, :online, :disburse]
+  before_action :authenticate_admin_request, only: [:disbursed, :generate, :offline, :online]
+
+  def generate
+    user    =  User.find(generate_node_params[:user_id])
+    crypto  = Crypto.find(generate_node_params[:crypto_id])
+    builder = NodeManager::Builder.new(user, crypto, generate_node_params[:amount].to_f)
+    if builder.save
+      @node = builder.node
+      operator = NodeManager::Operator.new(@node)
+      if operator.purchase(DateTime.current, "Added by #{@current_user.email}")
+        SupportMailerService.send_node_purchased_notification(user, @node)
+        @node.reload
+        ReceiptMailer.send_receipt(current_user, @node.cost.ceil(2), operator.order.slug).deliver_later
+        render :show
+      else
+        render json: { status: 'error', message: 'Unable to purchase node.' }
+      end
+    else
+      render json: { status: 'error', message: 'Unable to reserve node.' }
+    end
+  end
 
   def create
     crypto  = Crypto.find_by(slug: params[:crypto])
@@ -163,6 +183,14 @@ protected
       :vps_provider,
       :vps_url,
       :vps_monthly_cost
+    )
+  end
+
+  def generate_node_params
+    params.require(:node).permit(
+      :amount,
+      :crypto_id,
+      :user_id
     )
   end
 end

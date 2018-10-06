@@ -1,7 +1,9 @@
 json.annualRoi crypto.yearly_roi[:value]
 json.annualRoiPercentage crypto.yearly_roi[:percentage]
 json.availableSupply crypto.available_supply
+json.enabled crypto.enabled
 json.hostingFee crypto.percentage_hosting_fee
+json.id crypto.id
 json.liquidity do
   json.buy crypto.buy_liquidity
   json.sell crypto.sell_liquidity
@@ -28,7 +30,6 @@ json.weeklyRoiValue crypto.weekly_roi[:value]
 json.weeklyRoiPercentage crypto.weekly_roi[:percentage]
 json.yearlyRoiValue crypto.yearly_roi[:value]
 json.yearlyRoiPercentage crypto.yearly_roi[:percentage]
-json.enabled crypto.enabled
 
 if @show_pricing
   json.estimatedNodePrice crypto.estimated_node_price
