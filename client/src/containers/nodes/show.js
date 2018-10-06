@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { EventEmitter } from 'events';
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { Col, Container, Row, Button, Table, Alert, Badge } from 'reactstrap'
 import PriceHistoryChart from './priceHistoryChart'
 import ConfirmationModal from '../../components/confirmationModal'
@@ -165,11 +165,11 @@ class Node extends Component {
       if ( +uptime < 60 ) {
         uptime = uptime + ' secs'
       } else if ( +uptime < 3600 ) {
-        uptime = (+uptime/60).toFixed(0) + ' mins'
+        uptime = (+uptime / 60).toFixed(0) + ' mins'
       } else if ( +uptime < 86400 ) {
-        uptime = (+uptime/3600).toFixed(0) + ' hrs'
+        uptime = (+uptime / 3600).toFixed(0) + ' hrs'
       } else {
-        uptime = (+uptime/86400).toFixed(0) + ' days'
+        uptime = (+uptime / 86400).toFixed(0) + ' days'
       }
     }
 
@@ -278,7 +278,7 @@ class Node extends Component {
   displayActions(node) {
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
-    const isActive = ['offline', 'online'].includes(node.status) && node.deletedAt === null
+    const isActive = [ 'offline', 'online' ].includes(node.status) && node.deletedAt === null
     return (
       <Col xl={5} lg={5} md={5} sm={12} xs={12} className="d-flex px-0 flex-wrap justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
         {sellable && (
@@ -330,9 +330,12 @@ class Node extends Component {
     let total = allEvents.map(e => e.value).length ? allEvents.map(e => e.value).reduce((t, v) => +t + +v) : []
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
+      const timeZone = moment.tz.guess()
+      const dateInUserTZ = moment.tz(event.timestamp, timeZone)
+      const date = moment(dateInUserTZ, "YYYY-MM-DD HH:mm:ss").format("MMM D, YYYY  HH:mm")
       const row = (
         <tr key={event.id}>
-          <td className="text-left">{moment(event.timestamp, "YYYY-MM-DD HH:mm:ss").format("MMM D, YYYY  HH:mm")}</td>
+          <td className="text-left">{date}</td>
           <td className="text-left">{event.description}</td>
           <td className="text-right">{valueFormat(total, 2)}</td>
         </tr>
