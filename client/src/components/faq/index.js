@@ -42,7 +42,7 @@ export default class FAQ extends Component {
             <p className="faqQuestionText">Unlike an exchange, we at Nodebucks do not hold any of your assets nor do we have any control over what price you will pay. We are a full service masternode operator.</p>
 
             <h2 className="faqQuestionHeader">What are the fees?</h2>
-            <p className="faqQuestionText">We charge a 2.95% hosting fee on all rewards that Nodebucks masternodes receive.</p>
+            <p className="faqQuestionText">We take pride in the quality of our masternodes and strive hard to achieve 100% uptime to maximize your rewards. This means that we have staff members available 24x7 to monitor and handle any alerts. Nodebucks also covers the cost of the hardware, rack space fees, electricity, and bandwidth. In exchange for these services, we take out a 15% fee on all rewards received by Nodebucks masternodes. We make money when you make money.</p>
 
             <h2 className="faqQuestionHeader">How do you determine your masternode price and value?</h2>
             <p className="faqQuestionText">Nodebucks looks at the order books across several exchanges to determine the best possible price to purchase the required number of coins to setup a masternode. The order books on the exchanges determines the actual price of a masternode when buying it and also determines the value when selling it.</p>
