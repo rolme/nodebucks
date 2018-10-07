@@ -6,13 +6,13 @@ class SupportMailer < ApplicationMailer
       mail(
         content_type: "text/html",
         subject: subject,
-        to: ['support@nodebucks.com']
+        to: 'support@nodebucks.com'
       )
     elsif Rails.env.staging?
       mail(
         content_type: "text/html",
         subject: subject,
-        to: ['nodebucks.staging@gmail.com']
+        to: 'nodebucks.staging@gmail.com'
       )
     end
   end

@@ -7,7 +7,7 @@ class NodeOwnerMailer < ApplicationMailer
       mail(
         :content_type => "text/html",
         :subject => "Your #{@node.name.capitalize} masternode is online.",
-        :to => @user.email
+        :to => (Rails.env.production?) ? @user.email : 'nodebucks.staging@gmail.com'
       )
       @node.update_attribute(:online_mail_sent_at, DateTime.current)
     end
@@ -20,7 +20,7 @@ class NodeOwnerMailer < ApplicationMailer
     mail(
       :content_type => "text/html",
       :subject => "Your #{reward.node.name.capitalize} masternode has received a reward.",
-      :to => @user.email
+      :to => (Rails.env.production?) ? @user.email : 'nodebucks.staging@gmail.com'
     )
   end
 end
