@@ -7,12 +7,11 @@ module NodeManager
     end
 
     def reward(timestamp, amount, txhash)
-      return false unless (node.crypto.block_reward - amount).abs <= 1.0
+      # return false unless (node.crypto.block_reward - amount).abs <= 1.0
 
       fee = amount * node.percentage_hosting_fee
       total_amount = amount - fee
       usd_value    = total_amount * node.crypto_price
-
       reward = Reward.create(
         amount: amount,
         fee: fee,
