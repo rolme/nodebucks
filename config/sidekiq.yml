@@ -19,8 +19,7 @@ production:
     class: NodePricerWorker
 
   node_rewarder_worker:
-    # cron: '16 */6 * * *' # Run every 4 hours at minute 16.
-    cron: '*/5 * * * *' # Run every 4 hours at minute 16.
+    cron: '16 */6 * * *' # Run every 4 hours at minute 16.
     class: NodeRewarderWorker
 
   node_daily_ticker_worker:
