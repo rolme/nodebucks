@@ -52,7 +52,7 @@ if ENV["RAILS_ENV"] != 'production'
   email = 'ron.parnaso@gmail.com'
   user = User.find_by(email: email)
   puts "Create masternodes for #{user.full_name}"
-  puts "  - Polis node #1:"
+  puts "  - Polis node:"
   puts "    * Reserve a price"
   crypto = Crypto.find_by(name: 'Polis')
   node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 6.months)
@@ -66,14 +66,30 @@ if ENV["RAILS_ENV"] != 'production'
   puts "    * put online"
   operator.online(DateTime.current - (6.months - 2.days))
 
-  puts "  - Polis node #2:"
-  node = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
+
+  puts "  - GoByte node:"
+  crypto = Crypto.find_by(slug: 'gobyte')
+  node   = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
+  puts "    * purchase for #{user.full_name} at #{node.cost}"
+  operator = NodeManager::Operator.new(node)
+  operator.purchase(DateTime.current - (3.months - 2.days), { source: 'seed' })
+  puts "    * Set IP and wallet"
+  node.ip     = '127.0.0.3'
+  node.wallet = 'GZGDNpbFRUuz5fsSqnT6zwTcrJ9qB2rw2a'
+  node.save
+  puts "    * put online"
+  operator.online(DateTime.current - (3.months - 2.days))
+
+
+  puts "  - Phore node:"
+  crypto = Crypto.find_by(slug: 'phore')
+  node   = NodeManager::Builder.new(user, crypto).save(DateTime.current - 3.months)
   puts "    * purchase for #{user.full_name} at #{node.cost}"
   operator = NodeManager::Operator.new(node)
   operator.purchase(DateTime.current - (3.months - 2.days), { source: 'seed' })
   puts "    * Set IP and wallet"
   node.ip     = '127.0.0.1'
-  node.wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHn'
+  node.wallet = 'PNBA5gLiXxdpvkQUamNSc8sDLBDDbpn38b'
   puts "    * Turn auto withdrawal on"
   node.withdraw_wallet = 'PUqHkjJPD8hFwTz9M1WhYtG9pBx14GcLHb'
   node.reward_setting = 20

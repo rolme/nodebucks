@@ -43,6 +43,7 @@ class TransactionManager
     else
       account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
     end
+
     system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
     system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
@@ -53,7 +54,7 @@ class TransactionManager
       system_txn.update_attribute(:status, 'processed')
     end
 
-    SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw?
+    SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw
     SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost
   end
 
