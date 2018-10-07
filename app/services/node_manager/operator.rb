@@ -26,12 +26,14 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
+      NodeOwnerMailer.reward(reward)
     end
 
     def online(timestamp=DateTime.current)
       return false if node.status == 'online'
       node.update_attributes(status: 'online', online_at: timestamp)
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server online")
+      NodeOwnerMailer.online(node)
     end
 
     def disburse(timestamp=DateTime.current)
