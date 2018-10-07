@@ -5,6 +5,11 @@ import { connect } from 'react-redux'
 import { RingLoader } from 'react-spinners'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import InputField from '../../components/elements/inputField'
+import { FormGroup, Label } from 'reactstrap'
+
+import Toggle from 'react-toggle'
+import "react-toggle/style.css"
+
 import Dropzone from 'react-dropzone'
 import { updateProfile } from '../../reducers/user';
 
@@ -29,6 +34,7 @@ class Profile extends Component {
         email: false,
       },
       newAvatar: null,
+      rewardNotificationOn: this.props.user && this.props.user.rewardNotificationOn
     }
 
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
@@ -36,8 +42,8 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const { first = '', last = '', email = '' } = this.props.user
-    this.setState({ email, first, last })
+    const { first = '', last = '', email = '', rewardNotificationOn = false } = this.props.user
+    this.setState({ email, first, last, rewardNotificationOn })
   }
 
   handleFieldValueChange(newValue, name) {
@@ -53,7 +59,7 @@ class Profile extends Component {
   }
 
   renderChangeGeneralData() {
-    const { first, last, email, messages, errors } = this.state
+    const { first, last, email, messages, errors, rewardNotificationOn } = this.state
     const { message, error } = this.props
     return (
       <Col className="changeInputFieldsContainer">
@@ -94,6 +100,10 @@ class Profile extends Component {
                     handleFieldValueChange={this.handleFieldValueChange}
                     onKeyPress={true}
         />
+        <FormGroup check>
+          <Toggle defaultChecked={rewardNotificationOn} onChange={(event) => this.setState({rewardNotificationOn: !rewardNotificationOn})} />
+          <Label for="reward-notification" className="pl-2" style={{verticalAlign: 'top'}} check>Notify me when I receive rewards</Label>
+        </FormGroup>
       </Col>
     )
   }
@@ -156,12 +166,13 @@ class Profile extends Component {
   }
 
   updateProfileData() {
-    const { first, last, email, newAvatar } = this.state
-    let formData = new FormData();
+    const { first, last, email, newAvatar, rewardNotificationOn } = this.state
+    let formData = new FormData()
     if(newAvatar) formData.append('user[avatar]', newAvatar)
     formData.append('user[first]', first)
     formData.append('user[last]', last)
     formData.append('user[email]', email)
+    formData.append('user[reward_notification_on]', rewardNotificationOn)
     this.props.updateProfile(this.props.user.slug, formData)
   }
 
