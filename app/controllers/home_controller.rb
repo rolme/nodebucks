@@ -19,6 +19,23 @@ class HomeController < ActionController::Base
     render :index
   end
 
+  def masternode
+    @masternode = Crypto.find_by(slug: params[:slug])
+
+    Rails.logger.info ">>>>> masternode: [#{@masternode.inspect}]"
+    if @masternode.present?
+      name = @masternode.name
+      symbol = @masternode.symbol
+
+      @title = "#{name} (#{symbol}) Masternode Price and Information | NodeBucks"
+      @description = "Build your own #{name} (#{symbol}) Masternode and earn rewards for the work your masternode performs on the blockchain, confirming and verifying transactions of this cryptocurrency."
+      @image = "#{base_uri}/assets/logos/#{@masternode.slug}.png"
+      @url = "#{base_uri}/masternodes/#{@masternode.slug}"
+    end
+
+    render :index
+  end
+
   def contact
     @title = 'Contact with our Team - NodeBucks'
     @description = 'Do you have doubts about the Crypto World, Masternodes or the Blockchain? Reach our team of curated professionals and get all your doubts solved. Be assisted by the best!'
@@ -79,22 +96,6 @@ class HomeController < ActionController::Base
     @title = 'Disclaimer - NodeBucks'
     @description = 'Before using this site, please make sure that you note the following important information added in this page.'
     @url   = "#{base_uri}/disclaimer"
-
-    render :index
-  end
-
-  def masternode
-    @masternode = Crypto.find_by(slug: params[:slug])
-
-    if @masternode.present?
-      name = @masternode.name
-      symbol = @masternode.symbol
-
-      @title = "#{name} (#{symbol}) Masternode Price and Information | NodeBucks"
-      @description = "Build your own #{name} (#{symbol}) Masternode and earn rewards for the work your masternode performs on the blockchain, confirming and verifying transactions of this cryptocurrency."
-      @image = "#{base_uri}/assets/logos/#{@masternode.slug}.png"
-      @url = "#{base_uri}/masternodes/#{@masternode.slug}"
-    end
 
     render :index
   end
