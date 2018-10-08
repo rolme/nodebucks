@@ -7,8 +7,6 @@ class HomeController < ActionController::Base
     @description = 'Operate your very own masternode and collect rewards in exchange for the work your masternode performs on the blockchain, confirming and verifying transactions of cryptocurrencies.'
     @image = "#{base_uri}/assets/og_nodebucks.jpg"
     @url   = "#{base_uri}/"
-
-    render :index
   end
 
   def masternodes
@@ -97,6 +95,10 @@ class HomeController < ActionController::Base
     end
 
     render :index
+  end
+
+  def dashboard
+    @title = 'Dashboard - NodeBucks'
   end
 
   def sitemap

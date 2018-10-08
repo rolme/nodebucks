@@ -7,7 +7,7 @@ import InputField from '../../components/elements/inputFieldWithAddonMessages'
 import { createContact } from '../../reducers/user'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
-import Metatags from "../../components/metatags";
+import Metatags from "../../components/metatags"
 
 class Contact extends Component {
   constructor(props) {

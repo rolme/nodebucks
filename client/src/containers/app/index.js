@@ -11,6 +11,7 @@ import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
 
+const Article = Loadable({ loader: () => import('../../components/article'), loading: Loading })
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
@@ -30,7 +31,6 @@ const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Load
 const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
-const Article = Loadable({ loader: () => import('../../components/article'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 const CoinInfo = Loadable({ loader: () => import('../../containers/masternodes/coinInfo'), loading: Loading })
 const Settings = Loadable({ loader: () => import('../../containers/settings'), loading: Loading })

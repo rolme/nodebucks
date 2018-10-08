@@ -10,7 +10,8 @@ import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
-import Metatags from "../../components/metatags";
+
+import Metatags from "../../components/metatags"
 
 class Home extends Component {
   constructor(props) {
@@ -80,7 +81,7 @@ class Home extends Component {
           </div>
         </div>
         <h1 className="masternodesSectionHeader text-center my-3">Compare Masternodes</h1>
-        <Masternodes bgColor="bg-white"/>
+        <Masternodes bgColor="bg-white" excludeMetatags={true}/>
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">

@@ -4,7 +4,7 @@ import { Container } from 'reactstrap'
 
 import './index.css'
 
-import Metatags from "../metatags";
+import Metatags from "../metatags"
 
 class Article extends Component {
   constructor(props) {

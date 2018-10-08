@@ -21,7 +21,7 @@ export default class Metatags extends Component {
       title: nextProps.title || "Nodebucks",
       url: nextProps.url || "https://nodebucks.com",
       canonical: nextProps.canonical || "https://nodebucks.com/",
-      noIndex: nextProps.noIndex || false
+      noIndex: (nextProps.noIndex === true) ? true : false
     })
   }
 

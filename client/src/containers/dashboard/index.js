@@ -18,6 +18,8 @@ import { reset as resetSellServerMessage } from '../../reducers/user'
 import { capitalize, valueFormat, disabledAnnouncements } from "../../lib/helpers";
 import { ClipLoader } from "react-spinners";
 
+import Metatags from "../../components/metatags"
+
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -89,6 +91,9 @@ class Dashboard extends Component {
 
     return (
       <Container fluid className="dashboardPageContainer">
+        <Metatags
+          title="Dashboard - Nodebucks"
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError &&
           <Alert className="alert" isOpen={showAnnouncementAlert} toggle={() => this.onAlertDismiss('announcement')}>
