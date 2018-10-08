@@ -104,4 +104,9 @@ class HomeController < ActionController::Base
       format.xml { render body: Rails.root.join('public/sitemap.xml').read, layout: false }
     end
   end
+
+  def forgot_password
+    @noindex = true
+    render :index
+  end
 end
