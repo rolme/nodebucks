@@ -98,6 +98,8 @@ class HomeController < ActionController::Base
 
   def dashboard
     @title = 'Dashboard - NodeBucks'
+
+    render :index
   end
 
   def sitemap
@@ -107,7 +109,10 @@ class HomeController < ActionController::Base
   end
 
   def forgot_password
+    @title = 'Forgot Password - NodeBucks'
+    @url   = "#{base_uri}/forgot_password"
     @noindex = true
+
     render :index
   end
 
