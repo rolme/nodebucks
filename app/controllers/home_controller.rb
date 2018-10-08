@@ -42,6 +42,7 @@ class HomeController < ActionController::Base
   def masternodes_description
     @title = 'What is a Masternode in Cryptocurrency? - NodeBucks'
     @description = 'What is a Masternode? Learn the main concepts and how you can create your own masternode step by step. See the differences between them and the easiest way to get started.'
+    @image = "#{base_uri}/assets/images/article/articleThumbnail.jpg"
     @url   = "#{base_uri}/what-are-masternodes"
 
     render :index
