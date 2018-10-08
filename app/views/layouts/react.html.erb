@@ -4,6 +4,10 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
+    <% if !!@noindex %>
+      <meta name="ROBOTS" content="NOINDEX">
+    <% end %>
+
     <meta name="description" content="<%= @description -%>"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:type" content="website"/>
@@ -13,6 +17,9 @@
     <meta property="og:image" content="<%= @image -%>"/>
     <meta property="og:image:type" content="image/png"/>
     <meta property="og:description" content="<%= @description -%>"/>
+
+    <link rel="canonical" href="<%= @url -%>/">
+
     <link rel="manifest" href="/manifest.json"/>
     <link href="<%= @css -%>" rel="stylesheet"/>
     <title><%= @title -%></title>
