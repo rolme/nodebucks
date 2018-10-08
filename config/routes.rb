@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     resources :announcements, only: [:create] do
       get :last, on: :collection
     end
-    resources :cryptos, only: [:index, :show, :update], param: :slug
+    resources :cryptos, only: [:index, :show, :update], param: :slug do
+      get :reward_scraper
+    end
     resources :nodes, except: [:edit, :new], param: :slug do
       patch :disburse
       patch :online

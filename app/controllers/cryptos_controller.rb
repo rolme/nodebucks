@@ -25,7 +25,18 @@ class CryptosController < ApplicationController
     if @crypto.update(crypto_params)
       render :show
     else
-      render json: { status: 'error', message: @crypto.error }
+      render json: { status: :error, message: @crypto.error }
+    end
+  end
+
+  def reward_scraper
+    @crypto = Crypto.find_by(slug: params[:crypto_slug])
+    result = TestRewarder.new(@crypto, params[:wallet], params[:date]).check
+
+    if result[:status] === :error
+      render json: { status: result[:status], message: result[:message] }
+    else
+      render json: result[:doc]
     end
   end
 
