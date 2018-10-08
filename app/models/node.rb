@@ -134,6 +134,7 @@ class Node < ApplicationRecord
   end
 
   def server_down?
+    return true if ip.nil?
     !Net::Ping::External.new(ip).ping?
   end
 
