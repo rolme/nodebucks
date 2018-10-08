@@ -12,17 +12,8 @@ class HomeController < ActionController::Base
   end
 
   def masternodes
-    @title = 'The 7 Best Masternodes in Which to Invest - NodeBucks'
-    @description = 'Masternodes are the future. Invest on your own Masternode and collect rewards. You can choose between Blocknet, Dash, GoByte, PIVX, Phore, Polis and ZCoin.'
-    @url   = "#{base_uri}/masternodes"
-
-    render :index
-  end
-
-  def masternode
     @masternode = Crypto.find_by(slug: params[:slug])
 
-    Rails.logger.info ">>>>> masternode: [#{@masternode.inspect}]"
     if @masternode.present?
       name = @masternode.name
       symbol = @masternode.symbol
@@ -31,6 +22,10 @@ class HomeController < ActionController::Base
       @description = "Build your own #{name} (#{symbol}) Masternode and earn rewards for the work your masternode performs on the blockchain, confirming and verifying transactions of this cryptocurrency."
       @image = "#{base_uri}/assets/logos/#{@masternode.slug}.png"
       @url = "#{base_uri}/masternodes/#{@masternode.slug}"
+    else
+      @title = 'The 7 Best Masternodes in Which to Invest - NodeBucks'
+      @description = 'Masternodes are the future. Invest on your own Masternode and collect rewards. You can choose between Blocknet, Dash, GoByte, PIVX, Phore, Polis and ZCoin.'
+      @url   = "#{base_uri}/masternodes"
     end
 
     render :index

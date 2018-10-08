@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get '/faq', to: 'home#faq'
   get '/forgot_password', to: 'home#forgot_password'
   get '/login', to: 'home#login'
-  get '/masternode/:slug', to: 'home#masternode'
+  get '/masternodes/:slug', to: 'home#masternodes'
   get '/masternodes', to: 'home#masternodes'
   get '/privacy', to: 'home#privacy'
   get '/sign-up', to: 'home#sign_up'
