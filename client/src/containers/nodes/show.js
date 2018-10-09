@@ -95,7 +95,6 @@ class Node extends Component {
 
     if(error) return <ErrorPage404 />
 
-    const { node, pending, message } = this.props
     const { status } = this.state
     const isSold = status === 'sold'
 
