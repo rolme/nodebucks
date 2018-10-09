@@ -8,6 +8,7 @@ class Crypto < ApplicationRecord
   VALUE      = true
 
   has_many :nodes
+  has_many :crypto_price_histories
 
   scope :active, -> { where(status: 'active') }
 

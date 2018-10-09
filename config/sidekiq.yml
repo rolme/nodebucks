@@ -37,3 +37,7 @@ production:
   masternodes_report_worker:
     cron: '0 8 * * *' # Run every day at 8:00 AM
     class: MasternodesReportWorker
+
+  crypto_price_history_worker:
+    cron: '0 * * * *' # Run every hour
+    class: CryptoPriceHistoryWorker

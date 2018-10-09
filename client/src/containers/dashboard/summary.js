@@ -57,7 +57,7 @@ export default class Summary extends Component {
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Last 30 days</h6>
-            <p>{month} ({monthPercentage}%)</p>
+            <p>${month} ({monthPercentage}%)</p>
           </div>
         </div>
       </div>

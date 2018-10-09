@@ -10,6 +10,7 @@ export default class Metatags extends Component {
       title: this.props.title || "Nodebucks",
       url: this.props.url || "https://nodebucks.com",
       noIndex: false,
+      siteName: this.props.siteName || "Nodebucks",
       canonical: this.props.canonical || "https://nodebucks.com/"
     }
   }
@@ -20,13 +21,14 @@ export default class Metatags extends Component {
       image: nextProps.image || "/assets/images/og_nodebucks.png",
       title: nextProps.title || "Nodebucks",
       url: nextProps.url || "https://nodebucks.com",
+      siteName: nextProps.siteName || "Nodebucks",
       canonical: nextProps.canonical || "https://nodebucks.com/",
       noIndex: (nextProps.noIndex === true) ? true : false
     })
   }
 
   render() {
-    const { description, title, url, image, noIndex, canonical } = this.state
+    const { description, title, url, image, noIndex, canonical, siteName } = this.state
     return (
       <Helmet>
         <meta name="keywords" content="masternodes masternode node blockchain"/>
@@ -35,7 +37,7 @@ export default class Metatags extends Component {
         <meta property="og:type" content="website"/>
         <meta property="og:title" content={title}/>
         <meta property="og:url" content={url}/>
-        <meta property="og:site_name" content={title}/>
+        <meta property="og:site_name" content={siteName}/>
         <meta property="og:image" content={`https://nodebucks.com${image}`}/>
         <meta property="og:description" content={description}/>
         <meta name="twitter:card" content="summary_large_image"/>
