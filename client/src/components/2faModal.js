@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, ModalHeader, ModalBody, Input, Label } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Input, Label, Button } from 'reactstrap';
 import speakeasy from 'speakeasy'
 import { withCookies } from 'react-cookie';
 import localIpUrl from 'local-ip-url';
@@ -21,12 +21,13 @@ class Modal2FA extends Component {
   }
 
   handleTokenChange = (e) => {
-    const token = e.target.value
-    this.setState({ token: token, message: '' }, () => {
-      if (token.length === 6) {
-        this.handleSubmit()
-      }
-    })
+    this.setState({ token: e.target.value, message: '' })
+  }
+
+  handleKeyPress = (target) => {
+    if(target.charCode === 13) {
+      this.handleSubmit()  
+    }
   }
 
   handleSubmit = () => {
@@ -72,6 +73,7 @@ class Modal2FA extends Component {
             placeholder="Enter Google authenticator token here"
             value={this.state.token}
             onChange={this.handleTokenChange}
+            onKeyPress={this.handleKeyPress}
             ref={(input) => { this.twoFAInput = input; }}
             autoFocus
           />
@@ -88,12 +90,18 @@ class Modal2FA extends Component {
                 />
                 <Label for="trusted">This is a trusted computer</Label>
               </div>
+              <Button 
+                color="primary" 
+                onClick={this.handleSubmit}
+              >
+                Submit
+              </Button>
             </div>
           }
         </ModalBody>
       </Modal>
     );
-  }
+  } 
 }
 
 export default withCookies(Modal2FA);
