@@ -25,7 +25,7 @@ class CoinInfo extends Component {
     const { data, pending, error } = this.props
 
     if(error) return <ErrorPage404 />
-      
+
     if ( pending || !data.slug ) {
       return (
         <Container fluid className="coinInfoContainer">
@@ -50,6 +50,7 @@ class CoinInfo extends Component {
             description={data.description.substring(0, 170)}
             title={`${data.name} (${data.symbol}) Masternode Price and Information | NodeBucks`}
             image={`/assets/images/seo/seo-${data.slug}.jpg`}
+            canonical={`https://nodebucks.com/masternodes/${data.slug}`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
             <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
