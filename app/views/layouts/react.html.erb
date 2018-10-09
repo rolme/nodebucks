@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
     <% if !!@noindex %>
-      <meta name="ROBOTS" content="NOINDEX" data-react-helment="true">
+      <meta name="ROBOTS" content="NOINDEX" data-react-helmet="true">
     <% end %>
 
     <meta name="description" content="<%= @description -%>" data-react-helmet="true"/>
@@ -18,7 +18,7 @@
     <meta property="og:image:type" content="image/png" data-react-helmet="true"/>
     <meta property="og:description" content="<%= @description -%>" data-react-helmet="true"/>
 
-    <link rel="canonical" href="<%= @url -%>" data-react-helment="true">
+    <link rel="canonical" href="<%= @url -%>" data-react-helmet="true">
 
     <link rel="manifest" href="/manifest.json"/>
     <link href="<%= @css -%>" rel="stylesheet"/>
