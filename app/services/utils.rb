@@ -14,4 +14,8 @@ class Utils
       { error: e.to_s }
     end
   end
+
+  def self.average(array)
+    array.reduce(:+) / array.size
+  end
 end
