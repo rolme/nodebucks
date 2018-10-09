@@ -46,7 +46,7 @@ class Article extends Component {
             url="https://nodebucks.com/what-are-masternodes"
             canonical="https://nodebucks.com/what-are-masternodes"
           />
-          <h2 className="articleHeader mt-3 text-center"><b>What is a masternode in Cryptocurrency?</b></h2>
+          <h1 className="articleHeader mt-3 text-center"><b>What is a masternode in Cryptocurrency?</b></h1>
           <img src="/assets/images/article/articleThumbnail.jpg" alt="What is a Masternode? Step by Step Guide - Nodebucks"/>
           <p className="articleParagraph"> If you’re looking for ways to make money in the world of cryptocurrencies, you should know that there are quite a few. </p>
           <p className="articleParagraph"> You can strategically buy and sell cryptocurrencies through online exchanges using technical analysis, also known as day trading. However, this is very difficult and most day traders do not outperform the general market. You would need to be well-informed and thoroughly understand both the projects and how to read charts. </p>
