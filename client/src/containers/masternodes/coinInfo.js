@@ -46,7 +46,7 @@ class CoinInfo extends Component {
         <div className="contentContainer">
           <Metatags
             description={data.description.substring(0, 170)}
-            title={`${data.name} (${data.symbol}) Cryptocurrency Price and Information | NodeBucks`}
+            title={`${data.name} (${data.symbol}) Masternode Price and Information | NodeBucks`}
             image={`/assets/images/seo/seo-${data.slug}.jpg`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
