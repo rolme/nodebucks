@@ -98,6 +98,8 @@ class HomeController < ActionController::Base
 
   def dashboard
     @title = 'Dashboard - NodeBucks'
+
+    render :index
   end
 
   def sitemap
