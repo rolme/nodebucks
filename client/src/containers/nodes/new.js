@@ -44,7 +44,7 @@ class NewNode extends Component {
     if ( !!user ) {
       this.props.reserveNode(params.crypto)
     } else {
-      this.props.fetchCrypto(params.crypto)
+      this.props.history.push('/login')
     }
     this.checkPriceDataAvailability()
   }
