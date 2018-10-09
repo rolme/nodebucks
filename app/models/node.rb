@@ -1,5 +1,6 @@
 class Node < ApplicationRecord
   include Sluggable
+  include SoftDeletable
 
   TIME_LIMIT = 180.seconds
 
@@ -36,16 +37,23 @@ class Node < ApplicationRecord
            :ticker_url,
            to: :crypto
 
- delegate :price,
+  delegate :price,
           to: :crypto,
           prefix: true
 
   validates :cost, presence: true
 
-  scope :online,     -> { where(status: 'online') }
+  validates_uniqueness_of :ip, scope: :crypto_id, allow_blank: true
+  validates_uniqueness_of :wallet, scope: :crypto_id, allow_blank: true
+
+  scope :offline,    -> { where(status: 'offline', deleted_at: nil) }
+  scope :online,     -> { where(status: 'online', deleted_at: nil) }
   scope :reserved,   -> { where(status: 'reserved') }
   scope :unreserved, -> { where.not(status: 'reserved') }
-  scope :unsold,     -> { where.not(status: 'sold') }
+  scope :unsold,     -> { where.not(status: 'sold').where(deleted_at: nil) }
+  scope :sold,       -> { where(status: 'sold').where(deleted_at: nil) }
+  scope :_new,       -> { where(status: 'new').where(deleted_at: nil) }
+  scope :down,       -> { all.select { |node| node.server_down? } }
 
   before_create :cache_values
 
@@ -65,6 +73,11 @@ class Node < ApplicationRecord
     @_value ||= crypto.sellable_price * (1.0 - percentage_conversion_fee)
   end
 
+  def uptime
+    return 0 if online_at.blank? || status != 'online' || deleted_at.present?
+    DateTime.current.to_i - online_at.to_i
+  end
+
   def wallet_url
     return "#{explorer_url}#{wallet}.htm" if symbol == 'pivx'
     "#{explorer_url}#{wallet}"
@@ -72,7 +85,11 @@ class Node < ApplicationRecord
 
   # TODO: More math needed here
   def reward_total
-    rewards.map(&:total_amount).reduce(&:+) || 0.0
+    return @__reward_total if @__reward_total.present?
+
+     total = rewards.map(&:total_amount).reduce(&:+) || 0.0
+     crypto_pricer = CryptoPricer.new(crypto)
+     @__reward_total = crypto_pricer.to_usdt(total, 'sell')
   end
 
   def week_reward
@@ -108,11 +125,28 @@ class Node < ApplicationRecord
     save!
   end
 
+  def duplicated_ip?
+    ip.present? ? Node.where(crypto_id: crypto.id, ip: ip).count > 1 : false
+  end
+
+  def duplicated_wallet?
+    wallet.present? ? Node.where(crypto_id: crypto.id, wallet: wallet).count > 1 : false
+  end
+
+  def server_down?
+    return true if ip.nil?
+    !Net::Ping::External.new(ip).ping?
+  end
+
 private
 
   def reward_timeframe(timeframe)
     now   = DateTime.current
     range = ((now-timeframe)..now)
-    rewards.select{ |r| range.cover?(r.timestamp) }.map(&:usd_value).reduce(&:+) || 0.0
+    # rewards.select{ |r| range.cover?(r.timestamp) }.map(&:usd_value).reduce(&:+) || 0.0
+
+    total = rewards.select{ |r| range.cover?(r.timestamp) }.map(&:total_amount).reduce(&:+) || 0.0
+    crypto_pricer = CryptoPricer.new(crypto)
+    crypto_pricer.to_usdt(total, 'sell')
   end
 end

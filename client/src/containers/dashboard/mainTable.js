@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
+import { Table, Badge } from 'reactstrap'
 import { NavLink, withRouter } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
-import moment from 'moment'
 
 class MainTable extends Component {
   constructor(props) {
@@ -21,8 +20,22 @@ class MainTable extends Component {
       if ( a.crypto.name > b.crypto.name ) return 1
       return 0
     }).map(item => {
-      const uptime = (item.onlineAt === null) ? 0 : moment().diff(moment(item.onlineAt), 'days')
-      const annualRoi = ((+item.crypto.annualRoi) * 100.0).toFixed(1) + ' %'
+      let uptime = item.uptime
+      if ( +uptime === 0 ) {
+        uptime = '0 days'
+      } else {
+        if ( +uptime < 60 ) {
+          uptime = uptime + ' secs'
+        } else if ( +uptime < 3600 ) {
+          uptime = (+uptime/60).toFixed(0) + ' mins'
+        } else if ( +uptime < 86400 ) {
+          uptime = (+uptime/3600).toFixed(0) + ' hrs'
+        } else {
+          uptime = (+uptime/86400).toFixed(0) + ' days'
+        }
+      }
+
+      const annualRoi = ((+item.crypto.annualRoiPercentage) * 100.0).toFixed(1) + '%'
       const weeklyRoiValue = valueFormat(+item.crypto.weeklyRoiValue, 2)
       const monthlyRoiValue = valueFormat(+item.crypto.monthlyRoiValue, 2)
       const yearlyRoiValue = valueFormat(+item.crypto.yearlyRoiValue, 2)
@@ -30,19 +43,25 @@ class MainTable extends Component {
       const week = valueFormat(+item.rewards.week, 2)
       const month = valueFormat(+item.rewards.month, 2)
       const year = valueFormat(+item.rewards.year, 2)
+      let statusColor = 'secondary'
+      if ( item.status === 'online' ) {
+        statusColor = 'success'
+      } else if ( item.status === 'offline' || item.status === 'down' ) {
+        statusColor = 'danger'
+      }
 
       return (
         <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
           <td><img alt="logo" src={`/assets/images/logos/${item.crypto.slug}.png`} height="25px" className="pr-1"/> {item.crypto.name}</td>
-          <td>{uptime} days</td>
-          <td className="leftBorder">{annualRoi}</td>
-          <td>$ {weeklyRoiValue}</td>
-          <td>$ {monthlyRoiValue}</td>
-          <td>$ {yearlyRoiValue}</td>
-          <td className="leftBorder">$ {week}</td>
-          <td>$ {month}</td>
-          <td className="rightBorder">$ {year}</td>
-          <td>{capitalize(item.status)}</td>
+          <td className="text-center">{uptime}</td>
+          <td className="leftBorder text-right">{annualRoi}</td>
+          <td className="text-right">${weeklyRoiValue}</td>
+          <td className="text-right">${monthlyRoiValue}</td>
+          <td className="text-right">${yearlyRoiValue}</td>
+          <td className="leftBorder text-right">${week}</td>
+          <td className="text-right">${month}</td>
+          <td className="rightBorder text-right">${year}</td>
+          <td className="text-center"><Badge color={statusColor} className="px-2 py-1">{capitalize(item.status)}</Badge></td>
         </tr>
       )
     })
@@ -72,8 +91,8 @@ class MainTable extends Component {
               <tr>
                 <th></th>
                 <th></th>
-                <th colSpan="4" className="leftBorder rightBorder">Projected returns</th>
-                <th colSpan="3" className="rightBorder">Actual returns</th>
+                <th colSpan="4" className="leftBorder rightBorder">Estimated Returns<span className="asteriskSign">*</span></th>
+                <th colSpan="3" className="rightBorder">Actual Returns</th>
                 <th></th>
               </tr>
               <tr>
@@ -94,6 +113,7 @@ class MainTable extends Component {
               </tbody>
             </Table>
           </div>
+          <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
         </div>
       </div>
     )

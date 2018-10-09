@@ -6,7 +6,7 @@ class ReceiptMailer < ApplicationMailer
     mail(
       :content_type => "text/html",
       :subject => 'Thank you for purchasing.',
-      :to => @customer.email
+      :to => (Rails.env.production?) ? @customer.email : 'nodebucks.staging@gmail.com'
     )
   end
 end

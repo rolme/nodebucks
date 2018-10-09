@@ -35,7 +35,8 @@ class SellNode extends Component {
       errorMessages: {
         target: '',
         password: ''
-      }
+      },
+      isSelling: false,
     }
     this.handleGoBack = this.handleGoBack.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
@@ -51,7 +52,7 @@ class SellNode extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    if ( newNode.status === 'sold' ) {
+    if ( newNode.deletedAt !== null || ['sold', 'new'].includes(newNode.status) || !newNode.crypto.liquidity.sell ) {
       this.props.history.push('/dashboard')
       return
     }
@@ -104,7 +105,10 @@ class SellNode extends Component {
       password,
       node: { currency, target }
     }
-    this.props.sellNode(node.slug, data)
+    this.setState({ isSelling: true })
+    this.props.sellNode(node.slug, data, () => {
+      this.setState({ isSelling: false })
+    })
   }
 
   validate() {
@@ -259,13 +263,13 @@ class SellNode extends Component {
 
   sellServerButton() {
     const { node, refreshing } = this.props
-    const { validPrice } = this.state
+    const { validPrice, isSelling } = this.state
 
     if ( !validPrice ) {
       return <Button className="sellPageSubmitButton" onClick={this.handleReload}>Reload Page</Button>
     }
 
-    if ( !node || !node.sellPrice || refreshing ) {
+    if ( !node || !node.sellPrice || refreshing || !node.crypto.liquidity.sell || isSelling ) {
       return (<Button className="sellPageSubmitButton" disabled={true}>Sell Server (Disabled)</Button>)
     }
 

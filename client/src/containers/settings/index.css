@@ -103,6 +103,11 @@
   margin-left: 15px;
 }
 
+.verificationFooterButtonsContainer > .submitButton {
+  width: 200px;
+  margin-top: 20px;
+}
+
 .emailPreferencesFooterButtonsContainer > button {
   padding: 10px 30px !important;
   margin-left: 10px;
@@ -176,10 +181,28 @@
 .avatar-dropzone-container {
   padding-bottom: 25px;
 }
- .avatar-dropzone {
+
+.avatar-dropzone {
   width: 200px;
   height: 200px;
   margin-top: 2px;
   cursor: pointer;
   margin: 0 auto;
 }
+
+.verificationMessage {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.verificationFormError {
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+}
+
+.spinnerContainer {
+  text-align: center;
+}
+

@@ -11,6 +11,7 @@ import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
 
+const Article = Loadable({ loader: () => import('../../components/article'), loading: Loading })
 const Contact = Loadable({ loader: () => import('../contact'), loading: Loading })
 const ConfirmEmail = Loadable({ loader: () => import('../authenticate/confirm_email'), loading: Loading })
 const Dashboard = Loadable({ loader: () => import('../dashboard'), loading: Loading })
@@ -81,6 +82,7 @@ class App extends Component {
               <PublicRoute exact path="/reset_password/:slug" component={ResetPassword}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
               <PublicRoute exact path="/terms" component={Terms}/>
+              <PublicRoute exact path="/what-are-masternodes" component={Article}/>
               <PublicRoute exact path="/disclaimer" component={Disclaimer}/>
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute exact path="/contact" component={Contact}/>

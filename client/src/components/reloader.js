@@ -22,7 +22,6 @@ export default class Reloader extends Component {
     axios.head(url).then(response => {
       const latestModified = moment(response.headers['last-modified']).utc()
       if (latestModified.isAfter(lastModified)) {
-        console.log('request reload')
         this.props.onExpire()
       } else {
         this.handleCountDown(timer)

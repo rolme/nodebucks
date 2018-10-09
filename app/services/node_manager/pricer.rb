@@ -44,18 +44,22 @@ module NodeManager
           kucoin: available_price(@orders, crypto.stake, Api::Kucoin::EXCHANGE),
           poloniex: available_price(@orders, crypto.stake, Api::Poloniex::EXCHANGE)
         }
+        crypto_pricer = CryptoPricer.new(crypto, @orders)
         if (@type == 'sell')
-          purchasing_price = @prices[crypto.symbol][:all]
-          coin_price       = purchasing_price / crypto.stake
+          crypto_pricer.buy_price(@avg_btc_usdt)
+          coin_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'buy').usdt
           crypto.update_attributes(
-            node_price: calculate_price(crypto, purchasing_price),
+            node_price: calculate_price(crypto, coin_price * crypto.stake),
             price: coin_price,
-            purchasable_price: purchasing_price
+            purchasable_price: coin_price * crypto.stake
           ) if !!persist
         else
-          CryptoPricer.price(@orders, crypto, @avg_btc_usdt)
-          selling_price = @prices[crypto.symbol][:all]
-          crypto.update_attribute(:sellable_price, selling_price) if !!persist
+          crypto_pricer.sell_price(@avg_btc_usdt)
+          coin_price = CryptoPrice.find_by(crypto_id: crypto.id, amount: crypto.stake, price_type: 'sell').usdt
+          crypto.update_attributes(
+            node_sell_price: calculate_selling_price(crypto, coin_price * crypto.stake),
+            sellable_price: coin_price * crypto.stake
+          ) if !!persist
         end
       end
       @prices
@@ -64,7 +68,6 @@ module NodeManager
     # TOOD: Get what value we can for the amount passed in.
     def to_btc(crypto, amount)
       @orders = gather_orders(crypto)
-      Rails.logger.info ">>>>> gathering orders #{orders.inspect}"
       btc_order_price(@orders, amount)
     end
 
@@ -101,6 +104,13 @@ module NodeManager
       conversion_cost    = purchasing_price * crypto.percentage_conversion_fee
 
       purchasing_price + setup_cost + conversion_cost
+    end
+
+    def calculate_selling_price(crypto, sell_price)
+      decommission_cost  = (sell_price * crypto.percentage_decommission_fee)
+      conversion_cost = sell_price * crypto.percentage_conversion_fee
+
+      sell_price - decommission_cost - conversion_cost
     end
   end
 end

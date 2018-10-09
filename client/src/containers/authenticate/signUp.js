@@ -12,6 +12,7 @@ import { withCookies } from 'react-cookie'
 import './index.css'
 
 import { register, reset, socialMediaLogin } from '../../reducers/user.js'
+import Metatags from "../../components/metatags";
 
 class SignUp extends Component {
   constructor(props) {
@@ -182,6 +183,11 @@ class SignUp extends Component {
 
     return (
       <Container fluid className="signUpPageContainer authPageContainer">
+        <Metatags
+          description="Are you interested in the Blockchain world? Sign up now for free and create your own Masternode, thanks to which you will be able to earn rewards. "
+          title="Create your own Masternode | Sign Up - NodeBucks"
+          canonical="https://nodebucks.com/sign-up"
+        />
         <div className="contentContainer signUpPageContentContainer d-flex justify-content-center bg-white">
           <Col className="authContainer align-items-center flex-wrap justify-content-center d-flex">
             {!!message &&
@@ -199,7 +205,6 @@ class SignUp extends Component {
                               name="first"
                               id="signUpFirst"
                               type='text'
-                              autoFocus={true}
                               value={first}
                               message={messages.first}
                               error={errors.first}

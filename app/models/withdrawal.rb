@@ -9,6 +9,8 @@ class Withdrawal < ApplicationRecord
 
   has_many :transactions, dependent: :destroy
 
+  scope :pending, -> { where(status: :pending) }
+
   # TODO: This should be an option when withdrawing, but isn't happening yet.
   def destination
     "Bitcoin"

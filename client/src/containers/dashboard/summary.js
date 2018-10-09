@@ -41,23 +41,23 @@ export default class Summary extends Component {
         <div className="bg-white dashboardSummaryTableContainer">
           <div className="dashboardSummaryTableRowContainer">
             <h6>Total Rewards</h6>
-            <p>$ {rewardTotal}</p>
+            <p>${rewardTotal}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Total Node Value</h6>
-            <p>$ {value}</p>
+            <p>${value}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Cost Basis</h6>
-            <p>$ {cost}</p>
+            <p>${cost}</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Projected Annual %</h6>
-            <p>{annual} %</p>
+            <p>{annual}%</p>
           </div>
           <div className="dashboardSummaryTableRowContainer">
             <h6>Last 30 days</h6>
-            <p>{month} ({monthPercentage} %)</p>
+            <p>{month} ({monthPercentage}%)</p>
           </div>
         </div>
       </div>

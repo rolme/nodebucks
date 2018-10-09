@@ -88,14 +88,14 @@
 
 .masternodesPageBottomLink {
   font-family: "Raleway";
-  color: #777777;
+  color: #2283c7;
   padding: 20px 0;
   display: block;
   text-align: center;
 }
 
 .masternodesPageBottomLink:hover {
-  color: #4A4A4A;
+  color: #2283c7;
   text-decoration: none;
 }
 
@@ -149,7 +149,7 @@
   box-shadow: none !important;
 }
 
-.contactSalesNodeButton {
+.infoNodeButton {
   font-family: "Raleway-SemiBold";
   color: #FFFFFF;
   font-size: 16px;
@@ -161,9 +161,9 @@
   width: 100%;
 }
 
-.contactSalesNodeButton:hover,
-.contactSalesNodeButton:active,
-.contactSalesNodeButton:focus {
+.infoNodeButton:hover,
+.infoNodeButton:active,
+.infoNodeButton:focus {
   background-color: #299be7 !important;
   border: none !important;
   box-shadow: none !important;
@@ -255,7 +255,7 @@
 .coinInfoDescriptionContainer > p {
   color: #000000;
   font-family: 'Raleway';
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 25px;
 }
 

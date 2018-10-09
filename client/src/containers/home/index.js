@@ -11,6 +11,8 @@ import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
 
+import Metatags from "../../components/metatags"
+
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -46,6 +48,11 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
+        <Metatags
+          description="Operate your very own masternode and collect rewards in exchange for the work your masternode performs on the blockchain, confirming and verifying transactions of cryptocurrencies."
+          title="NodeBucks - Build your Masternode and Collect Rewards"
+          canonical="https://nodebucks.com/"
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             {announcement.text}
@@ -62,9 +69,9 @@ class Home extends Component {
           </div>
         </div>
         <div className="homeAboutContainer">
-          <div className="contentContainer flex-wrap">
+          <div className="contentContainer align-items-start flex-wrap">
             <Col xl={{ size: 5, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="d-flex justify-content-center">
-              <img src="/assets/images/illustration.png" alt='Illustration'/>
+              <img src="/assets/images/dashboard.png" alt='dashboard'/>
             </Col>
             <Col xl={{ size: 7, offset: 0 }} lg={{ size: 7, offset: 0 }} md={{ size: 8, offset: 2 }} sm={{ size: 10, offset: 1 }} xs={{ size: 10, offset: 1 }} className="homeAboutTextPartContainer">
               <h1>Blockchain is the Future</h1>
@@ -74,7 +81,7 @@ class Home extends Component {
           </div>
         </div>
         <h1 className="masternodesSectionHeader text-center my-3">Compare Masternodes</h1>
-        <Masternodes bgColor="bg-white"/>
+        <Masternodes bgColor="bg-white" excludeMetatags={true}/>
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">

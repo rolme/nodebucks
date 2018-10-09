@@ -15,11 +15,11 @@ module NodeManager
         options.add_argument('--headless')
         browser = Selenium::WebDriver.for :chrome, options: options
         browser.navigate.to node.wallet_url
-        sleep 1
+        sleep 5
       else
         driver = Watir::Browser.new
         driver.goto node.wallet_url
-        sleep 1
+        sleep 5
         browser = driver.wd
       end
 
@@ -130,17 +130,18 @@ module NodeManager
       node.update_attribute(:balance, balance)
 
       rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
-      rows.reverse!.each do |row|
+      rows.reverse.each do |row|
         data = row.find_elements(tag_name: 'td')
         next if data.blank?
 
         timestamp = data[2].text
-        txhash    = data[0].text
-        amount    = data[3].text.gsub(/[A-Z ]/, '').to_f
+        txhash    = data[0].text.gsub('.', '')
+        amount    = data[3].text.gsub(/[+A-Z, ]/, '').to_f
 
         if has_new_rewards?(timestamp) && amount > 0.0
           operator.reward(timestamp, amount, txhash) unless stake_amount?(amount)
         end
+
       end
     end
 
@@ -213,10 +214,12 @@ module NodeManager
   private
 
     def has_new_rewards?(timestamp)
-      last_reward = node.rewards.last
-      return true if last_reward.blank?
+      return false if node.online_at.blank?
 
-      last_reward.timestamp < DateTime.parse(timestamp)
+      last_reward_timestamp   = node.rewards.last&.timestamp
+      last_reward_timestamp ||= node.online_at
+
+      last_reward_timestamp < DateTime.parse(timestamp)
     end
 
     def stake_amount?(amount)

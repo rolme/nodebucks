@@ -10,6 +10,7 @@ class AuthenticateUser
   def call
     # TODO: This code also exists in users_controller.rb
     JsonWebToken.encode({
+      admin: user.admin,
       address: user.address,
       avatar: user.avatar,
       city: user.city,
@@ -17,18 +18,22 @@ class AuthenticateUser
       country: user.country,
       createdAt: user.created_at.to_formatted_s(:db),
       email: user.email,
+      enabled2FA: user.two_fa_secret.present?,
       first: user.first,
       fullName: user.full_name,
       last: user.last,
       newEmail: user.new_email,
       nickname: user.nickname,
+      rewardNotificationOn: user.reward_notification_on,
       slug: user.slug,
       affiliateKey: user.affiliate_key,
       affiliateKeyCreatedAt: user.affiliate_key_created_at&.to_formatted_s(:db),
       state: user.state,
       updatedAt: user.updated_at.to_formatted_s(:db),
       zipcode: user.zipcode,
-      admin: user.admin,
+      verified: user.verified_at,
+      verificationStatus: user.verification_status,
+      verificationImage: user.verification_image
     }) if user
   end
 

@@ -6,6 +6,9 @@ end
 json.crypto do
   json.partial! 'cryptos/crypto', crypto: node.crypto
 end
+json.deletedAt node.deleted_at&.to_formatted_s(:db)
+json.duplicatedIp node.duplicated_ip?
+json.duplicatedWallet node.duplicated_wallet?
 json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do |event|
   json.id event.id
   json.timestamp event.timestamp.to_formatted_s(:db)
@@ -13,6 +16,7 @@ json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do 
   json.description event.description
   json.value event.value
 end
+json.id node.id + 10000
 json.ip node.ip
 json.isReady node.ready?
 json.lastUpgradedAt node.last_upgraded_at&.to_formatted_s(:db)
@@ -21,7 +25,7 @@ json.owner do
   json.partial! 'users/owner', user: node.user
 end
 json.rewardSetting node.reward_setting
-json.rewardTotal node.reward_total * node.crypto.price
+json.rewardTotal node.reward_total
 json.rewards do
   json.week node.week_reward
   json.quarter node.quarter_reward
@@ -36,6 +40,7 @@ json.soldAt node.sold_at&.to_formatted_s(:db)
 json.status node.status
 json.stripe node.stripe
 json.timeLimit Node::TIME_LIMIT.to_i
+json.uptime node.uptime
 json.wallet node.wallet
 json.withdrawWallet node.withdraw_wallet
 json.value node.value

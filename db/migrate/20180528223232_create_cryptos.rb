@@ -24,10 +24,10 @@ class CreateCryptos < ActiveRecord::Migration[5.2]
       t.decimal :purchasable_price, default: 0.0
       t.string :explorer_url
       t.string :ticker_url
-      t.decimal :market_cap, :decimal, precision: 15, scale: 1
-      t.decimal :volume, :decimal, precision: 15, scale: 1
-      t.decimal :available_supply, :decimal, precision: 15, scale: 1
-      t.decimal :total_supply, :decimal, precision: 15, scale: 1
+      t.decimal :market_cap, precision: 15, scale: 1
+      t.decimal :volume, precision: 15, scale: 1
+      t.decimal :available_supply, precision: 15, scale: 1
+      t.decimal :total_supply, precision: 15, scale: 1
       t.text :profile
 
       t.timestamps

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation]
+  before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation, :verification_image]
   before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
   before_action :find_user, only: [:update, :profile]
 
@@ -21,8 +21,8 @@ class UsersController < ApplicationController
 
     if @user.present?
       sm = StorageManager.new
-      @user.avatar ||= sm.store_url(@user, user_params[:avatar])
-      @user.save!
+      avatar = sm.store_url(@user, user_params[:avatar])
+      @user.update_attribute(:avatar, avatar)
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
@@ -45,7 +45,9 @@ class UsersController < ApplicationController
   end
 
   def index
-    if !!params[:nonadmin]
+    if(params[:verification_pending_users].present? && params[:verification_pending_users].to_bool)
+      @users = User.where.not(email: nil).verifications_pending
+    elsif params[:nonadmin].present? && params[:nonadmin].to_bool
       @users = User.where.not(email: nil).where(admin: [false, nil])
     else
       @users = User.where.not(email: nil)
@@ -195,9 +197,67 @@ class UsersController < ApplicationController
     render json: { status: :ok, valid: user.authenticate(params[:user][:password]).present? }
   end
 
+  def verification_image
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_image: params[:user][:verification_image], verification_status: :pending)
+      render json: { status: :ok, message: 'Photo successfully uploaded.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
+  def approved
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verified_at: Time.zone.now, verification_status: :approved)
+      render json: { status: :ok, message: 'ID verification is successfully approved.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
+  def denied
+    user = User.find_by(slug: params[:user_slug])
+    if user.update(verification_status: :denied)
+      render json: { status: :ok, message: 'ID verification is successfully denied.' }
+    else
+      render json: { status: :error, message: user.errors.full_messages.join(', ') }
+    end
+  end
+
   def impersonate
     @user = User.find_by_slug(params[:slug])
     render json: { status: :ok, token: generate_token }
+  end
+
+  def enable_2fa
+    @user = User.find_by(slug: params[:user_slug])
+    if(@user.update(two_fa_secret: params[:user][:two_fa_secret]))
+      render json: { status: :ok, message: '2FA is successfully enabled.', token: generate_token }
+    else
+      render json: { status: :error, message: 'Error while enabling 2FA.' }
+    end
+  end
+
+  def disable_2fa
+    @user = User.find_by(slug: params[:user_slug])
+    if(@user.update(two_fa_secret: nil))
+      render json: { status: :ok, message: '2FA is successfully disabled.', token: generate_token }
+    else
+      render json: { status: :error, message: 'Error while disabling 2FA.' }
+    end
+  end
+
+  def secret_2fa
+    user = User.find_by_email(params[:email])
+    if user && user.authenticate(params[:password]).present?
+      if user.two_fa_secret.present?
+        render json: { status: :ok, enabled_2fa: true, secret: user.two_fa_secret }
+      else
+        render json: { status: :ok, enabled_2fa: false }
+      end
+    else
+      render json: { status: :error, message: 'Invalid credentials' }
+    end
   end
 
 protected
@@ -218,6 +278,7 @@ protected
       :nickname,
       :password,
       :password_confirmation,
+      :reward_notification_on,
       :state,
       :zipcode,
     )
@@ -254,6 +315,7 @@ private
   # TODO: This code also exists in authenticate_user.rb
   def generate_token
     JsonWebToken.encode({
+      admin: @user.admin,
       address: @user.address,
       avatar: @user.avatar,
       city: @user.city,
@@ -261,16 +323,20 @@ private
       country: @user.country,
       createdAt: @user.created_at.to_formatted_s(:db),
       email: @user.email,
+      enabled2FA: @user.two_fa_secret.present?,
       first: @user.first,
       fullName: @user.full_name,
       last: @user.last,
       newEmail: @user.new_email,
       nickname: @user.nickname,
+      rewardNotificationOn: @user.reward_notification_on,
       slug: @user.slug,
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
       zipcode: @user.zipcode,
-      admin: @user.admin,
+      verified: @user.verified_at,
+      verificationStatus: @user.verification_status,
+      verificationImage: @user.verification_image
     })
   end
 end

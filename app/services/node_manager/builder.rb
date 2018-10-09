@@ -3,7 +3,7 @@ module NodeManager
     attr_accessor :node
     attr_reader :crypto, :error, :user
 
-    def initialize(user, crypto)
+    def initialize(user, crypto, cost=nil)
       @crypto   = crypto
       @user     = user
       @node     = Node.find_by(user_id: user.id, crypto_id: crypto.id, status: 'reserved')
@@ -11,8 +11,8 @@ module NodeManager
         account_id: user.accounts.find { |a| a.crypto_id == crypto.id }&.id,
         user_id: user.id,
         crypto_id: crypto.id,
-        cost: crypto.node_price,
-        status: 'reserved',
+        cost: cost.present? ? cost : crypto.node_price,
+        status: 'reserved', 
         buy_priced_at: DateTime.current
       )
     end
@@ -36,7 +36,6 @@ module NodeManager
 
       node.account ||= user.accounts.create(crypto_id: crypto.id)
       if node.save
-        node.events.create(event_type: 'ops', description: 'Server price reserved', timestamp: timestamp)
         node
       else
         @error = @node.errors.full_messages.join(', ')

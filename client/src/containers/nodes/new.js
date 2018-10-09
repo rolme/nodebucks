@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
-
+import { isEmpty } from 'lodash'
 import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
@@ -16,7 +16,8 @@ import { faSyncAlt } from '@fortawesome/fontawesome-free-solid'
 
 import {
   purchaseNode,
-  reserveNode
+  reserveNode,
+  fetchNodes,
 } from '../../reducers/nodes'
 
 import { valueFormat } from "../../lib/helpers"
@@ -31,7 +32,6 @@ class NewNode extends Component {
       validPrice: true,
       spreadTooltipOpen: false,
       purchasing: false,
-      purchased: false,
     }
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handlePurchase = this.handlePurchase.bind(this)
@@ -47,6 +47,19 @@ class NewNode extends Component {
       this.props.fetchCrypto(params.crypto)
     }
     this.checkPriceDataAvailability()
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { node, crypto } = nextProps
+    let buyLiquidity = true
+    if ( !!node && !!node.crypto && !!node.crypto.liquidity ) {
+      buyLiquidity = node.crypto.liquidity.buy
+    } else if ( !!crypto && !!crypto.liquidity ) {
+      buyLiquidity = crypto.liquidity.buy
+    }
+    !buyLiquidity && this.props.history.push('/dashboard')
+
   }
 
   checkPriceDataAvailability() {
@@ -89,21 +102,17 @@ class NewNode extends Component {
     this.setState({ validPrice: false })
   }
 
-  handlePurchase(paymentResponse, callback) {
+  handlePurchase(paymentResponse) {
     const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(paymentResponse, node.slug, callback)
+    this.props.purchaseNode(paymentResponse, node.slug, () => {
+      this.props.fetchNodes()
+    })
   }
 
   togglePurchasingStatus = () => {
     this.setState({
       purchasing: !this.state.purchasing
-    })
-  }
-
-  setAsPurchased = () => {
-    this.setState({
-      purchased: !this.state.purchased
     })
   }
 
@@ -119,12 +128,11 @@ class NewNode extends Component {
   }
 
   render() {
-    const { crypto, history, node, nodeMessage, user, nodePending, cryptoPending } = this.props
+    const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
-    if ( nodeMessage === 'Purchase node successful.' ) {
-      history.push('/dashboard')
-    }
+    if (purchasing) return <Redirect to='/dashboard'/>
+    if (!isEmpty(crypto) && !crypto.enabled) return <Redirect to={`/masternodes/${crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
@@ -153,13 +161,7 @@ class NewNode extends Component {
                 {nodeMessage}
               </Alert>
             }
-            {!!masternode && !!masternode.url && !!masternode.name && !nodePending &&
-            <Col xl={12} className="d-flex justify-content-center purchasePageLinksContainer">
-              <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{masternode.name} Homepage</a>
-              <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
-            </Col>
-            }
-            <Col xl={12} className="d-flex px-0 flex-wrap">
+            <Col xl={12} className="d-flex px-0 flex-wrap justify-content-center">
               {
                 !!nodePending || !!cryptoPending
                   ? <div className="loadingSnipperContainer">
@@ -190,10 +192,10 @@ class NewNode extends Component {
           <PaymentMethod
             slug={item.nodeSlug}
             onPurchase={this.handlePurchase}
-            setAsPurchased={this.setAsPurchased}
             togglePurchasingStatus={this.togglePurchasingStatus}
             refreshing={refreshing}
             purchasing={purchasing}
+            node={this.props.node}
           />
         </div>
       </Col>
@@ -225,6 +227,21 @@ class NewNode extends Component {
         </Col>
       </Col>
     )
+  }
+
+  renderSpreadWarning() {
+    const { node } = this.props
+    let difference = +node.value / node.cost
+    if ( difference < 0.85 ) {
+      const sellValue = valueFormat(+node.value, 2)
+      difference = '-' + (valueFormat((1 - difference)*100, 2)) + '%'
+      return (
+        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="spreadWarningMessageContainer d-flex flex-column align-items-center justify-content-center">
+          <p>Warning: Due to low liquidity on exchanges, the resell value of this masternode is well below the purchase price. </p>
+          <p>Sell Value: ${sellValue} ({difference})</p>
+        </Col>
+      )
+    }
   }
 
   displayCryptoData(item) {
@@ -282,6 +299,7 @@ class NewNode extends Component {
               <span>The spread is the difference between the buy and sell price of this masternode.</span> <br/>It is determined by the exchange order books. A spread of $100 means you will lose $100 if you sell your node immediately after purchasing it.
             </Tooltip>
           </Col>
+          {this.renderSpreadWarning(item)}
         </Row>
         }
       </Col>
@@ -305,7 +323,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCrypto,
   purchaseNode,
-  reserveNode
+  reserveNode,
+  fetchNodes,
 }, dispatch)
 
 export default withRouter(connect(

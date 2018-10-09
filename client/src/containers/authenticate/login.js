@@ -3,16 +3,25 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
+import { withCookies } from 'react-cookie';
 import InputField from '../../components/elements/inputField'
 import Checkbox from 'rc-checkbox'
-
 import { Container, Col, Button, Alert, FormGroup, Label } from 'reactstrap'
+import Modal2FA from '../../components/2faModal'
 import { capitalize } from '../../lib/helpers'
 import SocialButton from './socialButton'
+import localIpUrl from 'local-ip-url';
 import './index.css'
 import 'rc-checkbox/assets/index.css'
 
-import { login, reset, socialMediaLogin } from '../../reducers/user.js'
+import {
+  login,
+  get2FASecret,
+  reset,
+  socialMediaLogin
+} from '../../reducers/user.js'
+
+import Metatags from "../../components/metatags";
 
 class LogIn extends Component {
   constructor(props) {
@@ -21,6 +30,7 @@ class LogIn extends Component {
     this.state = {
       email: '',
       password: '',
+      token: '',
       showPassword: false,
       rememberMe: false,
       messages: {
@@ -30,7 +40,10 @@ class LogIn extends Component {
       errors: {
         email: false,
         password: false,
-      }
+      },
+      show2fa: false,
+      secret: '',
+      isOtherIP: false,
     }
     this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
     this.onAddonClick = this.onAddonClick.bind(this)
@@ -72,9 +85,28 @@ class LogIn extends Component {
     this.setState({ [name]: !this.state[ name ] })
   }
 
+  check2FA() {
+    const { email, password } = this.state
+    const trustedIp = this.props.cookies.get('trustedIpNodebucks')
+
+    if(trustedIp && trustedIp === localIpUrl()) {
+      this.props.login({ email, password })
+    } else {
+      this.props.get2FASecret({email, password}, (response) => {
+        if(trustedIp && trustedIp !== localIpUrl()) {
+          this.setState({ show2fa: true, secret: response.secret, isOtherIP: true })
+        } else if(response.enabled_2fa) {
+          this.setState({ show2fa: true, secret: response.secret })
+        } else {
+          this.props.login({ email, password })
+        }
+      })
+    }
+  }
+
   validation() {
     const { email, password } = this.state
-    let isValid = true, messages = { email: '*Required', password: '*Required' }, errors = { email: false, password: false }
+    let isValid = true, messages = { email: '', password: '' }, errors = { email: false, password: false }
     const re = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
     if ( !email ) {
       messages.email = '*Required'
@@ -94,11 +126,17 @@ class LogIn extends Component {
 
     this.setState({ messages, errors })
 
-    isValid && this.props.login({ email, password })
+    isValid && this.check2FA()
   }
 
   toggleElement(name) {
     this.setState({ [name]: !this.state[ name ] })
+  }
+
+  toggleModal = () => {
+    this.setState({
+      show2fa: !this.state.show2fa
+    });
   }
 
   handleSocialLogin(sm, user) {
@@ -112,7 +150,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { email, password, showPassword, messages, errors, rememberMe } = this.state
+    const { email, password, showPassword, messages, errors, rememberMe, show2fa, secret, isOtherIP } = this.state
     const { message, error, pending, isOnlyForm } = this.props
 
     if ( pending ) {
@@ -135,6 +173,11 @@ class LogIn extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
+        <Metatags
+          description="Manage your Masternodes directly from your account, monitor their progress and see the results you have achieved. All the data is ready in your own Dashboard."
+          title="Login into your Account - NodeBucks"
+          canonical="https://nodebucks.com/login"
+        />
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&
@@ -193,6 +236,15 @@ class LogIn extends Component {
             </Col>
           </Col>
         </div>
+        <Modal2FA
+          show={show2fa}
+          onToggle={this.toggleModal}
+          email={email}
+          password={password}
+          secret={secret}
+          login={this.props.login}
+          isOtherIP={isOtherIP}
+        />
       </Container>
     )
   }
@@ -205,9 +257,14 @@ const mapStateToProps = state => ({
   message: state.user.logInMessage
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ login, reset, socialMediaLogin }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({
+  login,
+  get2FASecret,
+  reset,
+  socialMediaLogin,
+}, dispatch)
 
-export default withRouter(connect(
+export default withRouter(withCookies(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LogIn))
+)(LogIn)))

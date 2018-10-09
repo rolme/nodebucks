@@ -6,9 +6,10 @@ class WithdrawalsController < ApplicationController
     withdrawal_manager = WithdrawalManager.new(current_user)
     if withdrawal_manager.confirm(withdrawal_params)
       @withdrawal = withdrawal_manager.withdrawal
+      SupportMailerService.send_withdrawal_requested_notification(current_user, @withdrawal)
       render :show
     else
-      render json: { status: 'error', message: withdrawal_manager.error }
+      render json: { status: :error, message: withdrawal_manager.error }
     end
   end
 
@@ -16,16 +17,15 @@ class WithdrawalsController < ApplicationController
     withdrawal_manager = WithdrawalManager.new(current_user)
     if withdrawal_manager.save
       @withdrawal = withdrawal_manager.withdrawal
-      SupportMailerService.send_withdrawal_requested_notification(current_user, @withdrawal)
       render :show
     else
-      render json: { status: 'error', message: @withdrawal.error }
+      render json: { status: :error, message: @withdrawal.error }
     end
   end
 
   def index
     @withdrawals   = Withdrawal.all if current_user.admin? && params.has_key?(:all)
-    @withdrawals ||= Withdrawal.where(user_id: current_user.id).where.not(status: 'reserved')
+    @withdrawals ||= Withdrawal.where(user_id: current_user.id).where.not(status: :reserved)
   end
 
   def show
@@ -38,7 +38,7 @@ class WithdrawalsController < ApplicationController
       @withdrawal = withdrawal_manager.withdrawal
       render :show
     else
-      render json: { status: 'error', message: withdrawal_manager.error }
+      render json: { status: :error, message: withdrawal_manager.error }
     end
   end
 

@@ -17,7 +17,6 @@ class TransactionManager
 
     reward_percentages = [0.2, 0.1, 0.05]
     tiers = [tier1, tier2, tier3].reject{ |tier| tier.blank? }
-
     tiers.each do |upline|
       percentage       = reward_percentages.shift
       fee             -= reward.fee * percentage
@@ -38,20 +37,25 @@ class TransactionManager
       upline_txn.update_attribute(:status, 'processed')
     end
 
-    account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
+    auto_withdraw = reward.node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL && reward.node.withdraw_wallet.present?
+    if auto_withdraw
+      system_account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.total_amount} #{reward.symbol} transfer from #{reward.node.wallet} to #{reward.node.withdraw_wallet}")
+    else
+      account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
+    end
+
     system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
     system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
-      account.update_attribute(:balance, account.balance + reward.total_amount)
+      account.update_attribute(:balance, account.balance + reward.total_amount) unless auto_withdraw
       system_account.update_attribute(:balance, account.balance + fee)
-      account_txn.update_attribute(:status, 'processed')
+      account_txn.update_attribute(:status, 'processed') unless auto_withdraw
       system_txn.update_attribute(:status, 'processed')
     end
 
-    # Notifications
-    SupportMailerService.send_user_received_reward(owner, reward.total_amount, node) if node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL
-    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost 
+    SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw
+    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost
   end
 
   def withdraw(withdrawal)
@@ -70,6 +74,17 @@ class TransactionManager
       system_account.update_attribute(:balance, system_account.balance + balance)
       system_balance_txn.update_attribute(:status, 'processed')
       system_fee_txn.update_attribute(:status, 'processed')
+    end
+  end
+
+  def self.withdraw_affiliate_reward(withdrawal)
+    user = withdrawal.user
+    balance = user.affiliate_balance
+    txn = Transaction.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
+
+    Account.transaction do
+      withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)
+      txn.update_attribute(:status, 'processed')
     end
   end
 end

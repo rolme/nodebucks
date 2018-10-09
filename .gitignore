@@ -25,6 +25,7 @@
 /build
 /public/static
 /public/avatars
+/public/ids
 
 # misc
 .DS_Store
@@ -44,3 +45,9 @@ yarn-error.log*
 
 # Rails 5.2 new way handling environment variables
 config/master.key
+/.idea
+/*.lock
+
+# Sitemap, should be generated on server
+/client/public/sitemap.xml
+/public/sitemaps/sitemap.xml

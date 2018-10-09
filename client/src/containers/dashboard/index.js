@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, NavLink } from 'react-router-dom'
 
-import { Container, Col, Row, Alert } from 'reactstrap'
+import { Container, Col, Row, Alert, UncontrolledAlert } from 'reactstrap'
 import Summary from './summary'
 import Balance from './balance'
 import MainTable from './mainTable'
@@ -17,6 +17,8 @@ import { reset as resetSellServerMessage } from '../../reducers/user'
 
 import { capitalize, valueFormat, disabledAnnouncements } from "../../lib/helpers";
 import { ClipLoader } from "react-spinners";
+
+import Metatags from "../../components/metatags"
 
 class Dashboard extends Component {
   constructor(props) {
@@ -48,16 +50,13 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { purchasedNode, message } = this.props
-    let { showPurchaseMessageAlert, showAnnouncementAlert } = this.state
-    if ( purchasedNode && message === 'Purchase node successful.' ) {
-      showPurchaseMessageAlert = true
-    }
+    let { showAnnouncementAlert } = this.state
+
     if ( !disabledAnnouncements() ) {
       showAnnouncementAlert = true
     }
     this.props.fetchAnnouncement()
-    this.setState({ showPurchaseMessageAlert, showAnnouncementAlert })
+    this.setState({ showAnnouncementAlert })
   }
 
   onAlertDismiss = (name) => {
@@ -67,8 +66,14 @@ class Dashboard extends Component {
     sessionStorage.setItem(name + 'Visible', false)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.message === 'Purchase node successful.') {
+      this.setState({ showPurchaseMessageAlert: true })
+    }
+  }
+
   render() {
-    const { pending, nodes, announcement, announcementError } = this.props
+    const { pending, nodes, announcement, announcementError, purchaseError, messageWithdrawal, errorWithdrawal } = this.props
     const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
@@ -86,6 +91,9 @@ class Dashboard extends Component {
 
     return (
       <Container fluid className="dashboardPageContainer">
+        <Metatags
+          title="Dashboard - Nodebucks"
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError &&
           <Alert className="alert" isOpen={showAnnouncementAlert} toggle={() => this.onAlertDismiss('announcement')}>
@@ -98,15 +106,19 @@ class Dashboard extends Component {
           <Alert color='success' isOpen={showSellServerMessageAlert} toggle={() => this.onAlertDismiss('sellServerMessage')}>
             {sellServerMessage}
           </Alert>
+          { messageWithdrawal && <UncontrolledAlert color={errorWithdrawal ? 'danger' : 'success'}>{messageWithdrawal}</UncontrolledAlert> }
         </div>
         <div className="contentContainer px-0">
-          <Alert className="messageBox statusSuccess" isOpen={showPurchaseMessageAlert} toggle={() => this.onAlertDismiss('purchaseMessage')}>
-            <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
-            <p className="messageText">
-              Please give us 24-48 hours to get your node up and running.
-              Your first reward is usually given after 2-3 days of node uptime.
-            </p>
-          </Alert>
+          { purchaseError ?
+            <UncontrolledAlert color="danger">Error on server while purchasing new node. Please contact us.</UncontrolledAlert> :
+            <Alert className="messageBox statusSuccess" isOpen={showPurchaseMessageAlert} toggle={() => this.onAlertDismiss('purchaseMessage')}>
+              <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
+              <p className="messageText">
+                Please give us 24-48 hours to get your node up and running.
+                Your first reward is usually given after 2-3 days of node uptime.
+              </p>
+            </Alert>
+          }
           <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="ml-xl-0">
@@ -117,7 +129,7 @@ class Dashboard extends Component {
                   color={'#FFFFFF'}
                   loading={true}
                 /> :
-                <p>$ {valueFormat(+nodeValue, 2)}</p>
+                <p>${valueFormat(+nodeValue, 2)}</p>
               }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12}>
@@ -139,7 +151,7 @@ class Dashboard extends Component {
                   color={'#FFFFFF'}
                   loading={true}
                 /> :
-                <p>$ {valueFormat(+monthlyRewards, 2)}</p>
+                <p>${valueFormat(+monthlyRewards, 2)}</p>
               }
             </Col>
             <Col xl={4} lg={6} md={5} sm={5} xs={12} className="mr-xl-0">
@@ -177,8 +189,9 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
+  masternodes: state.masternodes.list,
   nodes: state.nodes.list,
-  error: state.nodes.error,
+  purchaseError: state.nodes.error,
   message: state.nodes.message,
   confirmMessage: state.user.message === 'Your email address has been successfully verified. Thank you!' && state.user.message,
   sellServerMessage: state.nodes.message && state.nodes.message.includes('You have successfully sold your') && state.nodes.message,
@@ -186,11 +199,13 @@ const mapStateToProps = state => ({
   purchasedNode: state.nodes.purchased,
   user: state.user.data,
   announcement: state.announcements.data,
+  messageWithdrawal: state.withdrawals.message,
+  errorWithdrawal: state.withdrawals.error,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchNodes,
   fetchAnnouncement,
+  fetchNodes,
   reset,
   resetSellServerMessage
 }, dispatch)

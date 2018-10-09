@@ -7,12 +7,11 @@ module NodeManager
     end
 
     def reward(timestamp, amount, txhash)
-      return false unless (node.crypto.block_reward - amount).abs <= 1.0
+      # return false unless (node.crypto.block_reward - amount).abs <= 1.0
 
       fee = amount * node.percentage_hosting_fee
       total_amount = amount - fee
       usd_value    = total_amount * node.crypto_price
-
       reward = Reward.create(
         amount: amount,
         fee: fee,
@@ -26,12 +25,29 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
+      NodeOwnerMailer.reward(reward).deliver_later
     end
 
     def online(timestamp=DateTime.current)
       return false if node.status == 'online'
       node.update_attributes(status: 'online', online_at: timestamp)
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server online")
+
+      NodeOwnerMailer.online(node).deliver_later
+    end
+
+    def disburse(timestamp=DateTime.current)
+      return false if node.status != 'sold'
+      node.orders.find_by(order_type: 'sold', status: 'unpaid')&.paid!
+      node.update_attributes(status: 'disbursed', disbursed_at: timestamp)
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server stopped and funds disbursed")
+    end
+
+    def undisburse(timestamp=DateTime.current)
+      return false if node.status != 'disbursed'
+      node.orders.find_by(order_type: 'sold', status: 'paid')&.unpaid!
+      node.update_attributes(status: 'sold')
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Undo fund disbursement")
     end
 
     def offline(timestamp=DateTime.current)
@@ -56,7 +72,11 @@ module NodeManager
         paypal_response: paypal_json,
         description: "#{node.user.email} purchased #{node.crypto.name} masternode for $#{node.cost}."
       )
-      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server setup initiated")
+      node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server purchased")
+
+      # Get latest prices
+      pricer = NodeManager::Pricer.new({persist: true})
+      pricer.evaluate(node.crypto)
       # TODO: Do we need to track setup fee here?
     end
 
@@ -65,7 +85,7 @@ module NodeManager
       np = NodeManager::Pricer.new(persist: true, type: 'buy')
       np.evaluate(node.crypto)
       node.reload
-      node.update_attributes(sell_price: node.value, sell_priced_at: DateTime.current)
+      node.update_attributes(sell_price: node.crypto.node_sell_price, sell_priced_at: DateTime.current)
     end
 
     def sell(payment_method, target, timestamp=DateTime.current)

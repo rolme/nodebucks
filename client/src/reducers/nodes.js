@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { valueFormat } from "../lib/helpers";
-import { RESET } from "./user";
+import { valueFormat } from "../lib/helpers"
+import { RESET } from "./user"
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const FETCH = 'nodes/FETCH'
@@ -243,7 +243,7 @@ export function sellReserveNode(slug, isRefreshing) {
   }
 }
 
-export function sellNode(slug, data) {
+export function sellNode(slug, data, callback) {
   return dispatch => {
     dispatch({ type: SELL })
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
@@ -254,6 +254,7 @@ export function sellNode(slug, data) {
         } else {
           dispatch({ type: SELL_SUCCESS, payload: response.data })
         }
+        callback()
       }).catch((error) => {
       dispatch({ type: SELL_ERROR, payload: { message: error.data } })
       console.log(error)
