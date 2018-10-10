@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from "redux"
+import { withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 import moment from 'moment'
 import { Line } from 'react-chartjs-2'
 
-import { Row } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 
 import { numberFormatter, valueFormat } from '../../lib/helpers'
 
-export default class PriceHistoryChart extends Component {
+import { fetchCryptoPrices } from "../../reducers/cryptos"
+import { RingLoader } from "react-spinners"
+
+class PriceHistoryChart extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,32 +23,35 @@ export default class PriceHistoryChart extends Component {
         '3': [],
         '6': [],
         '12': [],
-      }
+      },
+      timeframe: 'daily',
+      days: 30
     }
     this.handlePeriodClick = this.handlePeriodClick.bind(this)
-    this.filterValuesByPeriod = this.filterValuesByPeriod.bind(this)
   }
 
   componentWillMount() {
     const { node } = this.props
-    !!node && node.values && this.proceedNodeValues(node.values)
+    const { timeframe, days } = this.state
+
+    this.props.fetchCryptoPrices(node.crypto.slug, timeframe, days)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { node } = nextProps
+    const { data, node } = nextProps
 
-    !!node && node.values && this.proceedNodeValues(node.values)
+    !!data && data.length && this.proceedNodeValues(data, node)
   }
 
   chartData() {
-    const { periodValues, selectedPeriod } = this.state
+    const { values } = this.state
     let labels = [], data = [], datasets = []
 
-    periodValues[ selectedPeriod.toString() ].forEach(node => {
+    values.forEach(node => {
       data.push(+node.value)
       labels.push(node.timestamp)
     })
-    datasets = [
+    datasets.push(
       {
         fill: false,
         borderSkipped: 'bottom',
@@ -50,7 +59,7 @@ export default class PriceHistoryChart extends Component {
         borderColor: '#2283C6',
         data: data
       }
-    ]
+    )
     labels.sort((a, b) => {
       return moment(new Date(a)).valueOf() - moment(new Date(b)).valueOf()
     })
@@ -96,21 +105,33 @@ export default class PriceHistoryChart extends Component {
     }
   }
 
-  handlePeriodClick(value) {
-    const { selectedPeriod } = this.state
-    value !== selectedPeriod && this.setState({ selectedPeriod: value }, this.filterValuesByPeriod)
+  handlePeriodClick(timeframe, daysAmount) {
+    const { node } = this.props
+    const { days } = this.state
+    if ( daysAmount !== days ) {
+      this.setState({ timeframe, days: daysAmount })
+      this.props.fetchCryptoPrices(node.crypto.slug, timeframe, daysAmount)
+    }
   }
 
-  proceedNodeValues(values) {
-    let combinedDates = {}, newValues = []
-    values.forEach(value => {
-      const date = moment(value.timestamp).format("MMM D YYYY")
+  proceedNodeValues(values, node) {
+    let combinedDates = {}, newValues = [], { createdAt, crypto: { stake } } = node
+
+    createdAt = moment(createdAt).format("MMM D YYYY")
+
+    values.forEach(data => {
+      const timestamp = new Date(Object.keys(data)[ 0 ].split(/[\[\]]/)[ 1 ])
+      const value = stake * Object.values(data)[ 0 ].price_usd
+      const date = moment(timestamp).format("MMM D YYYY")
+      if ( date === createdAt ) {
+        return
+      }
       if ( !!combinedDates[ date ] ) {
-        combinedDates[ date ].sum += +value.value
+        combinedDates[ date ].sum += value
         combinedDates[ date ].count += 1
       } else {
         combinedDates[ date ] = {
-          sum: +value.value,
+          sum: +value,
           count: 1
         }
       }
@@ -122,66 +143,35 @@ export default class PriceHistoryChart extends Component {
         value: combinedDates[ date ].sum / combinedDates[ date ].count
       })
     }
-    this.setState({ values: newValues }, this.filterValuesByPeriod)
-  }
-
-  filterValuesByPeriod() {
-    let { values, selectedPeriod, periodValues } = this.state
-
-    if ( !!periodValues[ selectedPeriod.toString() ].length ) {
-      return periodValues[ selectedPeriod.toString() ]
-    }
-
-    if ( selectedPeriod === 1 ) {
-      values = values.filter(value => {
-        return moment().diff(moment(new Date(value.timestamp)), 'days') < 30
-      })
-    } else if ( selectedPeriod === 3 ) {
-      const amount = values.length
-      values = values.filter((value, index) => {
-        return (amount < 20 || index % 5 === 0) && moment().diff(moment(new Date(value.timestamp)), 'days') < 90
-      })
-    } else if ( selectedPeriod === 6 || selectedPeriod === 12 ) {
-      let combinedDates = [], newValues = []
-      values.forEach(value => {
-        if ( moment().diff(moment(new Date(value.timestamp)), 'months') < selectedPeriod ) {
-          const date = moment(new Date(value.timestamp)).format('MMMM')
-          if ( !!combinedDates[ date ] ) {
-            combinedDates[ date ].sum += +value.value
-            combinedDates[ date ].count += 1
-          } else {
-            combinedDates[ date ] = {
-              sum: +value.value,
-              count: 1
-            }
-          }
-        }
-      })
-
-      for ( let date in combinedDates ) {
-        newValues.push({
-          timestamp: date,
-          value: combinedDates[ date ].sum / combinedDates[ date ].count
-        })
-      }
-      values = newValues
-    }
-
-    periodValues[ selectedPeriod.toString() ] = values
-
-    this.setState({ periodValues })
+    this.setState({ values: newValues })
     this.chartOptions()
+
   }
 
   render() {
-    const { selectedPeriod } = this.state
+    const { days } = this.state
+    const { pending } = this.props
+    if ( pending ) {
+      return (
+        <div className="contentContainer dashboardChartSectionContentContainer mb-4 d-flex align-items-center justify-content-center">
+          <div className="spinnerContainer h-100 d-flex align-items-center justify-content-center">
+            <RingLoader
+              size={150}
+              color={'#3F89E8'}
+              loading={true}
+            />
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="contentContainer dashboardChartSectionContentContainer mb-4">
         <Row className="d-flex flex-wrap justify-content-end priceHistoryChartPeriodContainer">
-          <p className={`${selectedPeriod === 1 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick(1)}>1m</p>
-          <p className={`${selectedPeriod === 3 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick(3)}>3m</p>
-          <p className={`${selectedPeriod === 6 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick(6)}>6m</p>
-          <p className={`${selectedPeriod === 12 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick(12)}>1y</p>
+          <p className={`${days === 30 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick('daily', 30)}>1m</p>
+          <p className={`${days === 90 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick('daily', 90)}>3m</p>
+          <p className={`${days === 180 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick('monthly', 180)}>6m</p>
+          <p className={`${days === 360 ? 'selectedPeriod' : ''}`} onClick={() => this.handlePeriodClick('monthly', 360)}>1y</p>
         </Row>
         <Row className="bg-white nodeValuesChartContainer">
           <Line width={840} height={260} redraw={false} data={this.chartData()} options={this.chartOptions()} className="nodeValuesChart"/>
@@ -190,3 +180,20 @@ export default class PriceHistoryChart extends Component {
     )
   }
 }
+
+
+const mapStateToProps = state => ({
+  data: state.cryptos.priceData,
+  error: state.cryptos.error,
+  message: state.cryptos.message,
+  pending: state.cryptos.pending,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchCryptoPrices,
+}, dispatch)
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PriceHistoryChart))

@@ -473,6 +473,10 @@
   border: 1px solid #E7E7E7;
 }
 
+.dashboardChartSectionContentContainer {
+  min-height: 240px;
+}
+
 dd {
   font-family: OpenSans;
   font-size: 14px;
