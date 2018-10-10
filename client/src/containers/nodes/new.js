@@ -132,7 +132,7 @@ class NewNode extends Component {
     const { validPrice, showReloadAlert, purchasing } = this.state
 
     if (purchasing) return <Redirect to='/dashboard'/>
-    if (!isEmpty(crypto) && !crypto.enabled) return <Redirect to={`/masternodes/${crypto.slug}`} />
+    if (!isEmpty(crypto) && crypto.purchasableStatus === 'Unavailable') return <Redirect to={`/masternodes/${crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     return (
