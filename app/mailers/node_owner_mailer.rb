@@ -16,6 +16,7 @@ class NodeOwnerMailer < ApplicationMailer
   def reward(reward)
     @reward = reward
     @user   = reward.node.user
+    @node   = reward.node
     @account_amount = @user.balances.find{ |b| b[:name] == @reward.node.name }[:value].round(5)
     mail(
       :content_type => "text/html",
