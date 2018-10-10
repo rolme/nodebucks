@@ -17,8 +17,8 @@ import {
 class CoinInfo extends Component {
   componentWillMount() {
     window.scrollTo(0, 0)
-    let { match: { params } } = this.props
-    this.props.fetchMasternode(params.slug)
+    let { match: { params }, user } = this.props
+    this.props.fetchMasternode(params.slug, user ? user.slug : '')
   }
 
   render() {

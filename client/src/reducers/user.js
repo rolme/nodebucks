@@ -2,6 +2,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import moment from 'moment'
 import { push } from 'react-router-redux'
+import { FETCH_MASTERNODE_SUCCESS } from './masternodes'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
 export const BALANCE = 'user/BALANCE'
@@ -417,6 +418,16 @@ export default (state = initialState, action) => {
         ...state,
         data: jwt_decode(action.payload.token),
       }
+
+    case FETCH_MASTERNODE_SUCCESS:
+      if(action.payload.token) {
+        localStorage.setItem('jwt-nodebucks', action.payload.token)
+        return {
+          ...state,
+          data: jwt_decode(action.payload.token),
+        }
+      }
+      return state
       
     default:
       return state
