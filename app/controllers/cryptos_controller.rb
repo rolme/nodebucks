@@ -44,6 +44,10 @@ class CryptosController < ApplicationController
     end
   end
 
+  def check_wallet
+    render json: { exists: Utils.wallet_valid?(Crypto.find_by(slug: params[:crypto_slug]), params[:wallet]) }
+  end
+
   private
 
   def crypto_params

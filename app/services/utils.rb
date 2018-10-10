@@ -18,4 +18,11 @@ class Utils
   def self.average(array)
     array.reduce(:+) / array.size
   end
+
+  def self.wallet_valid?(crypto, wallet)
+    if crypto.explorer_url.include? 'chainz.cryptoid.info'
+      response = Typhoeus::Request.get("https://chainz.cryptoid.info/#{crypto.symbol}/api.dws?q=addressfirstseen&a=#{wallet}").body
+      !(response.kind_of?(String) && response.include?('ERROR'))
+    end    
+  end
 end
