@@ -16,7 +16,7 @@ class NodeOwnerMailer < ApplicationMailer
   def reward(reward)
     @reward = reward
     @user   = reward.node.user
-    @account_amount = @user.balances.find { |b| b[:name] == @reward.node.name }.balance
+    @account_amount = @user.balances.find{ |b| b[:name] == @reward.node.name }[:value]
     mail(
       :content_type => "text/html",
       :subject => "Your #{reward.node.name.capitalize} masternode has received a reward.",
