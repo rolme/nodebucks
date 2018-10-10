@@ -119,7 +119,7 @@ module NodeManager
          event_type: 'reward',
          timestamp: reward.timestamp,
          value: reward.total_amount,
-         description: "Reward: #{reward.amount} #{node.symbol} (-#{reward.fee} fee)"
+         description: "Reward: #{reward.amount.round(5)} #{node.symbol} (-#{reward.fee.round(5)} fee)"
        )
      end
   end

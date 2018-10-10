@@ -253,14 +253,14 @@ class Withdraw extends Component {
   displayActions() {
     let disabled = true
     if(this.props.withdrawal.amount) {
-      disabled = parseFloat(this.props.withdrawal.amount.btc) === 0 && parseFloat(this.props.withdrawal.amount.usd) === 0
+      disabled = parseFloat(this.props.withdrawal.amount.usd) < 50
     }
     return (
       <div>
         <Row className="mx-0">
           <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
             <Button onClick={this.validation} className="sellPageSubmitButton" disabled={disabled}>Withdraw</Button>
-            { disabled && <p className="text-danger mt-1">Your withdrawal balance is $0.</p> }
+            { disabled && <p className="text-danger mt-1">Minimum withdrawal amount is $50.</p> }
           </Col>
           <Col xl={6} lg={6} md={6} className="text-center my-2 px-0">
             <NavLink to='/dashboard'>

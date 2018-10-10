@@ -334,7 +334,7 @@ class Node extends Component {
     return events.map(event => {
       total = (total < 0) ? 0.00 : +total
       const timeZone = moment.tz.guess()
-      const dateInUserTZ = moment.tz(event.timestamp, timeZone)
+      const dateInUserTZ = moment.tz(new Date(event.timestamp + ' +0000'), timeZone)
       const date = moment(dateInUserTZ, "YYYY-MM-DD HH:mm:ss").format("MMM D, YYYY  HH:mm")
       const row = (
         <tr key={event.id}>
