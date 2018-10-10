@@ -2,6 +2,7 @@ module NodeManager
   class Rewarder
     attr_accessor :node
     attr_reader :operator
+    @@browser = nil
 
     def initialize(node)
       @node = node
@@ -10,29 +11,31 @@ module NodeManager
 
     def scrape
       if Rails.env != 'development'
-        options = Selenium::WebDriver::Chrome::Options.new
-        options.binary = ENV['GOOGLE_CHROME_SHIM']
-        options.add_argument('--headless')
-        browser = Selenium::WebDriver.for :chrome, options: options
-        browser.navigate.to node.wallet_url
+        if !!@@browser
+          options = Selenium::WebDriver::Chrome::Options.new
+          options.binary = ENV['GOOGLE_CHROME_SHIM']
+          options.add_argument('--headless')
+          @@browser = Selenium::WebDriver.for :chrome, options: options
+        end
+        @@browser.navigate.to node.wallet_url
         sleep 5
       else
         driver = Watir::Browser.new
         driver.goto node.wallet_url
         sleep 5
-        browser = driver.wd
+        @@browser = driver.wd
       end
 
       begin
         case node.symbol
-        when 'polis'; scrape_polis(browser)
-        when 'dash'; scrape_dash(browser)
-        when 'xzc'; scrape_zcoin(browser)
-        when 'pivx'; scrape_pivx(browser)
-        when 'spd'; scrape_stipend(browser)
-        when 'gbx'; scrape_gobyte(browser)
-        when 'block'; scrape_blocknet(browser)
-        when 'phr'; scrape_phore(browser)
+        when 'polis'; scrape_polis(@@browser)
+        when 'dash'; scrape_dash(@@browser)
+        when 'xzc'; scrape_zcoin(@@browser)
+        when 'pivx'; scrape_pivx(@@browser)
+        when 'spd'; scrape_stipend(@@browser)
+        when 'gbx'; scrape_gobyte(@@browser)
+        when 'block'; scrape_blocknet(@@browser)
+        when 'phr'; scrape_phore(@@browser)
         end
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"
