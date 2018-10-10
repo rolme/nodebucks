@@ -66,6 +66,10 @@ class WithdrawalManager
 protected
 
   def cancel
+    @withdrawal.transactions.sort_by(&:id).reverse.each do |txn|
+      txn.reverse!
+    end
+
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       cancelled_at: DateTime.current,

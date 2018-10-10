@@ -7,7 +7,7 @@ class Transaction < ApplicationRecord
 
   scope :pending, -> { where(status: :pending) }
   scope :processed, -> { where(status: :processed) }
-  scope :canceled, -> { where(status: :canceled) }
+  scope :cancelled, -> { where(status: :cancelled) }
 
   before_create :cache_values
 
@@ -17,6 +17,14 @@ class Transaction < ApplicationRecord
 
   def symbol
     cached_crypto_symbol
+  end
+
+  def cancel!
+    update_attributes(cancelled_at: DateTime.current, status: 'cancelled')
+  end
+
+  def processed!
+    update_attributes(status: 'processed')
   end
 
   def cache_values(persist=false)
@@ -31,4 +39,46 @@ class Transaction < ApplicationRecord
 
     save! if persist
   end
+
+  def reverse!
+    case txn_type
+    when 'transfer'; cancel!
+    when 'deposit'; reverse_deposit!
+    when 'withdraw'; reverse_withdraw!
+    end
+  end
+
+private
+
+  def reverse_deposit!
+    Transaction.transaction do
+      txn = account.transactions.create(
+        amount: amount,
+        withdrawal_id: withdrawal_id,
+        txn_type: 'withdraw',
+        notes: "Reverse txn #{id}: #{notes}"
+      )
+      account.update_attribute(:balance, account.balance - amount)
+      txn.processed!
+    end
+  end
+
+  def reverse_withdraw!
+    Transaction.transaction do
+      txn = account.transactions.create(
+        amount: amount,
+        withdrawal_id: withdrawal_id,
+        txn_type: 'deposit',
+        notes: "Reverse txn #{id}: #{notes}"
+      )
+      if notes.include?("Affiliate reward withdrawal")
+        account.user.update_attribute(:affiliate_balance, account.user.affiliate_balance + amount)
+      else
+        account.update_attribute(:balance, account.balance + amount)
+      end
+      txn.processed!
+    end
+  end
+
+
 end
