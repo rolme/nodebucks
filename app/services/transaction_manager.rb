@@ -74,6 +74,7 @@ class TransactionManager
       system_account.update_attribute(:balance, system_account.balance + balance)
       system_balance_txn.update_attribute(:status, 'processed')
       system_fee_txn.update_attribute(:status, 'processed')
+      account_txn.update_attribute(:status, 'processed')
     end
   end
 
