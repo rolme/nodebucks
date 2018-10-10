@@ -11,7 +11,7 @@ module NodeManager
 
     def scrape
       if Rails.env != 'development'
-        if !!@@browser
+        if @@browser.blank?
           options = Selenium::WebDriver::Chrome::Options.new
           options.binary = ENV['GOOGLE_CHROME_SHIM']
           options.add_argument('--headless')
