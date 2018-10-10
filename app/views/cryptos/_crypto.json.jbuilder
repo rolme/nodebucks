@@ -1,7 +1,6 @@
 json.annualRoi crypto.yearly_roi[:value]
 json.annualRoiPercentage crypto.yearly_roi[:percentage]
 json.availableSupply crypto.available_supply
-json.enabled crypto.enabled
 json.hostingFee crypto.percentage_hosting_fee
 json.id crypto.id
 json.liquidity do
@@ -17,6 +16,7 @@ json.dailyReward crypto.daily_reward
 json.description crypto.description
 json.price crypto.price
 json.profile crypto.profile
+json.purchasableStatus crypto.purchasable_status
 json.nodePrice crypto.node_price
 json.nodeSellPrice crypto.node_sell_price
 json.slug crypto.slug
@@ -47,9 +47,9 @@ end
 
 if !!@orders
   json.orders @orders.each do |order|
+    json.exchange order[:exchange]
     json.id order[:id]
     json.price order[:price]
     json.volume order[:volume]
-    json.exchange order[:exchange]
   end
 end
