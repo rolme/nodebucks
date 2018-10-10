@@ -48,12 +48,12 @@ class Node < ApplicationRecord
 
   scope :offline,    -> { where(status: 'offline', deleted_at: nil) }
   scope :online,     -> { where(status: 'online', deleted_at: nil) }
-  scope :reserved,   -> { where(status: 'reserved') }
-  scope :unreserved, -> { where.not(status: 'reserved') }
+  scope :reserved,   -> { where(status: 'reserved', deleted_at: nil) }
+  scope :unreserved, -> { where.not(status: 'reserved').where(deleted_at: nil) }
   scope :unsold,     -> { where.not(status: 'sold').where(deleted_at: nil) }
-  scope :sold,       -> { where(status: 'sold').where(deleted_at: nil) }
-  scope :_new,       -> { where(status: 'new').where(deleted_at: nil) }
-  scope :down,       -> { all.select { |node| node.server_down? } }
+  scope :sold,       -> { where(status: 'sold', deleted_at: nil) }
+  scope :_new,       -> { where(status: 'new', deleted_at: nil) }
+  scope :down,       -> { where(status: 'down', deleted_at: nil) }
 
   before_create :cache_values
 
