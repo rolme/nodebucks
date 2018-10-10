@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 // ACTION_TYPES ////////////////////////////////////////////////////////////////
-export const FETCH = 'masternodes/FETCH'
-export const FETCH_ERROR = 'masternodes/FETCH_ERROR'
-export const FETCH_SUCCESS = 'masternodes/FETCH_SUCCESS'
-export const FETCH_LIST = 'masternodes/FETCH_LIST'
-export const FETCH_LIST_ERROR = 'masternodes/FETCH_LIST_ERROR'
-export const FETCH_LIST_SUCCESS = 'masternodes/FETCH_LIST_SUCCESS'
+export const FETCH_MASTERNODE = 'masternodes/FETCH_MASTERNODE'
+export const FETCH_MASTERNODE_ERROR = 'masternodes/FETCH_MASTERNODE_ERROR'
+export const FETCH_MASTERNODE_SUCCESS = 'masternodes/FETCH_MASTERNODE_SUCCESS'
+export const FETCH_MASTERNODE_LIST = 'masternodes/FETCH_MASTERNODE_LIST'
+export const FETCH_MASTERNODE_LIST_ERROR = 'masternodes/FETCH_MASTERNODE_LIST_ERROR'
+export const FETCH_MASTERNODE_LIST_SUCCESS = 'masternodes/FETCH_MASTERNODE_LIST_SUCCESS'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -20,8 +20,8 @@ const initialState = {
 // STATE ///////////////////////////////////////////////////////////////////////
 export default (state = initialState, action) => {
   switch (action.type) {
-    case FETCH:
-    case FETCH_LIST:
+    case FETCH_MASTERNODE:
+    case FETCH_MASTERNODE_LIST:
       return {
         ...state,
         pending: true,
@@ -29,8 +29,8 @@ export default (state = initialState, action) => {
         message: ''
       }
 
-    case FETCH_ERROR:
-    case FETCH_LIST_ERROR:
+    case FETCH_MASTERNODE_ERROR:
+    case FETCH_MASTERNODE_LIST_ERROR:
       return {
         ...state,
         pending: false,
@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         message: action.payload.message
       }
 
-    case FETCH_SUCCESS:
+    case FETCH_MASTERNODE_SUCCESS:
       return {
         ...state,
         data: action.payload,
@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
         message: 'Fetch masternode successful.'
       }
 
-    case FETCH_LIST_SUCCESS:
+    case FETCH_MASTERNODE_LIST_SUCCESS:
       return {
         ...state,
         list: action.payload,
@@ -62,15 +62,15 @@ export default (state = initialState, action) => {
 }
 
 // ACTIONS /////////////////////////////////////////////////////////////////////
-export function fetchMasternode(slug) {
+export function fetchMasternode(slug, user_slug) {
   return dispatch => {
-    dispatch({ type: FETCH })
-    axios.get(`/api/masternodes/${slug}`)
+    dispatch({ type: FETCH_MASTERNODE })
+    axios.get(`/api/masternodes/${slug}?user_slug=${user_slug}`)
       .then((response) => {
-        dispatch({ type: FETCH_SUCCESS, payload: response.data })
+        dispatch({ type: FETCH_MASTERNODE_SUCCESS, payload: response.data })
       })
       .catch((error) => {
-        dispatch({ type: FETCH_ERROR, payload: {message: error.data} })
+        dispatch({ type: FETCH_MASTERNODE_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }
@@ -78,13 +78,13 @@ export function fetchMasternode(slug) {
 
 export function fetchMasternodes() {
   return dispatch => {
-    dispatch({ type: FETCH_LIST })
+    dispatch({ type: FETCH_MASTERNODE_LIST })
     axios.get('/api/masternodes')
       .then((response) => {
-        dispatch({ type: FETCH_LIST_SUCCESS, payload: response.data })
+        dispatch({ type: FETCH_MASTERNODE_LIST_SUCCESS, payload: response.data })
       })
       .catch((error) => {
-        dispatch({ type: FETCH_LIST_ERROR, payload: {message: error.data} })
+        dispatch({ type: FETCH_MASTERNODE_LIST_ERROR, payload: {message: error.data} })
         console.log(error)
       })
   }

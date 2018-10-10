@@ -5,5 +5,6 @@ class MasternodesController < ApplicationController
 
   def show
     @masternode = Crypto.find_by(slug: params[:slug])
+    @user = User.find_by(slug: params[:user_slug])
   end
 end
