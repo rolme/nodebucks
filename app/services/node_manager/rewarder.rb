@@ -41,6 +41,9 @@ module NodeManager
         Rails.logger.error "SCRAPE ERROR: #{error}"
         Rails.logger.error "SCRAPE ERROR PATH: #{node.wallet_url}"
       end
+      if Rails.env == 'development'
+        @@browser = nil
+      end
     end
 
     def scrape_polis(browser)
