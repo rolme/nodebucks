@@ -66,6 +66,7 @@ class WithdrawalManager
 protected
 
   def cancel
+    # TODO: find related transactions and work them backwards
     @withdrawal.update_attributes(
       last_modified_by_admin_id: user.id,
       cancelled_at: DateTime.current,
