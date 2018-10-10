@@ -65,15 +65,22 @@ private
 
   def reverse_withdraw!
     Transaction.transaction do
-      txn = account.transactions.create(
-        amount: amount,
-        withdrawal_id: withdrawal_id,
-        txn_type: 'deposit',
-        notes: "Reverse txn #{id}: #{notes}"
-      )
+      txn = nil
       if notes.include?("Affiliate reward withdrawal")
+        txn = Transaction.create(
+          amount: amount,
+          withdrawal_id: withdrawal_id,
+          txn_type: 'deposit',
+          notes: "Reverse txn #{id}: #{notes}"
+        )
         account.user.update_attribute(:affiliate_balance, account.user.affiliate_balance + amount)
       else
+        txn = account.transactions.create(
+          amount: amount,
+          withdrawal_id: withdrawal_id,
+          txn_type: 'deposit',
+          notes: "Reverse txn #{id}: #{notes}"
+        )
         account.update_attribute(:balance, account.balance + amount)
       end
       txn.processed!
