@@ -40,6 +40,7 @@ export default class Metatags extends Component {
         <meta property="og:site_name" content={siteName}/>
         <meta property="og:image" content={`https://nodebucks.com${image}`}/>
         <meta property="og:description" content={description}/>
+        <meta property="fb:app_id" content="252963548770422"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content={title}/>
         <meta name="twitter:image" content={`https://nodebucks.com${image}`}/>
