@@ -118,13 +118,13 @@ class CoinInfo extends Component {
       return(
         <Button className="infoNodeButton" disabled>Unavailable</Button>
       )
-    } else if(masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved') {
+    } else if (masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved') {
       return(
         <NavLink to={'/settings/verification'}>
           <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
-    } else if(masternode.purchasableStatus === 'Contact Us' || !masternode.liquidity.buy) {
+    } else if (masternode.purchasableStatus === 'Contact Us' || !masternode.liquidity.buy) {
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
