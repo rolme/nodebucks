@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import moment from 'moment'
 import { Line } from 'react-chartjs-2'
 
-import { Col, Row } from 'reactstrap'
+import { Row } from 'reactstrap'
 
 import { numberFormatter, valueFormat } from '../../lib/helpers'
 
@@ -120,7 +120,7 @@ class PriceHistoryChart extends Component {
     createdAt = moment(createdAt).format("MMM D YYYY")
 
     values.forEach(data => {
-      const timestamp = new Date(Object.keys(data)[ 0 ].split(/[\[\]]/)[ 1 ])
+      const timestamp = new Date(Object.keys(data)[ 0 ].split(/[[\]]/)[ 1 ])
       const value = stake * Object.values(data)[ 0 ].price_usd
       const date = moment(timestamp).format("MMM D YYYY")
       if ( date === createdAt ) {
