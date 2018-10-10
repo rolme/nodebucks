@@ -142,6 +142,8 @@ class NewNode extends Component {
     if (!isEmpty(node) && ['Unavailable', 'Contact Us'].includes(node.crypto.purchasableStatus)) return <Redirect to={`/masternodes/${node.crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
+    if (!!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
+
     return (
       <Container fluid className="purchasePageContainer">
         {showReloadAlert && !masternode.nodePrice &&
