@@ -52,10 +52,11 @@ class TransactionManager
       system_account.update_attribute(:balance, account.balance + fee)
       account_txn.update_attribute(:status, 'processed') unless auto_withdraw
       system_txn.update_attribute(:status, 'processed')
+      reward.update_attribute(:balance, account.balance) unless auto_withdraw
     end
 
     SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw
-    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.cost
+    SupportMailerService.send_user_balance_reached_masternode_price_notification(owner, node) if node.reward_setting == Node::REWARD_AUTO_BUILD && account.reload.balance >= node.stake
   end
 
   def withdraw(withdrawal)

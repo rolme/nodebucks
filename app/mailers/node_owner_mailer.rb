@@ -14,14 +14,21 @@ class NodeOwnerMailer < ApplicationMailer
   end
 
   def reward(reward)
-    @reward = reward
-    @user   = reward.node.user
-    @node   = reward.node
-    @account_amount = @user.balances.find{ |b| b[:name] == @reward.node.name }[:value].round(5)
-    mail(
-      :content_type => "text/html",
-      :subject => "Your #{reward.node.name.capitalize} masternode has received a reward.",
-      :to => (Rails.env.production?) ? @user.email : 'nodebucks.staging@gmail.com'
-    )
+    return unless reward.user_notification_setting_on && reward.notification_sent_at.blank?
+
+    if !reward.node.user.reward_notification_on
+      reward.update_attribute(:user_notification_setting_on, false)
+    else
+      @reward = reward
+      @user   = reward.node.user
+      @node   = reward.node
+      @account_amount = reward.balance.round(5)
+      mail(
+        :content_type => "text/html",
+        :subject => "Your #{reward.node.name.capitalize} masternode has received a reward.",
+        :to => (Rails.env.production?) ? @user.email : 'nodebucks.staging@gmail.com'
+      )
+      reward.update_attribute(:notification_sent_at, DateTime.current)
+    end
   end
 end

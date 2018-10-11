@@ -19,7 +19,8 @@ module NodeManager
         timestamp: timestamp,
         total_amount: total_amount,
         txhash: txhash,
-        usd_value: usd_value
+        usd_value: usd_value,
+        node_reward_setting: node.reward_setting
       )
 
       create_reward_event(reward)
@@ -92,7 +93,6 @@ module NodeManager
       return false if node.status == 'sold' || !within_timeframe?(node.sell_priced_at)
 
       node.update_attributes(status: 'sold', sold_at: timestamp)
-      # TODO: Make sure the sellable price is correct
       @order = Order.create(
         node_id: node.id,
         user_id: node.user_id,
