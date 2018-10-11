@@ -17,7 +17,7 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def process
+  def processed
     @transaction = Transaction.find_by(slug: params[:transaction_slug])
     @transaction.process!
     if @transaction.withdrawal.present?

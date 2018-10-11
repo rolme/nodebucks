@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     end
     resources :transactions, only: [:index, :update], param: :slug do
       patch :undo
-      patch :process
+      patch :processed
     end
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
