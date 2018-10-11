@@ -25,7 +25,8 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
-      NodeOwnerMailer.reward(reward).deliver_later
+
+      NodeOwnerMailer.reward(reward).deliver_later if node.user.reward_notification_on
     end
 
     def online(timestamp=DateTime.current)
@@ -92,7 +93,6 @@ module NodeManager
       return false if node.status == 'sold' || !within_timeframe?(node.sell_priced_at)
 
       node.update_attributes(status: 'sold', sold_at: timestamp)
-      # TODO: Make sure the sellable price is correct
       @order = Order.create(
         node_id: node.id,
         user_id: node.user_id,

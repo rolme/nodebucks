@@ -52,6 +52,7 @@ class TransactionManager
       system_account.update_attribute(:balance, account.balance + fee)
       account_txn.update_attribute(:status, 'processed') unless auto_withdraw
       system_txn.update_attribute(:status, 'processed')
+      reward.update_attribute(:balance, account.balance + reward.total_amount)
     end
 
     SupportMailerService.send_auto_withdrawal_notification(reward.node.user, reward) if auto_withdraw
