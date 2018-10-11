@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   attr_reader :current_user
+  after_action :set_version
 
   include ExceptionHandler
 
@@ -9,6 +10,12 @@ class ApplicationController < ActionController::API
 
   def counts
     render :counts
+  end
+
+protected
+
+  def set_version
+    response.set_header('X-NB-VERSION', "#{VERSION}-#{COMMIT_VERSION}")
   end
 
 private
