@@ -43,11 +43,11 @@
               <tr>
                 <td style="word-wrap:break-word;font-size:0px;padding:40px 20px 0px 40px;" align="left">
                   <% if @node.reward_setting == Node::REWARD_AUTO_WITHDRAWAL %>
-                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount -%> <%= @node.symbol -%> coins! Your rewards will be deposited to <%= @node.withdraw_wallet -%> address.</span></p></div>
+                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount.round(5) -%> <%= @node.symbol -%> coins! Your rewards will be deposited to your <%= @node.withdraw_wallet.truncate(8) -%>... <%= @node.name -%> address.</span></p></div>
                   <% elsif @node.reward_setting == Node::REWARD_AUTO_BUILD %>
-                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount -%> <%= @node.symbol -%> coins! You are now <%= @node.stake - @account_amount -%> <%= @node.symbol -%> until your next masternode!</span></p></div>
+                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount.round(5) -%> <%= @node.symbol -%> coins! You are now <%= @node.stake - @account_amount -%> <%= @node.symbol -%> until your next masternode!</span></p></div>
                   <% else %>
-                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount -%> <%= @node.symbol -%> coins! You now have a total of <%= @account_amount -%> <%= @node.symbol -%> coins in your account.</span></p></div>
+                    <div style="cursor:auto;color:#000000;font-family:Roboto-Regular, sans-serif;font-size:11px;line-height:22px;text-align:left;"><p><span style="font-size:14px;">Your <%= @node.name.capitalize -%> masternode has just paid you <%= @reward.total_amount.round(5) -%> <%= @node.symbol -%> coins! You now have a total of <%= @account_amount -%> <%= @node.symbol -%> coins in your account.</span></p></div>
                   <% end %>
                 </td>
               </tr>
