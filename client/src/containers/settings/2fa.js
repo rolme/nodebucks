@@ -12,9 +12,10 @@ class TwoFactorAuthentication extends Component {
   constructor(props) {
     super(props)
 
-    let QRCodeUrl 
+    let QRCodeUrl
     let secret = speakeasy.generateSecret({ length: 20, name: 'Nodebucks' })
-    QRCode.toDataURL(secret.otpauth_url, function(err, data_url) {
+    let otpauth_url = speakeasy.otpauthURL({ secret: secret.ascii, label: props.user.email, algorithm: 'sha512', issuer: 'Nodebucks' });
+    QRCode.toDataURL(otpauth_url, function(err, data_url) {
       QRCodeUrl = data_url;
     });
 
