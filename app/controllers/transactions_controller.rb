@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate_admin_request, only: [:index, :process, :update]
+  before_action :authenticate_admin_request, only: [:index, :process, :update, :undo]
 
   def index
     @txs_pending = Transaction.pending.includes(account: :user).order(created_at: :desc).limit(params[:limit].to_i || 25).offset((params[:page].to_i || 0) * 25)
@@ -24,7 +24,6 @@ class TransactionsController < ApplicationController
       unprocessed = @transaction.withdrawal.transactions.reject{ |t| t.status == 'processed' }.count
       @transaction.withdrawal.update_attribute(:status, 'processed') if unprocessed == 0
     end
-    @transaction
 
     render :show
   end
