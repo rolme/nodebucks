@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
   end
 
   def process
-    @transaction = Transaction.find_by(slug: params[:slug])
+    @transaction = Transaction.find_by(slug: params[:transaction_slug])
     @transaction.process!
     if @transaction.withdrawal.present?
       unprocessed = @transaction.withdrawal.transactions.reject{ |t| t.status == 'processed' }.count
@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
   end
 
   def undo
-    @transaction = Transaction.find_by(slug: params[:slug])
+    @transaction = Transaction.find_by(slug: params[:transaction_slug])
     @transaction.undo!
     @transaction.withdrawal.present? && @transaction.withdrawal.update_attribute(:status, 'pending')
 
