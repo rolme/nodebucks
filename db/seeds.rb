@@ -76,6 +76,8 @@ if ENV["RAILS_ENV"] != 'production'
   puts "    * Set IP and wallet"
   node.ip     = '127.0.0.3'
   node.wallet = 'GZGDNpbFRUuz5fsSqnT6zwTcrJ9qB2rw2a'
+  puts "    * Turn auto build on"
+  node.reward_setting = 10
   node.save
   puts "    * put online"
   operator.online(DateTime.current - (3.months - 2.days))
