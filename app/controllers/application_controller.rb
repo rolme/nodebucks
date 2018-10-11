@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
 protected
 
   def set_version
-    response.set_header('X-NB-VERSION', "#{VERSION}-#{COMMIT_VERSION}")
+    response.set_header('X-Nodebucks-Version', "#{VERSION}-#{COMMIT_VERSION}")
   end
 
 private

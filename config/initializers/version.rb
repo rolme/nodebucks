@@ -1,3 +1,3 @@
 # The commit version is automatically overwritten by pre-commit hooks
-COMMIT_VERSION = 'ddc7863acfe7b5afbb71a0065c3f4b9e2e0ff064'
+COMMIT_VERSION = 'd1a5ea2051a330576c5a3e9ccab6eefd2659808a'
 VERSION = '1.0.0'
