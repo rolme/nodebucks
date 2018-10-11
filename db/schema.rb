@@ -210,7 +210,8 @@ ActiveRecord::Schema.define(version: 2018_10_11_023341) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "notification_sent_at"
-    t.decimal "balance"
+    t.decimal "balance", default: "0.0"
+    t.integer "node_reward_setting", default: 0
     t.boolean "user_notification_setting_on", default: true
     t.index ["node_id"], name: "index_rewards_on_node_id"
   end
