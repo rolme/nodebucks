@@ -25,8 +25,7 @@ module NodeManager
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
-
-      NodeOwnerMailer.reward(reward).deliver_later if node.user.reward_notification_on
+      NodeOwnerMailer.reward(reward).deliver_later
     end
 
     def online(timestamp=DateTime.current)
