@@ -23,8 +23,12 @@ class Transaction < ApplicationRecord
     update_attributes(cancelled_at: DateTime.current, status: 'cancelled')
   end
 
-  def processed!
+  def process!
     update_attributes(status: 'processed')
+  end
+
+  def undo!
+    update_attributes(status: 'pending')
   end
 
   def cache_values(persist=false)
@@ -59,7 +63,7 @@ private
         notes: "Reverse txn #{id}: #{notes}"
       )
       account.update_attribute(:balance, account.balance - amount)
-      txn.processed!
+      txn.process!
     end
   end
 
@@ -83,7 +87,7 @@ private
         )
         account.update_attribute(:balance, account.balance + amount)
       end
-      txn.processed!
+      txn.process!
     end
   end
 

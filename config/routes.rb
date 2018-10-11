@@ -41,7 +41,10 @@ Rails.application.routes.draw do
       post :verification_image
       post :secret_2fa, on: :collection
     end
-    resources :transactions, only: [:index, :update]
+    resources :transactions, only: [:index, :update], param: :slug do
+      patch :undo
+      patch :process
+    end
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
     end
