@@ -221,7 +221,8 @@ class Node extends Component {
     withdrawWallet = !!withdrawWallet ? withdrawWallet : ''
     return (
       <div className="mt-3">
-        <h5 className="showPageSectionHeader"> Reward Settings </h5>
+        <h5 className="showPageSectionHeader mb-1"> Reward Settings ({node.crypto.symbol})</h5>
+        <p className="showPageRadioButtonDescription mb-3"> Settings apply to all {node.crypto.symbol} masternodes</p>
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <label className="radioButtonContainer">
             <div>
