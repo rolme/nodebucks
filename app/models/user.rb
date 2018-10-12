@@ -167,6 +167,33 @@ class User < ApplicationRecord
     end
   end
 
+  def generate_token
+    JsonWebToken.encode({
+      admin: admin,
+      address: address,
+      avatar: avatar,
+      city: city,
+      confirmedAt: confirmed_at&.to_formatted_s(:db),
+      country: country,
+      createdAt: created_at.to_formatted_s(:db),
+      email: email,
+      enabled2FA: two_fa_secret.present?,
+      first: first,
+      fullName: full_name,
+      last: last,
+      newEmail: new_email,
+      nickname: nickname,
+      rewardNotificationOn: reward_notification_on,
+      slug: slug,
+      state: state,
+      updatedAt: updated_at.to_formatted_s(:db),
+      zipcode: zipcode,
+      verified: verified_at,
+      verificationStatus: verification_status,
+      verificationImage: verification_image,
+    })
+  end
+
   private
 
   def generate_affiliate_key

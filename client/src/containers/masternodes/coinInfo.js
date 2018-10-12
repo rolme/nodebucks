@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Metatags from '../../components/metatags'
-
+import ErrorPage404 from '../../components/error_pages/404_error_page'
 import { RingLoader } from 'react-spinners'
 import { Container, Col, Button } from 'reactstrap'
 import './index.css'
@@ -17,12 +17,14 @@ import {
 class CoinInfo extends Component {
   componentWillMount() {
     window.scrollTo(0, 0)
-    let { match: { params } } = this.props
-    this.props.fetchMasternode(params.slug)
+    let { match: { params }, user } = this.props
+    this.props.fetchMasternode(params.slug, user ? user.slug : '')
   }
 
   render() {
-    const { data, pending } = this.props
+    const { data, pending, error } = this.props
+
+    if(error) return <ErrorPage404 />
 
     if ( pending || !data.slug ) {
       return (
@@ -41,19 +43,20 @@ class CoinInfo extends Component {
     }
 
     const cryptoUrlName = new URL(data.url).host
-
     return (
       <div className="coinInfoContainer">
         <div className="contentContainer">
           <Metatags
             description={data.description.substring(0, 170)}
-            title={`${data.name} (${data.symbol}) Cryptocurrency Price and Information | NodeBucks`}
+            title={`${data.name} (${data.symbol}) Masternode Price and Information | NodeBucks`}
+            image={`/assets/images/seo/seo-${data.slug}.jpg`}
+            canonical={`https://nodebucks.com/masternodes/${data.slug}`}
           />
           <Col className="d-flex justify-content-between align-items-center px-0 flex-wrap">
-            <Col xl={{ size: 3, offset: 0 }} lg={{ size: 3, offset: 0 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
+            <Col xl={{ size: 6, offset: 0 }} lg={{ size: 6, offset: 0 }} md={{ size: 6, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="d-flex align-items-center px-0 justify-content-xl-start justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-center">
               <img alt={data.slug} src={`/assets/images/logos/${data.slug}.png`} width="93px"/>
               <div className="coinInfoNameContainer">
-                <p className="mb-0">{data.name}</p>
+                <h1 className="mb-0">{data.name} ({data.symbol})</h1>
                 <a href={data.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="23px" className="mr-2"/>{cryptoUrlName}</a>
               </div>
             </Col>
@@ -111,23 +114,30 @@ class CoinInfo extends Component {
   displayActionButton(masternode) {
     const { user } = this.props
 
-    if(!masternode.enabled) {
+    if(masternode.purchasableStatus === 'Unavailable') {
       return(
         <Button className="infoNodeButton" disabled>Unavailable</Button>
       )
-    } else if(masternode.nodePrice > 10000 && masternode.nodePrice < 25000 && !!user && user.verificationStatus !== 'approved') {
+    } else if (masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved') {
       return(
         <NavLink to={'/settings/verification'}>
           <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
-    } else if(masternode.nodePrice >= 10000 || !masternode.liquidity.buy) {
+    } else if (masternode.purchasableStatus === 'Contact Us' || !masternode.liquidity.buy) {
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>
       )
     } else {
+      if ( !user ) {
+        return (
+          <NavLink to='/sign-up'>
+            <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
+          </NavLink>
+        )
+      }
       return(
         <NavLink to={`/nodes/${masternode.slug}/new`}>
           <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
@@ -141,6 +151,7 @@ class CoinInfo extends Component {
 const mapStateToProps = state => ({
   data: state.masternodes.data,
   pending: state.masternodes.pending,
+  error: state.masternodes.error,
   user: state.user.data,
 })
 

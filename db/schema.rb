@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_02_234651) do
+ActiveRecord::Schema.define(version: 2018_10_11_023341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,19 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reviewed_by_user"], name: "index_contacts_on_reviewed_by_user"
+  end
+
+  create_table "crypto_price_histories", force: :cascade do |t|
+    t.bigint "crypto_id"
+    t.decimal "circulating_supply"
+    t.decimal "total_supply"
+    t.decimal "max_supply"
+    t.decimal "price_usd"
+    t.decimal "volume_24h"
+    t.decimal "market_cap"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_crypto_price_histories_on_crypto_id"
   end
 
   create_table "crypto_prices", force: :cascade do |t|
@@ -99,9 +112,9 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
     t.datetime "updated_at", null: false
     t.boolean "buy_liquidity", default: true
     t.boolean "sell_liquidity", default: true
-    t.boolean "enabled", default: true
     t.decimal "percentage_decommission_fee", default: "0.0"
     t.decimal "node_sell_price"
+    t.string "purchasable_status", default: "Unavailable"
   end
 
   create_table "events", force: :cascade do |t|
@@ -159,6 +172,7 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.datetime "online_mail_sent_at"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
@@ -195,6 +209,10 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
     t.decimal "usd_value", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "notification_sent_at"
+    t.decimal "balance", default: "0.0"
+    t.integer "node_reward_setting", default: 0
+    t.boolean "user_notification_setting_on", default: true
     t.index ["node_id"], name: "index_rewards_on_node_id"
   end
 
@@ -253,6 +271,7 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
     t.datetime "verified_at"
     t.string "verification_status", default: "none"
     t.string "verification_image"
+    t.boolean "reward_notification_on", default: true
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
   end
 
@@ -275,6 +294,7 @@ ActiveRecord::Schema.define(version: 2018_10_02_234651) do
   add_foreign_key "accounts", "cryptos"
   add_foreign_key "accounts", "users"
   add_foreign_key "affiliates", "users"
+  add_foreign_key "crypto_price_histories", "cryptos"
   add_foreign_key "crypto_prices", "cryptos"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"

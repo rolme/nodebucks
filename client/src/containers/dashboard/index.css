@@ -11,6 +11,10 @@
   margin-bottom: 13px;
 }
 
+.dashboardSectionHeader > span {
+  font-family: 'OpenSans';
+}
+
 .dashboardPageTitle {
   padding-top: 40px;
   color: #3B3B3B;

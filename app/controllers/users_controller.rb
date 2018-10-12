@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def index
     if(params[:verification_pending_users].present? && params[:verification_pending_users].to_bool)
-      @users = User.where.not(email: nil).verifications_pending 
+      @users = User.where.not(email: nil).verifications_pending
     elsif params[:nonadmin].present? && params[:nonadmin].to_bool
       @users = User.where.not(email: nil).where(admin: [false, nil])
     else
@@ -223,7 +223,7 @@ class UsersController < ApplicationController
       render json: { status: :error, message: user.errors.full_messages.join(', ') }
     end
   end
-  
+
   def impersonate
     @user = User.find_by_slug(params[:slug])
     render json: { status: :ok, token: generate_token }
@@ -278,6 +278,7 @@ protected
       :nickname,
       :password,
       :password_confirmation,
+      :reward_notification_on,
       :state,
       :zipcode,
     )
@@ -314,6 +315,7 @@ private
   # TODO: This code also exists in authenticate_user.rb
   def generate_token
     JsonWebToken.encode({
+      admin: @user.admin,
       address: @user.address,
       avatar: @user.avatar,
       city: @user.city,
@@ -321,20 +323,20 @@ private
       country: @user.country,
       createdAt: @user.created_at.to_formatted_s(:db),
       email: @user.email,
+      enabled2FA: @user.two_fa_secret.present?,
       first: @user.first,
       fullName: @user.full_name,
       last: @user.last,
       newEmail: @user.new_email,
       nickname: @user.nickname,
+      rewardNotificationOn: @user.reward_notification_on,
       slug: @user.slug,
       state: @user.state,
       updatedAt: @user.updated_at.to_formatted_s(:db),
       zipcode: @user.zipcode,
       verified: @user.verified_at,
       verificationStatus: @user.verification_status,
-      verificationImage: @user.verification_image,
-      admin: @user.admin,
-      enabled2FA: @user.two_fa_secret.present?,
+      verificationImage: @user.verification_image
     })
   end
 end

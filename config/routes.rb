@@ -5,8 +5,11 @@ Rails.application.routes.draw do
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug do
       get :reward_scraper
+      get :prices
+      get :purchasable_statuses, on: :collection
     end
     resources :nodes, except: [:edit, :new], param: :slug do
+      post :generate, on: :collection
       patch :disburse
       patch :online
       patch :offline
@@ -39,7 +42,10 @@ Rails.application.routes.draw do
       post :verification_image
       post :secret_2fa, on: :collection
     end
-    resources :transactions, only: [:index, :update]
+    resources :transactions, only: [:index, :update], param: :slug do
+      patch :undo
+      patch :processed
+    end
     resources :withdrawals, only: [:create, :index, :show, :update], param: :slug do
       patch :confirm, on: :collection
     end
@@ -53,17 +59,19 @@ Rails.application.routes.draw do
   post 'auth/admin', to: 'users#admin_login'
   post 'auth/oauth', to: 'users#callback'
 
-  get '/masternodes', to: 'home#masternodes'
   get '/contact', to: 'home#contact'
-  get '/what-are-masternodes', to: 'home#masternodes_description'
-  get '/login', to: 'home#login'
-  get '/sign-up', to: 'home#sign_up'
-  get '/faq', to: 'home#faq'
-  get '/terms', to: 'home#terms'
-  get '/privacy', to: 'home#privacy'
+  get '/dashboard', to: 'home#dashboard'
   get '/disclaimer', to: 'home#disclaimer'
-  get '/masternode/:slug', to: 'home#masternode'
+  get '/faq', to: 'home#faq'
+  get '/forgot_password', to: 'home#forgot_password'
+  get '/login', to: 'home#login'
+  get '/masternodes/:slug', to: 'home#masternodes'
+  get '/masternodes', to: 'home#masternodes'
+  get '/privacy', to: 'home#privacy'
+  get '/sign-up', to: 'home#sign_up'
   get '/sitemap.xml', to: 'home#sitemap'
+  get '/terms', to: 'home#terms'
+  get '/what-are-masternodes', to: 'home#masternodes_description'
 
   get '*path', to: 'application#index'
 end

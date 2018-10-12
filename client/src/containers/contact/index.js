@@ -7,7 +7,7 @@ import InputField from '../../components/elements/inputFieldWithAddonMessages'
 import { createContact } from '../../reducers/user'
 import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
-import Metatags from "../../components/metatags";
+import Metatags from "../../components/metatags"
 
 class Contact extends Component {
   constructor(props) {
@@ -117,7 +117,11 @@ class Contact extends Component {
 
     return (
       <Container fluid className="contactPageContainer">
-        <Metatags/>
+        <Metatags
+          description="Do you have doubts about the Crypto World, Masternodes or the Blockchain? Reach our team of curated professionals and get all your doubts solved. Be assisted by the best!"
+          title="Contact with our Team - NodeBucks"
+          canonical="https://nodebucks.com/contact"
+        />
         <div className="contentContainer d-flex justify-content-center">
           { contactCreated ?
             this.renderContactCreated()

@@ -5,8 +5,8 @@ class MasternodesReportMailer < ApplicationMailer
     mail(
       content_type: "text/html",
       subject: 'Nodebucks - Daily Masternodes Summary',
-      to: ['support@nodebucks.com'],
-      bcc: ['ron.parnaso@gmail.com', 'jay.severson@gmail.com']
+      to: (Rails.env.production?) ? 'support@nodebucks.com' : 'nodebucks.staging@gmail.com',
+      bcc: ['ron.parnaso@gmail.com']
     )
   end
 end

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
+import { RingLoader } from 'react-spinners'
 import { ClipLoader } from 'react-spinners'
 import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
 import './index.css'
@@ -44,7 +45,7 @@ class NewNode extends Component {
     if ( !!user ) {
       this.props.reserveNode(params.crypto)
     } else {
-      this.props.fetchCrypto(params.crypto)
+      this.props.history.push('/login')
     }
     this.checkPriceDataAvailability()
   }
@@ -132,9 +133,17 @@ class NewNode extends Component {
     const { validPrice, showReloadAlert, purchasing } = this.state
 
     if (purchasing) return <Redirect to='/dashboard'/>
-    if (!isEmpty(crypto) && !crypto.enabled) return <Redirect to={`/masternodes/${crypto.slug}`} />
+
+    if (cryptoPending || nodePending) {
+      return <div className="spinnerContainer pageLoaderContainer"><RingLoader size={100} color={'#3F89E8'} loading={true}/></div>
+    }
+
+    if (!isEmpty(crypto) && ['Unavailable', 'Contact Us'].includes(crypto.purchasableStatus)) return <Redirect to={`/masternodes/${crypto.slug}`} />
+    if (!isEmpty(node) && ['Unavailable', 'Contact Us'].includes(node.crypto.purchasableStatus)) return <Redirect to={`/masternodes/${node.crypto.slug}`} />
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
+    if (!!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
+
     return (
       <Container fluid className="purchasePageContainer">
         {showReloadAlert && !masternode.nodePrice &&

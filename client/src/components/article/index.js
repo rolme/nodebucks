@@ -4,7 +4,7 @@ import { Container } from 'reactstrap'
 
 import './index.css'
 
-import Metatags from "../metatags";
+import Metatags from "../metatags"
 
 class Article extends Component {
   constructor(props) {
@@ -40,13 +40,13 @@ class Article extends Component {
       <Container fluid className="articleContainer">
         <div className="contentContainer px-0">
           <Metatags
-            description="A masternode is a special node on the blockchain that has enhanced capabilities and voting rights within proof-of-stake (PoS) coins. By owning a masternode, the masternode operator is rewarded by the network for the time and energy of operating the node."
+            description="What is a Masternode? Learn the main concepts and how you can create your own masternode step by step. See the differences between them and the easiest way to get started."
             image="/assets/images/article/articleThumbnail.jpg"
-            title="What is a Masternode? Step by Step Guide - Nodebucks"
+            title="What is a masternode in Cryptocurrency? - Nodebucks"
             url="https://nodebucks.com/what-are-masternodes"
+            canonical="https://nodebucks.com/what-are-masternodes"
           />
-          <h1 className="articleHeader mt-3 text-center"><b>What is a Masternode?</b></h1>
-          <h2 className="articleHeader mb-2 text-center"><b>Step by Step Guide</b></h2>
+          <h1 className="articleHeader mt-3 text-center"><b>What is a masternode in Cryptocurrency?</b></h1>
           <img src="/assets/images/article/articleThumbnail.jpg" alt="What is a Masternode? Step by Step Guide - Nodebucks"/>
           <p className="articleParagraph"> If you’re looking for ways to make money in the world of cryptocurrencies, you should know that there are quite a few. </p>
           <p className="articleParagraph"> You can strategically buy and sell cryptocurrencies through online exchanges using technical analysis, also known as day trading. However, this is very difficult and most day traders do not outperform the general market. You would need to be well-informed and thoroughly understand both the projects and how to read charts. </p>

@@ -1,7 +1,8 @@
-import { Component } from 'react'
+import { React, Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import ErrorPage404 from '../../components/error_pages/404_error_page'
 import './index.css'
 
 import { confirm } from '../../reducers/user'
@@ -38,7 +39,7 @@ class ConfirmEmail extends Component {
       return ''
     }
 
-    return null
+    return <ErrorPage404 />
   }
 }
 

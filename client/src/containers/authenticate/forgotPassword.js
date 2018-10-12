@@ -9,6 +9,7 @@ import { Container, Col, Button, Alert } from 'reactstrap'
 import './index.css'
 
 import { reset, requestReset } from '../../reducers/user.js'
+import Metatags from "../../components/metatags";
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -86,6 +87,9 @@ class ForgotPassword extends Component {
 
     return (
       <Container fluid className="bg-white logInPageContainer authPageContainer logIn">
+        <Metatags
+          noIndex={true}
+        />
         <div className="contentContainer d-flex justify-content-center">
           <Col className="authContainer d-flex align-items-center flex-wrap justify-content-center">
             {!!message &&

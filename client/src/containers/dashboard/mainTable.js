@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
+import { Table, Badge } from 'reactstrap'
 import { NavLink, withRouter } from 'react-router-dom'
 import { capitalize, valueFormat } from '../../lib/helpers'
-import moment from 'moment'
 
 class MainTable extends Component {
   constructor(props) {
@@ -21,22 +20,18 @@ class MainTable extends Component {
       if ( a.crypto.name > b.crypto.name ) return 1
       return 0
     }).map(item => {
-      let uptime = '-'
-      if ( !!item.onlineAt ) {
-        item.onlineAt += ' +0000'
-        uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'days')
-      }
-      if ( uptime !== '-' ) {
-        if ( uptime === 0 ) {
-          if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'hours') + ' hrs'
-          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'minutes') + ' min'
-          } else if ( !!moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') ) {
-            uptime = moment().diff(moment(item.onlineAt, "YYYY-MM-DD HH:mm:ss"), 'seconds') + ' sec'
-          }
+      let uptime = item.uptime
+      if ( +uptime === 0 ) {
+        uptime = '0 days'
+      } else {
+        if ( +uptime < 60 ) {
+          uptime = uptime + ' secs'
+        } else if ( +uptime < 3600 ) {
+          uptime = (+uptime/60).toFixed(0) + ' mins'
+        } else if ( +uptime < 86400 ) {
+          uptime = (+uptime/3600).toFixed(0) + ' hrs'
         } else {
-          uptime += uptime > 1 ? ' days' : ' day'
+          uptime = (+uptime/86400).toFixed(0) + ' days'
         }
       }
 
@@ -48,6 +43,12 @@ class MainTable extends Component {
       const week = valueFormat(+item.rewards.week, 2)
       const month = valueFormat(+item.rewards.month, 2)
       const year = valueFormat(+item.rewards.year, 2)
+      let statusColor = 'secondary'
+      if ( item.status === 'online' ) {
+        statusColor = 'success'
+      } else if ( item.status === 'offline' || item.status === 'down' ) {
+        statusColor = 'danger'
+      }
 
       return (
         <tr key={item.slug} onClick={() => this.viewNode(item.slug)}>
@@ -60,7 +61,7 @@ class MainTable extends Component {
           <td className="leftBorder text-right">${week}</td>
           <td className="text-right">${month}</td>
           <td className="rightBorder text-right">${year}</td>
-          <td className="text-center">{capitalize(item.status)}</td>
+          <td className="text-center"><Badge color={statusColor} className="px-2 py-1">{capitalize(item.status)}</Badge></td>
         </tr>
       )
     })

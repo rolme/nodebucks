@@ -7,7 +7,18 @@ class Crypto < ApplicationRecord
   PERCENTAGE = false
   VALUE      = true
 
+  PURCHASE_STATUS_AVAILABLE   = "Buy Node"
+  PURCHASE_STATUS_CONTACT     = "Contact Us"
+  PURCHASE_STATUS_UNAVAILABLE = "Unavailable"
+
+  PURCHASABLE_STATUSES = [
+    PURCHASE_STATUS_AVAILABLE,
+    PURCHASE_STATUS_CONTACT,
+    PURCHASE_STATUS_UNAVAILABLE
+  ]
+
   has_many :nodes
+  has_many :crypto_price_histories
 
   scope :active, -> { where(status: 'active') }
 

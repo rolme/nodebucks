@@ -20,6 +20,10 @@ class CryptosController < ApplicationController
     end
   end
 
+  def purchasable_statuses
+    render json: Crypto::PURCHASABLE_STATUSES
+  end
+
   def update
     @crypto = Crypto.find_by(slug: params[:slug])
     if @crypto.update(crypto_params)
@@ -40,6 +44,17 @@ class CryptosController < ApplicationController
     end
   end
 
+  def prices
+    @crypto = Crypto.find_by(slug: params[:crypto_slug])
+    @prices = @crypto.crypto_price_histories
+
+    if @prices.any?
+      render json: CryptoPriceHistory.averages(@prices.by_days(params[:days].to_i).by_timeframe(params[:timeframe]))
+    else
+      render json: { status: :error, message: "No price history for #{crypto.name}" }
+    end
+  end
+
   private
 
   def crypto_params
@@ -48,9 +63,9 @@ class CryptosController < ApplicationController
       :profile,
       :logo_url,
       :name,
+      :purchasable_status,
       :status,
-      :url,
-      :enabled,
+      :url
     )
   end
 end

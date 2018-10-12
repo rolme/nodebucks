@@ -11,6 +11,8 @@ import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
 
+import Metatags from "../../components/metatags"
+
 class Home extends Component {
   constructor(props) {
     super(props)
@@ -46,6 +48,11 @@ class Home extends Component {
     const { visibleAlert } = this.state
     return (
       <div className="homeContainer">
+        <Metatags
+          description="Operate your very own masternode and collect rewards in exchange for the work your masternode performs on the blockchain, confirming and verifying transactions of cryptocurrencies."
+          title="NodeBucks - Build your Masternode and Collect Rewards"
+          canonical="https://nodebucks.com/"
+        />
         <div className="contentContainer px-0">
           {announcement && announcement.text && !announcementError && <Alert className="alert" isOpen={visibleAlert} toggle={this.onAlertDismiss}>
             {announcement.text}
@@ -74,7 +81,7 @@ class Home extends Component {
           </div>
         </div>
         <h1 className="masternodesSectionHeader text-center my-3">Compare Masternodes</h1>
-        <Masternodes bgColor="bg-white"/>
+        <Masternodes bgColor="bg-white" excludeMetatags={true}/>
         <Testimonials/>
         <div className="homeWhatIsMasternodeContainer bg-white">
           <div className="contentContainer flex-wrap">

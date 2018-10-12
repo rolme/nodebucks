@@ -7,12 +7,11 @@ module NodeManager
     end
 
     def reward(timestamp, amount, txhash)
-      return false unless (node.crypto.block_reward - amount).abs <= 1.0
+      # return false unless (node.crypto.block_reward - amount).abs <= 1.0
 
       fee = amount * node.percentage_hosting_fee
       total_amount = amount - fee
       usd_value    = total_amount * node.crypto_price
-
       reward = Reward.create(
         amount: amount,
         fee: fee,
@@ -20,18 +19,22 @@ module NodeManager
         timestamp: timestamp,
         total_amount: total_amount,
         txhash: txhash,
-        usd_value: usd_value
+        usd_value: usd_value,
+        node_reward_setting: node.reward_setting
       )
 
       create_reward_event(reward)
       tm = TransactionManager.new(node.account)
       tm.deposit_reward(reward)
+      NodeOwnerMailer.reward(reward).deliver_later
     end
 
     def online(timestamp=DateTime.current)
       return false if node.status == 'online'
       node.update_attributes(status: 'online', online_at: timestamp)
       node.events.create(event_type: 'ops', timestamp: timestamp, description: "Server online")
+
+      NodeOwnerMailer.online(node).deliver_later
     end
 
     def disburse(timestamp=DateTime.current)
@@ -90,7 +93,6 @@ module NodeManager
       return false if node.status == 'sold' || !within_timeframe?(node.sell_priced_at)
 
       node.update_attributes(status: 'sold', sold_at: timestamp)
-      # TODO: Make sure the sellable price is correct
       @order = Order.create(
         node_id: node.id,
         user_id: node.user_id,
@@ -117,7 +119,7 @@ module NodeManager
          event_type: 'reward',
          timestamp: reward.timestamp,
          value: reward.total_amount,
-         description: "Reward: #{reward.amount} #{node.symbol} (-#{reward.fee} fee)"
+         description: "Reward: #{reward.amount.round(5)} #{node.symbol} (-#{reward.fee.round(5)} fee)"
        )
      end
   end

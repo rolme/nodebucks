@@ -5,15 +5,17 @@ import { Container, Col, Button, Alert, Input } from 'reactstrap'
 import speakeasy from 'speakeasy'
 import QRCode from 'qrcode'
 import { enable2FA, disable2FA } from '../../reducers/user'
+import { withCookies } from 'react-cookie';
 
 class TwoFactorAuthentication extends Component {
   
   constructor(props) {
     super(props)
 
-    let QRCodeUrl 
+    let QRCodeUrl
     let secret = speakeasy.generateSecret({ length: 20, name: 'Nodebucks' })
-    QRCode.toDataURL(secret.otpauth_url, function(err, data_url) {
+    let otpauth_url = speakeasy.otpauthURL({ secret: secret.ascii, label: props.user.email, algorithm: 'sha512', issuer: 'Nodebucks' });
+    QRCode.toDataURL(otpauth_url, function(err, data_url) {
       QRCodeUrl = data_url;
     });
 
@@ -45,6 +47,7 @@ class TwoFactorAuthentication extends Component {
 
   handleDisable2FA = () => {
     this.props.disable2FA(this.props.user.slug, (response) => {
+      this.props.cookies.remove("trustedIpNodebucks")
       this.setState({ response })
     })
   }
@@ -119,8 +122,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   disable2FA,
 }, dispatch)
 
-export default connect(
+export default withCookies(connect(
   mapStateToProps,
   mapDispatchToProps
-)(TwoFactorAuthentication)
+)(TwoFactorAuthentication))
 

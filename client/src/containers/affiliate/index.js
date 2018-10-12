@@ -5,6 +5,8 @@ import { Col, Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap
 
 import './index.css'
 
+import Metatags from "../../components/metatags"
+
 class Affiliate extends Component {
 
   render() {
@@ -15,6 +17,13 @@ class Affiliate extends Component {
 
     return (
       <div className="affiliateContainer">
+        <Metatags
+          description="What is a Masternode? Learn the main concepts and how you can create your own masternode step by step. See the differences between them and the easiest way to get started."
+          image="/assets/images/article/articleThumbnail.jpg"
+          title="Affiliate Program - Nodebucks"
+          url="https://nodebucks.com/affiliate"
+          canonical="https://nodebucks.com/affiliate"
+        />
         <div className='affiliateHeaderContainer'>
           <div className="contentContainer">
             <h5 className="affiliateHeaderText">Nodebucks Affiliate Program</h5>
