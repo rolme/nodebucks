@@ -70,7 +70,7 @@ class Node < ApplicationRecord
   end
 
   def sell_profit
-    (node.sell_price - node.nb_sell_amount).round(2)
+    (sell_price - nb_sell_amount).round(2)
   end
 
   def name
