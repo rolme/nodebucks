@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_023341) do
+ActiveRecord::Schema.define(version: 2018_10_14_211332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_023341) do
     t.decimal "percentage_decommission_fee", default: "0.0"
     t.decimal "node_sell_price"
     t.string "purchasable_status", default: "Unavailable"
+    t.integer "first_reward_days", default: 0
   end
 
   create_table "events", force: :cascade do |t|
