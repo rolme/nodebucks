@@ -57,6 +57,22 @@ class Node < ApplicationRecord
 
   before_create :cache_values
 
+  def total_fees
+    rewards.map(&:fee).reduce(&:+)&.round(5)
+  end
+
+  def total_fees_collected
+    rewards.select{ |r| r.status == 'processed' }.map(&:fee).reduce(&:+)&.round(5)
+  end
+
+  def buy_profit
+    (cost - nb_buy_amount).round(2)
+  end
+
+  def sell_profit
+    (sell_price - nb_sell_amount).round(2)
+  end
+
   def name
     cached_crypto_name
   end
