@@ -19,6 +19,7 @@ json.country user.country
 json.createdAt user.created_at.to_formatted_s(:db)
 json.deletedAt user.deleted_at&.to_formatted_s(:db)
 json.email user.email
+json.enabled user.enabled
 json.enabled2FA user.two_fa_secret.present?
 json.first user.first
 json.fullName user.full_name

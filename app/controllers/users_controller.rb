@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation, :verification_image]
-  before_action :authenticate_admin_request, only: [:index, :show, :impersonate]
+  before_action :authenticate_admin_request, only: [:disable, :enable, :index, :impersonate, :show]
   before_action :find_user, only: [:update, :profile]
 
   def callback
