@@ -65,6 +65,14 @@ class Node < ApplicationRecord
     rewards.select{ |r| r.status == 'processed' }.map(&:fee).reduce(&:+)&.round(5)
   end
 
+  def buy_profit
+    (cost - nb_buy_amount).round(2)
+  end
+
+  def sell_profit
+    (node.sell_price - node.nb_sell_amount).round(2)
+  end
+
   def name
     cached_crypto_name
   end

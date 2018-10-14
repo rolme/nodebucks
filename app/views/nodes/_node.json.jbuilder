@@ -1,4 +1,5 @@
 json.buyPrice node.cost
+json.buyProfit node.buy_profit
 json.cost node.cost # Need to remove cost and use buyPrice/buy_price
 json.createdAt node.created_at.to_formatted_s(:db)
 json.creator do
@@ -23,14 +24,12 @@ json.ip node.ip
 json.isReady node.ready?
 json.lastUpgradedAt node.last_upgraded_at&.to_formatted_s(:db)
 json.nodebucksBuyAmount node.nb_buy_amount
-json.nodebucksBuyProfit node.cost - node.nb_buy_amount
 json.nodebucksSellAmount node.nb_sell_amount
-json.nodebucksSellProfit node.sell_price - node.nb_sell_amount
 json.onlineAt node.online_at&.to_formatted_s(:db)
 json.owner do
   json.partial! 'users/owner', user: node.user
 end
-json.rewardSetting node.reward_setting
+json.rewardSetting node.reward_setting # TODO: Move this from Node to Account
 json.rewardTotal node.reward_total
 json.rewards do
   json.week node.week_reward
@@ -40,6 +39,7 @@ json.rewards do
 end
 json.sellBitcoinWallet node.sell_bitcoin_wallet
 json.sellPrice node.sell_price
+json.sellProfit node.sell_profit
 json.sellSetting node.sell_setting
 json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
