@@ -1,4 +1,5 @@
-json.cost node.cost
+json.buyPrice node.cost
+json.cost node.cost # Need to remove cost and use buyPrice/buy_price
 json.createdAt node.created_at.to_formatted_s(:db)
 json.creator do
   json.partial! 'users/creator', user: node.creator if node.creator.present?
@@ -21,6 +22,10 @@ json.id node.id + 10000
 json.ip node.ip
 json.isReady node.ready?
 json.lastUpgradedAt node.last_upgraded_at&.to_formatted_s(:db)
+json.nodebucksBuyAmount node.nb_buy_amount
+json.nodebucksBuyProfit node.cost - node.nb_buy_amount
+json.nodebucksSellAmount node.nb_sell_amount
+json.nodebucksSellProfit node.sell_price - node.nb_sell_amount
 json.onlineAt node.online_at&.to_formatted_s(:db)
 json.owner do
   json.partial! 'users/owner', user: node.user
@@ -41,6 +46,8 @@ json.soldAt node.sold_at&.to_formatted_s(:db)
 json.status node.status
 json.stripe node.stripe
 json.timeLimit Node::TIME_LIMIT.to_i
+json.totalFees node.total_fees
+json.totalFeesCollected node.total_fees_collected
 json.uptime node.uptime
 json.wallet node.wallet
 json.withdrawWallet node.withdraw_wallet

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_14_211332) do
+ActiveRecord::Schema.define(version: 2018_10_14_222437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 2018_10_14_211332) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.datetime "online_mail_sent_at"
+    t.decimal "nb_buy_amount", default: "0.0"
+    t.decimal "nb_sell_amount", default: "0.0"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
