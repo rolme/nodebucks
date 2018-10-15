@@ -77,7 +77,7 @@ private
           txn_type: 'deposit',
           notes: "Reverse txn #{id}: #{notes}"
         )
-        account.user.update_attribute(:affiliate_balance, account.user.affiliate_balance + amount)
+        withdrawal.user.update_attribute(:affiliate_balance, withdrawal.user.affiliate_balance + amount)
       else
         txn = account.transactions.create(
           amount: amount,
