@@ -70,8 +70,8 @@ private
   def reverse_withdraw!
     Transaction.transaction do
       txn = nil
-      if notes.include?("Affiliate reward withdrawal")
-        txn = Transaction.create(
+      if notes.include?("Affiliate reward withdrawal") && !!withdrawal_id
+        txn = withdrawal.transactions.create(
           amount: amount,
           withdrawal_id: withdrawal_id,
           txn_type: 'deposit',
