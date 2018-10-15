@@ -37,6 +37,14 @@ class User < ApplicationRecord
     "#{first} #{last}"
   end
 
+  def enable!
+    update_attribute(:enabled, true)
+  end
+
+  def disable!
+    update_attribute(:enabled, false)
+  end
+
   def reset!
     self.reset_token = SecureRandom.urlsafe_base64
     self.reset_at = DateTime.current
@@ -177,6 +185,7 @@ class User < ApplicationRecord
       country: country,
       createdAt: created_at.to_formatted_s(:db),
       email: email,
+      enabled: enabled,
       enabled2FA: two_fa_secret.present?,
       first: first,
       fullName: full_name,
