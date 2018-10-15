@@ -27,13 +27,18 @@ class WithdrawalManager
       return false
     end
 
-    if(params[:payment] === 'btc')
+    if(params[:payment] == 'btc')
       account = user.accounts.find{ |a| a.symbol == 'btc' }
       if params[:wallet].blank? && account.wallet.blank?
         @error = 'BTC wallet not present. Please provide a withdrawal wallet.'
         return false
       end
       account.update_attribute(:wallet, params[:wallet]) if params[:wallet] != account.wallet
+    elsif (params[:payment] == 'paypal')
+      if params[:paypal_email].blank? && account.wallet.blank?
+        @error = 'Please provide a paypal email address.'
+        return false
+      end
     end
 
     pending
