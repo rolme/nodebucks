@@ -31,8 +31,8 @@ json.transactions withdrawal.transactions.each do |transaction|
   json.status transaction.status
   json.type transaction.txn_type
   json.userEmail transaction.account ? transaction.account.user.email : withdrawal.user.email
-  json.userName transaction.account ? transaction.account.user.full_name : withdrawal.user.email
+  json.userName transaction.account ? transaction.account.user.full_name : withdrawal.user.full_name
   json.id transaction.id
   json.createdAt transaction.created_at.to_formatted_s(:db)
 end
-json.updatedAt withdrawal.updated_at.to_formatted_s(:db)
+json.updatedAt withdrawal.updated_at&.to_formatted_s(:db)

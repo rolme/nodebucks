@@ -1,9 +1,11 @@
 class Transaction < ApplicationRecord
   include Sluggable
 
-  belongs_to :account
+  belongs_to :account, optional: true
   belongs_to :reward, optional: true
   belongs_to :withdrawal, optional: true
+
+  validate :reference_exist, on: :create
 
   scope :pending, -> { where(status: :pending) }
   scope :processed, -> { where(status: :processed) }
@@ -53,6 +55,12 @@ class Transaction < ApplicationRecord
   end
 
 private
+  def reference_exist
+    if account_id.nil? && reward_id.nil? && withdrawal_id.nil?
+      errors.add(:account_id, "Reference must exist for an account, reward, or withdrawal.")
+    end
+  end
+
 
   def reverse_deposit!
     Transaction.transaction do
