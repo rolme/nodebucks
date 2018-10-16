@@ -119,8 +119,7 @@ class User < ApplicationRecord
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          # 2x because converting to BTC, then to USD
-          usd: usd - (usd * account.crypto.percentage_conversion_fee * 2),
+          usd: usd,
           value: account.balance,
           wallet: account.wallet,
           withdrawable: crypto.withdrawable?

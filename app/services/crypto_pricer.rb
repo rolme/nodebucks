@@ -70,7 +70,11 @@ class CryptoPricer
     end
 
     usdt = CryptoPrice.find_by(crypto_id: crypto.id, amount: amount, price_type: type).usdt * total
-    usdt - (usdt * crypto.percentage_conversion_fee)
+    if crypto.symbol != 'btc'
+      usdt - (usdt * (crypto.percentage_conversion_fee * 2))
+    else
+      usdt - (usdt * crypto.percentage_conversion_fee)
+    end
   end
 
   # Privatish
