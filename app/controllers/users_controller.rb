@@ -20,8 +20,7 @@ class UsersController < ApplicationController
     end
 
     if @user.present?
-      sm = StorageManager.new
-      avatar = sm.store_url(@user, user_params[:avatar])
+      avatar = Utils.download(@user.id, params[:user][:avatar])
       @user.update_attribute(:avatar, avatar)
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
@@ -29,8 +28,7 @@ class UsersController < ApplicationController
       @user.set_upline(referrer_params[:referrer_affiliate_key])
 
       if @user.save
-        sm = StorageManager.new
-        avatar = sm.store_url(@user, user_params[:avatar])
+        avatar = Utils.download(@user.id, params[:user][:avatar])
         @user.update_attribute(:avatar, avatar)
         render json: { status: :ok, token: generate_token, message: 'User account created.' }
         if ENV['RAILS_ENV'] == 'development'
