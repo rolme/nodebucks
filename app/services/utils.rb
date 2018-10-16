@@ -18,4 +18,12 @@ class Utils
   def self.average(array)
     array.reduce(:+) / array.size
   end
+
+  def self.download(url)
+    download = nil
+    open(url) do |file|
+      download = file.read
+    end
+    download
+  end
 end
