@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     end
 
     if @user.present?
-      @user.update_attribute(:avatar, user_params[:avatar])
+      @user.update_attribute(:avatar, params[:user][:avatar])
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
