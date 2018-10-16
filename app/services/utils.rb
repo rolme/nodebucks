@@ -22,7 +22,7 @@ class Utils
   def self.download(url)
     download = nil
     open(url) do |file|
-      download = file.read
+      download = file
     end
     download
   end
