@@ -65,7 +65,7 @@ class Node < ApplicationRecord
     return 0 if rewards.count == 0
 
     @_transactions ||= Transaction.where(reward_id: rewards.map(&:id))
-    @_transactions.select{ |r| r.status == 'processed' }.map(&:amount).reduce(&:+)&.round(5)
+    @_transactions.select{ |t| t.status == 'processed' && t.txn_type == 'transfer' }.map(&:amount).reduce(&:+)&.round(5)
   end
 
   def buy_profit
