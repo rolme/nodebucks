@@ -16,14 +16,7 @@ class PriceHistoryChart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPeriod: 1,
       values: [],
-      periodValues: {
-        '1': [],
-        '3': [],
-        '6': [],
-        '12': [],
-      },
       timeframe: 'daily',
       days: 30
     }
