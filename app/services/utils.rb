@@ -20,10 +20,10 @@ class Utils
   end
 
   def self.download(url)
-    download = nil
-    open(url) do |file|
-      download = file
-    end
-    download
+    file = Tempfile.new
+    stringIo = open(url)
+    file.binmode
+    file.write stringIo.read
+    file
   end
 end
