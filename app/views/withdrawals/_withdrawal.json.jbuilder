@@ -1,4 +1,4 @@
-json.affiliateBalance withdrawal.affiliate_balance
+json.affiliateBalance withdrawal.affiliate_balance.floor(2)
 json.admin do
   json.partial! 'users/creator', user: withdrawal.admin if withdrawal.admin.present?
 end
