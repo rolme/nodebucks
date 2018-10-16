@@ -20,18 +20,13 @@ class UsersController < ApplicationController
     end
 
     if @user.present?
-      sm = StorageManager.new
-      avatar = sm.store_url(@user, user_params[:avatar])
-      @user.update_attribute(:avatar, avatar)
+      @user.update_attribute(:avatar, user_params[:avatar])
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
       @user.set_upline(referrer_params[:referrer_affiliate_key])
 
       if @user.save
-        sm = StorageManager.new
-        avatar = sm.store_url(@user, user_params[:avatar])
-        @user.update_attribute(:avatar, avatar)
         render json: { status: :ok, token: generate_token, message: 'User account created.' }
         if ENV['RAILS_ENV'] == 'development'
           RegistrationMailer.send_verify_email(@user).deliver_now
