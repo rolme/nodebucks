@@ -19,8 +19,8 @@ class Utils
     array.reduce(:+) / array.size
   end
 
-  def self.download(url)
-    file = Tempfile.new
+  def self.download(id, url)
+    file = Tempfile.new(["#{id}", '.jpeg'])
     stringIo = open(url)
     file.binmode
     file.write stringIo.read
