@@ -20,13 +20,16 @@ class UsersController < ApplicationController
     end
 
     if @user.present?
-      @user.update_attribute(:avatar, params[:user][:avatar])
+      avatar = Utils.download(user_params[:avatar])
+      @user.update_attribute(:avatar, avatar)
       render json: { status: :ok, token: generate_token, message: 'User logged in.' }
     else
       @user = User.new(user_params)
       @user.set_upline(referrer_params[:referrer_affiliate_key])
 
       if @user.save
+        avatar = Utils.download(user_params[:avatar])
+        @user.update_attribute(:avatar, avatar)
         render json: { status: :ok, token: generate_token, message: 'User account created.' }
         if ENV['RAILS_ENV'] == 'development'
           RegistrationMailer.send_verify_email(@user).deliver_now
