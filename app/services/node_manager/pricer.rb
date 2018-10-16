@@ -101,7 +101,9 @@ module NodeManager
     def calculate_price(crypto, purchasing_price=nil)
       purchasing_price ||= crypto.purchasable_price
       setup_cost         = (purchasing_price * crypto.percentage_setup_fee) + crypto.flat_setup_fee
-      conversion_cost    = purchasing_price * crypto.percentage_conversion_fee
+
+      # Assume double converstion fee for USD to BTC, then BTC to Coin
+      conversion_cost    = purchasing_price * (crypto.percentage_conversion_fee * 2)
 
       purchasing_price + setup_cost + conversion_cost
     end
