@@ -131,7 +131,7 @@ class Header extends Component {
       <Navbar className="headerNavBarContainer navbar navbar-expand-lg navbar-light">
         <div ref="headerContainer" className="contentContainer px-0">
           <NavLink to="/" className="headerLogo">
-            <img src="/assets/images/headerLogo.png" alt="logo"/>
+            <img src="/assets/images/nodebucks_beta.svg" width="140" alt="logo"/>
           </NavLink>
           <NavbarToggler onClick={this.toggleNavbar} className='headerNavBarToggler navbar-light'>
             { !!user && <img src={avatarUrl} className="headerUserAvatar" alt="avatar"/> }
