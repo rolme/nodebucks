@@ -108,6 +108,7 @@ class User < ApplicationRecord
           usd: 0.0,
           value: 0.0,
           wallet: nil,
+          withdrawable: crypto.withdrawable?
         }
       else
         crypto_pricer = CryptoPricer.new(account.crypto)
@@ -122,6 +123,7 @@ class User < ApplicationRecord
           usd: usd - (usd * account.crypto.percentage_conversion_fee * 2),
           value: account.balance,
           wallet: account.wallet,
+          withdrawable: crypto.withdrawable?
         }
       end
     end

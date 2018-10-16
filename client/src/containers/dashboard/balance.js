@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { faBan } from '@fortawesome/fontawesome-free-solid'
+
 import { fetchBalance } from '../../reducers/user'
 import { valueFormat } from "../../lib/helpers";
 
@@ -28,7 +31,7 @@ class Balance extends Component {
 
     //let balances = user.balances.filter(b => b.hasNodes)
     let { balances } = user
-    const total = balances.reduce((accumulator, currentItem, currentIndex) => currentIndex === 1 ? (+accumulator.usd) + (+currentItem.usd) : accumulator + (+currentItem.usd))
+    const total = balances.filter(b => b.withdrawable).map(b => b.usd).reduce((t, i) => { return +t + +i }, 0)
     return (
       <div className="dashboardBalanceSectionContainer  mb-4">
         <h5 className="dashboardSectionHeader"> Balance <span>(${valueFormat(total, 2)})</span></h5>
@@ -47,7 +50,10 @@ class Balance extends Component {
               const usd = valueFormat(parseFloat(balance.usd), 2)
               return (
                 <tr key={balance.name}>
-                  <td className="text-left"><img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="25px" className="pr-1"/> {balance.name}</td>
+                  <td className="text-left">
+                    <img alt="logo" src={`/assets/images/logos/${balance.slug}.png`} width="25px" className="pr-1"/>
+                    {balance.name} {!balance.withdrawable && <FontAwesomeIcon icon={faBan} color="#9E9E9E" className="ml-2"/>}
+                  </td>
                   <td className="text-right">{value}</td>
                   <td className="text-right">${usd}</td>
                 </tr>

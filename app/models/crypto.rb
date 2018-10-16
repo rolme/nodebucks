@@ -28,8 +28,8 @@ class Crypto < ApplicationRecord
   end
 
   def withdrawable?
-    status != 'inactive' ||
-    purchasable_status == 'Unavailable'
+    status != 'inactive' &&
+    purchasable_status != 'Unavailable'
   end
 
   def yearly_roi

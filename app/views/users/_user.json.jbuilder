@@ -6,6 +6,7 @@ json.avatar user.avatar
 json.balances user.balances.each do |balance|
   json.fee balance[:fee]
   json.hasNodes balance[:has_nodes]
+  json.withdrawable balance[:withdrawable]
   json.name balance[:name]
   json.slug balance[:slug]
   json.symbol balance[:symbol]
