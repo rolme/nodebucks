@@ -7,9 +7,6 @@ class Withdrawal < ApplicationRecord
              optional: true
   belongs_to :user
 
-  validate :target, presence: true
-  validate :payment_type, presence: true
-
   has_many :transactions, dependent: :destroy
 
   scope :pending, -> { where(status: :pending) }

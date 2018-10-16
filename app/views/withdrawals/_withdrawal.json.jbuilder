@@ -3,8 +3,8 @@ json.admin do
   json.partial! 'users/creator', user: withdrawal.admin if withdrawal.admin.present?
 end
 json.amount do
-  json.btc withdrawal.amount_btc
-  json.usd withdrawal.amount_usd
+  json.btc withdrawal.amount_btc.round(4)
+  json.usd withdrawal.amount_usd.round(2)
 end
 json.balances withdrawal.balances.each do |balance|
   json.hasNodes balance["has_nodes"]

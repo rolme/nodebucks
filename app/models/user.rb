@@ -111,13 +111,15 @@ class User < ApplicationRecord
         }
       else
         crypto_pricer = CryptoPricer.new(account.crypto)
+        usd = crypto_pricer.to_usdt(account.balance, 'sell')
         {
           fee: crypto.percentage_conversion_fee,
           has_nodes: filtered_nodes.present?,
           name: account.name,
           slug: crypto.slug,
           symbol: account.symbol,
-          usd: crypto_pricer.to_usdt(account.balance, 'sell'),
+          # 2x because converting to BTC, then to USD
+          usd: usd - (usd * account.crypto.percentage_conversion_fee * 2),
           value: account.balance,
           wallet: account.wallet,
         }
@@ -133,9 +135,14 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
+      next if account.crypto.withdrawable?
+
       crypto_pricer = CryptoPricer.new(account.crypto)
-      btc += crypto_pricer.to_btc(account.balance, 'sell')
-      usd += crypto_pricer.to_usdt(account.balance, 'sell')
+      btc_balance = crypto_pricer.to_btc(account.balance, 'sell')
+      btc += (btc_balance - (btc_balance * account.crypto.percentage_conversion_fee))
+
+      usd_balance = crypto_pricer.to_usdt(account.balance, 'sell')
+      usd += (usd_balance - (usd_balance * account.crypto.percentage_conversion_fee))
     end
     usd += affiliate_balance
     btc += Utils.usd_to_btc(affiliate_balance)

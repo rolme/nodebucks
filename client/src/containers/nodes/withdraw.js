@@ -166,18 +166,16 @@ class Withdraw extends Component {
 
   renderInformationPart() {
     const { withdrawal } = this.props
-    const totalBalanceUsd = !!withdrawal.amount ? valueFormat(+withdrawal.amount.usd, 2) : ''
-    const totalBalance = !!withdrawal.amount ? valueFormat(+withdrawal.amount.btc, 2) : ''
     return (
       <Col xl={8} className="withdrawPageInformationPartContainer">
         <Row className="p-0 m-0">
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, USD</p>
-            <p className="withdrawInformationPartHeaderValue">${totalBalanceUsd}</p>
+            <p className="withdrawInformationPartHeaderValue">${withdrawal.amount && withdrawal.amount.usd}</p>
           </Row>
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, bitcoin</p>
-            <p className="withdrawInformationPartHeaderValue">{totalBalance}</p>
+            <p className="withdrawInformationPartHeaderValue">{withdrawal.amount && withdrawal.amount.btc}</p>
           </Row>
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Affiliate</p>
