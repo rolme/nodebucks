@@ -136,17 +136,14 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      next if account.crypto.withdrawable?
+      next unless account.crypto.withdrawable?
 
       crypto_pricer = CryptoPricer.new(account.crypto)
-      btc_balance = crypto_pricer.to_btc(account.balance, 'sell')
-      btc += (btc_balance - (btc_balance * account.crypto.percentage_conversion_fee))
-
-      usd_balance = crypto_pricer.to_usdt(account.balance, 'sell')
-      usd += (usd_balance - (usd_balance * account.crypto.percentage_conversion_fee))
+      btc += crypto_pricer.to_btc(account.balance, 'sell')
+      usd += crypto_pricer.to_usdt(account.balance, 'sell')
     end
     usd += affiliate_balance
-    btc += Utils.usd_to_btc(affiliate_balance)
+    btc += Utils.usd_to_btc(affiliate_balance) # TODO: Should this have a 3% conversion fee?
     { btc: btc, usd: usd }
   end
 

@@ -70,12 +70,12 @@ class Node < ApplicationRecord
 
   def buy_profit
     return 0 if cost.blank?
-    (cost - nb_buy_amount).round(2)
+    (cost - nb_buy_amount).floor(2)
   end
 
   def sell_profit
     return 0 if sell_price.blank?
-    (sell_price - nb_sell_amount).round(2)
+    (sell_price - nb_sell_amount).floor(2)
   end
 
   def name
@@ -138,7 +138,7 @@ class Node < ApplicationRecord
   end
 
   def cost_to_cents
-    (cost.round(2) * 100).to_i
+    (cost.floor(2) * 100).to_i
   end
 
   def sell!

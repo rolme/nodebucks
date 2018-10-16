@@ -3,8 +3,8 @@ json.admin do
   json.partial! 'users/creator', user: withdrawal.admin if withdrawal.admin.present?
 end
 json.amount do
-  json.btc withdrawal.amount_btc.round(4)
-  json.usd withdrawal.amount_usd.round(2)
+  json.btc '%.4f' % withdrawal.amount_btc.floor(4)
+  json.usd '%.2f' % withdrawal.amount_usd.floor(2)
 end
 json.balances withdrawal.balances.each do |balance|
   json.hasNodes balance["has_nodes"]
@@ -13,6 +13,7 @@ json.balances withdrawal.balances.each do |balance|
   json.symbol balance["symbol"]
   json.usd balance["usd"]
   json.value balance["value"]
+  json.withdrawable balance["withdrawable"]
 end
 json.cancelledAt withdrawal.cancelled_at&.to_formatted_s(:db)
 json.createdAt withdrawal.created_at.to_formatted_s(:db)

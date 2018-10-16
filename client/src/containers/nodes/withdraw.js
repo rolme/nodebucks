@@ -186,19 +186,19 @@ class Withdraw extends Component {
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          {!!withdrawal.user && !!withdrawal.user.balances && this.renderBalances(withdrawal.user.balances)}
+          {!!withdrawal.balances && this.renderBalances(withdrawal.balances)}
         </Row>
       </Col>
     )
   }
 
-  renderBalances(withdrawal) {
-    return withdrawal.map((coin, index) => {
-      const value = valueFormat(+coin.value, 2)
-      if(coin.value > 0) {
+  renderBalances(balances) {
+    return balances.map((balance, index) => {
+      const value = valueFormat(+balance.value, 2)
+      if(balance.value > 0 && balance.withdrawable) {
         return (
           <Row key={index} className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">{coin.name}</p>
+            <p className="withdrawInformationPartInfo">{balance.name}</p>
             <p className="withdrawInformationPartInfo">{value}</p>
           </Row>
         )
