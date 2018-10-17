@@ -269,7 +269,7 @@ class SignUp extends Component {
                 <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
                 <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
                 <p className="signUpSignInText">Or Sign Up using Facebook</p>
-                <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialSignUp.bind(this, 'facebook')} onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')} className="facebookSocialButton socialLogInButton"><i className="socialButtonIcon">&#xe809;</i>Facebook</SocialButton>
+                <SocialButton provider='facebook' appId={process.env.REACT_APP_FACEBOOK_API_KEY} onLoginSuccess={this.handleSocialSignUp.bind(this, 'facebook')} onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')} className="socialButton facebookSocialButton"><i className="socialButtonIcon">&#xe809;</i>Facebook</SocialButton>
               </Col>
             </Col>
           </Col>

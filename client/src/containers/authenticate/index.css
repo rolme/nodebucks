@@ -41,11 +41,10 @@
   color: #3c9cdd;
 }
 
-.facebookSocialButton {
+.socialButton {
   width: 100%;
   margin-bottom: 20px;
   border: none;
-  background-color: #2283C6;
   padding: 11px 0;
   cursor: pointer;
   color: white;
@@ -55,11 +54,23 @@
   font-weight: bold;
 }
 
+.facebookSocialButton {
+  background-color: #2283C6;
+}
+
+.googleSocialButton {
+  background-color: #E62121;
+}
+
 .facebookSocialButton:hover {
   background-color: #23a0ea;
 }
 
-.facebookSocialButton > .socialButtonIcon {
+.googleSocialButton:hover {
+  background-color: #FC2C2C;
+}
+
+.socialButton > .socialButtonIcon {
   font-size: 22px;
   padding: 0 25px 0 0 !important;
   background-color: transparent;
@@ -151,13 +162,8 @@
     font-size: 22px;
   }
 
-  .facebookSocialButton {
+  .socialButton {
     font-size: 15px;
     padding: 11px 20px 11px 45px;
-  }
-
-  .facebookSocialButton > .socialButtonIcon {
-    font-size: 20px;
-    padding: 7px 15px !important;
   }
 }
