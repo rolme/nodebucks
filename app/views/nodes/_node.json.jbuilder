@@ -38,7 +38,8 @@ json.rewards do
   json.year node.year_reward
 end
 json.sellBitcoinWallet node.sell_bitcoin_wallet
-json.sellPrice node.sell_price
+json.sellPrice node.sell_price # TODO: This is a duplicate of json.value
+json.sellPriceBTC node.sell_price_btc
 json.sellProfit node.sell_profit
 json.sellSetting node.sell_setting
 json.slug node.slug
@@ -51,7 +52,7 @@ json.totalFeesCollected node.total_fees_collected
 json.uptime node.uptime
 json.wallet node.wallet
 json.withdrawWallet node.withdraw_wallet
-json.value node.value
+json.value node.sell_price # TODO: This is a duplicate of json.sellPrice
 json.values node.node_prices.each do |price|
   json.timestamp price.created_at.to_formatted_s(:db)
   json.value price.value

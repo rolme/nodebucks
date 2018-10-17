@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_15_212910) do
+ActiveRecord::Schema.define(version: 2018_10_16_235616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2018_10_15_212910) do
     t.decimal "node_sell_price"
     t.string "purchasable_status", default: "Unavailable"
     t.integer "first_reward_days", default: 0
+    t.decimal "node_sell_price_btc", default: "0.0"
   end
 
   create_table "events", force: :cascade do |t|
@@ -178,6 +179,7 @@ ActiveRecord::Schema.define(version: 2018_10_15_212910) do
     t.datetime "online_mail_sent_at"
     t.decimal "nb_buy_amount", default: "0.0"
     t.decimal "nb_sell_amount", default: "0.0"
+    t.decimal "sell_price_btc", default: "0.0"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
