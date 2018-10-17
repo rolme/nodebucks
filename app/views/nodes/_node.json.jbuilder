@@ -39,8 +39,8 @@ json.rewards do
 end
 json.sellBitcoinWallet node.sell_bitcoin_wallet
 json.sellPrice node.sell_price # TODO: This is a duplicate of json.value
-json.sellPriceBTC node.sell_price_btc
-json.sellProfit node.sell_profit
+json.sellPriceBTC node.sell_price_btc.floor(4)
+json.sellProfit node.sell_profit.floor(2)
 json.sellSetting node.sell_setting
 json.slug node.slug
 json.soldAt node.sold_at&.to_formatted_s(:db)
