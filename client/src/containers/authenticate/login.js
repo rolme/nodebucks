@@ -196,7 +196,7 @@ class LogIn extends Component {
                 onLoginSuccess={this.handleSocialLogin.bind(this, 'facebook')} 
                 onLoginFailure={this.handleSocialLoginFailure.bind(this, 'facebook')} 
                 className="socialButton facebookSocialButton">
-                  <i className="socialButtonIcon">&#xe809;</i> Sign in via Facebook
+                  <i className="socialButtonIcon">&#xf09a;</i> Sign in via Facebook
               </SocialButton>
               <SocialButton 
                 provider='google' 
@@ -204,7 +204,7 @@ class LogIn extends Component {
                 onLoginSuccess={this.handleSocialLogin.bind(this, 'google')} 
                 onLoginFailure={this.handleSocialLoginFailure.bind(this, 'google')} 
                 className="socialButton googleSocialButton">
-                  <i className="socialButtonIcon">&#xe805;</i> Sign in via Google
+                  <i className="socialButtonIcon">&#xf1a0;</i> Sign in via Google
               </SocialButton>
               <Col xl={{ size: 6, offset: 3 }} lg={{ size: 6, offset: 3 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 6, offset: 3 }} className="dividerWithText">
                 <span>OR</span>
