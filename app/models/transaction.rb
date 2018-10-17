@@ -38,9 +38,6 @@ class Transaction < ApplicationRecord
       reward = Reward.find_by(id: reward_id)
       self.cached_crypto_name = reward&.name
       self.cached_crypto_symbol = reward&.symbol
-    elsif withdrawal_id.present?
-      self.cached_crypto_name = 'Bitcoin'
-      self.cached_crypto_symbol = 'btc'
     end
 
     save! if persist
