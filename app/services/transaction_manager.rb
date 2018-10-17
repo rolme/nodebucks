@@ -60,7 +60,6 @@ class TransactionManager
   end
 
   def withdraw(withdrawal)
-    # TODO: Balance is including fee, but what is the fee
     account_balance    = withdrawal.balances.find { |b| b["symbol"] == account.symbol }
     balance            = account_balance["value"].to_f
     btc                = account_balance["btc"]
