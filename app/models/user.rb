@@ -100,6 +100,7 @@ class User < ApplicationRecord
       filtered_nodes = nodes.select{ |n| n.crypto_id == crypto.id && ['online', 'new'].include?(n.status) }
       if account.nil?
         {
+          btc: 0.0,
           fee: crypto.percentage_conversion_fee,
           has_nodes: false,
           name: crypto.name,
@@ -112,8 +113,10 @@ class User < ApplicationRecord
         }
       else
         crypto_pricer = CryptoPricer.new(account.crypto)
+        btc = crypto_pricer.to_btc(account.balance, 'sell')
         usd = crypto_pricer.to_usdt(account.balance, 'sell')
         {
+          btc: btc,
           fee: crypto.percentage_conversion_fee,
           has_nodes: filtered_nodes.present?,
           name: account.name,
