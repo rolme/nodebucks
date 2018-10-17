@@ -41,6 +41,7 @@ class WithdrawalManager
       end
     end
 
+    withdrawal.update_attributes(target: params[:target], payment_type: params[:payment_type])
     pending
   end
 
@@ -85,6 +86,8 @@ protected
   def pending
     user = withdrawal.user
     user.accounts.reject{ |a| a.symbol == 'btc' || a.balance == 0 }.each do |account|
+      next unless account.crypto.withdrawable?
+
       tm = TransactionManager.new(account)
       tm.withdraw(withdrawal)
     end
