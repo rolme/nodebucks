@@ -67,17 +67,18 @@ class TransactionManager
     usd                = account_balance["usd"]
     fee_percentage     = (withdrawal.payment_type == 'paypal') ? account.crypto.percentage_hosting_fee * 2 : account.crypto.percentage_hosting_fee
     fee                = balance * fee_percentage
+    symbol             = account.symbol
 
-    account_txn        = account.transactions.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Account withdrawal of #{balance} #{account.symbol} (includes #{fee} #{account.symbol} fee)")
-    system_fee_txn     = system_account.transactions.create(amount: fee, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Fee deposit (#{fee} #{account.symbol})")
-    system_balance_txn = system_account.transactions.create(amount: balance - fee, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Balance deposit (#{balance - fee} #{account.symbol})")
-    system_account.transactions.create(amount: balance, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance} #{account.symbol} balance transfer to Nodebucks (includes #{fee} #{account.symbol} fee)")
-    system_account.transactions.create(amount: balance - fee, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance - fee} #{account.symbol} transfer to BTC")
+    account_txn        = account.transactions.create(amount: balance, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Account withdrawal of #{balance} #{account.symbol} (includes #{fee} #{account.symbol} fee)")
+    system_fee_txn     = system_account.transactions.create(amount: fee, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Fee deposit (#{fee} #{account.symbol})")
+    system_balance_txn = system_account.transactions.create(amount: balance - fee, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Balance deposit (#{balance - fee} #{account.symbol})")
+    system_account.transactions.create(amount: balance, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance} #{account.symbol} balance transfer to Nodebucks (includes #{fee} #{account.symbol} fee)")
+    system_account.transactions.create(amount: balance - fee, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance - fee} #{account.symbol} transfer to BTC")
     if (withdrawal.payment_type == 'paypal')
-      system_account.transactions.create(amount: btc, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "BTC transfer to USD")
-      system_account.transactions.create(amount: usd, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "USD transfer to #{withdrawal.target}")
+      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "BTC transfer to USD")
+      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'usd', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "USD transfer to #{withdrawal.target}")
     else # NOTE: assume its 'btc'
-      system_account.transactions.create(amount: btc, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "BTC transfer to #{withdrawal.target}")
+      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "BTC transfer to #{withdrawal.target}")
     end
 
     Account.transaction do
