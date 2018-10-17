@@ -268,7 +268,7 @@ class SignUp extends Component {
               <Col xl={8} lg={8} md={8} sm={12} xs={12} className="d-flex px-0 mt-4 flex-column">
                 <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
                 <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
-                <p className="signUpSignInText">Or Sign Up using Facebook</p>
+                <p className="signUpSignInText">Or Sign Up using Social Media</p>
                 <SocialButton 
                   provider='facebook' 
                   appId={process.env.REACT_APP_FACEBOOK_API_KEY} 
@@ -276,7 +276,15 @@ class SignUp extends Component {
                   onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')} 
                   className="socialButton facebookSocialButton">
                     <i className="socialButtonIcon">&#xf09a;</i>Facebook
-                  </SocialButton>
+                </SocialButton>
+                <SocialButton 
+                  provider='google' 
+                  appId={process.env.REACT_APP_GOOGLE_API_KEY} 
+                  onLoginSuccess={this.handleSocialSignUp.bind(this, 'google')} 
+                  onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'google')} 
+                  className="socialButton googleSocialButton">
+                    <i className="socialButtonIcon">&#xf1a0;</i>Google
+                </SocialButton>
               </Col>
             </Col>
           </Col>
