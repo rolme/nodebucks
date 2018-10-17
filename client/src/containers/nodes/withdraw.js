@@ -22,7 +22,7 @@ class Withdraw extends Component {
     this.state = {
       password: '',
       showPassword: false,
-      currency: 'btc',
+      paymentType: 'btc',
       target: '',
       address: '',
       errorMessages: {
@@ -66,8 +66,8 @@ class Withdraw extends Component {
   }
 
   onWithdraw() {
-    const { password, target, currency } = this.state
-    const withdrawal = currency === 'btc' ? { password, wallet: target, payment: 'btc' } : { password, paypal_email: target, payment: 'paypal' }
+    const { password, target, paymentType } = this.state
+    const withdrawal = { password, target, payment_type: paymentType }
     this.props.withdraw({ withdrawal: withdrawal }, (response) => {
       this.setState({ isProcessing: false, redirect: response.status !== 'error', showAlert: response.status === 'error' })
       if(response.status === 'error') setTimeout(() => { this.setState({ showAlert: false }) }, 3000);
@@ -76,7 +76,7 @@ class Withdraw extends Component {
   }
 
   validation() {
-    const { currency, target, password } = this.state
+    const { paymentType, target, password } = this.state
     let { errorMessages } = this.state, isValid = !errorMessages.password && !errorMessages.target
 
     if ( !password ) {
@@ -86,10 +86,10 @@ class Withdraw extends Component {
 
     if ( !target ) {
       isValid = false
-      errorMessages.target = 'Please enter your ' + currency === 'btc' ? 'Bitcoin Address.' : 'PayPal email.'
+      errorMessages.target = 'Please enter your ' + paymentType === 'btc' ? 'Bitcoin Address.' : 'PayPal email.'
     }
 
-    if ( currency === 'btc' ) {
+    if ( paymentType === 'btc' ) {
       isValid = WAValidator.validate(target, 'BTC')
       errorMessages.target = isValid ? '' : 'Please type valid address.'
     } else {
@@ -106,9 +106,9 @@ class Withdraw extends Component {
   }
 
   handleSellSettingClick(value) {
-    const { currency } = this.state
-    if ( currency !== value ) {
-      this.setState({ target: '', currency: value })
+    const { paymentType } = this.state
+    if ( paymentType !== value ) {
+      this.setState({ target: '', paymentType: value })
     }
   }
 
@@ -166,18 +166,16 @@ class Withdraw extends Component {
 
   renderInformationPart() {
     const { withdrawal } = this.props
-    const totalBalanceUsd = !!withdrawal.amount ? valueFormat(+withdrawal.amount.usd, 2) : ''
-    const totalBalance = !!withdrawal.amount ? valueFormat(+withdrawal.amount.btc, 2) : ''
     return (
       <Col xl={8} className="withdrawPageInformationPartContainer">
         <Row className="p-0 m-0">
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, USD</p>
-            <p className="withdrawInformationPartHeaderValue">${totalBalanceUsd}</p>
+            <p className="withdrawInformationPartHeaderValue">${withdrawal.amount && withdrawal.amount.usd}</p>
           </Row>
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Total Balance, bitcoin</p>
-            <p className="withdrawInformationPartHeaderValue">{totalBalance}</p>
+            <p className="withdrawInformationPartHeaderValue">{withdrawal.amount && withdrawal.amount.btc}</p>
           </Row>
           <Row className="p-0 m-0 justify-content-between w-100">
             <p className="withdrawInformationPartHeaderLabel">Affiliate</p>
@@ -188,19 +186,19 @@ class Withdraw extends Component {
         </Row>
         <Row className="p-0 mx-0 withdrawInformationDivider"/>
         <Row className="p-0 m-0">
-          {!!withdrawal.user && !!withdrawal.user.balances && this.renderBalances(withdrawal.user.balances)}
+          {!!withdrawal.balances && this.renderBalances(withdrawal.balances)}
         </Row>
       </Col>
     )
   }
 
-  renderBalances(withdrawal) {
-    return withdrawal.map((coin, index) => {
-      const value = valueFormat(+coin.value, 2)
-      if(coin.value > 0) {
+  renderBalances(balances) {
+    return balances.map((balance, index) => {
+      const value = valueFormat(+balance.value, 2)
+      if(balance.value > 0 && balance.withdrawable) {
         return (
           <Row key={index} className="p-0 m-0 justify-content-between w-100">
-            <p className="withdrawInformationPartInfo">{coin.name}</p>
+            <p className="withdrawInformationPartInfo">{balance.name}</p>
             <p className="withdrawInformationPartInfo">{value}</p>
           </Row>
         )
@@ -211,27 +209,27 @@ class Withdraw extends Component {
   }
 
   displaySellSettings() {
-    const { currency, target, password, errorMessages } = this.state
-    const disableFields = currency !== 'btc' && currency !== 'paypal'
+    const { paymentType, target, password, errorMessages } = this.state
+    const disableFields = paymentType !== 'btc' && paymentType !== 'paypal'
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
           Select payment destination:
         </h5>
         <div className="d-flex sellPagePaymentDestinationSectionsContainer flex-wrap justify-content-center">
-          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'btc')} className={`sellPagePaymentDestinationSectionContainer ${currency === 'btc' ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(currency === 'btc')}</p>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'btc')} className={`sellPagePaymentDestinationSectionContainer ${paymentType === 'btc' ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(paymentType === 'btc')}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
           </Col>
-          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'paypal')} className={`sellPagePaymentDestinationSectionContainer ${currency === 'paypal' ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/paypalIcon.png" width="20px" alt="paypal"/> PayPal {this.displayCheck(currency === 'paypal')}</p>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'paypal')} className={`sellPagePaymentDestinationSectionContainer ${paymentType === 'paypal' ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/paypalIcon.png" width="20px" alt="paypal"/> PayPal {this.displayCheck(paymentType === 'paypal')}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide your PayPal email below to receive payment via PayPal. </p>
           </Col>
         </div>
         <div className="sellPagePaymentDestinationAddressPartContainer">
           <FormGroup className="w-100">
-            <Label for="address">{currency === 'paypal' ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
-            <Input value={target} disabled={disableFields} type='text' name='address' id='address' placeholder={currency === 'paypal' ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleInputValueChange('target', event.target.value)}/>
+            <Label for="address">{paymentType === 'paypal' ? 'Enter your PayPal email:' : 'Enter your Bitcoin address:'}</Label>
+            <Input value={target} disabled={disableFields} type='text' name='address' id='address' placeholder={paymentType === 'paypal' ? "PayPal email" : "Bitcoin Wallet Address"} onChange={(event) => this.handleInputValueChange('target', event.target.value)}/>
             {!!errorMessages.target && <Label for="address" className="text-danger mb-0">{errorMessages.target}</Label>}
           </FormGroup>
           <FormGroup className="w-100">

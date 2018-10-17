@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_14_231203) do
+ActiveRecord::Schema.define(version: 2018_10_16_235616) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
@@ -73,9 +74,9 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.integer "amount"
     t.decimal "btc", default: "0.0"
     t.decimal "usdt", default: "0.0"
-    t.string "price_type", default: "buy"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "price_type", default: "buy"
     t.index ["crypto_id"], name: "index_crypto_prices_on_crypto_id"
   end
 
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.string "explorer_url"
     t.string "ticker_url"
     t.decimal "market_cap", precision: 15, scale: 1
+    t.decimal "decimal", precision: 15, scale: 1
     t.decimal "volume", precision: 15, scale: 1
     t.decimal "available_supply", precision: 15, scale: 1
     t.decimal "total_supply", precision: 15, scale: 1
@@ -116,6 +118,7 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.decimal "node_sell_price"
     t.string "purchasable_status", default: "Unavailable"
     t.integer "first_reward_days", default: 0
+    t.decimal "node_sell_price_btc", default: "0.0"
   end
 
   create_table "events", force: :cascade do |t|
@@ -155,7 +158,6 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.decimal "wallet_balance", default: "0.0"
     t.datetime "online_at"
     t.datetime "sold_at"
-    t.datetime "disbursed_at"
     t.string "wallet"
     t.string "version"
     t.datetime "last_upgraded_at"
@@ -172,10 +174,12 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.datetime "buy_priced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "disbursed_at"
     t.datetime "deleted_at"
     t.datetime "online_mail_sent_at"
     t.decimal "nb_buy_amount", default: "0.0"
     t.decimal "nb_sell_amount", default: "0.0"
+    t.decimal "sell_price_btc", default: "0.0"
     t.index ["account_id"], name: "index_nodes_on_account_id"
     t.index ["crypto_id"], name: "index_nodes_on_crypto_id"
     t.index ["slug"], name: "index_nodes_on_slug"
@@ -235,6 +239,8 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.integer "last_modified_by_admin_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "usd_value"
+    t.decimal "btc_value"
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["reward_id"], name: "index_transactions_on_reward_id"
     t.index ["withdrawal_id"], name: "index_transactions_on_withdrawal_id"
@@ -274,6 +280,8 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.datetime "verified_at"
     t.string "verification_status", default: "none"
     t.string "verification_image"
+    t.string "trusted_ip"
+    t.datetime "trusted_at"
     t.boolean "reward_notification_on", default: true
     t.boolean "enabled", default: false
     t.index ["affiliate_key"], name: "index_users_on_affiliate_key", unique: true
@@ -292,6 +300,8 @@ ActiveRecord::Schema.define(version: 2018_10_14_231203) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "affiliate_balance", default: "0.0"
+    t.string "target"
+    t.string "payment_type"
     t.index ["user_id"], name: "index_withdrawals_on_user_id"
   end
 
