@@ -16,6 +16,8 @@ class Utils
   end
 
   def self.average(array)
+    return 0 if array.blank?
+
     array.reduce(:+) / array.size
   end
 
