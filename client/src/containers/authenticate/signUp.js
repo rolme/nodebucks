@@ -74,14 +74,14 @@ class SignUp extends Component {
   }
 
   handleFieldValueChange(newValue, name, onEnter) {
-    this.setState({ [name]: newValue })
+    this.setState({ [ name ]: newValue })
 
     onEnter && this.validation()
   }
 
   onAddonClick(name) {
     name = 'show' + capitalize(name)
-    this.setState({ [name]: !this.state[ name ] })
+    this.setState({ [ name ]: !this.state[ name ] })
   }
 
   validation() {
@@ -197,94 +197,100 @@ class SignUp extends Component {
               </Alert>
             </Col>
             }
-            <Col xl={{ size: 9 }} lg={{ size: 8 }} md={{ size: 10 }} sm={{ size: 8 }} className="justify-content-center d-flex flex-column align-items-center">
+            <Col xl={{ size: 12 }} lg={{ size: 12 }} md={{ size: 12 }} sm={{ size: 12 }} className="justify-content-center d-flex flex-column align-items-center">
               <h2 className="authHeader pageTitle">{`Let's get started.`}</h2>
-              <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
-                <Col xl={6} lg={6} md={6} sm={12} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
-                  <InputField label='First Name'
-                              name="first"
-                              id="signUpFirst"
-                              type='text'
-                              value={first}
-                              message={messages.first}
-                              error={errors.first}
+              <Col className="d-flex flex-xl-row flex-lg-row flex-md-row flex-column authFormFieldsContainer align-items-xl-start align-items-lg-start align-items-md-start align-items-center ">
+                <Col xl={{ size: 7 }} lg={{ size: 7 }} md={{ size: 7 }} sm={{ size: 12 }}>
+                  <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
+                    <Col xl={6} lg={6} md={6} sm={12} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
+                      <InputField label='First Name'
+                                  name="first"
+                                  id="signUpFirst"
+                                  type='text'
+                                  value={first}
+                                  message={messages.first}
+                                  error={errors.first}
+                                  handleFieldValueChange={this.handleFieldValueChange}
+                                  onKeyPress={true}
+                      />
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={12} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
+                      <InputField label='Last Name'
+                                  name="last"
+                                  id="signUpLast"
+                                  type='text'
+                                  value={last}
+                                  message={messages.last}
+                                  error={errors.last}
+                                  handleFieldValueChange={this.handleFieldValueChange}
+                                  onKeyPress={true}
+                      />
+                    </Col>
+                  </Col>
+                  <InputField label='Email Address'
+                              name="email"
+                              id="signUpEmail"
+                              type='email'
+                              value={email}
+                              message={messages.email}
+                              error={errors.email}
                               handleFieldValueChange={this.handleFieldValueChange}
                               onKeyPress={true}
                   />
+                  <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
+                    <Col xl={6} lg={6} md={6} sm={6} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
+                      <InputField label='Password'
+                                  name="password"
+                                  id="signUpPassword"
+                                  type={showPassword ? 'text' : 'password'}
+                                  value={password}
+                                  message={messages.password}
+                                  error={errors.password}
+                                  addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
+                                  handleFieldValueChange={this.handleFieldValueChange}
+                                  onAddonClick={this.onAddonClick}
+                                  onKeyPress={true}
+                      />
+                    </Col>
+                    <Col xl={6} lg={6} md={6} sm={6} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
+                      <InputField label='Confirm Password'
+                                  name="confirmPassword"
+                                  id="signUpConfirmPassword"
+                                  type={showConfirmPassword ? 'text' : 'password'}
+                                  value={confirmPassword}
+                                  message={messages.confirmPassword}
+                                  error={errors.confirmPassword}
+                                  addonIcon={showConfirmPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
+                                  handleFieldValueChange={this.handleFieldValueChange}
+                                  onAddonClick={this.onAddonClick}
+                                  onKeyPress={true}
+                      />
+                    </Col>
+                  </Col>
+                  <Col xl={{size: 8, offset: 2}} lg={{size: 8, offset: 2}} md={{size: 8, offset: 2}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="d-flex px-0 mt-4 flex-column">
+                    <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
+                    <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
+                    <p className="signUpSignInText d-xl-none d-lg-none d-md-none d-inline">Or Sign Up using Social Media</p>
+                  </Col>
                 </Col>
-                <Col xl={6} lg={6} md={6} sm={12} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
-                  <InputField label='Last Name'
-                              name="last"
-                              id="signUpLast"
-                              type='text'
-                              value={last}
-                              message={messages.last}
-                              error={errors.last}
-                              handleFieldValueChange={this.handleFieldValueChange}
-                              onKeyPress={true}
-                  />
-                </Col>
-              </Col>
-              <InputField label='Email Address'
-                          name="email"
-                          id="signUpEmail"
-                          type='email'
-                          value={email}
-                          message={messages.email}
-                          error={errors.email}
-                          handleFieldValueChange={this.handleFieldValueChange}
-                          onKeyPress={true}
-              />
-              <Col xl={12} lg={12} md={12} sm={12} className="d-flex justify-content-between px-0 flex-wrap">
-                <Col xl={6} lg={6} md={6} sm={6} className="pl-0 pr-xl-2 pr-lg-2 pr-md-2 pr-0">
-                  <InputField label='Password'
-                              name="password"
-                              id="signUpPassword"
-                              type={showPassword ? 'text' : 'password'}
-                              value={password}
-                              message={messages.password}
-                              error={errors.password}
-                              addonIcon={showPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
-                              handleFieldValueChange={this.handleFieldValueChange}
-                              onAddonClick={this.onAddonClick}
-                              onKeyPress={true}
-                  />
-                </Col>
-                <Col xl={6} lg={6} md={6} sm={6} className="pr-0 pl-xl-2 pl-lg-2 pl-md-2 pl-0">
-                  <InputField label='Confirm Password'
-                              name="confirmPassword"
-                              id="signUpConfirmPassword"
-                              type={showConfirmPassword ? 'text' : 'password'}
-                              value={confirmPassword}
-                              message={messages.confirmPassword}
-                              error={errors.confirmPassword}
-                              addonIcon={showConfirmPassword ? "/assets/images/hidePassword.jpg" : "/assets/images/showPassword.jpg"}
-                              handleFieldValueChange={this.handleFieldValueChange}
-                              onAddonClick={this.onAddonClick}
-                              onKeyPress={true}
-                  />
-                </Col>
-              </Col>
-              <Col xl={8} lg={8} md={8} sm={12} xs={12} className="d-flex px-0 mt-4 flex-column">
-                <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
-                <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
-                <p className="signUpSignInText">Or Sign Up using Social Media</p>
-                <SocialButton 
-                  provider='facebook' 
-                  appId={process.env.REACT_APP_FACEBOOK_API_KEY} 
-                  onLoginSuccess={this.handleSocialSignUp.bind(this, 'facebook')} 
-                  onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')} 
-                  className="socialButton facebookSocialButton">
+                <Col xl={{ size: 5 }} lg={{ size: 5}} md={{ size: 5 }} sm={{ size: 12 }}>
+                  <SocialButton
+                    provider='facebook'
+                    appId={process.env.REACT_APP_FACEBOOK_API_KEY}
+                    onLoginSuccess={this.handleSocialSignUp.bind(this, 'facebook')}
+                    onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'facebook')}
+                    className="socialButton facebookSocialButton">
                     <i className="socialButtonIcon">&#xf09a;</i>Facebook
-                </SocialButton>
-                <SocialButton 
-                  provider='google' 
-                  appId={process.env.REACT_APP_GOOGLE_API_KEY} 
-                  onLoginSuccess={this.handleSocialSignUp.bind(this, 'google')} 
-                  onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'google')} 
-                  className="socialButton googleSocialButton">
+                  </SocialButton>
+                  <SocialButton
+                    provider='google'
+                    appId={process.env.REACT_APP_GOOGLE_API_KEY}
+                    onLoginSuccess={this.handleSocialSignUp.bind(this, 'google')}
+                    onLoginFailure={this.handleSocialSignUpFailure.bind(this, 'google')}
+                    className="socialButton googleSocialButton">
                     <i className="socialButtonIcon">&#xf1a0;</i>Google
-                </SocialButton>
+                  </SocialButton>
+                </Col>
               </Col>
             </Col>
           </Col>
