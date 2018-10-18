@@ -184,7 +184,7 @@
 
 .coinInfoDataSectionContainer {
   background-color: #D4E3EF;
-  max-width: 32.5%;
+  max-width: 24.5%;
 }
 
 .coinInfoValueSectionContainer {
@@ -300,6 +300,15 @@
   }
 
   .masternodesSectionHeader {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .coinInfoDataSectionContainer,
+  .coinInfoValueSectionContainer {
+    max-width: 48%;
+    min-width: 48%;
     margin-bottom: 20px;
   }
 }
