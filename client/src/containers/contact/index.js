@@ -34,12 +34,15 @@ class Contact extends Component {
   }
 
   componentWillMount() {
+    const { user } = this.props
+
     window.scrollTo(0, 0)
-    if(this.props.location.hash === "#request"){
+    if (this.props.location.hash === "#request") {
       this.setState({subject: 'Requesting a coin', text: 'What masternode coin would you like us to support?'})
-    }else if(this.props.location.hash.includes("#contact-sales")){
+    } else if (this.props.location.hash.includes("#contact-sales")) {
       const name = this.props.location.hash.split("#contact-sales-")[1]
-      this.setState({subject: `Request to purchase ${name} masternode.`})
+      const beta = (!!user && !user.enabled) ? 'BETA accesss ' : ''
+      this.setState({subject: `Request ${beta}to purchase ${name} masternode.`})
     }
   }
 
@@ -203,7 +206,8 @@ class Contact extends Component {
 }
 
 const mapStateToProps = state => ({
-  contactMessage: state.user.message
+  contactMessage: state.user.message,
+  user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

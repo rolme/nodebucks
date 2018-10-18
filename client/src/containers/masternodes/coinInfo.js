@@ -121,7 +121,7 @@ class CoinInfo extends Component {
     } else if (!!user && !user.enabled) {
       return(
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
-          <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
+          <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Request BETA Access</Button>
         </NavLink>
       )
     } else if (masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved') {
