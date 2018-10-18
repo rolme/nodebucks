@@ -79,6 +79,10 @@ class CoinInfo extends Component {
                 <h6>Estimated Monthly Return*</h6>
                 <p>${valueFormat(data.monthlyRoiValue, 2)} USD</p>
               </Col>
+              <Col className="coinInfoDataSectionContainer">
+                <h6>Avg Days till First Reward*</h6>
+                <p>{data.firstRewardDays}</p>
+              </Col>
             </Col>
             <p className="disclaimerText ml-3">* These values are projections based on current blockchain reward amounts and frequencies and number of masternodes. These estimated values can and will change over time. </p>
             <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-between flex-wrap px-0 mt-xl-3 mt-lg-3 mt-md-3 mt-sm-3 mt-0">
