@@ -122,7 +122,7 @@
 }
 
 .signUpPageContentContainer {
-  max-width: 790px;
+  max-width: 1000px;
 }
 
 .signUpSignInText {
@@ -155,6 +155,11 @@
   margin: 50px 0px 30px 0;
   font-size: 30px;
   color: #000000;
+}
+
+.authFormFieldsContainer,
+.authFormFieldsContainer > .col {
+  flex-basis: unset !important;
 }
 
 @media (max-width: 450px) {
