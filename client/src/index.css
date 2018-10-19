@@ -22,6 +22,13 @@
 }
 
 @font-face {
+  font-family: 'Raleway-LightItalic';
+  src: local('Raleway-LightItalic'), local('Raleway-LightItalic'),
+  url('./assets/fonts/ralewayLightItalic/Raleway-LightItalic.ttf') format('truetype'),
+  url('./assets/fonts/ralewayLightItalic/Raleway-LightItalic.svg#Raleway') format('svg');
+}
+
+@font-face {
   font-family: 'Raleway-Bold';
   src: local('Raleway-Bold'), local('Raleway-Bold'),
   url('./assets/fonts/ralewayBold/Raleway-Bold.ttf') format('truetype'),
