@@ -7,217 +7,172 @@
   padding: 20px 0;
 }
 
+/*Main Banner Part*/
+
+.homeMainBannerContainer {
+  position: relative;
+  padding: 0;
+}
+
 .homeMainBannerContainer > .contentContainer {
-  align-items: center;
+  position: absolute;
+  justify-content: center;
   display: flex;
   flex-direction: column;
+  padding: 150px 0 180px 0;
 }
 
-.homeMainBannerHeaderText {
-  font-family: 'Raleway-Light';
-  font-size: 64px;
-  color: #000000;
-  text-align: center;
-  margin: 0 0 40px 0;
+.homeMainBannerContainer > .contentContainer > .col {
+  flex-basis: unset;
+  padding: 0;
 }
 
-.homeMainBannerHeaderText > span {
-  font-family: Raleway-Medium;
+.homeMainBannerTitle {
+  color: #FFFFFF;
+  font-size: 60px;
+  font-family: Raleway-Light;
+  margin-bottom: 60px;
 }
 
-.homeMainBannerText {
+.homeMainBannerDescription {
+  color: #FFFFFF;
   font-family: 'Raleway-Light';
   font-size: 28px;
-  color: #000000;
-  text-align: center;
-  width: 70%;
-  margin: 0 auto;
 }
 
-.homeMainBannerButton {
-  text-transform: uppercase;
-  background-color: #FC6422;
-  font-family: 'Raleway-SemiBold';
-  font-size: 18px;
-  color: #FFFFFF;
-  padding: 20px 50px;
-  line-height: 22px;
-  border: none;
-  margin: 50px 0 30px 0;
-  cursor: pointer;
-}
-
-.homeMainBannerButton:hover,
-.homeMainBannerButton:focus {
-  outline: none;
-  background-color: #FC6422;
-}
-
-@keyframes scrollAnimation {
-  0% {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-  }
-  50% {
-    transform: translate3d(0, 10%, 0) scale3d(1, 1, 1);
-  }
-  100% {
-    transform: translate3d(0, 100%, 0) scale3d(1,, 1);
-  }
-}
-
-.scrollAnimation {
-  transform-origin: 50% 50%;
-  animation: scrollAnimation .9s linear alternate infinite;
-}
-
-/*About Part*/
-.homeAboutContainer {
-  background-image: url("/assets/images/homeAboutBackground.png");
+/*Section Part*/
+.homeSectionContainer {
+  background-image: url('/assets/images/homeImages/homeSectionBackground.png');
+  background-repeat: no-repeat;
   background-size: cover;
 }
 
-.homeAboutContainer > .contentContainer {
+.homeSectionContainer > .contentContainer {
+  align-items: center;
   display: flex;
   padding: 150px 0;
+}
+
+.homeSectionContainer > .contentContainer > div {
+  flex-basis: unset;
+}
+
+/*Second Section Part*/
+.secondSectionItemContainer {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.homeAboutTextPartContainer > h1 {
-  font-size: 36px;
-  font-family: 'Raleway-Light';
-  color: #3A3A3A;
-  margin-bottom: 60px;
+.secondSectionItemContainer > h4 {
+  color: #000000;
+  font-size: 24px;
+  font-family: "Raleway-Light";
+  margin: 40px auto;
+  text-align: center;
 }
 
-.homeAboutTextPartContainer > p {
-  font-size: 18px;
-  font-family: 'Raleway-Light';
-  color: #000;
+.secondSectionItemContainer > p {
+  color: #000000;
+  font-size: 16px;
+  font-family: "Raleway-Light";
+  text-align: center;
+}
+
+.secondSectionItemContainer > ul > li {
+  color: #000000;
+  font-size: 16px;
+  font-family: "Raleway-Light";
+}
+
+.secondSectionItemContainer > ul > li > a {
+  color: #2283C7;
+}
+
+.secondSectionItemIconContainer {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+/*Screenshots Section Part*/
+.homeScreenshotsSectionContainer {
+  background-color: #EDF6FB;
+  padding: 150px 0;
+}
+
+.screenshotsSectionItemContainer {
+  flex-basis: unset;
+  display: flex;
+  align-items: center;
+}
+
+.screenshotsSectionItemContainer > div > img {
+  max-width: 100%;
+  box-shadow: rgba(50, 50, 93, 0.14902) 0 0 13px 1px;
+}
+
+.screenshotsSectionTextPartContainer > h5 {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 36px;
   margin-bottom: 40px;
 }
 
+.screenshotsSectionTextPartContainer > p {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 18px;
+}
+
 /*Testimonials Part*/
-
-.homeTestimonialsContainer > .contentContainer {
-  padding: 120px 0 80px 0;
-}
-
-.homeTestimonialsHeader {
-  font-family: 'Raleway-Light';
+.testimonialsSectionTitle {
+  color: #3B3B3B;
+  font-family: "Raleway-Light";
   font-size: 36px;
-  color: #3A3A3A;
   text-align: center;
-  margin-bottom: 60px;
+  width: 100%;
+  margin-bottom: 35px;
 }
 
-.homeTestimonialsSlideContentContainer {
-  display: flex;
-  align-items: center;
-}
-
-.homeTestimonialAvatarPartContainer {
+.testimonialsSectionItemContainer {
+  flex-basis: unset;
+  background-color: #FFFFFF;
+  box-shadow: rgba(50, 50, 93, 0.14902) 0 0 13px 1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 30px;
 }
 
-.testimonialAvatar {
-  width: 280px;
-  height: 280px;
-  background-size: cover;
-  background-position: top center;
-  margin-bottom: 40px;
+.testimonialDescription {
+  color: #000000;
+  font-family: "Raleway-LightItalic";
+  margin: 20px 0;
+  min-height: 200px;
+  text-align: center;
 }
 
-.homeTestimonialsQuote{
-  min-width: 55px !important;
+.testimonialsSectionItemContainer > .divider {
+  height: 1px;
+  width: 100%;
+  background-color: #DCDCDC;
 }
 
 .testimonialName {
-  font-family: 'Raleway-Medium';
-  color: #000000;
-  font-size: 18px;
-  text-align: center;
-  padding-right: 10px;
-  border-right: 1px solid #000000;
+  color: #7B7B7B;
+  font-family: "Raleway-Regular";
+  font-size: 16px;
+  margin-top: 20px;
 }
 
-.testimonialPosition {
-  font-family: 'Raleway-Light';
-  color: #000000;
-  font-size: 18px;
-  text-align: center;
-  padding-left: 10px;
-}
-
-.testimonialMessageText {
-  font-family: 'Raleway-Light';
-  color: #000;
-  font-size: 18px;
-  margin: 30px 0;
-}
-
-.homeTestimonialsSliderDots > li > button {
-  border: 2px solid #BFC7F3;
-  border-radius: 50px;
-  width: 12px;
-  height: 12px;
-}
-
-.homeTestimonialsSliderDots > li.slick-active > button {
-  border: none !important;
-  border-radius: 50px;
-  width: 20px;
-  height: 20px;
-}
-
-.homeTestimonialsSliderDots > li > button:before {
-  color: transparent !important;
-  font-size: 12px !important;
-}
-
-.homeTestimonialsSliderDots > li.slick-active > button:before {
-  color: #3D58E7 !important;
-  font-size: 20px !important;
-}
-
-/*Testimonials Part*/
-
-.homeWhatIsMasternodeContainer > .contentContainer {
-  padding: 120px 0;
-}
-
-.homeWhatIsMasternodeHeader {
-  font-family: "Raleway-Light";
-  color: #000000;
-  font-size: 36px;
-  text-align: center;
-}
-
-.homeWhatIsMasternodeContentPartContainer {
-  margin: 60px 0 0 0;
-}
-
-.homeWhatIsMasternodeText {
-  font-family: 'Raleway-Light';
-  color: #000000;
-  font-size: 18px;
-}
-
-.homeWhatIsMasternodeFirstDotesImageContainer > img {
-  margin: 10px 0 10px 45px;
-  max-width: 610px;
-}
-
-.homeWhatIsMasternodeSecondDotesImageContainer > img {
-  margin: 10px 0 10px 50px;
-  max-width: 610px;
-}
-
-.homeWhatIsFirstSectionParagraph,
-.homeWhatIsSecondSectionParagraph {
-  min-width: 600px;
+.testimonialsQuotationMark {
+  position: absolute;
+  top: 10px;
+  left: -10px;
 }
 
 /*Footer Part*/
@@ -230,22 +185,6 @@
   padding: 100px 0;
 }
 
-.homeFooterButton {
-  background-color: #43CDEA;
-  border-radius: 50px;
-  font-family: 'Karla-Regular';
-  font-size: 17px;
-  color: #FFFFFF;
-  padding: 25px 50px;
-  line-height: 22px;
-  border: none;
-  cursor: pointer;
-}
-
-.homeFooterButton:hover {
-  background-color: #47e2ff;
-}
-
 .homeFooterText {
   font-family: 'Raleway-Light';
   font-size: 36px;
@@ -253,96 +192,107 @@
   color: #FFFFFF;
 }
 
-@media (max-width: 992px) {
+.homeFooterButton {
+  background-color: #FC6422;
+  font-family: 'Raleway-SemiBold';
+  font-size: 18px;
+  color: #FFFFFF;
+  padding: 20px 50px;
+  line-height: 22px;
+  border: none;
+  margin: 50px 0 30px 0;
+  cursor: pointer;
+}
 
-  .homeAboutContainer > .contentContainer {
-    padding: 100px 0 35px 0 !important;
+.homeFooterButton:hover,
+.homeFooterButton:focus {
+  outline: none;
+  background-color: #FC6422;
+}
+
+@media (max-width: 1400px) {
+  .homeMainBannerTitle {
+    font-size: 40px;
+    margin: 30px auto 0;
   }
 
-  .homeAboutContainer > .contentContainer > .homeAboutTextPartContainer {
-    margin-top: 50px;
+  .homeMainBannerDescription {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 992px) {
+  .homeMainBannerTitle {
+    font-size: 30px;
+    margin: 30px auto 20px;
+  }
+
+  .homeMainBannerDescription {
+    font-size: 15px;
   }
 
   .homeFooterContainer {
     padding: 20px 0;
   }
-
-  .homeWhatIsMasternodeFirstDotesImageContainer,
-  .homeWhatIsMasternodeSecondDotesImageContainer {
-    display: none;
-  }
-
-  .homeWhatIsMasternodeContentPartContainer {
-    margin-top: 20px;
-  }
-
-  .homeWhatIsFirstSectionParagraph,
-  .homeWhatIsSecondSectionParagraph {
-    min-width: unset;
-  }
-
-  .homeWhatIsMasternodeContainer > .contentContainer {
-    padding: 35px 0 !important;
-  }
 }
 
-@media (max-width: 768px) {
-
-  .homeMainBannerPopUpMessagePartContainer {
-    margin: 0;
-    padding: 20px 40px;
+@media (max-width: 767px) {
+  .homeContainer > .contentContainer {
+    padding: 0 10px !important;
   }
 
   .homeTestimonialsContainer > .contentContainer {
     padding: 35px 10px 35px 10px !important;
   }
 
-  .homeMainBannerHeaderText {
-    margin: 20px 0;
-    font-size: 50px;
-  }
-
-  .homeMainBannerText {
-    font-size: 25px;
-  }
-
   .homeFooterContainer > .contentContainer > div:nth-child(1) {
+    margin-bottom: 20px;
+  }
+
+  .homeScreenshotsSectionContainer {
+    padding: 30px 0;
+  }
+
+  .screenshotsSectionTextPartContainer > h5 {
     margin-bottom: 20px;
   }
 }
 
-@media (max-width: 641px) {
-  .homeMainBannerPopUpMessagePartContainer {
-    margin: 0;
-    padding: 20px 20px;
+@media (max-width: 575px) {
+  .homeMainBannerTitle {
+    font-size: 25px;
+    margin: 20px auto 10px;
   }
 
-  .homeMainBannerPopUpMessagePartContainer > p {
-    font-size: 18px;
+  .homeMainBannerDescription {
+    font-size: 12px;
   }
 
-  .homeMainBannerHeaderText {
-    margin: 20px 0;
-    font-size: 40px;
-    line-height: 40px;
-  }
-
-  .homeMainBannerText {
-    font-size: 18px;
-  }
-
-  .homeMainBannerButton {
-    margin: 40px 0;
-  }
-}
-
-@media (max-width: 576px) {
   .homeFooterText {
     line-height: 40px;
   }
 
-  .homeAboutContainer > .contentContainer > div > img {
-    width: 300px;
-    height: 211px;
+  .screenshotsSectionTextPartContainer > h5 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .screenshotsSectionTextPartContainer > p {
+    font-size: 15px;
+  }
+
+  .testimonialsSectionTitle {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 450px) {
+  .homeMainBannerTitle {
+    font-size: 20px;
+    margin: 10px auto;
+  }
+
+  .homeMainBannerDescription {
+    font-size: 10px;
   }
 }
