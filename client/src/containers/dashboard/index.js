@@ -73,7 +73,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { pending, nodes, announcement, announcementError, purchaseError, messageWithdrawal, errorWithdrawal } = this.props
+    const { pending, nodes, announcement, announcementError, purchaseError, messageWithdrawal, errorWithdrawal, user } = this.props
     const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
@@ -95,6 +95,11 @@ class Dashboard extends Component {
           title="Dashboard - Nodebucks"
         />
         <div className="contentContainer px-0">
+          {!!user && !user.enabled &&
+          <Alert className="alert">
+            Nodebucks is currently in closed beta. If you would like to join the beta, please <NavLink to="/contact">contact us</NavLink> and let us know which masternode(s) you are interested in purchasing. Please be sure to verify your ID first!
+          </Alert>
+          }
           {announcement && announcement.text && !announcementError &&
           <Alert className="alert" isOpen={showAnnouncementAlert} toggle={() => this.onAlertDismiss('announcement')}>
             {announcement.text}
