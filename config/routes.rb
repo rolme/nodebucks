@@ -25,22 +25,24 @@ Rails.application.routes.draw do
       patch :unpaid
     end
     resources :users, except: [:edit, :new], param: :slug do
+      patch :approved
       get :balance, on: :collection
       get :confirm
-      get :verify
-      get :referrer, on: :collection
-      patch :reset_password
-      patch :verify_id_image
-      patch :profile
-      patch :approved
       patch :denied
+      patch :enable
       patch :enable_2fa
+      patch :disable
       patch :disable_2fa
-      patch :reset, on: :collection
       post :impersonate, on: :member
       post :password_confirmation
-      post :verification_image
+      patch :profile
+      get :referrer, on: :collection
+      patch :reset, on: :collection
+      patch :reset_password
       post :secret_2fa, on: :collection
+      post :verification_image
+      get :verify
+      patch :verify_id_image
     end
     resources :transactions, only: [:index, :update], param: :slug do
       patch :undo

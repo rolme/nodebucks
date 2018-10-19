@@ -54,6 +54,7 @@ class CryptosController < ApplicationController
   def crypto_params
     params.require(:crypto).permit(
       :description,
+      :first_reward_days,
       :profile,
       :logo_url,
       :name,

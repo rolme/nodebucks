@@ -182,7 +182,9 @@ class SellNode extends Component {
     const { refreshing } = this.props
     const { validPrice } = this.state
     const sellPrice = (!!node.sellPrice || node.sellPrice === '0') ? valueFormat(+node.sellPrice, 2) : ''
-    let price = (validPrice) ? (<span>${sellPrice} USD</span>) : (<s> ${sellPrice} USD</s>)
+    const sellPriceBTC = (!!node.sellPrice || node.sellPrice === '0') ? +node.sellPriceBTC : ''
+
+    let price = (validPrice) ? (<span>${sellPrice} USD / {sellPriceBTC} BTC</span>) : (<s>${sellPrice} USD / {sellPriceBTC} BTC</s>)
     return (
       <Col xl={12} className="sellPagePriceSectionContainer">
         <p>You are about to sell your masternode server.</p>

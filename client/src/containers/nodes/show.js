@@ -109,8 +109,8 @@ class Node extends Component {
           {this.displayHeader(node)}
           <Row className="pt-3 mx-0">
             <Col xl={{ size: 8, offset: isSold ? 2 : 0 }} lg={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pl-0">
-              {this.displayHistory(node)}
               {this.displayPriceHistoryChart(node)}
+              {this.displayHistory(node)}
             </Col>
             {!isSold &&
             <Col xl={{ size: 4, offset: 0 }} lg={{ size: 6, offset: 3 }} md={{ size: 8, offset: 2 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="pr-0">
@@ -221,7 +221,8 @@ class Node extends Component {
     withdrawWallet = !!withdrawWallet ? withdrawWallet : ''
     return (
       <div className="mt-3">
-        <h5 className="showPageSectionHeader"> Reward Settings </h5>
+        <h5 className="showPageSectionHeader mb-1"> Reward Settings ({node.crypto.symbol})</h5>
+        <p className="showPageRadioButtonDescription mb-3"> Settings apply to all {node.crypto.symbol} masternodes</p>
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <label className="radioButtonContainer">
             <div>
@@ -304,7 +305,7 @@ class Node extends Component {
     const lastDaysData = node.events.filter(event => moment().diff(moment(new Date(event.timestamp)), 'days') <= 30)
     const events = !lastDaysData.length || showAllHistoryData ? node.events : lastDaysData
     return (
-      <div>
+      <div className="my-3">
         <h5 className="showPageSectionHeader"> History </h5>
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <Table responsive className="showPageHistoryTable">
@@ -350,7 +351,7 @@ class Node extends Component {
 
   displayPriceHistoryChart(node) {
     return (
-      <div className="my-3">
+      <div >
         <h5 className="showPageSectionHeader">{node.crypto.name} Price</h5>
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <PriceHistoryChart node={node}/>
