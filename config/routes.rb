@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug do
       get :prices
+      get :test_reward_scraper
       get :purchasable_statuses, on: :collection
     end
     resources :nodes, except: [:edit, :new], param: :slug do
