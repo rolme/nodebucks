@@ -4,8 +4,8 @@ Rails.application.routes.draw do
       get :last, on: :collection
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug do
-      get :reward_scraper
       get :prices
+      get :test_reward_scraper
       get :purchasable_statuses, on: :collection
     end
     resources :nodes, except: [:edit, :new], param: :slug do

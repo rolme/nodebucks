@@ -33,7 +33,7 @@ class CryptosController < ApplicationController
     end
   end
 
-  def reward_scraper
+  def test_reward_scraper
     @crypto = Crypto.find_by(slug: params[:crypto_slug])
     render json: TestRewarder.new(@crypto, params[:wallet], Time.parse(params[:date])).check
   end

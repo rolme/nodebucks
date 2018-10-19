@@ -51,126 +51,32 @@ class TestRewarder
   def scrape_rewards(browser)
     case @crypto.slug
       when 'polis'
-        scrape_polis(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_polis(true)
+        @invalid_wallet =       RewardScraper.wallet_invalid?(browser)
       when 'gobyte'
-        scrape_gobyte(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_gobyte(true)
       when 'phore'
-        scrape_phore(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_phore(true)
       when 'dash'
-        scrape_dash(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_dash(true)
       when 'zcoin'
-        scrape_zcoin(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_zcoin(true)
+        @invalid_wallet =       RewardScraper.wallet_invalid?(browser)
       when 'pivx'
-        scrape_pivx(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_pivx(true)
       when 'blocknet'
-        scrape_blocknet(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_blocknet(true)
       when 'stipend'
-        scrape_stipend(browser)
+        @total_amount_scraped = RewardScraper.new(browser, @date).scrape_stipend(true)
       else
         not_supported
     end
-  end
-
-  def scrape_polis(browser)
-    @invalid_wallet = true if browser.find_elements(class_name: 'alert-danger').length > 0
-    rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[0].text
-      amount    = data[2].text&.split(/\s/)[1]
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date 
+    if Rails.env == 'development'
+      browser.quit
     end
   end
 
-  def scrape_dash(browser)
-    rows = browser.find_element(tag_name: 'tbody').find_elements(:class, 'direct')
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[2].text
-      amount    = data[3].text
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_zcoin(browser)
-    @invalid_wallet = true if browser.find_elements(class_name: 'alert-danger').length > 0
-    rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[0].text
-      amount    = data[2].text&.split(/\s/)[1]
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_pivx(browser)
-    rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
-    rows.reverse!.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[2].text
-      amount    = data[3].text.gsub(/[A-Z ]/, '')
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_gobyte(browser)
-    rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[0].text
-      amount    = data[2].text&.split(/\s/)[1]
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_phore(browser)
-    rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[2].text
-      amount    = data[3].text.gsub(/[+A-Z, ]/, '')
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_blocknet(browser)
-    rows = browser.find_elements(tag_name: 'tbody')[2].find_elements(tag_name: 'tr')
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[2].text
-      amount    = data[3].text.gsub(/[A-Z ]/, '')
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
-
-  def scrape_stipend(browser)
-    rows = browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
-
-    rows.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[0].text
-      amount    = data[2].text&.split(/\s/)[1]&.to_f
-      @total_amount_scraped += BigDecimal.new(amount) if Time.parse(timestamp) >= @date
-    end
-  end
+  private 
 
   def not_supported
     { status: :error, message: 'Reward scraping for this crypto is not supported.' }
