@@ -64,7 +64,7 @@
   align-items: center;
 }
 
-.secondSectionItemContainer > h4 {
+.secondSectionItemContainer > h3 {
   color: #000000;
   font-size: 24px;
   font-family: "Raleway-Light";
@@ -113,7 +113,7 @@
   box-shadow: rgba(50, 50, 93, 0.14902) 0 0 13px 1px;
 }
 
-.screenshotsSectionTextPartContainer > h5 {
+.screenshotsSectionTextPartContainer > h2 {
   color: #000000;
   font-family: "Raleway-Light";
   font-size: 36px;
@@ -253,7 +253,7 @@
     padding: 30px 0;
   }
 
-  .screenshotsSectionTextPartContainer > h5 {
+  .screenshotsSectionTextPartContainer > h2 {
     margin-bottom: 20px;
   }
 }
@@ -272,7 +272,7 @@
     line-height: 40px;
   }
 
-  .screenshotsSectionTextPartContainer > h5 {
+  .screenshotsSectionTextPartContainer > h2 {
     font-size: 24px;
     margin-bottom: 10px;
   }

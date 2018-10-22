@@ -109,21 +109,21 @@ class Home extends Component {
           <div className="secondSectionItemIconContainer">
             <img src="/assets/images/homeImages/whatIsMasternodeIcon.png" alt="What is Masternode"/>
           </div>
-          <h4>What is a masternode?</h4>
+          <h3>What is a masternode?</h3>
           <p>A masternode is a blockchain server that processes transactions and secures the network. Each masternode receives rewards in exchange for the work it performs. </p>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
             <img src="/assets/images/homeImages/howMuchIcon.png" alt="How much does it pay? "/>
           </div>
-          <h4>How much does it pay?</h4>
+          <h3>How much does it pay?</h3>
           <p>The rewards from a masternode vary depending on the type of coin. Masternodes can pay anywhere from 5% to 150% per year. Choose the masternode that is right for you.</p>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
             <img src="/assets/images/homeImages/howIStartedIcon.png" alt="How do I get started?"/>
           </div>
-          <h4>How do I get started?</h4>
+          <h3>How do I get started?</h3>
           <ul type="circle">
             <li><NavLink to="/masternodes">Choose a masternode</NavLink></li>
             <li> Purchase using PayPal or Bitcoin</li>
@@ -143,13 +143,13 @@ class Home extends Component {
             <img src="/assets/images/homeImages/dashboardScreenshot.png" alt="Dashboard Screenshot"/>
           </Col>
           <div className="screenshotsSectionTextPartContainer ml-xl-5 ml-lg-5 ml-md-3 ml-0">
-            <h5>Clean & Simple Dashboard</h5>
+            <h2>Clean & Simple Dashboard</h2>
             <p>The Nodebucks dashboard makes it extremely easy to keep track of all your masternodes. Track your nodes values and rewards over time. </p>
           </div>
         </Col>
         <Col className="screenshotsSectionItemContainer mt-5 flex-xl-row flex-lg-row flex-md-row flex-column">
           <div className="screenshotsSectionTextPartContainer mr-xl-5 mr-lg-5 mr-md-3 mr-0">
-            <h5>Masternode History</h5>
+            <h2>Masternode History</h2>
             <p>Each masternode view provides you with a complete overview of the node from the time it was created. See a complete record of every reward you have received and 100% transparency of our service fees. Setup automatic withdrawals or choose to withdraw manually. </p>
           </div>
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
@@ -161,13 +161,13 @@ class Home extends Component {
             <img src="/assets/images/homeImages/securityScreenshot.png" alt="Security Screenshot"/>
           </Col>
           <div className="screenshotsSectionTextPartContainer ml-xl-5 ml-lg-5 ml-md-3 ml-0">
-            <h5>Account & Coin Security</h5>
+            <h2>Account & Coin Security</h2>
             <p>Account & Coin Security <br/> Nodebucks takes security very seriously. All masternodes are secured and backed up on a regular basis. Security audits are performed by industry experts. User accounts are secured with 2fa. </p>
           </div>
         </Col>
         <Col className="screenshotsSectionItemContainer mt-5 flex-xl-row flex-lg-row flex-md-row flex-column">
           <div className="screenshotsSectionTextPartContainer mr-xl-5 mr-lg-5 mr-md-3 mr-0">
-            <h5>Affiliate Program</h5>
+            <h2>Affiliate Program</h2>
             <p>We appreciate you sharing Nodebucks with friends and family. Take part in our affiliate program to earn rewards every time your referrals earn rewards on their masternodes. And our affiliate program goes three tiers deep! </p>
           </div>
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
