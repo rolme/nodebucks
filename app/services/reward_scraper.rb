@@ -168,8 +168,7 @@ class RewardScraper
   end
 
   def polis_rows
-    Rails.env != 'development' ? browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr') :
-      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
   end
 
   def dash_rows
@@ -177,8 +176,7 @@ class RewardScraper
   end
 
   def zcoin_rows
-    Rails.env != 'development' ? browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr') :
-      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
   end
 
   def pivx_rows
@@ -194,13 +192,11 @@ class RewardScraper
   end
 
   def stipend_rows
-    Rails.env != 'development' ? browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr') :
-      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
   end
 
   def gobyte_rows
-    Rails.env != 'development' ? browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr') :
-      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
   end
 
   def self.wallet_invalid?(browser)
