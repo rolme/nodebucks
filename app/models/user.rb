@@ -84,7 +84,6 @@ class User < ApplicationRecord
     self.reset_at = nil
   end
 
-
   # TODO: This should be a separate services UserWithdrawal?
   def pending_withdrawal_value(crypto_id)
     pending = withdrawals.select { |w| w.crypto_id == crypto_id && w.status == 'pending' }
