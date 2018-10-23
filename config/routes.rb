@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  match '(*any)', to: redirect(subdomain: ''), via: :all, constraints: {subdomain: 'www'}
+
   scope :api, defaults: { format: :json } do
     resources :announcements, only: [:create] do
       get :last, on: :collection
