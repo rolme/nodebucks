@@ -93,7 +93,7 @@ class Node extends Component {
   render() {
     const { node, pending, message, error } = this.props
 
-    if(error) return <ErrorPage404 />
+    if ( error ) return <ErrorPage404/>
 
     const { status } = this.state
     const isSold = status === 'sold'
@@ -280,6 +280,7 @@ class Node extends Component {
   }
 
   displayActions(node) {
+    const { userVerified } = this.props
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
     const isActive = [ 'offline', 'online' ].includes(node.status) && node.deletedAt === null
@@ -290,7 +291,10 @@ class Node extends Component {
             <NavLink to={`/nodes/${node.slug}/sell`}>
               <Button disabled={!isActive} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
-            {!isActive &&
+            {!userVerified &&
+            <NavLink to="/settings/verification" className="d-block col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Please Verify ID</NavLink>
+            }
+            {!isActive && !!userVerified &&
             <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Disabled until activated</p>
             }
           </Col>
@@ -351,7 +355,7 @@ class Node extends Component {
 
   displayPriceHistoryChart(node) {
     return (
-      <div >
+      <div>
         <h5 className="showPageSectionHeader">{node.crypto.name} Price</h5>
         <div className="bg-white p-3 showPageSectionBorderedPartContainer">
           <PriceHistoryChart node={node}/>
@@ -366,7 +370,8 @@ const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
   pending: state.nodes.pending,
-  userSlug: state.user.data.slug
+  userSlug: state.user.data.slug,
+  userVerified: state.user.data.verified
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
