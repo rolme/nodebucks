@@ -91,7 +91,7 @@ class Node < ApplicationRecord
   end
 
   def value
-    @_value ||= crypto.sellable_price * (1.0 - percentage_conversion_fee)
+    @_value ||= crypto.sellable_price - (crypto.sellable_price * (percentage_conversion_fee * 2))
   end
 
   def uptime
