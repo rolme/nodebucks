@@ -50,6 +50,15 @@ export default class FAQ extends Component {
             <h2 className="faqQuestionHeader">Do you accept Bitcoin or other cryptocurrencies as payment?</h2>
             <p className="faqQuestionText">Yes! Please <a href="/contact" target="_blank" rel="noopener noreferrer">contact us</a> with the node(s) you would like to purchase, the cryptocurrency you would like to use as payment, and we will arrange a payment wallet for the transaction.</p>
 
+            <h2 className="faqQuestionHeader">What type of server/hardware do you use?</h2>
+            <p className="faqQuestionText">The hardware used depends on the blockchain of the masternode. Each coin has different requirements and we use the minimum hardware specs as defined by the core team of that coin or whatever is recommended in the documentation.</p>
+
+            <h2 className="faqQuestionHeader">Do I have to pay taxes on my gains?</h2>
+            <p className="faqQuestionText">We are not a certified tax agency and we recommend that you consult with a tax professional to determine your tax liability. </p>
+
+            <h2 className="faqQuestionHeader">When can I sell my masternode?</h2>
+            <p className="faqQuestionText">Once you have verified your identity, and your masternode is up and running, you may liquidate it at any time as long as the underlying markets are operational. Since the markets are outside of our control, we cannot guarantee that your masternode can be sold at any time.</p>
+
           </Col>
         </div>
       </Container>
