@@ -46,8 +46,8 @@ class SellNode extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    let { match: { params }, userVerified } = this.props
-    if ( !userVerified ) {
+    let { match: { params }, user: {verified} } = this.props
+    if ( !verified ) {
       this.props.history.push('/401')
       return
     }
@@ -289,8 +289,7 @@ const mapStateToProps = state => ({
   message: state.nodes.message,
   pending: state.nodes.pending,
   refreshing: state.nodes.refreshing,
-  userSlug: state.user.data.slug,
-  userVerified: state.user.data.verified
+  user: state.user.data,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
