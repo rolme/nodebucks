@@ -44,8 +44,9 @@ class TransactionManager
       account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
     end
 
-    system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
-    system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
+    system_txn = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
+    # NOTE: this was to ensure admin transfers fees. We will do something else to audit this instead.
+    # system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
       account.update_attribute(:balance, account.balance + reward.total_amount) unless auto_withdraw
