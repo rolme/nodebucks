@@ -124,7 +124,7 @@ class Node extends Component {
             show={this.showConfirmationModal}
             onSuccess={this.handleRewardSettingChange}
             onConfirm={this.props.passwordConfirmation}
-            userSlug={this.props.userSlug}
+            userSlug={this.props.user.slug}
             title='Confirm Reward Changes'
           />
         </div>
@@ -280,10 +280,10 @@ class Node extends Component {
   }
 
   displayActions(node) {
-    const { userVerified } = this.props
+    const { user: {verified} } = this.props
     const value = valueFormat(+node.value, 2)
     const sellable = (node.status !== 'sold')
-    const isActive = [ 'offline', 'online' ].includes(node.status) && node.deletedAt === null
+    const isActive = [ 'offline', 'online' ].includes(node.status) && node.deletedAt === null && !!verified
     return (
       <Col xl={5} lg={5} md={5} sm={12} xs={12} className="d-flex px-0 flex-wrap justify-content-xl-end justify-content-lg-end justify-content-md-end justify-content-center">
         {sellable && (
@@ -291,10 +291,10 @@ class Node extends Component {
             <NavLink to={`/nodes/${node.slug}/sell`}>
               <Button disabled={!isActive} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
-            {!userVerified &&
+            {!verified &&
             <NavLink to="/settings/verification" className="d-block col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Please Verify ID</NavLink>
             }
-            {!isActive && !!userVerified &&
+            {!isActive && !!verified &&
             <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Disabled until activated</p>
             }
           </Col>
@@ -370,8 +370,7 @@ const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
   pending: state.nodes.pending,
-  userSlug: state.user.data.slug,
-  userVerified: state.user.data.verified
+  user: state.user.data,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
