@@ -46,13 +46,17 @@ class SellNode extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0)
-    let { match: { params } } = this.props
+    let { match: { params }, userVerified } = this.props
+    if ( !userVerified ) {
+      this.props.history.push('/401')
+      return
+    }
     this.props.sellReserveNode(params.slug, true)
   }
 
   componentWillReceiveProps(nextProps) {
     const newNode = nextProps.node, oldNode = this.props.node
-    if ( newNode.deletedAt !== null || ['sold', 'new'].includes(newNode.status) || !newNode.crypto.liquidity.sell ) {
+    if ( newNode.deletedAt !== null || [ 'sold', 'new' ].includes(newNode.status) || !newNode.crypto.liquidity.sell ) {
       this.props.history.push('/dashboard')
       return
     }
@@ -286,6 +290,7 @@ const mapStateToProps = state => ({
   pending: state.nodes.pending,
   refreshing: state.nodes.refreshing,
   userSlug: state.user.data.slug,
+  userVerified: state.user.data.verified
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
