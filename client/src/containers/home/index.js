@@ -80,12 +80,6 @@ class Home extends Component {
             {this.renderScreenshotsSection()}
           </div>
         </div>
-        <div className="homeSectionContainer">
-          <div className="contentContainer w-100 px-0 flex-column">
-            <h2 className="testimonialsSectionTitle">Testimonials</h2>
-            {this.renderTestimonialsSection()}
-          </div>
-        </div>
         <div className="homeFooterContainer">
           <div className="contentContainer d-flex align-items-center flex-wrap">
             <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 8, offset: 2 }} sm={{ size: 8, offset: 2 }} xs={{ size: 10, offset: 1 }}>
@@ -178,39 +172,6 @@ class Home extends Component {
     )
   }
 
-  renderTestimonialsSection() {
-    return (
-      <Col className="d-flex flex-wrap justify-content-center">
-        <Col xl={4} lg={5} md={6} sm={9} xs={12} className="mt-4">
-          <div className="testimonialsSectionItemContainer">
-            <img src="/assets/images/homeImages/testimonialAvatarScott.jpg" alt="Scott Avatar"/>
-            <p className="testimonialDescription">I always wanted to own a piece of the blockchain and a masternode seemed liked a great way to do it, but I didn‘t have the technical background to build one or the time to maintain it. Nodebucks makes it easy to run your own masternodes and I love the clean intuitive interface, the transparency, and reporting that it provides.</p>
-            <div className="divider"/>
-            <p className="testimonialName">Scott</p>
-            <img className="testimonialsQuotationMark" src="/assets/images/homeImages/testimonialsQuotationMark.png" alt="Quotation Mark"/>
-          </div>
-        </Col>
-        <Col xl={4} lg={5} md={6} sm={9} xs={12} className="mt-4">
-          <div className="testimonialsSectionItemContainer">
-            <img src="/assets/images/homeImages/testimonialAvatarJoe.jpg" alt="Scott Avatar"/>
-            <p className="testimonialDescription">Nodebucks was by far the easiest site I've ever used and I had a masternode setup within just a few clicks. Finally a start to finish solution for masternodes. </p>
-            <div className="divider"/>
-            <p className="testimonialName">Joe</p>
-            <img className="testimonialsQuotationMark" src="/assets/images/homeImages/testimonialsQuotationMark.png" alt="Quotation Mark"/>
-          </div>
-        </Col>
-        <Col xl={4} lg={5} md={6} sm={9} xs={12} className="mt-4">
-          <div className="testimonialsSectionItemContainer">
-            <img src="/assets/images/homeImages/testimonialAvatarPavel.jpg" alt="Scott Avatar"/>
-            <p className="testimonialDescription">I was skeptical, but after talking to their team, it was clear these guys were the real deal. They know what they're doing! </p>
-            <div className="divider"/>
-            <p className="testimonialName">Pavel</p>
-            <img className="testimonialsQuotationMark" src="/assets/images/homeImages/testimonialsQuotationMark.png" alt="Quotation Mark"/>
-          </div>
-        </Col>
-      </Col>
-    )
-  }
 }
 
 const mapStateToProps = state => ({
