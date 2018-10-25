@@ -37,9 +37,7 @@ class Order < ApplicationRecord
   def canceled!
     update_attribute(:status, :canceled)
     if order_type == 'buy'
-      node_id = node.id
-      update_attribute(:node_id, nil)
-      Node.find(node_id).destroy
+      node.delete
     end
   end
 
