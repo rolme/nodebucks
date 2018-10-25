@@ -29,7 +29,7 @@ module NodeManager
       begin
         case node.symbol
         when 'polis'; RewardScraper.new(@@browser).scrape_polis(false, node, operator)
-        when 'dash';  RewardScraper.new(@@browser).scrape_polis(false, node, operator)
+        when 'dash';  RewardScraper.new(@@browser).scrape_dash(false, node, operator)
         when 'xzc';   RewardScraper.new(@@browser).scrape_zcoin(false, node, operator)
         when 'pivx';  RewardScraper.new(@@browser).scrape_pivx(false, node, operator)
         when 'spd';   RewardScraper.new(@@browser).scrape_stipend(false, node, operator)
