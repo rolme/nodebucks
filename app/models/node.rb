@@ -21,9 +21,9 @@ class Node < ApplicationRecord
   belongs_to :creator, foreign_key: :created_by_admin_id, class_name: 'User', optional: true
   belongs_to :user
 
+  has_many :orders
   has_many :events, dependent: :destroy
   has_many :node_prices, class_name: "NodePriceHistory", dependent: :destroy
-  has_many :orders, dependent: :destroy
   has_many :rewards, dependent: :destroy
 
 
