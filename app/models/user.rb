@@ -33,6 +33,16 @@ class User < ApplicationRecord
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
   end
 
+  def node_wallet_withdrawals(crypto_id)
+    nodes.select{ |n| n.crypto_id == crypto_id }.map do |node|
+      {
+        balance: node.balance,
+        wallet: node.wallet,
+        url: node.wallet_url
+      }
+    end
+  end
+
   def full_name
     "#{first} #{last}"
   end
