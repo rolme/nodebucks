@@ -5,7 +5,7 @@ json.user do
   json.partial! 'users/basic', user: order.user
 end
 json.node do
-  json.partial! 'nodes/basic', node: order.node
+  json.partial! 'nodes/basic', node: order.node if order.node.present?
 end
 json.orderId order.slug
 json.orderType order.order_type

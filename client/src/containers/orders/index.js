@@ -53,13 +53,13 @@ class Orders extends Component {
         const amount = !!order.amount ? '$ ' + valueFormat(+order.amount, 2) : ''
         return (
           <tr key={order.orderId}>
-            <td>{moment(order.node.createdAt).format("MMM D, YYYY  HH:mm")}</td>
+            <td>{moment(order.createdAt).format("MMM D, YYYY  HH:mm")}</td>
             <td>{order.orderId}</td>
-            <td><NavLink to={`/nodes/${order.node.slug}`}>{order.node.id}</NavLink></td>
-            <td>{order.node.crypto.name}</td>
+            <td>{order.node ? <NavLink to={`/nodes/${order.node.slug}`}>{order.node.id}</NavLink> : <div className="text-danger">N/A</div>}</td>
+            <td>{order.node ? order.node.crypto.name : <div className="text-danger">N/A</div>}</td>
             <td>{order.orderType}</td>
             <td>{amount}</td>
-            <td>{capitalize(order.status)}</td>
+            <td className={order.status === 'canceled' ? "text-danger" : ''}>{capitalize(order.status)}</td>
           </tr>
         )
       })

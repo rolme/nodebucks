@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show], param: :slug do
       patch :paid
       patch :unpaid
+      patch :canceled
     end
     resources :users, except: [:edit, :new], param: :slug do
       patch :approved
