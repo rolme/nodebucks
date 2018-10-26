@@ -86,10 +86,10 @@ class TransactionManager
     system_account.transactions.create(amount: btc, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance - fee} #{account.symbol} convert to BTC")
 
     if (withdrawal.payment_type == 'paypal')
-      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC convert to USD")
-      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'usd', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "$#{'%.2f' % usd.to_f.floor(2)} USD transfer to #{withdrawal.target}")
+      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'BTC', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC convert to USD")
+      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'USD', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "$#{'%.2f' % usd.to_f.floor(2)} USD transfer to #{withdrawal.target}")
     else # NOTE: assume its 'btc'
-      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC transfer to #{withdrawal.target}")
+      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'BTC', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC transfer to #{withdrawal.target}")
     end
 
     Account.transaction do
