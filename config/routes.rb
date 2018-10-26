@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       post :verification_image
       get :verify
       patch :verify_id_image
+      patch :update_affiliates
     end
     resources :transactions, only: [:index, :update], param: :slug do
       patch :undo
