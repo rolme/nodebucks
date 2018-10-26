@@ -63,8 +63,8 @@ class TransactionManager
   def withdraw(withdrawal)
     account_balance    = withdrawal.balances.find { |b| b["symbol"] == account.symbol }
     balance            = account_balance["value"].to_f
-    btc                = account_balance["BTC"]
-    usd                = account_balance["USD"]
+    btc                = account_balance["btc"]
+    usd                = account_balance["usd"]
     fee_percentage     = (withdrawal.payment_type == 'paypal') ? account.crypto.percentage_hosting_fee * 2 : account.crypto.percentage_hosting_fee
     fee                = balance * fee_percentage
     symbol             = account.symbol
