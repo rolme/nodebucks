@@ -193,6 +193,11 @@ class User < ApplicationRecord
     end
   end
 
+  def update_affiliates(tier1_slug)
+    Affiliate.where(affiliate_user_id: id).delete_all
+    set_upline(User.find_by(slug: tier1_slug).affiliate_key)
+  end
+
   def generate_token
     JsonWebToken.encode({
       admin: admin,

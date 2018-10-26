@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_request, only: [:balance, :update, :destroy, :referrer, :password_confirmation, :verification_image]
   before_action :authenticate_admin_request, only: [:disable, :enable, :index, :impersonate, :show]
-  before_action :find_user, only: [:update, :profile]
+  before_action :find_user, only: [:update, :profile, :update_affiliates]
 
   def callback
     @user = nil
@@ -268,6 +268,11 @@ class UsersController < ApplicationController
     else
       render json: { status: :error, message: 'Invalid credentials' }
     end
+  end
+
+  def update_affiliates
+    @user.update_affiliates(params[:tier1_slug])
+    render :show
   end
 
 protected
