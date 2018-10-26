@@ -76,7 +76,7 @@ class TestRewarder
     end
   end
 
-  private 
+  private
 
   def not_supported
     { status: :error, message: 'Reward scraping for this crypto is not supported.' }

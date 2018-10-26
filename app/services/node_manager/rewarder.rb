@@ -28,14 +28,14 @@ module NodeManager
 
       begin
         case node.symbol
-        when 'polis'; RewardScraper.new(@@browser).scrape_polis(false, node, operator)
-        when 'dash';  RewardScraper.new(@@browser).scrape_dash(false, node, operator)
-        when 'xzc';   RewardScraper.new(@@browser).scrape_zcoin(false, node, operator)
-        when 'pivx';  RewardScraper.new(@@browser).scrape_pivx(false, node, operator)
-        when 'spd';   RewardScraper.new(@@browser).scrape_stipend(false, node, operator)
-        when 'gbx';   RewardScraper.new(@@browser).scrape_gobyte(false, node, operator)
-        when 'block'; RewardScraper.new(@@browser).scrape_blocknet(false, node, operator)
-        when 'phr';   RewardScraper.new(@@browser).scrape_phore(false, node, operator)
+        when 'POLIS'; RewardScraper.new(@@browser).scrape_polis(false, node, operator)
+        when 'DASH';  RewardScraper.new(@@browser).scrape_dash(false, node, operator)
+        when 'XZC';   RewardScraper.new(@@browser).scrape_zcoin(false, node, operator)
+        when 'PIVX';  RewardScraper.new(@@browser).scrape_pivx(false, node, operator)
+        when 'SPD';   RewardScraper.new(@@browser).scrape_stipend(false, node, operator)
+        when 'GBX';   RewardScraper.new(@@browser).scrape_gobyte(false, node, operator)
+        when 'BLOCK'; RewardScraper.new(@@browser).scrape_blocknet(false, node, operator)
+        when 'PHR';   RewardScraper.new(@@browser).scrape_phore(false, node, operator)
         end
       rescue => error
         Rails.logger.error "SCRAPE ERROR: #{error}"
