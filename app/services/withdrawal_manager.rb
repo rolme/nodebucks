@@ -27,7 +27,7 @@ class WithdrawalManager
       return false
     end
 
-    if(params[:payment] == 'btc')
+    if(params[:payment] == 'BTC')
       account = user.accounts.find{ |a| a.symbol == 'BTC' }
       if params[:wallet].blank? && account.wallet.blank?
         @error = 'BTC wallet not present. Please provide a withdrawal wallet.'

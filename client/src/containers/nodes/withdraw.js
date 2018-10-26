@@ -22,7 +22,7 @@ class Withdraw extends Component {
     this.state = {
       password: '',
       showPassword: false,
-      paymentType: 'btc',
+      paymentType: 'BTC',
       target: '',
       address: '',
       errorMessages: {
@@ -86,10 +86,10 @@ class Withdraw extends Component {
 
     if ( !target ) {
       isValid = false
-      errorMessages.target = 'Please enter your ' + paymentType === 'btc' ? 'Bitcoin Address.' : 'PayPal email.'
+      errorMessages.target = 'Please enter your ' + paymentType === 'BTC' ? 'Bitcoin Address.' : 'PayPal email.'
     }
 
-    if ( paymentType === 'btc' ) {
+    if ( paymentType === 'BTC' ) {
       isValid = WAValidator.validate(target, 'BTC')
       errorMessages.target = isValid ? '' : 'Please type valid address.'
     } else {
@@ -210,15 +210,15 @@ class Withdraw extends Component {
 
   displaySellSettings() {
     const { paymentType, target, password, errorMessages } = this.state
-    const disableFields = paymentType !== 'btc' && paymentType !== 'paypal'
+    const disableFields = paymentType !== 'BTC' && paymentType !== 'paypal'
     return (
       <div className="sellPagePaymentDestinationContainer">
         <h5 className="sellPagePaymentDestinationHeaderText">
           Select payment destination:
         </h5>
         <div className="d-flex sellPagePaymentDestinationSectionsContainer flex-wrap justify-content-center">
-          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'btc')} className={`sellPagePaymentDestinationSectionContainer ${paymentType === 'btc' ? 'selected' : ''}`}>
-            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(paymentType === 'btc')}</p>
+          <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'BTC')} className={`sellPagePaymentDestinationSectionContainer ${paymentType === 'BTC' ? 'selected' : ''}`}>
+            <p className="sellPagePaymentDestinationSectionHeader"><img src="/assets/images/bitcoinIcon.png" width="20px" alt="paypal" className="mr-2"/>Bitcoin Wallet {this.displayCheck(paymentType === 'BTC')}</p>
             <p className="sellPagePaymentDestinationSectionParagraph"> Provide a valid Bitcoin address and we will send payment there</p>
           </Col>
           <Col xl={6} lg={6} md={6} sm={12} xs={12} onClick={this.handleSellSettingClick.bind(this, 'paypal')} className={`sellPagePaymentDestinationSectionContainer ${paymentType === 'paypal' ? 'selected' : ''}`}>
