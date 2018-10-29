@@ -44,8 +44,9 @@ class TransactionManager
       account_txn = account.transactions.create(amount: reward.total_amount, reward_id: reward.id, txn_type: 'deposit', notes: 'Reward deposit')
     end
 
-    system_txn  = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
-    system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
+    system_txn = system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'deposit', notes: 'Fee deposit (hosting fee)')
+    # NOTE: this was to ensure admin transfers fees. We will do something else to audit this instead.
+    # system_account.transactions.create(amount: fee, reward_id: reward.id, txn_type: 'transfer', notes: "#{reward.fee} #{reward.symbol} fee (minus #{reward.fee - fee} affiliate rewards) transfer from #{reward.node.wallet} to Nodebucks")
 
     Account.transaction do
       account.update_attribute(:balance, account.balance + reward.total_amount) unless auto_withdraw
@@ -71,13 +72,24 @@ class TransactionManager
     account_txn        = account.transactions.create(amount: balance, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Account withdrawal of #{balance} #{account.symbol} (includes #{fee} #{account.symbol} fee)")
     system_fee_txn     = system_account.transactions.create(amount: fee, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Fee deposit (#{fee} #{account.symbol})")
     system_balance_txn = system_account.transactions.create(amount: balance - fee, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'deposit', notes: "Balance deposit (#{balance - fee} #{account.symbol})")
-    system_account.transactions.create(amount: balance, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance} #{account.symbol} balance transfer to Nodebucks #{account.symbol} wallet")
+
+    # TODO: Move into its own method
+    wallet_amounts = withdrawal.user.node_wallet_withdrawals(account.crypto_id)
+    note  = "#{balance} #{account.symbol} balance transfer to Nodebucks #{account.symbol} wallet<br/>"
+    note += "<ul>"
+    wallet_amounts.each do |wallet|
+      note += "<li><a href='#{wallet[:url]}' target='_new'>#{wallet[:wallet]}</a> - #{wallet[:balance]}</li>"
+    end
+    note += "</ul>"
+
+    system_account.transactions.create(amount: balance, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: note)
     system_account.transactions.create(amount: btc, cached_crypto_symbol: symbol, withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{balance - fee} #{account.symbol} convert to BTC")
+
     if (withdrawal.payment_type == 'paypal')
-      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC convert to USD")
-      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'usd', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "$#{'%.2f' % usd.to_f.floor(2)} USD transfer to #{withdrawal.target}")
-    else # NOTE: assume its 'btc'
-      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'btc', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC transfer to #{withdrawal.target}")
+      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'BTC', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC convert to USD")
+      system_account.transactions.create(amount: usd, cached_crypto_symbol: 'USD', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "$#{'%.2f' % usd.to_f.floor(2)} USD transfer to #{withdrawal.target}")
+    else # NOTE: assume its 'BTC'
+      system_account.transactions.create(amount: btc, cached_crypto_symbol: 'BTC', withdrawal_id: withdrawal.id, txn_type: 'transfer', notes: "#{'%.5f' % btc.to_f.floor(5)} BTC transfer to #{withdrawal.target}")
     end
 
     Account.transaction do
@@ -92,7 +104,7 @@ class TransactionManager
   def self.withdraw_affiliate_reward(withdrawal)
     user = withdrawal.user
     balance = user.affiliate_balance
-    txn = Transaction.create(amount: balance, cached_crypto_symbol: 'usd', withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
+    txn = Transaction.create(amount: balance, cached_crypto_symbol: 'USD', withdrawal_id: withdrawal.id, txn_type: 'withdraw', notes: "Affiliate reward withdrawal of $#{balance}")
 
     Account.transaction do
       withdrawal.user.update_attribute(:affiliate_balance, user.affiliate_balance - balance)

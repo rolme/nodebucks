@@ -126,55 +126,6 @@
   font-size: 18px;
 }
 
-/*Testimonials Part*/
-.testimonialsSectionTitle {
-  color: #3B3B3B;
-  font-family: "Raleway-Light";
-  font-size: 36px;
-  text-align: center;
-  width: 100%;
-  margin-bottom: 35px;
-}
-
-.testimonialsSectionItemContainer {
-  flex-basis: unset;
-  background-color: #FFFFFF;
-  box-shadow: rgba(50, 50, 93, 0.14902) 0 0 13px 1px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 30px;
-}
-
-.testimonialDescription {
-  color: #000000;
-  font-family: "Raleway-LightItalic";
-  margin: 20px 0;
-  min-height: 200px;
-  text-align: center;
-}
-
-.testimonialsSectionItemContainer > .divider {
-  height: 1px;
-  width: 100%;
-  background-color: #DCDCDC;
-}
-
-.testimonialName {
-  color: #7B7B7B;
-  font-family: "Raleway-Regular";
-  font-size: 16px;
-  margin-top: 20px;
-}
-
-.testimonialsQuotationMark {
-  position: absolute;
-  top: 10px;
-  left: -10px;
-}
-
 /*Footer Part*/
 
 .homeFooterContainer {

@@ -33,6 +33,16 @@ class User < ApplicationRecord
     @@_system ||= User.unscoped.find_by(id: SYSTEM_ACCOUNT_ID, email: nil)
   end
 
+  def node_wallet_withdrawals(crypto_id)
+    nodes.select{ |n| n.crypto_id == crypto_id }.map do |node|
+      {
+        balance: node.balance,
+        wallet: node.wallet,
+        url: node.wallet_url
+      }
+    end
+  end
+
   def full_name
     "#{first} #{last}"
   end
@@ -132,7 +142,7 @@ class User < ApplicationRecord
   end
 
   def btc_wallet
-    @btc_wallet ||= accounts.find { |a| a.symbol == 'btc' }.wallet
+    @btc_wallet ||= accounts.find { |a| a.symbol == 'BTC' }.wallet
   end
 
   def total_balance
@@ -155,8 +165,8 @@ class User < ApplicationRecord
   end
 
   def create_btc_account
-    account   = accounts.find{ |a| a.symbol == 'btc' }
-    account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'btc').id)
+    account   = accounts.find{ |a| a.symbol == 'BTC' }
+    account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'BTC').id)
   end
 
   def set_upline(affiliate_key)
@@ -181,6 +191,11 @@ class User < ApplicationRecord
     when 3; upline_user.upline(2)
     else nil
     end
+  end
+
+  def update_affiliates(tier1_slug)
+    Affiliate.where(affiliate_user_id: id).delete_all
+    set_upline(User.find_by(slug: tier1_slug).affiliate_key)
   end
 
   def generate_token

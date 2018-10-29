@@ -168,7 +168,11 @@ class RewardScraper
   end
 
   def polis_rows
-    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    if Rails.env.development?
+      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    else
+      browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    end
   end
 
   def dash_rows
@@ -196,7 +200,11 @@ class RewardScraper
   end
 
   def gobyte_rows
-    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    if Rails.env.development?
+      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    else
+      browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    end
   end
 
   def self.wallet_invalid?(browser)

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show], param: :slug do
       patch :paid
       patch :unpaid
+      patch :canceled
     end
     resources :users, except: [:edit, :new], param: :slug do
       patch :approved
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
       post :verification_image
       get :verify
       patch :verify_id_image
+      patch :update_affiliates
     end
     resources :transactions, only: [:index, :update], param: :slug do
       patch :undo

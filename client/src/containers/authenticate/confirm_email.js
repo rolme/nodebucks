@@ -1,7 +1,7 @@
-import { React, Component } from 'react'
+import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import ErrorPage404 from '../../components/error_pages/404_error_page'
 import './index.css'
 
@@ -13,14 +13,16 @@ class ConfirmEmail extends Component {
     this.state = {
       error: (!!this.props.error) ? true : false,
       pending: (!!this.props.pending) ? true : false,
-      user: this.props.user
+      user: this.props.user,
     }
   }
 
   componentWillMount() {
     const { slug } = this.props.match.params
-    this.setState({ slug })
-    this.props.confirm(slug)
+    if(this.props.user) {
+      this.setState({ slug })
+      this.props.confirm(slug)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,12 +36,15 @@ class ConfirmEmail extends Component {
   render() {
     const { pending, error, user } = this.state
     
-    if (!pending && !error && !!user) {
-      this.props.history.push('/')
-      return ''
+    if(!this.state.user) {
+      return <Redirect to="/login" />
+    } else if (!pending && !error && !!user) {
+      return <Redirect to="/dashboard" />
+    } else if(!pending && error) {
+      return <ErrorPage404 />
+    } else {
+      return <div />
     }
-
-    return <ErrorPage404 />
   }
 }
 

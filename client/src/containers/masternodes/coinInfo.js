@@ -96,11 +96,11 @@ class CoinInfo extends Component {
               </Col>
               <Col className="coinInfoValueSectionContainer">
                 <h6>Circulating Supply</h6>
-                <p>{valueFormat(data.availableSupply)} <span>DASH</span></p>
+                <p>{valueFormat(data.availableSupply)} <span>{(data.symbol).toUpperCase()}</span></p>
               </Col>
               <Col className="coinInfoValueSectionContainer">
                 <h6>Max Supply</h6>
-                <p>{valueFormat(data.totalSupply)} <span>DASH</span></p>
+                <p>{valueFormat(data.totalSupply)} <span>{(data.symbol).toUpperCase()}</span></p>
               </Col>
             </Col>
           </Col>

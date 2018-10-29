@@ -9,7 +9,7 @@ FactoryBot.define do
     end
 
     factory :bitcoin do
-      symbol 'btc'
+      symbol 'BTC'
       name 'bitcoin'
     end
   end

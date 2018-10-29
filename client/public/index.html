@@ -8,12 +8,40 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <meta name="theme-color" content="#000000">
     <title>Nodebucks</title>
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127956823-1"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "http://www.nodebucks.com",
+        "name": "NodeBucks",
+        "contactPoint": {
+          "@type": "ContactPoint"
+          "email": "support@nodebucks.com"
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <script>
+      window.fcWidget.init({
+        token: "f1eb8623-5db2-4cbc-9904-12ed94427f38",
+        host: "https://wchat.freshchat.com"
+      });
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127956823-1');
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
