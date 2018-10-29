@@ -60,6 +60,7 @@ end
 group :test do
   gem 'shoulda'
   gem 'vcr'
+  gem 'faker'
 end
 
 group :staging, :production do
