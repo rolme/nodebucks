@@ -39,6 +39,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",
     "react-dropzone": "^5.1.0",
+    "react-freshchat": "^1.0.11",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.4.0",
     "react-paypal-express-checkout": "^1.0.4",
