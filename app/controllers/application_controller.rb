@@ -3,12 +3,18 @@ class ApplicationController < ActionController::API
 
   include ExceptionHandler
 
+  before_action :set_tracker
+
   def index
     render file: 'public/index.html', content_type: 'text/html'
   end
 
   def counts
     render :counts
+  end
+
+  def set_tracker
+    @tracker ||= Staccato.tracker(ENV['GOOGLE_ANALYTICS_TRACKING_ID'])
   end
 
 private
