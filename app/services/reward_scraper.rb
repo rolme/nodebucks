@@ -158,6 +158,7 @@ class RewardScraper
       txhash    = data[1].find_element(tag_name: 'a').text
       amount    = data[2].text&.split(/\s/)[1]&.to_f
 
+      Rails.logger.info ">>>>>> timestamp: #{timestamp}"
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
