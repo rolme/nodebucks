@@ -7,7 +7,6 @@ import { withCookies } from 'react-cookie'
 import { setReferer } from '../../lib/helpers'
 
 import { Alert } from 'reactstrap'
-import FreshChat from 'react-freshchat'
 import Loadable from 'react-loadable'
 import Loading from "../../components/loadingComponent"
 import Reloader from "../../components/reloader"
@@ -70,7 +69,6 @@ class App extends Component {
         <Alert color='success' isOpen={showReloadRequestAlert} toggle={this.toggleReloadRequestAlert}>
           The content of web page was updated, please reload the page.
         </Alert>
-        { /* <FreshChat token={process.env.REACT_APP_FRESH_CHAT_TOKEN} /> */ }
         <div className="pageContainer position-relative">
           <main>
             <Switch>
