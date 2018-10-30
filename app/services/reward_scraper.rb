@@ -21,7 +21,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -41,7 +41,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -61,7 +61,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -81,7 +81,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -101,7 +101,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -121,7 +121,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -141,7 +141,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -158,11 +158,12 @@ class RewardScraper
       txhash    = data[1].find_element(tag_name: 'a').text
       amount    = data[2].text&.split(/\s/)[1]&.to_f
 
-      Rails.logger.info ">>>>>> timestamp: #{timestamp}"
+      Rails.logger.info ">>>>>> scrape_gobyte - timestamp: #{timestamp}"
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        Rails.logger.info ">>>>>> scrape_gobyte - initial test failed @date: #{@date.nil?}"
+        @total_amount_scraped += amount if Time.parse(timestamp) >= @date unless stake_amount?(node, amount)
       end
     end
     @total_amount_scraped if test_mode
@@ -221,8 +222,10 @@ class RewardScraper
   def has_new_rewards?(node, timestamp)
     return false if node.online_at.blank?
 
+    Rails.logger.info ">>>>>> has_new_rewards? timestamp: #{timestamp}"
     last_reward_timestamp = node.rewards.last&.timestamp
     last_reward_timestamp ||= node.online_at
+    Rails.logger.info ">>>>>> has_new_rewards? last reward timestamp: #{last_reward_timestamp}"
     last_reward_timestamp < DateTime.parse(timestamp)
   end
 
