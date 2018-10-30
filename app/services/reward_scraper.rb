@@ -21,7 +21,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -41,7 +41,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -61,7 +61,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -81,7 +81,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -101,7 +101,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -121,7 +121,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && amount > 0.0 && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -141,7 +141,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -161,7 +161,7 @@ class RewardScraper
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
       else
-        @total_amount_scraped += amount if Time.parse(timestamp) >= @date
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
       end
     end
     @total_amount_scraped if test_mode
@@ -220,7 +220,7 @@ class RewardScraper
   def has_new_rewards?(node, timestamp)
     return false if node.online_at.blank?
 
-    last_reward_timestamp = node.rewards.last&.timestamp
+    last_reward_timestamp = node.rewards.order(timestamp: :desc).first&.timestamp
     last_reward_timestamp ||= node.online_at
     last_reward_timestamp < DateTime.parse(timestamp)
   end
