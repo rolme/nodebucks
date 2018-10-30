@@ -220,7 +220,7 @@ class RewardScraper
   def has_new_rewards?(node, timestamp)
     return false if node.online_at.blank?
 
-    last_reward_timestamp = node.rewards.last&.timestamp
+    last_reward_timestamp = node.rewards.order(timestamp: :desc).first&.timestamp
     last_reward_timestamp ||= node.online_at
     last_reward_timestamp < DateTime.parse(timestamp)
   end
