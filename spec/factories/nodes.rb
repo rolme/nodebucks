@@ -14,5 +14,9 @@ FactoryBot.define do
         FactoryBot.create_list(:reward, 4, node: node, fee: 2)
       end
     end
+
+    factory :reserved_node do
+      status 'reserved'
+    end
   end
-end
+end 
