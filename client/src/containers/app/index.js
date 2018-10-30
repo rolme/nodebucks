@@ -70,7 +70,7 @@ class App extends Component {
         <Alert color='success' isOpen={showReloadRequestAlert} toggle={this.toggleReloadRequestAlert}>
           The content of web page was updated, please reload the page.
         </Alert>
-        <FreshChat token={process.env.REACT_APP_FRESH_CHAT_TOKEN} />
+        { /* <FreshChat token={process.env.REACT_APP_FRESH_CHAT_TOKEN} /> */ }
         <div className="pageContainer position-relative">
           <main>
             <Switch>
