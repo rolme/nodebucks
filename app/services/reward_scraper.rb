@@ -48,15 +48,12 @@ class RewardScraper
   end
 
   def scrape_zcoin(test_mode = false, node = nil, operator = nil)
-    update_node_balance(node, browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f) unless test_mode
+    update_node_balance(node, browser.find_element(tag_name: 'tbody').find_elements(:class, 'ellipsis')[2].text.split(' ')[0].to_f) unless test_mode
 
     zcoin_rows.reverse!.each do |row|
-      data = row.find_elements(tag_name: 'td')
-      next if data.blank?
-
-      timestamp = data[0].text
-      txhash    = data[1].find_element(tag_name: 'a').text
-      amount    = data[2].text&.split(/\s/)[1]&.to_f
+      timestamp = row.find_elements(:class, 'ng-binding')[2].text
+      txhash    = row.find_elements(:class, 'ellipsis')[0].find_elements(tag_name: 'a')[1].text
+      amount    = row.find_elements(:class, 'txvalues-primary')[0].text.split(' ')[0].to_f
 
       if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
         operator.reward(timestamp, amount, txhash)
@@ -180,7 +177,7 @@ class RewardScraper
   end
 
   def zcoin_rows
-    browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    browser.find_elements(:class, 'block-tx')
   end
 
   def pivx_rows
