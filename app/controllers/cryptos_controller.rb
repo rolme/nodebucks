@@ -1,6 +1,6 @@
 class CryptosController < ApplicationController
   before_action :authenticate_request_optional, only: [:show]
-  before_action :authenticate_admin_request, only: [:update]
+  before_action :authenticate_admin_request, only: [:update, :delist, :relist]
 
   def index
     @cryptos = Crypto.active
@@ -27,6 +27,24 @@ class CryptosController < ApplicationController
   def update
     @crypto = Crypto.find_by(slug: params[:slug])
     if @crypto.update(crypto_params)
+      render :show
+    else
+      render json: { status: :error, message: @crypto.error }
+    end
+  end
+
+  def relist
+    @crypto = Crypto.find_by(slug: params[:crypto_slug])
+    if @crypto.update_attribute(:is_listed, true)
+      render :show
+    else
+      render json: { status: :error, message: @crypto.error }
+    end
+  end
+
+  def delist
+    @crypto = Crypto.find_by(slug: params[:crypto_slug])
+    if @crypto.update_attribute(:is_listed, false)
       render :show
     else
       render json: { status: :error, message: @crypto.error }

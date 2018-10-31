@@ -6,9 +6,11 @@ Rails.application.routes.draw do
       get :last, on: :collection
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug do
+      patch :deilst
+      patch :relist
       get :prices
-      get :test_reward_scraper
       get :purchasable_statuses, on: :collection
+      get :test_reward_scraper
     end
     resources :nodes, except: [:edit, :new], param: :slug do
       post :generate, on: :collection
