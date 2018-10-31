@@ -47,6 +47,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'faker'
 end
 
 group :development do
@@ -60,7 +61,6 @@ end
 group :test do
   gem 'shoulda'
   gem 'vcr'
-  gem 'faker'
   gem 'simplecov', require: false
 end
 
