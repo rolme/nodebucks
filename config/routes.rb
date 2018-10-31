@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       get :last, on: :collection
     end
     resources :cryptos, only: [:index, :show, :update], param: :slug do
-      patch :deilst
+      patch :delist
       patch :relist
       get :prices
       get :purchasable_statuses, on: :collection
