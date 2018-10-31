@@ -128,18 +128,23 @@ class NewNode extends Component {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
 
-    if (purchasing) return <Redirect to='/dashboard'/>
+    if ( purchasing ) return <Redirect to='/dashboard'/>
 
-    if (cryptoPending || nodePending) {
+    if ( cryptoPending || nodePending ) {
       return <div className="spinnerContainer pageLoaderContainer"><RingLoader size={100} color={'#3F89E8'} loading={true}/></div>
     }
 
-    if (!isEmpty(crypto) && ['Unavailable', 'Contact Us'].includes(crypto.purchasableStatus)) return <Redirect to={`/masternodes/${crypto.slug}`} />
-    if (!isEmpty(node) && ['Unavailable', 'Contact Us'].includes(node.crypto.purchasableStatus)) return <Redirect to={`/masternodes/${node.crypto.slug}`} />
+    if ( !isEmpty(crypto) && [ 'Unavailable', 'Contact Us' ].includes(crypto.purchasableStatus) ) return <Redirect to={`/masternodes/${crypto.slug}`}/>
+    if ( !isEmpty(node) && [ 'Unavailable', 'Contact Us' ].includes(node.crypto.purchasableStatus) ) return <Redirect to={`/masternodes/${node.crypto.slug}`}/>
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
-    if (!!user && !user.enabled) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
-    if (!!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
+    if ( !!user && !user.enabled ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
+    if ( !!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0 ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
+
+    let homePageUrl = !!masternode && !!masternode.url && (masternode.url).replace('https://', '')
+
+    if ( homePageUrl[ homePageUrl.length - 1 ] === '/' )
+      homePageUrl = homePageUrl.slice(0, -1)
 
     return (
       <Container fluid className="purchasePageContainer">
@@ -152,14 +157,24 @@ class NewNode extends Component {
         }
         <div className="contentContainer purchasePageContentContainer">
           <div className="purchasePageMainContentContainer">
-            <h1 className="pt-3 text-center purchasePageHeader pageTitle">
-              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
-              {
-                !!nodePending || !!cryptoPending
-                  ? 'Calculating latest pricing ...'
-                  : `Purchase ${masternode.name} Masternode`
-              }
-            </h1>
+            <Col className="d-flex align-items-center">
+              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="95px" className="p-1"/>}
+              <Col className="d-flex flex-column">
+                <h1 className="pt-3 purchasePageHeader pageTitle">
+                  {
+                    !!nodePending || !!cryptoPending
+                      ? 'Calculating latest pricing ...'
+                      : `${masternode.name}`
+                  }
+                </h1>
+                {!!homePageUrl && !!masternode.name && !nodePending &&
+                <Col xl={12} className="d-flex purchasePageLinksContainer px-0">
+                  <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{homePageUrl}</a>
+                  <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
+                </Col>
+                }
+              </Col>
+            </Col>
             {
               nodeMessage === 'Node price is 0. Purchase rejected.' &&
               <Alert color='danger'>
@@ -239,7 +254,7 @@ class NewNode extends Component {
     let difference = +node.value / node.cost
     if ( difference < 0.85 ) {
       const sellValue = valueFormat(+node.value, 2)
-      difference = '-' + (valueFormat((1 - difference)*100, 2)) + '%'
+      difference = '-' + (valueFormat((1 - difference) * 100, 2)) + '%'
       return (
         <Col xl={{ size: 8, offset: 2 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="spreadWarningMessageContainer d-flex flex-column align-items-center justify-content-center">
           <p>Warning: Due to low liquidity on exchanges, the resell value of this masternode is well below the purchase price. </p>
