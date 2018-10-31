@@ -21,8 +21,10 @@ class TestRewarder
         { total_amount_scraped: @total_amount_scraped, url: @url }
       end
     rescue Watir::Exception
+      browser.quit if Rails.env == 'development'
       { status: :error, message: 'Unable to scrape URL.' }
     rescue
+      browser.quit if Rails.env == 'development'
       { status: :error, message: 'Unable to find wallet.' }
     end
   end
@@ -61,7 +63,6 @@ class TestRewarder
         @total_amount_scraped = RewardScraper.new(browser, @date).scrape_dash(true)
       when 'zcoin'
         @total_amount_scraped = RewardScraper.new(browser, @date).scrape_zcoin(true)
-        @invalid_wallet =       RewardScraper.wallet_invalid?(browser)
       when 'pivx'
         @total_amount_scraped = RewardScraper.new(browser, @date).scrape_pivx(true)
       when 'blocknet'
