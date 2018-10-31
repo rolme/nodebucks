@@ -60,6 +60,8 @@ end
 group :test do
   gem 'shoulda'
   gem 'vcr'
+  gem 'faker'
+  gem 'simplecov', require: false
 end
 
 group :staging, :production do

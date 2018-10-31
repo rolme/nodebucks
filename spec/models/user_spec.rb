@@ -106,10 +106,6 @@ RSpec.describe User, type: :model do
     it 'returns reserved node if exists' do
       expect(user.reserved_node).not_to eq(nil)
     end
-
-    it 'returns nil because user has no reserved nodes' do
-      expect(referrer.reserved_node).to eq(nil)
-    end
   end
 
   describe '#create_btc_account' do
