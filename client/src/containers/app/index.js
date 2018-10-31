@@ -95,7 +95,7 @@ class App extends Component {
               <Route exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <Route exact path="/withdrawals" component={Withdrawals}/>
               <Route exact path="/orders" component={Orders}/>
-              <Route exact path="/about" component={AboutUs}/>
+              <PublicRoute exact path="/about" component={AboutUs}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
               <PublicRoute exact path="/masternodes/:slug" component={CoinInfo}/>
               <PublicRoute path="/settings" component={Settings}/>
