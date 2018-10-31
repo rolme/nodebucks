@@ -11,12 +11,36 @@ FactoryBot.define do
 
     factory :node_with_rewards do
       after(:create) do |node|
-        FactoryBot.create_list(:reward, 4, node: node, fee: 2)
+        FactoryBot.create_list(:reward, 4, node: node, fee: 2, total_amount: 10)
+      end
+    end
+
+    factory :node_with_weekly_rewards do
+      after(:create) do |node|
+        FactoryBot.create_list(:reward, 2, node: node, fee: 2, total_amount: 10, timestamp: Faker::Date.between(6.days.ago, Date.today))
+      end
+    end
+
+    factory :node_with_monthly_rewards do
+      after(:create) do |node|
+        FactoryBot.create_list(:reward, 2, node: node, fee: 2, total_amount: 30, timestamp: Faker::Date.between(30.days.ago, Date.today))
+      end
+    end
+
+    factory :node_with_querterly_rewards do
+      after(:create) do |node|
+        FactoryBot.create_list(:reward, 3, node: node, fee: 2, total_amount: 30, timestamp: Faker::Date.between(90.days.ago, Date.today))
+      end
+    end
+
+    factory :node_with_yearly_rewards do
+      after(:create) do |node|
+        FactoryBot.create_list(:reward, 3, node: node, fee: 2, total_amount: 20, timestamp: Faker::Date.between(365.days.ago, Date.today))
       end
     end
 
     factory :reserved_node do
-      status 'reserved'
+      status :reserved
     end
   end
 end 

@@ -14,4 +14,20 @@ RSpec.describe Account, type: :model do
   it 'is valid with valid attributes' do
     expect(account).to be_valid
   end
+
+  describe '#has_nodes?' do
+    context 'when there is nodes with statuses disbursed, sold or reserved' do
+      let(:account_with_nodes) { FactoryBot.create(:account_with_nodes) }
+
+      it 'returns true' do
+        expect(account_with_nodes.has_nodes?).to be true
+      end
+    end
+
+    context 'when there is no nodes' do
+      it 'returns false' do
+        expect(account.has_nodes?).to be false
+      end
+    end
+  end
 end

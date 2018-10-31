@@ -19,4 +19,10 @@ RSpec.describe Withdrawal, type: :model do
       expect(Withdrawal.pending).to eq pending_withdrawals
     end
   end
+
+  describe '#destination' do
+    it 'returns expected string' do
+      expect(withdrawal.destination).to eq 'Bitcoin'
+    end
+  end
 end

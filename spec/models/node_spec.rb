@@ -201,5 +201,90 @@ RSpec.describe Node, type: :model do
         end
       end
     end
+
+    describe '#reward_total' do
+      let!(:crypto_price) { FactoryBot.create(:crypto_price, crypto: node.crypto, amount: 25, btc: 0.2, usdt: 120, price_type: :sell) }
+
+      it 'returns total reward' do
+        expect(node.reward_total).to eq 4512
+      end
+    end
+
+    describe '#week_reward' do
+      let(:node_with_weekly_rewards) { FactoryBot.create(:node_with_weekly_rewards) }
+      let!(:crypto_price) { FactoryBot.create(:crypto_price, crypto: node_with_weekly_rewards.crypto, amount: 10, btc: 0.2, usdt: 120, price_type: :sell) }
+
+      it 'returns total reward from last 7 days' do
+        expect(node_with_weekly_rewards.week_reward).to eq 2256
+      end
+    end
+
+    describe '#month_reward' do
+      let(:node_with_monthly_rewards) { FactoryBot.create(:node_with_monthly_rewards) }
+      let!(:crypto_price) { FactoryBot.create(:crypto_price, crypto: node_with_monthly_rewards.crypto, amount: 50, btc: 0.2, usdt: 120, price_type: :sell) }
+
+      it 'returns total reward from last 7 days' do
+        expect(node_with_monthly_rewards.month_reward).to eq 6768
+      end
+    end
+
+    describe '#quarter_reward' do
+      let(:node_with_querterly_rewards) { FactoryBot.create(:node_with_querterly_rewards) }
+      let!(:crypto_price) { FactoryBot.create(:crypto_price, crypto: node_with_querterly_rewards.crypto, amount: 50, btc: 0.2, usdt: 120, price_type: :sell) }
+
+      it 'returns total reward from last 7 days' do
+        expect(node_with_querterly_rewards.quarter_reward).to eq 10152
+      end
+    end
+
+    describe '#year_reward' do
+      let(:node_with_yearly_rewards) { FactoryBot.create(:node_with_yearly_rewards) }
+      let!(:crypto_price) { FactoryBot.create(:crypto_price, crypto: node_with_yearly_rewards.crypto, amount: 50, btc: 0.2, usdt: 120, price_type: :sell) }
+
+      it 'returns total reward from last 7 days' do
+        expect(node_with_yearly_rewards.year_reward).to eq 6768
+      end
+    end
+
+    describe '#cost_to_cents' do
+      let(:node) { FactoryBot.create(:node_with_rewards, cost: 20000) }
+
+      it 'returns node cost in cents' do
+        expect(node.cost_to_cents).to eq 2000000
+      end
+    end
+
+    describe '#sell!' do
+      it 'updates node status to sold' do
+        node.sell!
+        expect(node.status).to eq 'sold'
+      end
+    end
+
+    describe '#duplicated_ip?' do
+      context 'when there is no more than 1 node with same ip and crypto' do
+        it 'returns false' do
+          expect(node.duplicated_ip?).to be false
+        end
+      end
+    end
+
+    describe '#duplicated_wallet?' do
+      context 'when there is no more than 1 node with same wallet and crypto' do
+        it 'returns false' do
+          expect(node.duplicated_wallet?).to be false
+        end
+      end
+    end
+
+    describe '#server_down?' do
+      context 'with bad ip adress' do
+        let(:node) { FactoryBot.create(:node_with_rewards, ip: '165.227.1.20x') }
+
+        it 'returns true' do
+          expect(node.server_down?).to be true
+        end
+      end
+    end
   end
 end
