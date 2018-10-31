@@ -15,7 +15,9 @@ class TransactionManager
     tier2 = owner.upline(2)
     tier3 = owner.upline(3)
 
-    reward_percentages = [0.2, 0.1, 0.05]
+    reward_percentages = [0.02, 0.01, 0.005]
+
+    Rails.logger.info ">>>>>> initial fee: #{fee}" if false
     tiers = [tier1, tier2, tier3].reject{ |tier| tier.blank? }
     tiers.each do |upline|
       percentage       = reward_percentages.shift
@@ -23,6 +25,14 @@ class TransactionManager
       upline_account   = Account.find_by(user_id: upline.id, crypto_id: node.crypto_id)
       upline_account ||= Account.create(user_id: upline.id, crypto_id: node.crypto_id)
       amount           = reward.fee * percentage
+
+
+      if (false)
+        Rails.logger.info ">>>>>> Coin: #{reward.name}"
+        Rails.logger.info ">>>>>> percentage: #{percentage}"
+        Rails.logger.info ">>>>>> remaining fee: #{fee}"
+        Rails.logger.info ">>>>>> upline amount: #{amount}"
+      end
 
       # Deposit reward
       upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'deposit', notes: "Affiliate reward")
@@ -32,6 +42,14 @@ class TransactionManager
       # Convert reward to USD
       upline_txn = upline_account.transactions.create(amount: amount, reward_id: reward.id, txn_type: 'transfer', notes: "Transfer affiliate reward to affiliate earnings (USD)")
       usdt = CryptoPrice.find_by(amount: 25, crypto_id: node.crypto_id).usdt
+      amount_usdt = amount * usdt
+
+      if (false)
+        Rails.logger.info ">>>>>> Conversion to USDT"
+        Rails.logger.info ">>>>>> USDT coversion: #{usdt}"
+        Rails.logger.info ">>>>>> converted amount ($USDT): #{amount_usdt}"
+      end
+
       upline_account.update_attribute(:balance, upline_account.balance - amount)
       upline.update_attributes(affiliate_earnings: upline.affiliate_earnings + amount * usdt, affiliate_balance: upline.affiliate_balance + amount * usdt)
       upline_txn.update_attribute(:status, 'processed')
