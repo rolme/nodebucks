@@ -108,7 +108,7 @@ body {
 
 .pageContainer {
   overflow: hidden;
-  min-height: calc(100% - 124px);
+  min-height: calc(100% - 131px);
   padding: 0;
 }
 
@@ -168,6 +168,10 @@ body {
   font-weight: normal;
   color: white;
   font-size: 16px;
+}
+
+.socialButtonIcon.linkedIn {
+  color: #1c78af;
 }
 
 button.disabled {

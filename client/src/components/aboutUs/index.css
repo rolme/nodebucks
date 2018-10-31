@@ -1,0 +1,26 @@
+.aboutUsTitle {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 30px;
+  margin: 45px 0;
+}
+
+.aboutUsParagraph {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 16px;
+  margin: 0 0 35px 0;
+}
+
+.memberName {
+  color: #000000;
+  font-family: 'Raleway-Light';
+  font-size: 20px;
+  margin: 25px 0 15px 0;
+}
+
+.memberPosition {
+  color: #000000;
+  font-family: 'Raleway-Light';
+  font-size: 14px;
+}
