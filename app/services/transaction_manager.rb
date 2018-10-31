@@ -15,7 +15,7 @@ class TransactionManager
     tier2 = owner.upline(2)
     tier3 = owner.upline(3)
 
-    reward_percentages = [0.02, 0.01, 0.005]
+    reward_percentages = [0.2, 0.1, 0.05]
 
     Rails.logger.info ">>>>>> initial fee: #{fee}" if false
     tiers = [tier1, tier2, tier3].reject{ |tier| tier.blank? }

@@ -72,15 +72,15 @@ class AffiliateDashboard extends Component {
                   <h6>{user.referrals.total}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 1 (2%)</p>
+                  <p>Tier 1 (20%)</p>
                   <h6>{user.referrals.tier1}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 2 (1%)</p>
+                  <p>Tier 2 (10%)</p>
                   <h6>{user.referrals.tier2}</h6>
                 </Row>
                 <Row className="affiliateDashboardCardContentRow">
-                  <p>Tier 3 (0.5%)</p>
+                  <p>Tier 3 (5%)</p>
                   <h6>{user.referrals.tier3}</h6>
                 </Row>
               </CardBody>
