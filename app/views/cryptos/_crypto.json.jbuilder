@@ -3,6 +3,7 @@ json.annualRoiPercentage crypto.yearly_roi[:percentage]
 json.availableSupply crypto.available_supply
 json.hostingFee crypto.percentage_hosting_fee
 json.id crypto.id
+json.isListed crypto.is_listed
 json.liquidity do
   json.buy crypto.buy_liquidity
   json.sell crypto.sell_liquidity

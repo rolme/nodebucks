@@ -55,6 +55,7 @@ class CryptosController < ApplicationController
     params.require(:crypto).permit(
       :description,
       :first_reward_days,
+      :is_listed,
       :profile,
       :logo_url,
       :name,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_235616) do
+ActiveRecord::Schema.define(version: 2018_10_31_202237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2018_10_16_235616) do
     t.string "purchasable_status", default: "Unavailable"
     t.integer "first_reward_days", default: 0
     t.decimal "node_sell_price_btc", default: "0.0"
+    t.boolean "is_listed", default: false
   end
 
   create_table "events", force: :cascade do |t|
