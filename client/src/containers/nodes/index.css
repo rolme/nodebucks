@@ -489,6 +489,11 @@ dt {
   color: #383838;
 }
 
+/*Purchase page*/
+.purchasePageMainContentContainer {
+  padding: 30px;
+}
+
 /*Sell Page Style*/
 .sellPageContainer,
 .withdrawPageContainer,
@@ -532,8 +537,7 @@ dt {
 }
 
 .sellPageMainContentContainer,
-.withdrawPageMainContentContainer,
-.purchasePageMainContentContainer {
+.withdrawPageMainContentContainer {
   background-color: white;
   padding: 30px;
 }

@@ -124,10 +124,6 @@ class NewNode extends Component {
     this.checkPriceDataAvailability()
   }
 
-  handleGoBack() {
-    window.history.back()
-  }
-
   render() {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { validPrice, showReloadAlert, purchasing } = this.state
@@ -155,7 +151,6 @@ class NewNode extends Component {
         </div>
         }
         <div className="contentContainer purchasePageContentContainer">
-          <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
             <h1 className="pt-3 text-center purchasePageHeader pageTitle">
               {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
