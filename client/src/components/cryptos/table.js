@@ -77,7 +77,7 @@ class CryptoTable extends Component {
   displayCryptos(list) {
     let { sortedColumnName } = this.state
 
-    return list.map(item => {
+    return list.filter(c => c.isListed).map(item => {
       let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) + ' USD' : '-'
       let monthlyRoiValue = (!!item.monthlyRoiValue || item.monthlyRoiValue === '0') ? '$' + valueFormat(+item.monthlyRoiValue) + ' USD' : '-'
       let yearlyRoiValue = (!!item.yearlyRoiValue || item.yearlyRoiValue === '0') ? '$' + valueFormat(+item.yearlyRoiValue) + ' USD' : '-'
