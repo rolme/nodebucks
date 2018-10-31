@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import { ClipLoader } from 'react-spinners'
-import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
+import { Alert, Container, Col, Table, Button } from 'reactstrap'
 import './index.css'
 import { isEmpty } from 'lodash'
 import Countdown from '../../components/countdown'
@@ -160,7 +160,7 @@ class NewNode extends Component {
             <Col className="d-flex align-items-center">
               {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="95px" className="p-1"/>}
               <Col className="d-flex flex-column">
-                <h1 className="pt-3 purchasePageHeader pageTitle">
+                <h1 className="purchasePageHeader pageTitle">
                   {
                     !!nodePending || !!cryptoPending
                       ? 'Calculating latest pricing ...'
@@ -169,7 +169,7 @@ class NewNode extends Component {
                 </h1>
                 {!!homePageUrl && !!masternode.name && !nodePending &&
                 <Col xl={12} className="d-flex purchasePageLinksContainer px-0">
-                  <a href={masternode.url} target="_new"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{homePageUrl}</a>
+                  <a href={masternode.url} target="_new" className="ml-0"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{homePageUrl}</a>
                   <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
                 </Col>
                 }
@@ -271,12 +271,13 @@ class NewNode extends Component {
 
     let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
 
-    const spread = (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
-    const annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? (valueFormat((+item.annualRoiPercentage) * 100, 2) + ' %') : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
+    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '-'
+    let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0))
 
-    if ( !!user ) {
-      nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
+    if ( !!user && !validPrice ) {
+      nodePrice = <s>{nodePrice}</s>
+      total = <s>{total}</s>
     }
 
     if ( purchasing ) {
@@ -284,8 +285,34 @@ class NewNode extends Component {
     }
 
     return (
-      <Col xl={12} lg={12} md={12} className="px-0 pt-2">
-        <Row className="purchasePageCrpytoDataContainer">
+      <Col xl={12} lg={12} md={12} className="px-0 pt-2 mt-4 bg-white">
+        <Table borderless>
+          <thead>
+          <tr>
+            <th>Qty</th>
+            <th>Item</th>
+            <th>{priceHeader}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>1</td>
+            <td>{item.name} Masternode</td>
+            <td>{nodePrice}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>One-Time Setup Fee</td>
+            <td>{fee}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Total Amount</td>
+            <td>{total}</td>
+          </tr>
+          </tbody>
+        </Table>
+        {/* <Row className="purchasePageCrpytoDataContainer">
           <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
             <h6 className="mb-0">Estimated Annual ROI</h6>
             {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
@@ -321,7 +348,7 @@ class NewNode extends Component {
           </Col>
           {this.renderSpreadWarning(item)}
         </Row>
-        }
+        }*/}
       </Col>
     )
   }
