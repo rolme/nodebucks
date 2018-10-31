@@ -40,6 +40,7 @@ const ResetPassword = Loadable({ loader: () => import('../authenticate/resetPass
 const AffiliateDashboard = Loadable({ loader: () => import('../../containers/affiliateDashboard'), loading: Loading })
 const Withdrawals = Loadable({ loader: () => import('../../containers/withdrawals'), loading: Loading })
 const Orders = Loadable({ loader: () => import('../../containers/orders'), loading: Loading })
+const AboutUs = Loadable({ loader: () => import('../../components/aboutUs'), loading: Loading })
 
 class App extends Component {
   constructor(props) {
@@ -94,6 +95,7 @@ class App extends Component {
               <Route exact path="/dashboard/affiliate" component={AffiliateDashboard}/>
               <Route exact path="/withdrawals" component={Withdrawals}/>
               <Route exact path="/orders" component={Orders}/>
+              <Route exact path="/about" component={AboutUs}/>
               <PublicRoute exact path="/masternodes" component={Masternodes}/>
               <PublicRoute exact path="/masternodes/:slug" component={CoinInfo}/>
               <PublicRoute path="/settings" component={Settings}/>
