@@ -6,6 +6,7 @@ import { Col, Alert, FormGroup, Label } from 'reactstrap'
 import Checkbox from 'rc-checkbox'
 import PaypalExpressBtn from 'react-paypal-express-checkout';
 import 'rc-checkbox/assets/index.css'
+import { valueFormat } from "../../lib/helpers";
 
 const CLIENT = {
   sandbox: process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
@@ -17,20 +18,24 @@ class PaymentForm extends React.Component {
     super(props)
     this.state = {
       message: '',
-      checkbox: false,
-      checkboxError: false
+      agreeCheckbox: false,
+      agreeCheckboxError: false,
+      realizeCheckbox: false,
+      realizeCheckboxError: false,
     }
     this.showErrorMessage = this.showErrorMessage.bind(this)
     this.toggleCheckbox = this.toggleCheckbox.bind(this)
   }
 
-  toggleCheckbox() {
-    const { checkbox, checkboxError } = this.state
-    this.setState({ checkbox: !checkbox, checkboxError: checkbox && checkboxError })
+  toggleCheckbox(name) {
+    const checkboxName = name + 'Checkbox', checkboxErrorName = name + 'CheckboxError'
+    const { [ checkboxName ]: checkbox, [ checkboxErrorName ]: checkboxError } = this.state
+    this.setState({ [ checkboxName ]: !checkbox, [ checkboxErrorName ]: !!checkboxError && checkbox })
   }
 
   showErrorMessage() {
-    this.setState({ checkboxError: true })
+    const { agreeCheckbox, realizeCheckbox } = this.state
+    this.setState({ agreeCheckboxError: !agreeCheckbox, realizeCheckboxError: !realizeCheckbox })
   }
 
   onSuccess = (payment) => {
@@ -42,9 +47,10 @@ class PaymentForm extends React.Component {
   }
 
   render() {
-    const { message, checkbox, checkboxError } = this.state
-    const { purchasing } = this.props
+    const { message, agreeCheckbox, agreeCheckboxError, realizeCheckbox, realizeCheckboxError } = this.state
+    const { purchasing, price } = this.props
     const nodeCost = parseFloat(this.props.node.cost).toFixed(2)
+    const nodePrice = !!price ? '$' + valueFormat(+price) : '-'
 
     return (
       <div>
@@ -69,23 +75,38 @@ class PaymentForm extends React.Component {
         </div>
         <Col className="px-0">
           <FormGroup className="mb-0">
-            <Label className={`purchasePageCheckbox ${checkboxError ? 'text-danger' : ''}`}>
+            <Label className={`purchasePageCheckbox ${agreeCheckboxError ? 'text-danger' : ''}`}>
               <Checkbox
                 className="nodebucksCheckbox"
-                defaultChecked={checkbox}
-                onChange={this.toggleCheckbox}
+                defaultChecked={agreeCheckbox}
+                onChange={() => this.toggleCheckbox('agree')}
               />
               &nbsp; I agree to the Nodebucks <NavLink to='/terms' target="_blank" rel="noopener noreferrer"> Terms of Use</NavLink>,
-                <NavLink to='/privacy' target="_blank" rel="noopener noreferrer">Privacy Policy</NavLink>,
-                and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
+              <NavLink to='/privacy' target="_blank" rel="noopener noreferrer"> Privacy Policy</NavLink>,
+              and <NavLink to='/disclaimer' target="_blank" rel="noopener noreferrer">Disclaimer</NavLink>.
             </Label>
           </FormGroup>
-          {!!checkboxError &&
-          <p className="text-danger">You must agree before purchasing.</p>
+          {!!agreeCheckboxError &&
+          <p className="text-danger purchasePageErrorMessage">You must agree before purchasing.</p>
+          }
+        </Col>
+        <Col className="px-0">
+          <FormGroup className="mb-0">
+            <Label className={`purchasePageCheckbox ${realizeCheckboxError ? 'text-danger' : ''}`}>
+              <Checkbox
+                className="nodebucksCheckbox"
+                defaultChecked={realizeCheckbox}
+                onChange={() => this.toggleCheckbox('realize')}
+              />
+              &nbsp; I realize that the market resell value of this masternode is currently {nodePrice}
+            </Label>
+          </FormGroup>
+          {!!realizeCheckboxError &&
+          <p className="text-danger purchasePageErrorMessage">You must agree before purchasing.</p>
           }
         </Col>
         <div className='mt-4 paypalButtonContainer' id="paypalButtonContainer">
-          {!checkbox && <div className="helpingElement" onClick={this.showErrorMessage}/>}
+          {(!agreeCheckbox || !realizeCheckbox) && <div className="helpingElement" onClick={this.showErrorMessage}/>}
           <PaypalExpressBtn
             env={process.env.REACT_APP_PAYPAL_MODE}
             client={CLIENT}
