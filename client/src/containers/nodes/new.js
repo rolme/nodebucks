@@ -233,9 +233,10 @@ class NewNode extends Component {
     const { validPrice, purchasing } = this.state
 
     let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice) : ''
+    nodePrice -= 45
 
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
-    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '-'
+    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '45'
     let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0))
 
     if ( !!user && !validPrice ) {
