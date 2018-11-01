@@ -24,6 +24,7 @@ class Node < ApplicationRecord
   has_many :orders
   has_many :events, dependent: :destroy
   has_many :node_prices, class_name: "NodePriceHistory", dependent: :destroy
+  has_many :node_sell_prices, class_name: "NodeSellPriceHistory", dependent: :destroy
   has_many :rewards, dependent: :destroy
 
 
