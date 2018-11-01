@@ -232,8 +232,7 @@ class NewNode extends Component {
 
     const { validPrice, purchasing } = this.state
 
-    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice) : ''
-    nodePrice -= 45
+    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice-45) : ''
 
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
     const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '45'
