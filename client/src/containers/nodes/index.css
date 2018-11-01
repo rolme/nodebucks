@@ -118,8 +118,13 @@
 .purchasePagePriceInfo,
 .purchasePageCheckbox {
   font-family: 'Raleway';
-  font-size: 16px;
-  color: #000000;
+  font-size: 14px;
+  color: #686868;
+}
+
+.purchasePageErrorMessage {
+  font-family: 'Raleway';
+  font-size: 14px;
 }
 
 .purchasePageCheckbox.text-danger > a {
@@ -143,7 +148,8 @@
   margin: 0 15px;
   display: flex;
   align-items: center;
-  line-height: 9px;
+  line-height: 19px;
+  word-break: break-all;
 }
 
 .purchasePageLinksContainer > a > svg {
@@ -216,7 +222,6 @@
 }
 
 .purchasePagePaymentFormContainer {
-  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -296,12 +301,48 @@
 
 .purchasePageWithCryptoPaymentMessage {
   font-family: 'Raleway';
-  font-size: 16px;
-  color: #000000;
+  font-size: 14px;
+  color: #3B3B3B;
   text-align: center;
   display: block;
-  margin-top: 20px;
   width: 100%;
+}
+
+.purchasePageWithCryptoPaymentMessage > a {
+  font-family: "Raleway-Medium";
+  color: #2283C7;
+}
+
+.purchasePageCryptoDataTableContainer {
+  border: 1px solid #E7E7E7;
+  padding: 10px 0;
+}
+
+.purchasePageCryptoDataTableContainer > table > thead > tr > th {
+  font-family: "Raleway-SemiBold";
+  font-size: 14px;
+  color: #3B3B3B;
+}
+
+.purchasePageCryptoDataTableContainer > table > thead > tr > th {
+  font-family: "Raleway-SemiBold";
+  font-size: 14px;
+  color: #3B3B3B;
+}
+
+.purchasePageCryptoDataTableContainer > table > tbody > tr > td {
+  font-family: "OpenSans";
+  font-size: 14px;
+  color: #686868;
+}
+
+.purchasePageCryptoDataTableContainer > table > tbody > tr > td.bold {
+  font-family: "OpenSans-SemiBold";
+  color: #545454;
+}
+
+.purchasePageCryptoDataTableContainer > table > tbody > tr.totalRow {
+  border-top: 1px solid #E7E7E7;
 }
 
 /*Show Page Style*/
@@ -783,7 +824,10 @@ dt {
   .purchasePageLinksContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
+  }
+
+  .purchasePageLinksContainer > a {
+    margin-left: 0;
   }
 
   .purchasePageLinksContainer > a:first-child {
