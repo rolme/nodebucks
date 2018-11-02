@@ -158,6 +158,17 @@ class NodesController < ApplicationController
     end
   end
 
+  def sell_prices
+    @node = Node.find_by(slug: params[:node_slug])
+    @sell_prices = @node.crypto.sell_prices
+
+    if @sell_prices.any?
+      render json: NodeSellPriceHistory.averages(@sell_prices.order('created_at DESC').by_days(params[:days].to_i).by_timeframe(params[:timeframe]))
+    else
+      render json: { status: :error, message: "No sell price history for this node." }
+    end
+  end
+
 protected
 
   def node_user_params

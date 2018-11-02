@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get :test_reward_scraper
     end
     resources :nodes, except: [:edit, :new], param: :slug do
+      get :sell_prices
       post :generate, on: :collection
       patch :disburse
       patch :online
