@@ -3,8 +3,8 @@ class NodeSellPriceHistoryWorker
   sidekiq_options retry: false, backtrace: true
 
   def perform(*args)
-    Node.all.each do |node|
-      NodeSellPriceHistory.create(node: node, value: node.value)
+    Crypto.all.each do |crypto|
+      NodeSellPriceHistory.create(crypto: crypto, value: crypto.node_sell_price)
     end
   end
 end

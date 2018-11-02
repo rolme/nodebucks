@@ -1,5 +1,5 @@
 class NodeSellPriceHistory < ApplicationRecord
-  belongs_to :node
+  belongs_to :crypto
 
   scope :by_days, ->(n) { where(created_at: n.days.ago..DateTime.current) }
 
