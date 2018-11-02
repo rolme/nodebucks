@@ -149,9 +149,14 @@ class CoinInfo extends Component {
         )
       }
       return(
-        <NavLink to={`/nodes/${masternode.slug}/new`}>
-          <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
-        </NavLink>
+        <div>
+          <NavLink to={`/nodes/${masternode.slug}/new`}>
+            <Button disabled={!masternode.exchanges_available} className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
+          </NavLink>
+          {!masternode.exchanges_available &&
+            <p className="text-center text-danger pl-3 pr-3">Exchanges are not available now, please try later</p>
+          }
+        </div>
       )
     }
   }

@@ -21,6 +21,7 @@ class Crypto < ApplicationRecord
   has_many :crypto_price_histories
 
   scope :active, -> { where(status: 'active') }
+  scope :available, -> { where(exchanges_available: true) }
 
   # This is run on :before_create as part of Sluggable
   def generate_slug(force=false)
