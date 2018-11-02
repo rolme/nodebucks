@@ -19,7 +19,7 @@ class Crypto < ApplicationRecord
 
   has_many :nodes
   has_many :crypto_price_histories
-  has_many :node_sell_prices, class_name: "NodeSellPriceHistory", dependent: :destroy
+  has_many :sell_prices, class_name: "NodeSellPriceHistory", dependent: :destroy
 
   scope :active, -> { where(status: 'active') }
 
