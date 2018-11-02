@@ -21,3 +21,4 @@ json.totalSupply masternode.total_supply
 json.url masternode.url
 json.volume masternode.volume
 json.token @user.generate_token if @user.present?
+json.exchanges_available masternode.exchanges_available

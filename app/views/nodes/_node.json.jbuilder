@@ -61,3 +61,4 @@ json.version node.version
 json.vpsMonthlyCost node.vps_monthly_cost
 json.vpsProvider node.vps_provider
 json.vpsUrl node.vps_url
+json.exchanges_available node.crypto.exchanges_available
