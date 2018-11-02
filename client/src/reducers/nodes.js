@@ -25,6 +25,9 @@ export const UPDATE = 'nodes/UPDATE'
 export const UPDATE_ERROR = 'nodes/UPDATE_ERROR'
 export const UPDATE_SUCCESS = 'nodes/UPDATE_SUCCESS'
 export const REFRESH = 'nodes/REFRESH'
+export const FETCH_NODE_SELL_PRICES = 'nodes/FETCH_NODE_SELL_PRICES'
+export const FETCH_NODE_SELL_PRICES_SUCCESS = 'nodes/FETCH_NODE_SELL_PRICES_SUCCESS'
+export const FETCH_NODE_SELL_PRICES_ERROR = 'nodes/FETCH_NODE_SELL_PRICES_ERROR'
 
 // INITIAL STATE ///////////////////////////////////////////////////////////////
 const initialState = {
@@ -32,7 +35,8 @@ const initialState = {
   list: [],
   pending: false,
   error: false,
-  message: ''
+  message: '',
+  sellPrices: []
 }
 
 // STATE ///////////////////////////////////////////////////////////////////////
@@ -146,7 +150,11 @@ export default (state = initialState, action) => {
         error: false,
         message:`You have successfully sold your ${action.payload.crypto.name} Masternode for $${valueFormat(+action.payload.sellPrice, 2)}. You will no longer receive rewards for that server. Your payment will be sent within 3 days. Thank you.`
       }
-
+    case FETCH_NODE_SELL_PRICES_SUCCESS:
+      return {
+        ...state,
+        sellPrices: action.payload,
+      }
     default:
       return state
   }
@@ -259,6 +267,21 @@ export function sellNode(slug, data, callback) {
       dispatch({ type: SELL_ERROR, payload: { message: error.data } })
       console.log(error)
     })
+  }
+}
+
+export function fetchNodeSellPrices(slug, timeframe, days, callback) {
+  return dispatch => {
+    dispatch({ type: FETCH_NODE_SELL_PRICES })
+    axios.get(`/api/nodes/${slug}/sell_prices?timeframe=${timeframe}&days=${days}`)
+      .then((response) => {
+        dispatch({ type: FETCH_NODE_SELL_PRICES_SUCCESS, payload: response.data })
+        if(callback) callback()
+      })
+      .catch((error) => {
+        dispatch({ type: FETCH_NODE_SELL_PRICES_ERROR, payload: { message: error.data } })
+        console.log(error)
+      })
   }
 }
 

@@ -4,16 +4,12 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import { ClipLoader } from 'react-spinners'
-import { Alert, Container, Col, Row, Tooltip, Button, } from 'reactstrap'
+import { Alert, Container, Col, Table } from 'reactstrap'
 import './index.css'
 import { isEmpty } from 'lodash'
-import Countdown from '../../components/countdown'
 import PaymentMethod from './paymentForm'
 import AuthForms from './authForms'
 import { fetchCrypto } from '../../reducers/cryptos'
-
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { faSyncAlt } from '@fortawesome/fontawesome-free-solid'
 
 import {
   purchaseNode,
@@ -31,12 +27,10 @@ class NewNode extends Component {
     this.state = {
       showReloadAlert: false,
       validPrice: true,
-      spreadTooltipOpen: false,
       purchasing: false,
     }
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handlePurchase = this.handlePurchase.bind(this)
-    this.toggleTooltip = this.toggleTooltip.bind(this)
   }
 
   componentWillMount() {
@@ -52,7 +46,7 @@ class NewNode extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    const { node, crypto } = nextProps
+    const { user, node, crypto, nodePending, refreshing } = nextProps
     let buyLiquidity = true
     if ( !!node && !!node.crypto && !!node.crypto.liquidity ) {
       buyLiquidity = node.crypto.liquidity.buy
@@ -60,6 +54,13 @@ class NewNode extends Component {
       buyLiquidity = crypto.liquidity.buy
     }
     !buyLiquidity && this.props.history.push('/dashboard')
+
+    if ( !!user && !!node.cost && !nodePending && !refreshing ) {
+      const that = this
+      setTimeout(() => {
+        that.handleExpire()
+      }, node.timeLimit * 1000)
+    }
 
   }
 
@@ -124,26 +125,27 @@ class NewNode extends Component {
     this.checkPriceDataAvailability()
   }
 
-  handleGoBack() {
-    window.history.back()
-  }
-
   render() {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
-    const { validPrice, showReloadAlert, purchasing } = this.state
+    const { showReloadAlert, purchasing } = this.state
 
-    if (purchasing) return <Redirect to='/dashboard'/>
+    if ( purchasing ) return <Redirect to='/dashboard'/>
 
-    if (cryptoPending || nodePending) {
+    if ( cryptoPending || nodePending ) {
       return <div className="spinnerContainer pageLoaderContainer"><RingLoader size={100} color={'#3F89E8'} loading={true}/></div>
     }
 
-    if (!isEmpty(crypto) && ['Unavailable', 'Contact Us'].includes(crypto.purchasableStatus)) return <Redirect to={`/masternodes/${crypto.slug}`} />
-    if (!isEmpty(node) && ['Unavailable', 'Contact Us'].includes(node.crypto.purchasableStatus)) return <Redirect to={`/masternodes/${node.crypto.slug}`} />
+    if ( !isEmpty(crypto) && [ 'Unavailable', 'Contact Us' ].includes(crypto.purchasableStatus) ) return <Redirect to={`/masternodes/${crypto.slug}`}/>
+    if ( !isEmpty(node) && [ 'Unavailable', 'Contact Us' ].includes(node.crypto.purchasableStatus) ) return <Redirect to={`/masternodes/${node.crypto.slug}`}/>
 
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
-    if (!!user && !user.enabled) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
-    if (!!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`} />
+    if ( !!user && !user.enabled ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
+    if ( !!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0 ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
+
+    let homePageUrl = !!masternode && !!masternode.url && (masternode.url).replace('https://', '')
+
+    if ( homePageUrl[ homePageUrl.length - 1 ] === '/' )
+      homePageUrl = homePageUrl.slice(0, -1)
 
     return (
       <Container fluid className="purchasePageContainer">
@@ -155,16 +157,25 @@ class NewNode extends Component {
         </div>
         }
         <div className="contentContainer purchasePageContentContainer">
-          <p onClick={this.handleGoBack} className="purchasePageBackButton"><img src="/assets/images/backArrow.png" alt="Back"/>Back</p>
           <div className="purchasePageMainContentContainer">
-            <h1 className="pt-3 text-center purchasePageHeader pageTitle">
-              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="60px" className="p-1"/>}
-              {
-                !!nodePending || !!cryptoPending
-                  ? 'Calculating latest pricing ...'
-                  : `Purchase ${masternode.name} Masternode`
-              }
-            </h1>
+            <Col className="d-flex align-items-center px-0">
+              {!!masternode.cryptoSlug && !nodePending && !cryptoPending && <img alt="logo" src={`/assets/images/logos/${masternode.cryptoSlug}.png`} width="95px" className="p-1"/>}
+              <Col className="d-flex flex-column">
+                <h1 className="purchasePageHeader pageTitle">
+                  {
+                    !!nodePending || !!cryptoPending
+                      ? 'Calculating latest pricing ...'
+                      : `${masternode.name}`
+                  }
+                </h1>
+                {!!homePageUrl && !!masternode.name && !nodePending &&
+                <Col xl={12} className="d-flex purchasePageLinksContainer px-0">
+                  <a href={masternode.url} target="_new" className="ml-0"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{homePageUrl}</a>
+                  <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
+                </Col>
+                }
+              </Col>
+            </Col>
             {
               nodeMessage === 'Node price is 0. Purchase rejected.' &&
               <Alert color='danger'>
@@ -183,10 +194,9 @@ class NewNode extends Component {
                   </div>
                   : this.displayCryptoData(masternode)
               }
-              {!nodePending && !purchasing && this.displayPricingInfo(masternode)}
-              {!!user && validPrice && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
+              {!!user && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
-              <p className="purchasePageWithCryptoPaymentMessage">Want to pay with crypto? <a href="/contact" target="_blank" rel="noopener noreferrer">Contact us for payment details.</a></p>
+              <p className="purchasePageWithCryptoPaymentMessage"> <a href="/contact" target="_blank" rel="noopener noreferrer">Contact Us</a> if you would like to pay with cryptocurrency.</p>
             </Col>
           </div>
         </div>
@@ -196,8 +206,9 @@ class NewNode extends Component {
 
   displayPaymentForm(item, purchasing) {
     const { refreshing } = this.props
+    const { validPrice } = this.state
     return (
-      <Col xl={12} className="px-0 pt-2">
+      <Col xl={12} className="px-0 pt-2 mt-4">
         <div className='purchasePagePaymentFormContainer'>
           <PaymentMethod
             slug={item.nodeSlug}
@@ -206,112 +217,84 @@ class NewNode extends Component {
             refreshing={refreshing}
             purchasing={purchasing}
             node={this.props.node}
+            price={item.nodePrice}
           />
+          {!validPrice &&
+          <p className="purchasePagePriceInfo text-center text-danger">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
+          }
         </div>
       </Col>
     )
   }
 
-  toggleTooltip(name) {
-    name = name + 'TooltipOpen'
-    this.setState({ [ name ]: !this.state[ name ] })
-  }
-
-  displayPricingInfo(masternode) {
-    const { user, refreshing, nodePending, cryptoPending } = this.props
-    const { validPrice } = this.state
-    let nodePrice = (!!masternode.nodePrice || masternode.nodePrice === '0')
-
-    let info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently so you must purchase within the next 3 minutes to guarantee this price.</p>
-    if ( !user ) {
-      info = <p className="purchasePagePriceInfo text-center">Node prices fluctuate frequently. Login or register to guarantee a price. </p>
-    } else if ( !validPrice ) {
-      info = <p className="purchasePagePriceInfo text-center">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
-    }
-    return (
-      <Col xl={{ size: 12, offset: 0 }} lg={{ size: 12, offset: 0 }} md={{ size: 12, offset: 0 }} className="px-0 purchasePagePricingInfoPartContainer">
-        <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 10, offset: 1 }} className="px-0 d-flex align-items-center justify-content-center flex-column">
-          {!!user && <h2 className="purchasePageCountDown text-center"><Countdown refreshing={refreshing || !!nodePending || !!cryptoPending} timer={masternode.timeLimit} onExpire={this.handleExpire.bind(this)}/></h2>}
-          {info}
-          {!!user && !nodePending && !cryptoPending && nodePrice && <Button disabled={refreshing} className="purchasePageRefreshButton" onClick={this.handleRefresh}> <FontAwesomeIcon icon={faSyncAlt} color="#4D91CD" className="mr-2"/>Refresh</Button>}
-        </Col>
-      </Col>
-    )
-  }
-
-  renderSpreadWarning() {
-    const { node } = this.props
-    let difference = +node.value / node.cost
-    if ( difference < 0.85 ) {
-      const sellValue = valueFormat(+node.value, 2)
-      difference = '-' + (valueFormat((1 - difference)*100, 2)) + '%'
-      return (
-        <Col xl={{ size: 8, offset: 2 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="spreadWarningMessageContainer d-flex flex-column align-items-center justify-content-center">
-          <p>Warning: Due to low liquidity on exchanges, the resell value of this masternode is well below the purchase price. </p>
-          <p>Sell Value: ${sellValue} ({difference})</p>
-        </Col>
-      )
-    }
-  }
-
   displayCryptoData(item) {
-    const { user, refreshing, node, nodePending, cryptoPending } = this.props
+    const { user, nodePending, cryptoPending, refreshing } = this.props
 
-    const { validPrice, spreadTooltipOpen, purchasing } = this.state
+    const { validPrice, purchasing } = this.state
 
-    let nodePrice = (!!item.nodePrice || item.nodePrice === '0') ? '$' + valueFormat(+item.nodePrice) : ''
+    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice-45) : ''
 
-    const spread = (!!node.cost && node.value) ? '$' + valueFormat(+node.cost - node.value) : ''
-    const annualRoi = (!!item.annualRoiPercentage || item.annualRoiPercentage === '0') ? (valueFormat((+item.annualRoiPercentage) * 100, 2) + ' %') : ''
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
+    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '45'
+    let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0))
 
-    if ( !!user ) {
-      nodePrice = (validPrice) ? nodePrice : (<s>{nodePrice}</s>)
+    if ( !!user && !validPrice ) {
+      nodePrice = <s>{nodePrice}</s>
+      total = <s>{total}</s>
     }
 
     if ( purchasing ) {
       return null;
     }
 
+    const ready = !!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing
+
     return (
-      <Col xl={12} lg={12} md={12} className="px-0 pt-2">
-        <Row className="purchasePageCrpytoDataContainer">
-          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
-            <h6 className="mb-0">Estimated Annual ROI</h6>
-            {!!annualRoi && !nodePending && !cryptoPending ? <p className="mb-0">{annualRoi}</p> : <ClipLoader
-              size={35}
-              color={'#3F89E8'}
-              loading={true}
-            />}</Col>
-          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
-            <h6 className="mb-0">{priceHeader}</h6>
-            <div className="d-flex align-items-center justify-content-center">
-              {!!nodePrice && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing ? <p className="mb-0">{nodePrice}</p> : <ClipLoader
+      <Col xl={12} lg={12} md={12} className="purchasePageCryptoDataTableContainer mt-4 bg-white">
+        <Table borderless className="mb-0">
+          <thead>
+          <tr>
+            <th className="text-center">Qty</th>
+            <th>Item</th>
+            <th>{priceHeader}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td className="text-center">1</td>
+            <td>{item.name} Masternode</td>
+            <td className="bold">
+              {ready ? nodePrice :
+                <ClipLoader
+                  size={35}
+                  color={'#3F89E8'}
+                  loading={true}
+                />}
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>One-Time Setup Fee</td>
+            <td className="bold"> {ready ? fee :
+              <ClipLoader
                 size={35}
                 color={'#3F89E8'}
                 loading={true}
-              />}
-            </div>
-          </Col>
-          <Col xl={{ size: 4, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 8, offset: 2 }} className="d-flex flex-column align-items-center mb-3">
-            <h6 className="mb-0">Total Masternodes</h6>
-            {!!item.masternodes && !nodePending && !cryptoPending ? <p className="mb-0">{item.masternodes}</p> : <ClipLoader
-              size={35}
-              color={'#3F89E8'}
-              loading={true}
-            />}</Col>
-        </Row>
-        {!!nodePrice && !!spread && !nodePending && !cryptoPending && ((!!nodePrice.props && !!nodePrice.props.children) || !nodePrice.props) && !refreshing &&
-        <Row>
-          <Col xl={{ size: 4, offset: 4 }} lg={{ size: 4, offset: 4 }} md={{ size: 8, offset: 2 }} className="d-flex align-items-center justify-content-center">
-            <p className="mb-0 purchasePageSpreadText">*Spread: {spread} <span id="spreadTooltip">?</span></p>
-            <Tooltip placement="top-end" isOpen={spreadTooltipOpen} target="spreadTooltip" className="spreadTooltipContainer" toggle={() => this.toggleTooltip('spread')}>
-              <span>The spread is the difference between the buy and sell price of this masternode.</span> <br/>It is determined by the exchange order books. A spread of $100 means you will lose $100 if you sell your node immediately after purchasing it.
-            </Tooltip>
-          </Col>
-          {this.renderSpreadWarning(item)}
-        </Row>
-        }
+              />}</td>
+          </tr>
+          <tr className="totalRow">
+            <td></td>
+            <td className="bold">Total Amount</td>
+            <td className="bold">
+              {ready ? total :
+                <ClipLoader
+                  size={35}
+                  color={'#3F89E8'}
+                  loading={true}
+                />}</td>
+          </tr>
+          </tbody>
+        </Table>
       </Col>
     )
   }

@@ -141,7 +141,7 @@ class User < ApplicationRecord
   end
 
   def btc_wallet
-    @btc_wallet ||= accounts.find { |a| a.symbol == 'btc' }.wallet
+    @btc_wallet ||= accounts.find { |a| a.symbol.downcase == 'btc' }.wallet
   end
 
   def total_balance
@@ -164,8 +164,8 @@ class User < ApplicationRecord
   end
 
   def create_btc_account
-    account   = accounts.find{ |a| a.symbol == 'BTC' }
-    account ||= accounts.create(crypto_id: Crypto.find_by(symbol: 'BTC').id)
+    account   = accounts.find{ |a| a.symbol.downcase == 'btc' }
+    account ||= accounts.create(crypto_id: Crypto.find_by(symbol: ['btc', 'BTC']).id)
   end
 
   def set_upline(affiliate_key)
