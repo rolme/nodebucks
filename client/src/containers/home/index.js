@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import LazyLoad from 'react-lazyload'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
@@ -58,7 +59,9 @@ class Home extends Component {
           }
         </div>
         <div className="homeMainBannerContainer">
-          <img src="/assets/images/homeImages/homeMainBannerBackground.jpg" alt="Home Main Banner Background" className="w-100"/>
+          <LazyLoad height={200}>
+            <img src="/assets/images/homeImages/homeMainBannerBackground.jpg" alt="Home Main Banner Background" className="w-100"/>
+          </LazyLoad>
           <div className="contentContainer w-100 px-0">
             <Col className="px-xl-0 px-2">
               <Col xl={{ size: 6, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 6, offset: 0 }} sm={{ size: 7, offset: 0 }} xs={{ size: 10, offset: 0 }} className="px-0">
@@ -101,21 +104,27 @@ class Home extends Component {
       <Col className="d-flex flex-wrap justify-content-center">
         <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
-            <img src="/assets/images/homeImages/whatIsMasternodeIcon.png" alt="What is Masternode"/>
+            <LazyLoad height={60}>
+              <img src="/assets/images/homeImages/whatIsMasternodeIcon.png" alt="What is Masternode"/>
+            </LazyLoad>
           </div>
           <h3>What is a masternode?</h3>
           <p>A masternode is a blockchain server that processes transactions and secures the network. Each masternode receives rewards in exchange for the work it performs. </p>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
-            <img src="/assets/images/homeImages/howMuchIcon.png" alt="How much does it pay? "/>
+            <LazyLoad height={60}>
+              <img src="/assets/images/homeImages/howMuchIcon.png" alt="How much does it pay? "/>
+            </LazyLoad>
           </div>
           <h3>How much does it pay?</h3>
           <p>The rewards from a masternode vary depending on the type of coin. Masternodes can pay anywhere from 5% to 150% per year. Choose the masternode that is right for you.</p>
         </Col>
         <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
-            <img src="/assets/images/homeImages/howIStartedIcon.png" alt="How do I get started?"/>
+            <LazyLoad height={60}>
+              <img src="/assets/images/homeImages/howIStartedIcon.png" alt="How do I get started?"/>
+            </LazyLoad>
           </div>
           <h3>How do I get started?</h3>
           <ul type="circle">
@@ -134,7 +143,9 @@ class Home extends Component {
       <Col className="d-flex flex-column justify-content-center">
         <Col className="screenshotsSectionItemContainer flex-xl-row flex-lg-row flex-md-row flex-column-reverse">
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
-            <img src="/assets/images/homeImages/dashboardScreenshot.png" alt="Dashboard Screenshot"/>
+            <LazyLoad height={200}>
+              <img src="/assets/images/homeImages/dashboardScreenshot.png" alt="Dashboard Screenshot"/>
+            </LazyLoad>
           </Col>
           <div className="screenshotsSectionTextPartContainer ml-xl-5 ml-lg-5 ml-md-3 ml-0">
             <h2>Clean & Simple Dashboard</h2>
@@ -147,12 +158,16 @@ class Home extends Component {
             <p>Each masternode view provides you with a complete overview of the node from the time it was created. See a complete record of every reward you have received and 100% transparency of our service fees. Setup automatic withdrawals or choose to withdraw manually. </p>
           </div>
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
-            <img src="/assets/images/homeImages/historyScreenshot.png" alt="History Screenshot"/>
+            <LazyLoad height={200}>
+              <img src="/assets/images/homeImages/historyScreenshot.png" alt="History Screenshot"/>
+            </LazyLoad>
           </Col>
         </Col>
         <Col className="screenshotsSectionItemContainer mt-5 flex-xl-row flex-lg-row flex-md-row flex-column-reverse">
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
-            <img src="/assets/images/homeImages/securityScreenshot.png" alt="Security Screenshot"/>
+            <LazyLoad height={200}>
+              <img src="/assets/images/homeImages/securityScreenshot.png" alt="Security Screenshot"/>
+            </LazyLoad>
           </Col>
           <div className="screenshotsSectionTextPartContainer ml-xl-5 ml-lg-5 ml-md-3 ml-0">
             <h2>Account & Coin Security</h2>
@@ -165,7 +180,9 @@ class Home extends Component {
             <p>We appreciate you sharing Nodebucks with friends and family. Take part in our affiliate program to earn rewards every time your referrals earn rewards on their masternodes. And our affiliate program goes three tiers deep! </p>
           </div>
           <Col xl={6} lg={5} md={5} sm={8} xs={10}>
-            <img src="/assets/images/homeImages/affiliateScreenshot.png" alt="Affiliate Screenshot"/>
+            <LazyLoad height={200}>
+              <img src="/assets/images/homeImages/affiliateScreenshot.png" alt="Affiliate Screenshot"/>
+            </LazyLoad>
           </Col>
         </Col>
       </Col>
