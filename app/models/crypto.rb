@@ -22,6 +22,7 @@ class Crypto < ApplicationRecord
   has_many :sell_prices, class_name: "NodeSellPriceHistory", dependent: :destroy
 
   scope :active, -> { where(status: 'active') }
+  scope :available, -> { where(exchanges_available: true) }
 
   # This is run on :before_create as part of Sluggable
   def generate_slug(force=false)

@@ -289,13 +289,16 @@ class Node extends Component {
         {sellable && (
           <Col xl={8} lg={8} md={8} sm={8} xs={12} className="text-xl-right text-lg-right text-md-right text-sm-center text-xs-center my-2 px-0">
             <NavLink to={`/nodes/${node.slug}/sell`}>
-              <Button disabled={!isActive} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
+              <Button disabled={!isActive || !node.exchanges_available} className="submitButton col-xl-10 col-lg-10 col-md-12 col-sm-10 col-xs-10">Sell Server (${value})</Button>
             </NavLink>
             {!verified &&
             <NavLink to="/settings/verification" className="d-block col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Please Verify ID</NavLink>
             }
             {!isActive && !!verified &&
             <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Disabled until activated</p>
+            }
+            {!node.exchanges_available &&
+            <p className="col-xl-10 col-lg-10 offset-xl-2 offset-lg-2 col-12 offset-0 text-center text-danger">Exchanges are not available now, please try later</p>
             }
           </Col>
         )}

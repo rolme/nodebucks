@@ -104,7 +104,7 @@ class User < ApplicationRecord
 
   # TODO: This should be a separate services UserWithdrawal?
   def balances
-    Crypto.active.sort_by(&:name).map do |crypto|
+    Crypto.available.active.sort_by(&:name).map do |crypto|
       account = accounts.find { |a| a.crypto_id == crypto.id }
       filtered_nodes = nodes.select{ |n| n.crypto_id == crypto.id && ['online', 'new'].include?(n.status) }
       if account.nil?
@@ -148,7 +148,7 @@ class User < ApplicationRecord
     btc = 0.0
     usd = 0.0
     accounts.each do |account|
-      next unless account.crypto.withdrawable?
+      next unless account.crypto.withdrawable? && account.crypto.exchanges_available
 
       crypto_pricer = CryptoPricer.new(account.crypto)
       btc += crypto_pricer.to_btc(account.balance, 'sell')
