@@ -6,6 +6,11 @@
     "deploy": "cp -a client/build/. public/",
     "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
   },
+  "engines": {
+    "node": "^11.0.0",
+    "npm": "^6.4.1",
+    "yarn": "^1.12.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rolme/nodebucks.git"
