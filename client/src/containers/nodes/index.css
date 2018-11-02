@@ -135,6 +135,7 @@
 .purchasePageHeader {
   color: #000000;
   font-size: 36px;
+  margin-bottom: 0;
 }
 
 .purchasePageLinksContainer {
@@ -244,6 +245,11 @@
   border-radius: 4px;
   background: #FAFAFA;;
   width: 100%;
+}
+
+.priceColumn {
+  max-width: 100px;
+  text-align: right;
 }
 
 .purchasePagePaymentFormContainer > form > label > .StripeElement--focuss {
