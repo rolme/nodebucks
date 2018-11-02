@@ -40,6 +40,7 @@
     "react-dom": "^16.4.0",
     "react-dropzone": "^5.1.0",
     "react-helmet": "^5.2.0",
+    "react-lazyload": "^2.3.0",
     "react-loadable": "^5.4.0",
     "react-paypal-express-checkout": "^1.0.4",
     "react-redux": "^5.0.7",
