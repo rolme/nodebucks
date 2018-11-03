@@ -208,7 +208,7 @@ class NewNode extends Component {
             refreshing={refreshing}
             purchasing={purchasing}
             node={this.props.node}
-            price={item.sellPrice}
+            price={item.nodePrice}
           />
           {!validPrice &&
           <p className="purchasePagePriceInfo text-center text-danger">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
