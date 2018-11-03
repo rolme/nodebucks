@@ -33,7 +33,8 @@ class Orders extends Component {
                 <th>Node ID</th>
                 <th>Coin</th>
                 <th>Type</th>
-                <th>Amount</th>
+                <th>Value</th>
+                <th>Fee(s)</th>
                 <th>Status</th>
               </tr>
               </thead>
@@ -50,7 +51,8 @@ class Orders extends Component {
   handleOrdersData(orders) {
     if ( !!orders.length ) {
       return orders.map(order => {
-        const amount = !!order.amount ? '$ ' + valueFormat(+order.amount, 2) : ''
+        const amount = !!order.amount ? '$' + valueFormat(+order.amount, 2) : ''
+        const fee = !!order.fee ? '$' + valueFormat(+order.fee, 2) : 'none'
         return (
           <tr key={order.orderId}>
             <td>{moment(order.createdAt).format("MMM D, YYYY  HH:mm")}</td>
@@ -59,6 +61,7 @@ class Orders extends Component {
             <td>{order.node ? order.node.crypto.name : <div className="text-danger">N/A</div>}</td>
             <td>{order.orderType}</td>
             <td>{amount}</td>
+            <td>{fee}</td>
             <td className={order.status === 'canceled' ? "text-danger" : ''}>{capitalize(order.status)}</td>
           </tr>
         )

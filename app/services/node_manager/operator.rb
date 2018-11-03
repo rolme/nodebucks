@@ -67,6 +67,7 @@ module NodeManager
         user_id: node.user_id,
         currency: 'USD',
         amount: node.cost,
+        fee: node.flat_setup_fee,
         status: 'unpaid',
         order_type: 'buy',
         payment_method: payment_method,

@@ -3,18 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
-  "babel": {
-    "presets": [
-      "react",
-      "latest"
-    ],
-    "plugins": [
-      "syntax-dynamic-import",
-      "transform-object-rest-spread",
-      "transform-class-properties",
-      "transform-regenerator"
-    ]
-  },
   "engines": {
     "node": "^11.0.0",
     "npm": "^6.4.1",
@@ -73,5 +61,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

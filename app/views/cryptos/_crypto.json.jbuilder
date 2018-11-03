@@ -16,6 +16,7 @@ json.name crypto.name
 json.dailyReward crypto.daily_reward
 json.description crypto.description
 json.firstRewardDays crypto.first_reward_days
+json.flatSetupFee crypto.flat_setup_fee
 json.price crypto.price
 json.profile crypto.profile
 json.purchasableStatus crypto.purchasable_status

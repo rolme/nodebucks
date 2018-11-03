@@ -19,6 +19,7 @@ json.events node.events.sort { |e1, e2| e2.timestamp <=> e1.timestamp }.each do 
   json.value event.value
 end
 json.explorerUrl "#{node.explorer_url}#{node.wallet}"
+json.flatSetupFee node.flat_setup_fee
 json.id node.id + 10000
 json.ip node.ip
 json.isReady node.ready?

@@ -81,6 +81,7 @@ class NewNode extends Component {
       masternode.annualRoi = item.annualRoi
       masternode.annualRoiPercentage = item.annualRoiPercentage
       masternode.cryptoSlug = item.slug
+      masternode.flatSetupFee = item.flatSetupFee
       masternode.masternodes = item.masternodes
       masternode.name = item.name
       masternode.nodePrice = item.nodePrice
@@ -90,6 +91,7 @@ class NewNode extends Component {
       masternode.annualRoi = item.crypto.annualRoi
       masternode.annualRoiPercentage = item.crypto.annualRoiPercentage
       masternode.cryptoSlug = item.crypto.slug
+      masternode.flatSetupFee = item.flatSetupFee
       masternode.masternodes = item.crypto.masternodes
       masternode.name = item.crypto.name
       masternode.nodePrice = item.cost
@@ -208,7 +210,7 @@ class NewNode extends Component {
             refreshing={refreshing}
             purchasing={purchasing}
             node={this.props.node}
-            price={item.nodePrice}
+            price={item.sellPrice}
           />
           {!validPrice &&
           <p className="purchasePagePriceInfo text-center text-danger">Price displayed is no longer valid. Please <span onClick={() => window.location.reload()} className="purchasePageLinkText">reload page</span> to get the latest pricing.</p>
@@ -223,11 +225,11 @@ class NewNode extends Component {
 
     const { purchasing } = this.state
 
-    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice - 45) : ''
+    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice, 2) : ''
 
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
-    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '$45'
-    let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0))
+    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee, 2) : '$0'
+    let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0), 2)
 
     if ( purchasing ) {
       return null;

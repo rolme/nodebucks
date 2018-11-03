@@ -27,6 +27,6 @@
 .ordersPageTableContainer > div > table > tbody > tr > td {
   border: none;
   text-align: center;
-  min-width: 160px;
+  min-width: 140px;
   font-size: 14px;
 }

@@ -108,7 +108,7 @@ module NodeManager
 
     def calculate_price(crypto, purchasing_price=nil)
       purchasing_price ||= crypto.purchasable_price
-      setup_cost         = (purchasing_price * crypto.percentage_setup_fee) + crypto.flat_setup_fee
+      setup_cost         = (purchasing_price * crypto.percentage_setup_fee)
 
       # Assume double converstion fee for USD to BTC, then BTC to Coin
       conversion_cost    = purchasing_price * (crypto.percentage_conversion_fee * 2)
@@ -131,10 +131,10 @@ module NodeManager
     end
 
     def exchanges_available?(crypto)
-      @binance.available?(crypto.symbol) &&
-      @bittrex.available?(crypto.symbol) &&
-      @cryptopia.available?(crypto.symbol) &&
-      @kucoin.available?(crypto.symbol) &&
+      @binance.available?(crypto.symbol) ||
+      @bittrex.available?(crypto.symbol) ||
+      @cryptopia.available?(crypto.symbol) ||
+      @kucoin.available?(crypto.symbol) ||
       @poloniex.available?(crypto.symbol)
     end
   end
