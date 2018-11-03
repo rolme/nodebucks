@@ -84,6 +84,7 @@ class NewNode extends Component {
       masternode.masternodes = item.masternodes
       masternode.name = item.name
       masternode.nodePrice = item.nodePrice
+      masternode.sellPrice = item.sellPrice
       masternode.url = item.url
     } else {
       masternode.annualRoi = item.crypto.annualRoi
@@ -92,6 +93,7 @@ class NewNode extends Component {
       masternode.masternodes = item.crypto.masternodes
       masternode.name = item.crypto.name
       masternode.nodePrice = item.cost
+      masternode.sellPrice = item.sellPrice
       masternode.nodeSlug = item.slug
       masternode.timeLimit = item.timeLimit
       masternode.url = item.crypto.url
@@ -142,11 +144,6 @@ class NewNode extends Component {
     if ( !!user && !user.enabled ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
     if ( !!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0 ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
 
-    let homePageUrl = !!masternode && !!masternode.url && (masternode.url).replace('https://', '')
-
-    if ( homePageUrl[ homePageUrl.length - 1 ] === '/' )
-      homePageUrl = homePageUrl.slice(0, -1)
-
     return (
       <Container fluid className="purchasePageContainer">
         {showReloadAlert && !masternode.nodePrice &&
@@ -165,15 +162,9 @@ class NewNode extends Component {
                   {
                     !!nodePending || !!cryptoPending
                       ? 'Calculating latest pricing ...'
-                      : `${masternode.name}`
+                      : `${masternode.name} (${!!masternode.cryptoSlug ? (masternode.cryptoSlug).toUpperCase() : ''})`
                   }
                 </h1>
-                {!!homePageUrl && !!masternode.name && !nodePending &&
-                <Col xl={12} className="d-flex purchasePageLinksContainer px-0">
-                  <a href={masternode.url} target="_new" className="ml-0"> <img alt="logo" src={`/assets/images/globe.png`} width="26px" className="mr-2"/>{homePageUrl}</a>
-                  <a href={`https://coinmarketcap.com/currencies/${masternode.cryptoSlug}/`} target="_new"><img alt="logo" src={`/assets/images/chartLine.png`} width="23px" className="mr-2"/> {masternode.name} Market Info</a>
-                </Col>
-                }
               </Col>
             </Col>
             {
@@ -196,7 +187,7 @@ class NewNode extends Component {
               }
               {!!user && !!masternode.nodePrice && !nodePending && this.displayPaymentForm(masternode, purchasing)}
               {!user && <AuthForms/>}
-              <p className="purchasePageWithCryptoPaymentMessage"> <a href="/contact" target="_blank" rel="noopener noreferrer">Contact Us</a> if you would like to pay with cryptocurrency.</p>
+              <p className="purchasePageWithCryptoPaymentMessage"><a href="/contact" target="_blank" rel="noopener noreferrer">Contact Us</a> if you would like to pay with cryptocurrency.</p>
             </Col>
           </div>
         </div>
@@ -230,18 +221,13 @@ class NewNode extends Component {
   displayCryptoData(item) {
     const { user, nodePending, cryptoPending, refreshing } = this.props
 
-    const { validPrice, purchasing } = this.state
+    const { purchasing } = this.state
 
-    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice-45) : ''
+    let nodePrice = !!item.nodePrice ? '$' + valueFormat(+item.nodePrice - 45) : ''
 
     const priceHeader = (!!user) ? 'Price' : 'Est. Price'
-    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '45'
+    const fee = !!item.flatSetupFee ? '$' + valueFormat(+item.flatSetupFee) : '$45'
     let total = '$' + valueFormat((!!item.flatSetupFee ? +item.flatSetupFee : 0) + (!!item.nodePrice ? +item.nodePrice : 0))
-
-    if ( !!user && !validPrice ) {
-      nodePrice = <s>{nodePrice}</s>
-      total = <s>{total}</s>
-    }
 
     if ( purchasing ) {
       return null;
@@ -256,7 +242,7 @@ class NewNode extends Component {
           <tr>
             <th className="text-center">Qty</th>
             <th>Item</th>
-            <th>{priceHeader}</th>
+            <th><p className="priceColumn">{priceHeader}</p></th>
           </tr>
           </thead>
           <tbody>
@@ -264,34 +250,43 @@ class NewNode extends Component {
             <td className="text-center">1</td>
             <td>{item.name} Masternode</td>
             <td className="bold">
-              {ready ? nodePrice :
-                <ClipLoader
-                  size={35}
-                  color={'#3F89E8'}
-                  loading={true}
-                />}
+              <div className="priceColumn">
+                {ready ? nodePrice :
+                  <ClipLoader
+                    size={35}
+                    color={'#3F89E8'}
+                    loading={true}
+                  />}
+              </div>
             </td>
           </tr>
           <tr>
             <td></td>
             <td>One-Time Setup Fee</td>
-            <td className="bold"> {ready ? fee :
-              <ClipLoader
-                size={35}
-                color={'#3F89E8'}
-                loading={true}
-              />}</td>
+            <td className="bold">
+              <div className="priceColumn">
+                {ready ? fee :
+                  <ClipLoader
+                    size={35}
+                    color={'#3F89E8'}
+                    loading={true}
+                  />}
+              </div>
+            </td>
           </tr>
           <tr className="totalRow">
             <td></td>
             <td className="bold">Total Amount</td>
             <td className="bold">
-              {ready ? total :
-                <ClipLoader
-                  size={35}
-                  color={'#3F89E8'}
-                  loading={true}
-                />}</td>
+              <div className="priceColumn">
+                {ready ? total :
+                  <ClipLoader
+                    size={35}
+                    color={'#3F89E8'}
+                    loading={true}
+                  />}
+              </div>
+            </td>
           </tr>
           </tbody>
         </Table>
