@@ -104,4 +104,7 @@ if ENV["RAILS_ENV"] != 'production'
   NodeRewarder.run
 end
 
+puts "Get sell prices."
+NodeSellPriceHistoryWorker.new.perform
+
 puts "DONE"

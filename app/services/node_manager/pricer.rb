@@ -131,10 +131,10 @@ module NodeManager
     end
 
     def exchanges_available?(crypto)
-      @binance.available?(crypto.symbol) &&
-      @bittrex.available?(crypto.symbol) &&
-      @cryptopia.available?(crypto.symbol) &&
-      @kucoin.available?(crypto.symbol) &&
+      @binance.available?(crypto.symbol) ||
+      @bittrex.available?(crypto.symbol) ||
+      @cryptopia.available?(crypto.symbol) ||
+      @kucoin.available?(crypto.symbol) ||
       @poloniex.available?(crypto.symbol)
     end
   end
