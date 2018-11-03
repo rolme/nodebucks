@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_202237) do
+ActiveRecord::Schema.define(version: 2018_11_02_103040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_202237) do
     t.integer "first_reward_days", default: 0
     t.decimal "node_sell_price_btc", default: "0.0"
     t.boolean "is_listed", default: false
+    t.boolean "exchanges_available", default: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -139,6 +140,14 @@ ActiveRecord::Schema.define(version: 2018_10_31_202237) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_node_price_histories_on_node_id"
+  end
+
+  create_table "node_sell_price_histories", force: :cascade do |t|
+    t.bigint "crypto_id"
+    t.decimal "value", default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crypto_id"], name: "index_node_sell_price_histories_on_crypto_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -309,6 +318,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_202237) do
   add_foreign_key "crypto_prices", "cryptos"
   add_foreign_key "events", "nodes"
   add_foreign_key "node_price_histories", "nodes"
+  add_foreign_key "node_sell_price_histories", "cryptos"
   add_foreign_key "orders", "nodes"
   add_foreign_key "orders", "users"
   add_foreign_key "rewards", "nodes"
