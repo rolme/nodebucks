@@ -12,6 +12,7 @@ module NodeManager
         user_id: user.id,
         crypto_id: crypto.id,
         cost: cost.present? ? cost : crypto.node_price,
+        sell_price: crypto.node_sell_price,
         status: 'reserved',
         buy_priced_at: DateTime.current
       )
