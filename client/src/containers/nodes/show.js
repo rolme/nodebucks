@@ -191,7 +191,7 @@ class Node extends Component {
             <dd className="col-6">Value</dd>
             <dt className="col-6 text-right">${value}</dt>
 
-            <dd className="col-6">Cost</dd>
+            <dd className="col-6">Invitial Value</dd>
             <dt className="col-6 text-right">${cost}</dt>
 
             <dd className="col-6">Total Rewards</dd>

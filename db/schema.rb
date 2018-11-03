@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_103040) do
+ActiveRecord::Schema.define(version: 2018_11_03_202311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_103040) do
     t.text "paypal_response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "fee", default: "0.0"
     t.index ["node_id"], name: "index_orders_on_node_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
