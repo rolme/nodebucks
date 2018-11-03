@@ -28,6 +28,7 @@ class Node < ApplicationRecord
 
 
   delegate :explorer_url,
+           :flat_setup_fee,
            :name,
            :percentage_conversion_fee,
            :percentage_hosting_fee,

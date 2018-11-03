@@ -10,7 +10,7 @@ Crypto.create([
   { purchasable_status: 'Contact Us', name: 'Blocknet', symbol: 'BLOCK', description: 'Blocknet empowers the passionate communities behind every coin with atomic swaps on a truly decentralized cross-blockchain platform. Blocknet serves as a connector between blockchains, markets, and communities.', status: 'active', url: 'https://www.blocknet.co/', explorer_url: 'https://chainz.cryptoid.info/block/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/707/', stake: 5000, daily_reward: 2.1079, block_reward: 10.7, logo_url: '/assets/images/logos/blocknet.png' },
   { purchasable_status: 'Buy Node', name: 'Phore', symbol: 'PHR', description: 'Phore Blockchain enables the transfer of value across an accessible, standardized ecosystem that is secure, flexible and scalable.', status: 'active', url: 'https://phore.io', explorer_url: 'https://chainz.cryptoid.info/phr/address.dws?', ticker_url: 'https://api.coinmarketcap.com/v2/ticker/2158/', stake: 10000, daily_reward: 10.4415, block_reward: 30.8, logo_url: '/assets/images/logos/phore.png' },
 ])
-Crypto.update_all(percentage_hosting_fee: 0.15, flat_setup_fee: 100)
+Crypto.update_all(is_listed: true, percentage_hosting_fee: 0.15, flat_setup_fee: 45)
 
 puts "  - Create price lookup table"
 Crypto.all.each do |crypto|
@@ -44,6 +44,7 @@ User.create([
   { admin: true, first: 'Kostya', last: 'Harutyunyan', email: 'harutyunyankostya@yahoo.com', password: 'test', password_confirmation: 'test' },
   { first: 'Test', last: 'User', email: 'test@nodebucks.com', password: 'test', password_confirmation: 'test' }
 ])
+User.where.not(id: User.system.id).update_all(enabled: true)
 
 puts "  - Setup affiliate program"
 User.find_by(email: 'jay.severson@gmail.com').set_upline(User.find_by(email: 'jackmanrick@gmail.com').affiliate_key)

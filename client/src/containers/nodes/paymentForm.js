@@ -49,7 +49,7 @@ class PaymentForm extends React.Component {
   render() {
     const { message, agreeCheckbox, agreeCheckboxError, realizeCheckbox, realizeCheckboxError } = this.state
     const { purchasing, price } = this.props
-    const nodeCost = parseFloat(this.props.node.cost).toFixed(2)
+    const nodeCost = parseFloat(+this.props.node.cost + +this.props.node.flatSetupFee).toFixed(2)
     const nodePrice = !!price ? '$' + valueFormat(+price) : '-'
 
     return (
@@ -111,7 +111,7 @@ class PaymentForm extends React.Component {
             env={process.env.REACT_APP_PAYPAL_MODE}
             client={CLIENT}
             currency={'USD'}
-            total={process.env.NODE_ENV === 'development' ? 1.00 : nodeCost}
+            total={+nodeCost}
             onSuccess={this.onSuccess}
             onError={this.onError}
             style={{ width: 500 }}
