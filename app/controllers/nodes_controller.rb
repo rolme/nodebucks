@@ -12,7 +12,7 @@ class NodesController < ApplicationController
       if operator.purchase(DateTime.current, "Added by #{@current_user.email}")
         SupportMailerService.send_node_purchased_notification(user, @node)
         @node.reload
-        ReceiptMailer.send_receipt(current_user, @node.cost.ceil(2), operator.order.slug).deliver_later
+        ReceiptMailer.send_receipt(current_user, (@node.cost + @node.flat_setup_fee).ceil(2), operator.order.slug).deliver_later
         render :show
       else
         render json: { status: 'error', message: 'Unable to purchase node.' }
@@ -140,7 +140,7 @@ class NodesController < ApplicationController
 
     # TODO: This is a bit brittle, need to rethink this later
     # TODO: Only works if purchasing a NEW node
-    ReceiptMailer.send_receipt(current_user, @node.cost.ceil(2), operator.order.slug).deliver_later
+    ReceiptMailer.send_receipt(current_user, (@node.cost + @node.flat_setup_fee).ceil(2), operator.order.slug).deliver_later
     render :show
   end
 
