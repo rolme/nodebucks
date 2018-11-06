@@ -38,10 +38,9 @@ class Affiliate extends Component {
               <h5 className="affiliateSectionHeaderText">How it works</h5>
               <p className="affiliateSectionHeaderParagraph">Refer your friends and family by sending them your <a href={affiliateLink}>affiliate link</a></p>
               <ol className="affiliateHowItWorksList">
-                <li>Your visitor clicks the link and creates an account on Nodebucks.com.</li>
-                <li>We track their purchases by using a long lasting cookie that keeps their IP.</li>
-                <li>We will verify all purchases and review every order.</li>
-                <li>Once verified, commissions* will be sent to your account.</li>
+                <li>Your referral clicks the link and joins Nodebucks.com.</li>
+                <li>We track their masternode rewards.</li>
+                <li>You earn commissions on their rewards.</li>
               </ol>
             </Col>
           </div>
@@ -55,14 +54,14 @@ class Affiliate extends Component {
                   <CardHeader>Tier 1</CardHeader>
                   <CardBody>
                     <CardTitle>Direct referrals</CardTitle>
-                    <CardText>20%*</CardText>
+                    <CardText>20%</CardText>
                   </CardBody>
                 </Card>
                 <Card className="affiliateTierCard">
                   <CardHeader>Tier 2</CardHeader>
                   <CardBody>
                     <CardTitle>Second indirect referrals</CardTitle>
-                    <CardText>10%*</CardText>
+                    <CardText>10%</CardText>
                   </CardBody>
                 </Card>
                 <Card className="affiliateTierCard">
@@ -73,6 +72,7 @@ class Affiliate extends Component {
                   </CardBody>
                 </Card>
               </Col>
+              <p className="affiliateSectionHeaderParagraph">Affiliate commissions are based on Nodebucks hosting fees. For example, if Nodebucks charges a $10 hosting fee, as a tier 1 affiliate, you would earn $2 on that fee. All affiliate commissions terminate 2 years after your referral registers on Nodebucks. </p>
             </Col>
           </div>
         </div>
