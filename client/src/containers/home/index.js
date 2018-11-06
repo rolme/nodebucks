@@ -16,7 +16,8 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      visibleAlert: false
+      visibleAlert: false,
+      mainBannerSize: ''
     };
 
     this.onAlertDismiss = this.onAlertDismiss.bind(this)
@@ -33,6 +34,10 @@ class Home extends Component {
     if ( !!user ) {
       this.props.history.push('/dashboard')
     }
+    this.getMainBannerSize()
+    window.addEventListener('resize', () => {
+      this.getMainBannerSize()
+    });
   }
 
   componentDidMount() {
@@ -42,9 +47,28 @@ class Home extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', () => {
+      this.getMainBannerSize()
+    });
+  }
+
+  getMainBannerSize() {
+    let mainBannerSize = ''
+    if ( window.innerWidth < 501 ) {
+      mainBannerSize = '320'
+    } else if ( window.innerWidth < 641 ) {
+      mainBannerSize = '640'
+    } else {
+      mainBannerSize = ''
+    }
+    this.setState({ mainBannerSize })
+  }
+
   render() {
     const { announcement, announcementError } = this.props
-    const { visibleAlert } = this.state
+    const { visibleAlert, mainBannerSize } = this.state
+
     return (
       <div className="homeContainer">
         <Metatags
@@ -60,7 +84,7 @@ class Home extends Component {
         </div>
         <div className="homeMainBannerContainer">
           <LazyLoad height={200}>
-            <img src="/assets/images/homeImages/homeMainBannerBackground.jpg" alt="Home Main Banner Background" className="w-100"/>
+            <img src={`/assets/images/homeImages/homeMainBannerBackground${mainBannerSize}.jpg`} alt="Home Main Banner Background" className="w-100"/>
           </LazyLoad>
           <div className="contentContainer w-100 px-0">
             <Col className="px-xl-0 px-2">
@@ -102,7 +126,7 @@ class Home extends Component {
   renderSecondSection() {
     return (
       <Col className="d-flex flex-wrap justify-content-center">
-        <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
+        <Col xl={4} lg={4} md={4} sm={6} xs={6} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
             <LazyLoad height={60}>
               <img src="/assets/images/homeImages/whatIsMasternodeIcon.png" alt="What is Masternode"/>

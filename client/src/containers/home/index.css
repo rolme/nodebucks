@@ -187,7 +187,15 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
+  .homeMainBannerContainer {
+    display: block;
+  }
+
+  .homeMainBannerContainer > .contentContainer {
+    top: 0;
+  }
+
   .homeContainer > .contentContainer {
     padding: 0 10px !important;
   }
@@ -209,14 +217,23 @@
   }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 640px) {
+  .homeMainBannerContainer > .contentContainer > div {
+    margin-left: 30px;
+  }
+
   .homeMainBannerTitle {
-    font-size: 25px;
-    margin: 20px auto 10px;
+    font-size: 36px;
   }
 
   .homeMainBannerDescription {
-    font-size: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 575px) {
+  .homeMainBannerContainer > .contentContainer > div {
+    margin-left: 20px;
   }
 
   .homeFooterText {
@@ -237,13 +254,31 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   .homeMainBannerTitle {
-    font-size: 20px;
-    margin: 10px auto;
+    line-height: 45px;
   }
 
   .homeMainBannerDescription {
-    font-size: 10px;
+    line-height: 35px;
+  }
+
+  .homeMainBannerContainer > .contentContainer > div {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 400px) {
+  .homeMainBannerTitle {
+    line-height: 35px;
+  }
+
+  .homeMainBannerDescription {
+    line-height: 22px;
+  }
+
+  .homeMainBannerContainer > .contentContainer > div {
+    max-width: 100%;
+    margin-left: 10px;
   }
 }
