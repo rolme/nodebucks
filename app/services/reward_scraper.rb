@@ -164,6 +164,26 @@ class RewardScraper
     @total_amount_scraped if test_mode
   end
 
+  def scrape_gincoin(test_mode = false, node = nil, operator = nil)
+    update_node_balance(node, browser.find_element(class_name: 'summary-table').find_elements(tag_name: 'td')[2].text.to_f) unless test_mode
+
+    gincoin_rows.reverse!.each do |row|
+      data = row.find_elements(tag_name: 'td')
+      next if data.blank?
+
+      timestamp = data[0].text
+      txhash    = data[1].find_element(tag_name: 'a').text
+      amount    = data[2].text&.split(/\s/)[1]&.to_f
+
+      if !test_mode && has_new_rewards?(node, timestamp) && !stake_amount?(node, amount)
+        operator.reward(timestamp, amount, txhash)
+      else
+        @total_amount_scraped += amount if !!@date && Time.parse(timestamp) >= @date
+      end
+    end
+    @total_amount_scraped if test_mode
+  end
+
   def polis_rows
     if Rails.env.development?
       browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
@@ -203,6 +223,15 @@ class RewardScraper
       browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
     end
   end
+
+  def gincoin_rows
+    if Rails.env.development?
+      browser.find_element(id: 'DataTables_Table_0').find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    else
+      browser.find_elements(tag_name: 'table')[2].find_element(tag_name: 'tbody').find_elements(tag_name: 'tr')
+    end
+  end
+
 
   def self.wallet_invalid?(browser)
     browser.find_elements(class_name: 'alert-danger').length > 0
