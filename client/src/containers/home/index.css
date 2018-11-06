@@ -173,27 +173,45 @@
 }
 
 @media (max-width: 992px) {
-  .homeMainBannerTitle {
-    font-size: 30px;
-    margin: 30px auto 20px;
-  }
-
-  .homeMainBannerDescription {
-    font-size: 15px;
-  }
-
-  .homeFooterContainer {
-    padding: 20px 0;
-  }
-}
-
-@media (max-width: 768px) {
   .homeMainBannerContainer {
     display: block;
   }
 
   .homeMainBannerContainer > .contentContainer {
+    top: 20px;
+    padding: 0 10px !important;
+  }
+
+  .homeMainBannerTitle {
+    margin-bottom: 20px;
+    font-size: 45px;
+  }
+
+  .homeMainBannerDescription {
+    font-size: 25px;
+  }
+
+  .homeFooterContainer {
+    padding: 20px 0;
+  }
+
+  .homeMainBannerContainer > .contentContainer > div {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .homeMainBannerContainer > .contentContainer {
     top: 0;
+  }
+
+  .homeMainBannerTitle {
+    margin-bottom: 0;
+    font-size: 40px;
+  }
+
+  .homeMainBannerDescription {
+    font-size: 19px;
   }
 
   .homeContainer > .contentContainer {
@@ -215,6 +233,10 @@
   .screenshotsSectionTextPartContainer > h2 {
     margin-bottom: 20px;
   }
+
+  .homeSectionContainer > .contentContainer {
+    padding: 40px 0 !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -228,6 +250,10 @@
 
   .homeMainBannerDescription {
     font-size: 16px;
+  }
+
+  .homeFooterButton {
+    padding: 20px 70px;
   }
 }
 

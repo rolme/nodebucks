@@ -59,6 +59,8 @@ class Home extends Component {
       mainBannerSize = '320'
     } else if ( window.innerWidth < 641 ) {
       mainBannerSize = '640'
+    } else if ( window.innerWidth < 993 ) {
+      mainBannerSize = '992'
     } else {
       mainBannerSize = ''
     }
@@ -109,7 +111,7 @@ class Home extends Component {
         </div>
         <div className="homeFooterContainer">
           <div className="contentContainer d-flex align-items-center flex-wrap">
-            <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 8, offset: 2 }} sm={{ size: 8, offset: 2 }} xs={{ size: 10, offset: 1 }}>
+            <Col xl={{ size: 10, offset: 1 }} lg={{ size: 10, offset: 1 }} md={{ size: 8, offset: 2 }} sm={{ size: 8, offset: 2 }} xs={{ size: 12, offset: 0 }}>
               <p className="homeFooterText mb-0">Owning a masternode has never been easier! </p>
             </Col>
             <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 6, offset: 3 }} sm={{ size: 6, offset: 3 }} xs={{ size: 12, offset: 0 }} className="d-flex justify-content-center mt-xl-0 mt-lg-0 mt-md-3 mt-sm-4 mt-xs-5 px-0">
@@ -126,7 +128,7 @@ class Home extends Component {
   renderSecondSection() {
     return (
       <Col className="d-flex flex-wrap justify-content-center">
-        <Col xl={4} lg={4} md={4} sm={6} xs={6} className="secondSectionItemContainer">
+        <Col xl={4} lg={4} md={4} sm={6} xs={10} className="secondSectionItemContainer">
           <div className="secondSectionItemIconContainer">
             <LazyLoad height={60}>
               <img src="/assets/images/homeImages/whatIsMasternodeIcon.png" alt="What is Masternode"/>
@@ -166,7 +168,7 @@ class Home extends Component {
     return (
       <Col className="d-flex flex-column justify-content-center">
         <Col className="screenshotsSectionItemContainer flex-xl-row flex-lg-row flex-md-row flex-column-reverse">
-          <Col xl={6} lg={5} md={5} sm={8} xs={10}>
+          <Col xl={6} lg={5} md={5} sm={8} xs={12} className="px-0">
             <LazyLoad height={200}>
               <img src="/assets/images/homeImages/dashboardScreenshot.png" alt="Dashboard Screenshot"/>
             </LazyLoad>
@@ -181,14 +183,14 @@ class Home extends Component {
             <h2>Masternode History</h2>
             <p>Each masternode view provides you with a complete overview of the node from the time it was created. See a complete record of every reward you have received and 100% transparency of our service fees. Setup automatic withdrawals or choose to withdraw manually. </p>
           </div>
-          <Col xl={6} lg={5} md={5} sm={8} xs={10}>
+          <Col xl={6} lg={5} md={5} sm={8} xs={12} className="px-0">
             <LazyLoad height={200}>
               <img src="/assets/images/homeImages/historyScreenshot.png" alt="History Screenshot"/>
             </LazyLoad>
           </Col>
         </Col>
         <Col className="screenshotsSectionItemContainer mt-5 flex-xl-row flex-lg-row flex-md-row flex-column-reverse">
-          <Col xl={6} lg={5} md={5} sm={8} xs={10}>
+          <Col xl={6} lg={5} md={5} sm={8} xs={12} className="px-0">
             <LazyLoad height={200}>
               <img src="/assets/images/homeImages/securityScreenshot.png" alt="Security Screenshot"/>
             </LazyLoad>
@@ -203,7 +205,7 @@ class Home extends Component {
             <h2>Affiliate Program</h2>
             <p>We appreciate you sharing Nodebucks with friends and family. Take part in our affiliate program to earn rewards every time your referrals earn rewards on their masternodes. And our affiliate program goes three tiers deep! </p>
           </div>
-          <Col xl={6} lg={5} md={5} sm={8} xs={10}>
+          <Col xl={6} lg={5} md={5} sm={8} xs={12} className="px-0">
             <LazyLoad height={200}>
               <img src="/assets/images/homeImages/affiliateScreenshot.png" alt="Affiliate Screenshot"/>
             </LazyLoad>
