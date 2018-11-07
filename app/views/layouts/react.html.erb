@@ -21,13 +21,9 @@
 
     <link rel="canonical" href="<%= @url -%>" data-react-helmet="true">
 
-    <link rel="manifest" href="/manifest.json"/>
-    <link href="<%= @css -%>" rel="stylesheet"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <title><%= @title -%></title>
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
-    <script type="text/babel" src="<%= @js -%>"></script>
   </head>
   <body>
     <%= yield %>
