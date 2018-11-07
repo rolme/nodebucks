@@ -2,7 +2,7 @@ module Reactable
   extend ActiveSupport::Concern
 
   included do
-    # before_action :define_asset_location
+    before_action :define_asset_location
     layout "react"
   end
 
