@@ -72,7 +72,6 @@ Rails.application.routes.draw do
   get '/contact', to: 'home#contact'
   get '/dashboard', to: 'home#dashboard'
   get '/disclaimer', to: 'home#disclaimer'
-  get '/faq', to: 'home#faq'
   get '/forgot_password', to: 'home#forgot_password'
   get '/login', to: 'home#login'
   get '/masternodes/:slug', to: 'home#masternodes'
