@@ -24,10 +24,10 @@
     <link rel="manifest" href="/manifest.json"/>
     <link href="<%= @css -%>" rel="stylesheet"/>
     <title><%= @title -%></title>
-    <script type="text/javascript" src="<%= @js -%>"></script>
   </head>
   <body>
     <%= yield %>
     <div id="root"></div>
+    <script type="text/javascript" src="<%= @js -%>"></script>
   </body>
 </html>
