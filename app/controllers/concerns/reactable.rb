@@ -11,9 +11,8 @@ module Reactable
       path = '/app/public/index.html'
       page = Nokogiri::HTML(open(path))
 
-      @css   = page.css('link')[3].attributes["href"].value
-      @js    = page.css('script')[1].attributes["src"]&.value
-      @js  ||= page.css('script')[5].attributes["src"].value
+      @css = page.css('link')[3].attributes["href"].value
+      @js  = page.css('script')[5].attributes["src"].value
     end
   end
 end
