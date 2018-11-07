@@ -82,6 +82,4 @@ Rails.application.routes.draw do
   get '/sitemap.xml', to: 'home#sitemap'
   get '/terms', to: 'home#terms'
   get '/what-are-masternodes', to: 'home#masternodes_description'
-
-  get '*path', to: 'application#index'
 end
