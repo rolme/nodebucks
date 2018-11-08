@@ -6,7 +6,7 @@
   "engines": {
     "node": "^11.0.0",
     "npm": "^6.4.1",
-    "yarn": "^1.12.1"
+    "yarn": "^1.12.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.3",
