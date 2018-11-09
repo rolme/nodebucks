@@ -44,6 +44,16 @@ class User < ApplicationRecord
     end
   end
 
+  def max_float
+    return 0 if id != User.system.id
+    @_max_float = settings.find { |s| s.key == 'max float' }.value.to_f
+  end
+
+  def current_float
+    return 0 if id != User.system.id
+    max_float - Order.unpaid_amount
+  end
+
   def full_name
     "#{first} #{last}"
   end

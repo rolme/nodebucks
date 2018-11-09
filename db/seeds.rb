@@ -36,7 +36,7 @@ Crypto.all.each do |crypto|
   puts "     * #{crypto.name} account added"
 end
 puts "  - add system settings"
-User.system.settings.create(key: 'max float', value: '70000', description: 'Amount available for purchasing masternodes.')
+User.system.settings.create(key: 'max float', value: '70000', description: 'Maximum amount available for purchasing masternodes.')
 
 puts "Add users"
 User.create([

@@ -14,3 +14,4 @@ json.settings User.system.settings.each do |setting|
   json.value setting.value
   json.description setting.description
 end
+json.unpaidAmount Order.unpaid_amount.ceil(2)
