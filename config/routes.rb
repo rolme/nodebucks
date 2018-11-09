@@ -52,6 +52,9 @@ Rails.application.routes.draw do
       patch :update_affiliates
       patch :remove_affiliates
     end
+    resources :system, only: [:index] do
+      patch :setting, on: :collection
+    end
     resources :transactions, only: [:index, :update], param: :slug do
       patch :undo
       patch :processed
