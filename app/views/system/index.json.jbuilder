@@ -10,6 +10,7 @@ json.balances User.system.balances.each do |balance|
   json.wallet balance[:wallet]
 end
 json.settings User.system.settings.each do |setting|
-  json.set! setting.key, setting.value
+  json.key setting.key
+  json.value setting.value
   json.description setting.description
 end
