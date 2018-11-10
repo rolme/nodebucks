@@ -85,6 +85,7 @@ class NewNode extends Component {
       masternode.masternodes = item.masternodes
       masternode.name = item.name
       masternode.nodePrice = item.nodePrice
+      masternode.purchasable = item.purchasable
       masternode.sellPrice = item.sellPrice
       masternode.url = item.url
     } else {
@@ -95,8 +96,9 @@ class NewNode extends Component {
       masternode.masternodes = item.crypto.masternodes
       masternode.name = item.crypto.name
       masternode.nodePrice = item.cost
-      masternode.sellPrice = item.sellPrice
       masternode.nodeSlug = item.slug
+      masternode.purchasable = item.crypto.purchasable
+      masternode.sellPrice = item.sellPrice
       masternode.timeLimit = item.timeLimit
       masternode.url = item.crypto.url
     }
@@ -145,6 +147,7 @@ class NewNode extends Component {
     const masternode = this.convertToMasternode((!!user) ? node : crypto)
     if ( !!user && !user.enabled ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
     if ( !!user && user.verificationStatus !== 'approved' && +masternode.nodePrice > 10000.0 ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
+    if ( !!masternode.name && !masternode.purchasable ) return <Redirect to={`/masternodes/${masternode.name.toLowerCase()}`}/>
 
     return (
       <Container fluid className="purchasePageContainer">
