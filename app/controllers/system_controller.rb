@@ -5,6 +5,10 @@ class SystemController < ApplicationController
   end
 
   def setting
+    setting = User.system.settings.find_by(key: setting_params["key"])
+    setting.update(setting_params)
+    User.system.reload
+    render :index
   end
 
 protected
