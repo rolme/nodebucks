@@ -19,7 +19,7 @@ class Order < ApplicationRecord
   }
 
   def self.unpaid_amount
-    Order.unpaid.sum(:amount)
+    Order.where(order_type: 'buy').unpaid.sum(:amount)
   end
 
   def paid!
