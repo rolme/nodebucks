@@ -21,10 +21,60 @@ class CoinInfo extends Component {
     this.props.fetchMasternode(params.slug, user ? user.slug : '')
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { data } = this.props
+    const { data: nextData } = nextProps
+    if ( data.slug !== nextData.slug ) {
+      const jsonLdText = JSON.stringify({
+        "@context": "http://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem", "position": 1,
+            "name": "Masternodes",
+            "item": "https://nodebucks.com/masternodes"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": nextData.name,
+            "item": nextData.url
+          }
+        ]
+      })
+      this.handleJsonLd(jsonLdText)
+    }
+  }
+
+  componentWillUnmount() {
+    const jsonLdText = JSON.stringify({
+      "@context": "http://schema.org",
+      "@type": "Corporation",
+      "name": "NodeBucks",
+      "alternateName": "NodeBucks.com",
+      "url": "https://nodebucks.com/",
+      "logo": "https://nodebucks.com/assets/images/nodebucks_beta.svg",
+      "sameAs": [
+        "https://www.facebook.com/nodebucks/",
+        "https://twitter.com/nodebucks"
+      ]
+    })
+    this.handleJsonLd(jsonLdText)
+  }
+
+  handleJsonLd(text) {
+    const existingScripts = document.querySelector('body').getElementsByTagName('script');
+    for ( let i = 0; i < existingScripts.length; i++ ) {
+      if ( existingScripts[ i ].type === 'application/ld+json' ) {
+        existingScripts[ i ].text = text
+      }
+    }
+  }
+
   render() {
     const { data, pending, error } = this.props
 
-    if(error) return <ErrorPage404 />
+    if ( error ) return <ErrorPage404/>
 
     if ( pending || !data.slug ) {
       return (
@@ -62,7 +112,7 @@ class CoinInfo extends Component {
             </Col>
             <Col xl={{ size: 3, offset: 1 }} lg={{ size: 3, offset: 1 }} md={{ size: 4, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 10, offset: 1 }} className="px-0 mt-xl-0 mt-lg-0 mt-md-0 mt-3">
               <p className="coinInfoHeaderPrice">${valueFormat(data.nodePrice, 2)} <span>USD</span></p>
-              { this.displayActionButton(data) }
+              {this.displayActionButton(data)}
             </Col>
           </Col>
           <Col className="coinInfoMainDataPartContainer px-0">
@@ -107,7 +157,7 @@ class CoinInfo extends Component {
           <Col className="coinInfoDescriptionsPartContainer bg-white">
             <div className="coinInfoDescriptionContainer">
               <h6>Profile</h6>
-              <p dangerouslySetInnerHTML={{ __html: data.profile}}/>
+              <p dangerouslySetInnerHTML={{ __html: data.profile }}/>
             </div>
           </Col>
         </div>
@@ -118,45 +168,45 @@ class CoinInfo extends Component {
   displayActionButton(masternode) {
     const { user } = this.props
 
-    if(masternode.purchasableStatus === 'Unavailable') {
-      return(
+    if ( masternode.purchasableStatus === 'Unavailable' ) {
+      return (
         <Button className="infoNodeButton" disabled>Unavailable</Button>
       )
-    } else if (!!user && !user.enabled) {
-      return(
+    } else if ( !!user && !user.enabled ) {
+      return (
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Request BETA Access</Button>
         </NavLink>
       )
-    } else if (masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved') {
-      return(
+    } else if ( masternode.nodePrice > 10000 && !!user && user.verificationStatus !== 'approved' ) {
+      return (
         <NavLink to={'/settings/verification'}>
           <Button className="infoNodeButton"><img src="/assets/images/key.png" alt="key" className="mr-2"/>Verify Account</Button>
         </NavLink>
       )
-    } else if (masternode.purchasableStatus === 'Contact Us' || !masternode.liquidity.buy) {
-      return(
+    } else if ( masternode.purchasableStatus === 'Contact Us' || !masternode.liquidity.buy ) {
+      return (
         <NavLink to={'/contact#contact-sales-' + masternode.name}>
           <Button className="infoNodeButton"><img src="/assets/images/contactUsIcon.png" alt="contact" className="mr-2"/> Contact Us</Button>
         </NavLink>
       )
     } else {
-      if (!masternode.purchasable) {
-       return <Button className="infoNodeButton" disabled>Out of Stock</Button>
-     } else if ( !user ) {
+      if ( !masternode.purchasable ) {
+        return <Button className="infoNodeButton" disabled>Out of Stock</Button>
+      } else if ( !user ) {
         return (
           <NavLink to='/sign-up'>
             <Button className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
           </NavLink>
         )
       } else {
-        return(
+        return (
           <div>
             <NavLink to={`/nodes/${masternode.slug}/new`}>
               <Button disabled={!masternode.exchanges_available} className="buyNodeButton"><img src="/assets/images/plusIcon.png" alt="add" className="mr-2"/> Buy Node</Button>
             </NavLink>
             {!masternode.exchanges_available &&
-              <p className="text-center text-danger pl-3 pr-3">Exchanges are not available now, please try later</p>
+            <p className="text-center text-danger pl-3 pr-3">Exchanges are not available now, please try later</p>
             }
           </div>
         )
