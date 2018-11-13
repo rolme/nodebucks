@@ -38,9 +38,9 @@ class CryptoTable extends Component {
 
     sortedList.sort((a, b) => {
       if ( isDescending ) {
-        return +a[ columnName ] > +b[ columnName ]
+        return +a[ columnName ] - b[ columnName ]
       }
-      return +a[ columnName ] < +b[ columnName ]
+      return +b[ columnName ] - a[ columnName ]
     })
 
     this.setState({ sortedList, sortedColumnName: columnName, isDescending })
