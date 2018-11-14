@@ -3,32 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
     <meta name="google-site-verification" content="JufRtFPY5ChZq9Q4xJi4Y8e040JlF8em1_pT9Midd9c" />
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <meta property="og:locale" content="en_US"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Nodebucks"/>
-    <meta property="og:url" content="https://nodebucks.com"/>
-    <meta property="og:site_name" content="Nodebucks"/>
-    <meta property="og:image" content="https://nodebucks.com/assets/images/og_nodebucks.jpg"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Nodebucks"/>
-    <meta name="twitter:image" content="https://nodebucks.com/assets/images/og_nodebucks.jpg"/>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <meta name="theme-color" content="#000000">
     <title>Nodebucks</title>
   </head>
   <body>
@@ -36,6 +14,28 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Corporation",
+        "name": "NodeBucks",
+        "alternateName": "NodeBucks.com",
+        "url": "https://nodebucks.com/",
+        "logo": "https://nodebucks.com/assets/images/nodebucks_beta.svg",
+        "sameAs": [
+          "https://www.facebook.com/nodebucks/",
+          "https://twitter.com/nodebucks"
+        ]
+      }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127956823-1');
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
