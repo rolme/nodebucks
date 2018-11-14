@@ -1,31 +1,24 @@
-# Node Bucks
-> Master of your own nodes.
+# Nodebucks Web
+> The difference is measurable
 ---
 
-Node Bucks is a web application with a Rails API only backend and React/Redux front end.
-- Ruby 2.5.1
-- Node 10.2.1
-- Rails 5.2
-- PostgreSQL 10.1
+Nodebucks Web is a web React/Redux front end.
+- Node 11.0
+- NPM 6.4
+- Yarn 1.12
 
 ---
 ## Requirements
 This section assumes you have MacOS. If not, replicate steps appropriate for your OS.
 
-### Install required packages
+### Install required pacakges
 ```
-$ brew tap homebrew/cask
-$ brew install rbenv ruby-build node postgresql watchman
-$ brew cask install chromedriver
+$ brew install node n yarn
 ```
 
-### Update your ruby version
+### Update your node version
 ```
-$ rbenv build 2.5.1
-```
-### Start required services
-```
-$ brew services start postgresql
+$ n 11.0.0
 ```
 
 ## Setup
@@ -33,42 +26,38 @@ __Initialize Project__
 
 Clone the project if you have not yet
 ```
-$ cd ~/code
-~/code $ git clone git@github.com:rolme/nodebucks.git
-~/code $ cd nodebucks
+$ git clone git@github.com:rolme/nodebucks.git
+$ cd nodebucks
+```
+
+__Enviroment Setup__
+Prior to running, you will need to setup your local environment variable(s)
+```
+# Make a copy of .env.default
+~/nodebucks $ cp .env.default .env
 ```
 
 After cloning the project and cd'ing into the directory.
 ```
-~/code/nodebucks $ bundle
-~/code/nodebucks $ rails db:reload
-~/code/nodebucks/client $ yarn install
-~/code/nodebucks/client $ cd ..
+~/nodebucks $ yarn install
 ```
 
 __Start Project__
+```
+~/nodebucks $ yarn start
+```
 
+If you want to use a local instance of Nodebucks-API
 ```
-~/project/nodebucks $ rake start
+# edit .env.local and replace the value to your local instance
+REACT_APP_NODEBUCKS_API=https://localhost:8081
 ```
+
 The application should automatically start or you can visit it here:
-Visit: [https://localhost:3000](https://localhost:3000)
+Visit: [https://localhost:8081](https://localhost:8081)
 
 ## Running the tests
-To run the tests you need to enter to the ___client___ folder:
-```
-$ cd client
-```
 And run the following command:
 ```
-$ npm run test
+~/nodebucks $ npm run test
 ```
-
-
-## Installing chromedriver on Windows
-
-1. [Download chromedriver_win32.zip](http://chromedriver.chromium.org/downloads)
-2. Create a folder and move there **chromedriver.exe** file from downloaded .zip
-3. In order to put ChromeDriver location in your PATH environment variable do as follows:
-
-    **Right click computer > properties > system properties > Advanced > System properties > select Path below > edit > add the path of the folder, where you put chromedriver.exe**
