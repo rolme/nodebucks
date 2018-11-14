@@ -14,7 +14,6 @@ export default class Chart extends Component {
       selectedNodeSlug: '',
       nodes: [],
       calculating: true,
-      isEnoughData: false
     }
     this.handleTabClick = this.handleTabClick.bind(this)
   }
@@ -194,6 +193,14 @@ export default class Chart extends Component {
     return newValues
   }
 
+  thirtyDaysPassedOnOneNodeAtLeast() {
+    let timePassed = false
+    this.props.nodes.forEach(node => {
+      if(node.uptime / 86400 >= 30) timePassed = true
+    })
+    return timePassed
+  }
+
   renderTabs() {
     const { nodes } = this.state
     const { selectedNodeSlug } = this.state
@@ -205,8 +212,8 @@ export default class Chart extends Component {
   }
 
   render() {
-    const { nodes, calculating, selectedNodeSlug, isEnoughData } = this.state
-
+    const { nodes, calculating, selectedNodeSlug } = this.state
+ 
     if ( calculating ) {
       return (
         <div className="contentContainer dashboardChartSectionContentContainer">
@@ -221,7 +228,7 @@ export default class Chart extends Component {
       )
     }
 
-    if ( !isEnoughData ) {
+    if (!this.thirtyDaysPassedOnOneNodeAtLeast()) {
       return (
         <div className="contentContainer dashboardChartSectionContentContainer">
           <Row className="bg-white nodeValuesChartContainer">
