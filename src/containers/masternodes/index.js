@@ -25,9 +25,9 @@ class Masternodes extends Component {
 
   renderCoinsInfo(cryptos) {
     return cryptos.filter(c => c.isListed).sort((a, b) => {
-      if (a.name > b.name) return 1
-      if (a.name < b.name) return -1
-      if (a.name === b.name) return 0
+      if (a.name > b.name) { return 1 }
+      else if (a.name < b.name) { return -1 }
+      else return 0
     }).map((crypto, index) => {
       const logoUrl = !!crypto.logo_url ? crypto.logo_url : `/assets/images/logos/${crypto.slug}.png`
       const cryptoUrlName = new URL(crypto.url).host
