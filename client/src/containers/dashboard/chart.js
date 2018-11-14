@@ -193,7 +193,7 @@ export default class Chart extends Component {
     return newValues
   }
 
-  thirtyDaysPassedOnOneNodeAtLeast() {
+  thirtyDaysPassed() {
     let timePassed = false
     this.props.nodes.forEach(node => {
       if(node.uptime / 86400 >= 30) timePassed = true
@@ -228,7 +228,7 @@ export default class Chart extends Component {
       )
     }
 
-    if (!this.thirtyDaysPassedOnOneNodeAtLeast()) {
+    if (!this.thirtyDaysPassed()) {
       return (
         <div className="contentContainer dashboardChartSectionContentContainer">
           <Row className="bg-white nodeValuesChartContainer">
