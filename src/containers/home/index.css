@@ -30,13 +30,13 @@
 .homeMainBannerTitle {
   color: #FFFFFF;
   font-size: 60px;
-  font-family: Raleway-Light;
+  font-family: 'Raleway'; font-weight: 300;
   margin-bottom: 60px;
 }
 
 .homeMainBannerDescription {
   color: #FFFFFF;
-  font-family: 'Raleway-Light';
+  font-family: 'Raleway'; font-weight: 300;
   font-size: 28px;
 }
 
@@ -67,7 +67,7 @@
 .secondSectionItemContainer > h3 {
   color: #000000;
   font-size: 24px;
-  font-family: "Raleway-Light";
+  font-family: 'Raleway'; font-weight: 300;
   margin: 40px auto;
   text-align: center;
 }
@@ -75,14 +75,14 @@
 .secondSectionItemContainer > p {
   color: #000000;
   font-size: 16px;
-  font-family: "Raleway-Light";
+  font-family: 'Raleway'; font-weight: 300;
   text-align: center;
 }
 
 .secondSectionItemContainer > ul > li {
   color: #000000;
   font-size: 16px;
-  font-family: "Raleway-Light";
+  font-family: 'Raleway'; font-weight: 300;
 }
 
 .secondSectionItemContainer > ul > li > a {
@@ -115,14 +115,14 @@
 
 .screenshotsSectionTextPartContainer > h2 {
   color: #000000;
-  font-family: "Raleway-Light";
+  font-family: 'Raleway'; font-weight: 300;
   font-size: 36px;
   margin-bottom: 40px;
 }
 
 .screenshotsSectionTextPartContainer > p {
   color: #000000;
-  font-family: "Raleway-Light";
+  font-family: 'Raleway'; font-weight: 300;
   font-size: 18px;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .homeFooterText {
-  font-family: 'Raleway-Light';
+  font-family: 'Raleway'; font-weight: 300;
   font-size: 36px;
   text-align: center;
   color: #FFFFFF;
@@ -145,7 +145,7 @@
 
 .homeFooterButton {
   background-color: #FC6422;
-  font-family: 'Raleway-Bold';
+  font-family: 'Raleway'; font-weight: 700;
   font-size: 17px;
   color: #FFFFFF;
   padding: 20px 50px;

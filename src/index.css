@@ -7,7 +7,7 @@
   src: url("./assets/fonts/icons/icons.svg") format('svg');
   src: url("./assets/fonts/icons/icons.ttf") format('truetype');
 }
-
+/*
 @font-face {
   font-family: 'Raleway';
   src: local('Raleway'), local('Raleway'),
@@ -86,7 +86,7 @@
   url('./assets/fonts/openSansLight/OpenSans-Light.ttf') format('truetype'),
   url('./assets/fonts/openSansLight/OpenSans-Light.svg#OpenSans') format('svg');
   font-display: block;
-}
+}*/
 
 html {
   font-size: 100%;

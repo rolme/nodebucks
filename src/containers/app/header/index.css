@@ -24,7 +24,7 @@
 
 a.headerMenuItem {
   color: white !important;
-  font-family: Raleway;
+  font-family: 'Raleway';
   font-weight: bold;
   font-size: 16px;
   margin: 0 20px !important;
@@ -95,7 +95,8 @@ a.headerMenuItem.active:hover {
 .headerUserName {
   margin-bottom: 0;
   color: #FFFFFF;
-  font-family: 'Raleway-Medium';
+  font-family: 'Raleway';
+  font-weigh: 500;
   font-size: 16px;
 }
 
@@ -113,7 +114,8 @@ a.headerMenuItem.active:hover {
   padding: 7px 22px !important;
   color: white;
   margin: 0 30px;
-  font-family: 'Raleway-SemiBold';
+  font-family: 'Raleway';
+  footn-weight: 600;
   font-size: 16px;
 }
 
@@ -171,6 +173,7 @@ a.headerMenuItem.active:hover {
 .headerUserDropDownItem > a {
   color: #FFFFFF !important;
   font-family: "Raleway";
+  font-weight: 400;
   font-size: 16px;
   cursor: pointer;
 }
