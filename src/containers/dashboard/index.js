@@ -78,7 +78,7 @@ class Dashboard extends Component {
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
-    const filteredNodes = []
+    let filteredNodes = []
     if (nodes.length > 0) {
       filteredNodes = nodes.filter(node => {
         return node.status !== 'sold'
