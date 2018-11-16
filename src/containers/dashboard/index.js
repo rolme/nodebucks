@@ -79,7 +79,7 @@ class Dashboard extends Component {
 
     // Do not display sold nodes
     let filteredNodes = []
-    if (nodes.length > 0) {
+    if (!!nodes && nodes.length > 0) {
       filteredNodes = nodes.filter(node => {
         return node.status !== 'sold'
       })
