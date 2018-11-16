@@ -61,8 +61,10 @@ class Home extends Component {
       mainBannerSize = '640'
     } else if ( window.innerWidth < 993 ) {
       mainBannerSize = '992'
+    } else if ( window.innerWidth < 1231 ) {
+      mainBannerSize = '1230'
     } else {
-      mainBannerSize = ''
+      mainBannerSize = '1920'
     }
     this.setState({ mainBannerSize })
   }
@@ -84,18 +86,23 @@ class Home extends Component {
           </Alert>
           }
         </div>
-        <div className="homeMainBannerContainer">
+        <div className="homeMainBannerContainer" style={{backgroundImage: window.innerWidth > 992 ? `url(/assets/images/homeImages/homeMainBannerBackground${mainBannerSize}.jpg)` : ''}}>
+          {window.innerWidth < 993 &&
           <LazyLoad height={200}>
             <img src={`/assets/images/homeImages/homeMainBannerBackground${mainBannerSize}.jpg`} alt="Home Main Banner Background" className="w-100"/>
           </LazyLoad>
+          }
           <div className="contentContainer w-100 px-0">
             <Col className="px-xl-0 px-2">
-              <Col xl={{ size: 6, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 6, offset: 0 }} sm={{ size: 7, offset: 0 }} xs={{ size: 10, offset: 0 }} className="px-0">
+              <Col xl={{ size: 6, offset: 0 }} lg={{ size: 5, offset: 0 }} md={{ size: 8, offset: 0 }} sm={{ size: 7, offset: 0 }} xs={{ size: 10, offset: 0 }} className="px-0">
                 <h1 className="homeMainBannerTitle">A Full Service Masternode Provider</h1>
               </Col>
               <Col xl={{ size: 5, offset: 0 }} lg={{ size: 4, offset: 0 }} md={{ size: 5, offset: 0 }} sm={{ size: 6, offset: 0 }} xs={{ size: 9, offset: 0 }} className="px-0">
                 <p className="homeMainBannerDescription">The fast and simple way to get a blockchain server up and running that PAYS YOU!</p>
               </Col>
+              <NavLink to="/masternodes">
+                <Button className="homeMainBannerButton">Get a masternode</Button>
+              </NavLink>
             </Col>
           </div>
         </div>
