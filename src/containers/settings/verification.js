@@ -5,7 +5,7 @@ import { Container, Form, Col, Button, Alert } from 'reactstrap'
 import Dropzone from 'react-dropzone'
 import { ClipLoader } from 'react-spinners'
 import {
-  uploadVerificationImage 
+  uploadVerificationImage
 } from '../../reducers/user';
 
 class Verification extends Component {
@@ -22,7 +22,7 @@ class Verification extends Component {
 
   handleDrop = (files) => {
     this.setState({
-      image: files[0],
+      image: files[ 0 ],
     })
   }
 
@@ -31,7 +31,9 @@ class Verification extends Component {
     formData.append('user[verification_image]', this.state.image)
     this.props.uploadVerificationImage(this.props.user.slug, formData, () => {
       this.setState({ isUploading: false, showAlert: true })
-      setTimeout(() => { this.setState({ showAlert: false }) }, 3000);
+      setTimeout(() => {
+        this.setState({ showAlert: false })
+      }, 3000);
     })
     this.setState({ formError: null, isUploading: true })
   }
@@ -40,10 +42,10 @@ class Verification extends Component {
     const { image } = this.state
     let error = ''
 
-    if(!image) error = "No image to upload!"
-    if(image && image.size > 50000000) error = "Image upload size too large!"
-    
-    if(error) {
+    if ( !image ) error = "No image to upload!"
+    if ( image && image.size > 50000000 ) error = "Image upload size too large!"
+
+    if ( error ) {
       this.setState({ formError: error })
     } else {
       this.uploadImage();
@@ -54,7 +56,7 @@ class Verification extends Component {
     const { user, message, error, pending } = this.props
     const { formError, isUploading, showAlert } = this.state
 
-    if(pending) return <div />
+    if ( pending ) return <div/>
 
     return (
       <Container fluid className="settingsContainer">
@@ -63,26 +65,26 @@ class Verification extends Component {
             <h1 className="settingsTitleText pageTitle">Verification</h1>
           </Col>
           {(!!message) &&
-            <Alert className="mt-1" color={error ? 'danger' : 'success'} isOpen={showAlert}>
-              { message }
-            </Alert>
+          <Alert className="mt-1" color={error ? 'danger' : 'success'} isOpen={showAlert}>
+            {message}
+          </Alert>
           }
           {user.verificationStatus === 'pending' ?
             <p className="verificationMessage">ID verification is pending.</p> :
             <p className="verificationMessage">{user.verified ? 'Your account is already verified!' : 'Click on the image below to upload a photo ID or passport.'}</p>
           }
-          { !user.verified &&
-            <Form className="mt-4">
-              <Col className="changeInputFieldsContainer">
-                { user.verificationStatus !== 'pending' && this.renderImageDropzone() }
-              </Col>
-              { user.verificationStatus !== 'pending' &&
-                <Col className="d-flex verificationFooterButtonsContainer justify-content-center">
-                  <Button onClick={this.validation} className="submitButton" disabled={isUploading}>SUBMIT</Button>
-                </Col>
-              }
-              { user.verificationStatus !== 'pending' && formError && <p className="verificationFormError">{formError}</p> }
-            </Form>
+          {!user.verified &&
+          <Form className="mt-4">
+            <Col className="changeInputFieldsContainer">
+              {user.verificationStatus !== 'pending' && this.renderImageDropzone()}
+            </Col>
+            {user.verificationStatus !== 'pending' &&
+            <Col className="d-flex verificationFooterButtonsContainer justify-content-center">
+              <Button onClick={this.validation} className="submitButton" disabled={isUploading}>SUBMIT</Button>
+            </Col>
+            }
+            {user.verificationStatus !== 'pending' && formError && <p className="verificationFormError">{formError}</p>}
+          </Form>
           }
         </div>
       </Container>
@@ -94,14 +96,21 @@ class Verification extends Component {
     return (
       <div className="avatar-dropzone-container">
         <Dropzone
-          onDrop={ this.handleDrop }
+          onDrop={this.handleDrop}
           accept="image/jpeg,image/jpg,image/tiff,image/gif,image/svg,image/png"
-          multiple={ false }
+          multiple={false}
           className="avatar-dropzone"
         >
-          { isUploading ?
+          {isUploading ?
             this.renderSpinner() :
-            <img src={ image ? image.preview : '/assets/images/user.jpg' } width="200" height="200" alt="preview" />
+            <div className="uploadPhotoContainer">
+              <div className="uploadPhotoLabelContainer">
+                <img src="/assets/images/uploadIcon.png" alt="upload"/>
+                <p> Upload </p>
+                <p> Photo ID </p>
+              </div>
+              <img src={image ? image.preview : '/assets/images/user.jpg'} width="200" height="200" alt="preview"/>
+            </div>
           }
         </Dropzone>
       </div>
