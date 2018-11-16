@@ -86,7 +86,7 @@ export default class Chart extends Component {
           })
         })
         nodeValues = nodeValues.sort((a, b) => {
-          return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
+          return moment(new Date(a.timestamp)).valueOf() - moment(new Date(b.timestamp)).valueOf()
         })
         nodeValues.forEach(node => {
           values.push(+node.value)
@@ -106,11 +106,12 @@ export default class Chart extends Component {
       } else {
         const node = nodes.find(node => node.slug === selectedNodeSlug)
         !!node && !!node.values && node.values.sort((a, b) => {
-          return moment(new Date(a.timestamp)).valueOf() > moment(new Date(b.timestamp)).valueOf()
+          return moment(new Date(a.timestamp)).valueOf() - moment(new Date(b.timestamp)).valueOf()
         }).forEach(node => {
           values.push(+node.value)
           labels.push(node.timestamp)
         })
+
         datasets = [
           {
             fill: false,

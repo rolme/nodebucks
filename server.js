@@ -19,6 +19,7 @@ if (!dev) {
 
     const prerender = require('prerender-node')
     prerender.set('prerenderToken', process.env.PRERENDER_TOKEN)
+    prerender.set('protocol', 'https')
     prerender.crawlerUserAgents.push('googlebot')
     prerender.crawlerUserAgents.push('bingbot')
     prerender.crawlerUserAgents.push('yandex')
