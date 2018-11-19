@@ -50,19 +50,7 @@ class ConfirmEmail extends Component {
         </Container>
       )
     }
-    if ( !user ) {
-      return (
-        <Container fluid>
-          <div className="contentContainer d-flex justify-content-center">
-            <Col xl={9} className="confirmEmailContentContainer">
-              <h1>Email verified</h1>
-              <p>Thank you for verifying your email. To adjust your email settings, go to:</p>
-              <NavLink to="/settings">https://nodebucks.com/settings</NavLink>
-            </Col>
-          </div>
-        </Container>
-      )
-    }
+   
     if ( error ) {
       this.props.history.push('/404')
       return null
