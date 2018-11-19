@@ -46,13 +46,24 @@ class NewNode extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    const { user, node, crypto, nodePending, refreshing } = nextProps
+    const { user, node, crypto, nodePending, refreshing, nodeMessage, nodeError } = nextProps
+    if ( nodeMessage === 'Purchase node successful.' ) {
+      this.props.history.push('/purchase_success')
+      return
+    }
+
+    if ( nodeError ) {
+      this.props.history.push('/dashboard')
+      return
+    }
+
     let buyLiquidity = true
     if ( !!node && !!node.crypto && !!node.crypto.liquidity ) {
       buyLiquidity = node.crypto.liquidity.buy
     } else if ( !!crypto && !!crypto.liquidity ) {
       buyLiquidity = crypto.liquidity.buy
     }
+
     !buyLiquidity && this.props.history.push('/dashboard')
 
     if ( !!user && !!node.cost && !nodePending && !refreshing ) {
@@ -134,8 +145,6 @@ class NewNode extends Component {
   render() {
     const { crypto, node, nodeMessage, user, nodePending, cryptoPending } = this.props
     const { showReloadAlert, purchasing } = this.state
-
-    if ( purchasing ) return <Redirect to='/dashboard'/>
 
     if ( cryptoPending || nodePending ) {
       return <div className="spinnerContainer pageLoaderContainer"><RingLoader size={100} color={'#3F89E8'} loading={true}/></div>

@@ -35,7 +35,7 @@ class ConfirmEmail extends Component {
 
   render() {
     const { pending, error, user } = this.state
-    
+
     if(!this.state.user) {
       return <Redirect to="/login" />
     } else if (!pending && !error && !!user) {
