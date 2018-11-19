@@ -163,10 +163,12 @@
 }
 
 /*Sign Up Success*/
+.confirmEmailContentContainer,
 .signUpSuccessContentContainer {
   margin-top: 45px;
 }
 
+.confirmEmailContentContainer > h1,
 .signUpSuccessContentContainer > h1 {
   color: #000000;
   font-family: "Raleway-Light";
@@ -174,6 +176,7 @@
   margin: 0 0 50px 0;
 }
 
+.confirmEmailContentContainer > p,
 .signUpSuccessContentContainer > p {
   color: #000000;
   font-family: "Raleway-Light";
@@ -181,6 +184,7 @@
   margin: 0 0 30px 0;
 }
 
+.confirmEmailContentContainer > a,
 .signUpSuccessLinks {
   color: #2283C7;
   font-family: "Raleway-Medium";
@@ -188,6 +192,7 @@
   margin: 0 0 15px 0;
 }
 
+.confirmEmailContentContainer > a:hover,
 .signUpSuccessLinks:hover {
   color: #2694e1;
 }
