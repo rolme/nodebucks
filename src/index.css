@@ -9,6 +9,16 @@
 }
 
 @font-face {
+  font-family: 'Header-Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+  src: url("./assets/fonts/icons/headerIcons/headerIcons.eot") format('eot');
+  src: url("./assets/fonts/icons/headerIcons/headerIcons.svg") format('svg');
+  src: url("./assets/fonts/icons/headerIcons/headerIcons.ttf") format('truetype');
+}
+
+@font-face {
   font-family: 'Raleway';
   src: local('Raleway'), local('Raleway'),
   url('./assets/fonts/ralewayRegular/Raleway-Regular.ttf') format('truetype'),
