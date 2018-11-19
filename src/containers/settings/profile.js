@@ -48,13 +48,13 @@ class Profile extends Component {
 
   handleFieldValueChange(newValue, name) {
     this.setState({
-      [name]: newValue,
+      [ name ]: newValue,
     })
   }
 
   handleDrop = (files) => {
     this.setState({
-      newAvatar: files[0],
+      newAvatar: files[ 0 ],
     })
   }
 
@@ -65,10 +65,10 @@ class Profile extends Component {
       <Col className="changeInputFieldsContainer">
         {(!!message) &&
         <Alert color={error ? 'danger' : 'success'}>
-          { message}
+          {message}
         </Alert>
         }
-        { this.renderAvatarDropzone() }
+        {this.renderAvatarDropzone()}
         <InputField label='First Name'
                     name="first"
                     id="first"
@@ -101,8 +101,8 @@ class Profile extends Component {
                     onKeyPress={true}
         />
         <FormGroup check>
-          <Toggle defaultChecked={rewardNotificationOn} onChange={(event) => this.setState({rewardNotificationOn: !rewardNotificationOn})} />
-          <Label for="reward-notification" className="pl-2" style={{verticalAlign: 'top'}} check>Notify me when I receive rewards</Label>
+          <Toggle defaultChecked={rewardNotificationOn} onChange={(event) => this.setState({ rewardNotificationOn: !rewardNotificationOn })}/>
+          <Label for="reward-notification" className="pl-2" style={{ verticalAlign: 'top' }} check>Notify me when I receive rewards</Label>
         </FormGroup>
       </Col>
     )
@@ -115,12 +115,26 @@ class Profile extends Component {
     return (
       <div className="avatar-dropzone-container">
         <Dropzone
-          onDrop={ this.handleDrop }
+          onDrop={this.handleDrop}
           accept="image/jpeg,image/jpg,image/tiff,image/gif"
-          multiple={ false }
+          multiple={false}
           className="avatar-dropzone"
         >
-        <img src={ preview || ( !!avatar.url ? avatar.url : '/assets/images/user.jpg') } width="200" height="200" alt="preview" />
+          <div className="changePhotoContainer">
+            {!!avatar.url ?
+              <div className="changePhotoLabelContainer">
+                <img src="/assets/images/uploadIcon.png" alt="upload"/>
+                <p> Change </p>
+                <p> Photo </p>
+              </div> :
+              <div className="uploadPhotoLabelContainer">
+                <img src="/assets/images/uploadIcon.png" alt="upload"/>
+                <p> Upload </p>
+                <p> Photo ID </p>
+              </div>
+            }
+            <img src={preview || (!!avatar.url ? avatar.url : '/assets/images/user.jpg')} width="200" height="200" alt="preview"/>
+          </div>
         </Dropzone>
       </div>
     )
@@ -168,7 +182,7 @@ class Profile extends Component {
   updateProfileData() {
     const { first, last, email, newAvatar, rewardNotificationOn } = this.state
     let formData = new FormData()
-    if(newAvatar) formData.append('user[avatar]', newAvatar)
+    if ( newAvatar ) formData.append('user[avatar]', newAvatar)
     formData.append('user[first]', first)
     formData.append('user[last]', last)
     formData.append('user[email]', email)
