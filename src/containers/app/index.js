@@ -30,6 +30,7 @@ const Privacy = Loadable({ loader: () => import('../../components/privacy'), loa
 const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Loading })
 const Withdraw = Loadable({ loader: () => import('../nodes/withdraw'), loading: Loading })
 const SignUp = Loadable({ loader: () => import('../authenticate/signUp'), loading: Loading })
+const SignUpSuccess = Loadable({ loader: () => import('../authenticate/sign_up_success'), loading: Loading })
 const Terms = Loadable({ loader: () => import('../../components/terms'), loading: Loading })
 const Masternodes = Loadable({ loader: () => import('../../containers/masternodes'), loading: Loading })
 const CoinInfo = Loadable({ loader: () => import('../../containers/masternodes/coinInfo'), loading: Loading })
@@ -79,6 +80,7 @@ class App extends Component {
               <PublicRoute exact path="/login" component={Login}/>
               <PublicRoute exact path="/logout" component={Logout}/>
               <PublicRoute exact path="/sign-up" component={SignUp}/>
+              <PublicRoute exact path="/welcome" component={SignUpSuccess}/>
               <PublicRoute exact path="/forgot_password" component={ForgotPassword}/>
               <PublicRoute exact path="/reset_password/:slug" component={ResetPassword}/>
               <PublicRoute exact path="/faq" component={FAQ}/>
