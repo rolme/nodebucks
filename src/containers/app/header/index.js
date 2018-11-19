@@ -28,6 +28,7 @@ import { fetchWithdrawals } from '../../../reducers/withdrawals'
 import { reserveWithdrawal } from '../../../reducers/withdrawals'
 
 import './index.css'
+import SocialButton from "../../authenticate/socialButton";
 
 class Header extends Component {
   constructor(props) {
@@ -138,21 +139,21 @@ class Header extends Component {
           </NavbarToggler>
           <Collapse isOpen={!this.state.collapsed} navbar className="headerNavBar">
             {!user &&
-            <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
-              <NavLink to="/" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Home</NavLink>
-              <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
-              <NavLink to="/what-are-masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Learn</NavLink>
-              <NavLink to="/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliate</NavLink>
-              <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
+            <Col xl={7} lg={8} className="navbar-nav headerMenuItemsContainer mr-auto justify-content-end">
+              <NavLink to="/" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe903;</i> Home</NavLink>
+              <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe906;</i> Masternodes</NavLink>
+              <NavLink to="/what-are-masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe904;</i> Learn</NavLink>
+              <NavLink to="/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe900;</i> Affiliate</NavLink>
+              <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe901;</i> Contact</NavLink>
             </Col>
             }
             {!!user &&
-            <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer mr-auto">
-              <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Dashboard</NavLink>
-              <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Masternodes</NavLink>
-              <NavLink to="/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Affiliate</NavLink>
+            <Col xl={7} lg={7} className="navbar-nav headerMenuItemsContainer loggedOut mr-auto">
+              <NavLink to="/dashboard" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"> <i className="headerMenuIcon">&#xe902;</i> Dashboard</NavLink>
+              <NavLink to="/masternodes" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe906;</i> Masternodes</NavLink>
+              <NavLink to="/affiliate" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe900;</i> Affiliate</NavLink>
               <div className="dropdown-divider authMenuDivider"></div>
-              <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link">Contact</NavLink>
+              <NavLink to="/contact" exact={true} onClick={() => this.toggleNavbar(true)} className="headerMenuItem nav-item nav-link"><i className="headerMenuIcon">&#xe901;</i> Contact</NavLink>
             </Col>
             }
             {!!user &&
@@ -220,8 +221,8 @@ class Header extends Component {
 
   displayLoginLink() {
     let navigation = []
-    navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Login</NavLink>)
-    navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active">Register</NavLink>)
+    navigation.push(<NavLink key="login" onClick={() => this.toggleNavbar(true)} to="/login" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active"><i className="headerMenuIcon">&#xe905;</i> Login</NavLink>)
+    navigation.push(<NavLink key="register" onClick={() => this.toggleNavbar(true)} to="/sign-up" className="headerMenuItem headerMenuAuthItem nav-link nav-item" activeClassName="active"><i className="headerMenuIcon">&#xe907;</i> Register</NavLink>)
     return (navigation)
   }
 }

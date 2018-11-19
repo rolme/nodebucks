@@ -22,12 +22,20 @@
   max-width: calc(100vw - 190px);
 }
 
+.headerMenuIcon {
+  font-family: 'Header-Icons';
+  font-style: normal;
+  font-weight: normal;
+  color: white;
+  font-size: 16px;
+}
+
 a.headerMenuItem {
   color: white !important;
   font-family: Raleway;
   font-weight: bold;
   font-size: 16px;
-  margin: 0 20px !important;
+  margin: 0 15px !important;
   padding: 0 !important;
   border-bottom: 2px solid transparent !important;
   letter-spacing: 0.05em;
@@ -37,11 +45,13 @@ a.headerMenuItem.headerMenuAuthItem {
   border: none !important;
 }
 
-a.headerMenuItem.active {
+a.headerMenuItem.active,
+a.headerMenuItem.active > .headerMenuIcon {
   color: #2283C7 !important;
 }
 
-a.headerMenuItem:hover {
+a.headerMenuItem:hover,
+a.headerMenuItem:hover > .headerMenuIcon {
   border-bottom: 2px solid #2283C7 !important;
   color: #2283C7 !important;
 }
@@ -207,7 +217,7 @@ a.headerMenuItem.active:hover {
   display: none !important;
 }
 
-.authMenuDivider{
+.authMenuDivider {
   display: none;
 }
 
@@ -216,22 +226,42 @@ a.headerMenuItem.active:hover {
     margin: 0 10px;
   }
 
-  a.headerMenuItem {
-    margin: 0 15px !important;
+  .loggedOut > a.headerMenuItem {
+    margin: 0 10px !important;
   }
-}
 
-@media (max-width: 1080px) {
+  .headerLogo {
+    padding: 15px 0 !important;
+  }
+
   .headerAddNodeButton {
     margin: 0;
   }
 
+  .headerNavBar {
+    min-width: calc(100% - 140px);
+  }
+}
+
+@media (max-width: 1080px) {
   .headerLoggedInUserContainer {
     padding: 8px 15px !important;
   }
 
+  .headerAddNodeButton {
+    padding: 7px 10px !important;
+  }
+
+  .headerMenuItemsContainer {
+    padding-right: 0 !important;
+  }
+
   a.headerMenuItem {
     margin: 0 10px !important;
+  }
+
+  .loggedOut > a.headerMenuItem {
+    margin: 0 10px 0 2px !important;
   }
 }
 
@@ -250,7 +280,6 @@ a.headerMenuItem.active:hover {
     border-left: none;
     border-right: none;
   }
-
 
   .headerMenuAuthItem {
     border: none !important;
@@ -272,10 +301,14 @@ a.headerMenuItem.active:hover {
     max-width: 100vw;
   }
 
-  .authMenuDivider{
+  .authMenuDivider {
     display: block;
     width: 100%;
     border-top: 1px solid #e9ecef61;
+  }
+
+  .headerAddNodeButton {
+    padding: 7px 20px !important;
   }
 }
 
