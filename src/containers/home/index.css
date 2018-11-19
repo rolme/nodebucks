@@ -1,17 +1,15 @@
-.homeMainBannerContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  padding: 20px 0;
-}
-
 /*Main Banner Part*/
 
 .homeMainBannerContainer {
   position: relative;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  background-size: cover;
+  width: 100%;
+  height: calc(100vh - 60px);
 }
 
 .homeMainBannerContainer > .contentContainer {
@@ -19,7 +17,7 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
-  padding: 150px 0 180px 0;
+  padding: 100px 0 180px 0;
 }
 
 .homeMainBannerContainer > .contentContainer > .col {
@@ -143,6 +141,7 @@
   color: #FFFFFF;
 }
 
+.homeMainBannerButton,
 .homeFooterButton {
   background-color: #FC6422;
   font-family: 'Raleway-Bold';
@@ -156,7 +155,9 @@
 }
 
 .homeFooterButton:hover,
-.homeFooterButton:focus {
+.homeFooterButton:focus,
+.homeMainBannerButton:hover,
+.homeMainBannerButton:focus {
   outline: none;
   background-color: #FC6422;
 }
@@ -170,11 +171,16 @@
   .homeMainBannerDescription {
     font-size: 19px;
   }
+
+  .homeMainBannerContainer > .contentContainer > div {
+    margin-left: 30px;
+  }
 }
 
 @media (max-width: 992px) {
   .homeMainBannerContainer {
     display: block;
+    height: auto;
   }
 
   .homeMainBannerContainer > .contentContainer {
@@ -193,10 +199,6 @@
 
   .homeFooterContainer {
     padding: 20px 0;
-  }
-
-  .homeMainBannerContainer > .contentContainer > div {
-    margin-left: 30px;
   }
 }
 
@@ -236,6 +238,10 @@
 
   .homeSectionContainer > .contentContainer {
     padding: 40px 0 !important;
+  }
+
+  .homeMainBannerButton{
+    margin: 10px 0;
   }
 }
 
