@@ -351,6 +351,36 @@
   border-top: 1px solid #E7E7E7;
 }
 
+/*Purchase Success*/
+.purchaseSuccessContentContainer {
+  margin-top: 45px;
+}
+
+.purchaseSuccessContentContainer > h1 {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 30px;
+  margin: 0 0 50px 0;
+}
+
+.purchaseSuccessContentContainer > p {
+  color: #000000;
+  font-family: "Raleway-Light";
+  font-size: 16px;
+  margin: 0 0 30px 0;
+}
+
+.purchaseSuccessContentContainer > a {
+  color: #2283C7;
+  font-family: "Raleway-Medium";
+  font-size: 16px;
+  margin: 0 0 15px 0;
+}
+
+.purchaseSuccessContentContainer > a:hover {
+  color: #2694e1;
+}
+
 /*Show Page Style*/
 .showPageContainer {
   background-color: #FAFAFA;

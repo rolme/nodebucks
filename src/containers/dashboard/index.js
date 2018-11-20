@@ -24,7 +24,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showPurchaseMessageAlert: false,
       showAnnouncementAlert: false,
       showConfirmMessageAlert: false,
       showSellServerMessageAlert: false,
@@ -66,15 +65,9 @@ class Dashboard extends Component {
     sessionStorage.setItem(name + 'Visible', false)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.message === 'Purchase node successful.') {
-      this.setState({ showPurchaseMessageAlert: true })
-    }
-  }
-
   render() {
     const { pending, nodes, announcement, announcementError, purchaseError, messageWithdrawal, errorWithdrawal } = this.props
-    const { showPurchaseMessageAlert, showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
+    const { showAnnouncementAlert, showConfirmMessageAlert, showSellServerMessageAlert, confirmMessage, sellServerMessage } = this.state
     let monthlyRewards = 0, nodeValue = 0, costBases = 0, yearlyRoiValues = 0
 
     // Do not display sold nodes
@@ -112,15 +105,8 @@ class Dashboard extends Component {
           { messageWithdrawal && <UncontrolledAlert color={errorWithdrawal ? 'danger' : 'success'}>{messageWithdrawal}</UncontrolledAlert> }
         </div>
         <div className="contentContainer px-0">
-          { purchaseError ?
-            <UncontrolledAlert color="danger">Error on server while purchasing new node. Please contact us.</UncontrolledAlert> :
-            <Alert className="messageBox statusSuccess" isOpen={showPurchaseMessageAlert} toggle={() => this.onAlertDismiss('purchaseMessage')}>
-              <h5 className="messageTitle">Congratulations on your new Masternode!</h5>
-              <p className="messageText">
-                Please give us 24-48 hours to get your node up and running.
-                Your first reward is usually given after 2-3 days of node uptime.
-              </p>
-            </Alert>
+          { purchaseError &&
+            <UncontrolledAlert color="danger">Error on server while purchasing new node. Please contact us.</UncontrolledAlert>
           }
           <h1 className="dashboardPageTitle pageTitle">Dashboard</h1>
           <Row className="dashboardPageTotalsRow">

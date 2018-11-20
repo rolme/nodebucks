@@ -25,6 +25,7 @@ const Home = Loadable({ loader: () => import('../home'), loading: Loading })
 const Login = Loadable({ loader: () => import('../authenticate/login'), loading: Loading })
 const Logout = Loadable({ loader: () => import('../authenticate/logout'), loading: Loading })
 const NewNode = Loadable({ loader: () => import('../nodes/new'), loading: Loading })
+const PurchaseSuccess = Loadable({ loader: () => import('../nodes/purchaseSuccess'), loading: Loading })
 const Node = Loadable({ loader: () => import('../nodes/show'), loading: Loading })
 const Privacy = Loadable({ loader: () => import('../../components/privacy'), loading: Loading })
 const SellNode = Loadable({ loader: () => import('../nodes/sell'), loading: Loading })
@@ -90,6 +91,7 @@ class App extends Component {
               <PublicRoute exact path="/privacy" component={Privacy}/>
               <PublicRoute exact path="/contact" component={Contact}/>
               <PublicRoute exact path="/nodes/:crypto/new" component={NewNode}/>
+              <PublicRoute exact path="/purchase_success" component={PurchaseSuccess}/>
               <Route exact path="/nodes/:slug/sell" component={SellNode}/>
               <Route exact path="/nodes/withdraw" component={Withdraw}/>
               <Route exact path="/nodes/:slug" component={Node}/>

@@ -34,7 +34,6 @@ class ConfirmEmail extends Component {
 
   render() {
     const { pending, error, user } = this.state
-
     if ( pending ) {
       return (
         <Container fluid>
@@ -50,7 +49,7 @@ class ConfirmEmail extends Component {
         </Container>
       )
     }
-   
+
     if ( error ) {
       this.props.history.push('/404')
       return null
