@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Redirect, withRouter } from 'react-router-dom'
-import ErrorPage404 from '../../components/error_pages/404_error_page'
+import { withRouter, NavLink } from 'react-router-dom'
+import { RingLoader } from 'react-spinners'
 import './index.css'
+
+import { Container, Col } from "reactstrap"
 
 import { confirm } from '../../reducers/user'
 
@@ -11,18 +13,15 @@ class ConfirmEmail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      error: (!!this.props.error) ? true : false,
-      pending: (!!this.props.pending) ? true : false,
+      error: this.props.error,
+      pending: this.props.pending,
       user: this.props.user,
     }
   }
 
   componentWillMount() {
     const { slug } = this.props.match.params
-    if(this.props.user) {
-      this.setState({ slug })
-      this.props.confirm(slug)
-    }
+    this.props.confirm(slug)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,16 +34,42 @@ class ConfirmEmail extends Component {
 
   render() {
     const { pending, error, user } = this.state
-
-    if(!this.state.user) {
-      return <Redirect to="/login" />
-    } else if (!pending && !error && !!user) {
-      return <Redirect to="/dashboard" />
-    } else if(!pending && error) {
-      return <ErrorPage404 />
-    } else {
-      return <div />
+    if ( pending ) {
+      return (
+        <Container fluid>
+          <div className="contentContainer d-flex justify-content-center">
+            <div className="spinnerContainer">
+              <RingLoader
+                size={150}
+                color={'#3F89E8'}
+                loading={true}
+              />
+            </div>
+          </div>
+        </Container>
+      )
     }
+
+    if ( error ) {
+      this.props.history.push('/404')
+      return null
+    }
+
+    if ( !!user ) {
+      return (
+        <Container fluid>
+          <div className="contentContainer d-flex justify-content-center">
+            <Col xl={9} className="confirmEmailContentContainer">
+              <h1>Email verified</h1>
+              <p>Thank you for verifying your email. To adjust your email settings, go to:</p>
+              <NavLink to="/settings">https://nodebucks.com/settings</NavLink>
+            </Col>
+          </div>
+        </Container>
+      )
+    }
+
+    return null
   }
 }
 

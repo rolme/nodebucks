@@ -60,7 +60,11 @@ class SignUp extends Component {
   componentWillReceiveProps(nextProps) {
     const { user, message, error } = nextProps
     if ( !!user ) {
-      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push('/masternodes')
+      let pathName = "/masternodes"
+      if ( message === 'Registration completed successfully.' ) {
+        pathName = '/welcome'
+      }
+      !!this.props.onSuccess ? this.props.onSuccess() : this.props.history.push(pathName)
     } else if ( message === 'Email has already been taken' ) {
       let messages = { ...this.state.messages }, errors = { ...this.state.errors }
       messages.email = message
@@ -70,7 +74,8 @@ class SignUp extends Component {
   }
 
   componentWillUnmount() {
-    this.props.reset()
+    const { message } = this.props
+    message !== 'Registration completed successfully.' && this.props.reset()
   }
 
   handleFieldValueChange(newValue, name, onEnter) {
@@ -267,13 +272,13 @@ class SignUp extends Component {
                       />
                     </Col>
                   </Col>
-                  <Col xl={{size: 8, offset: 2}} lg={{size: 8, offset: 2}} md={{size: 8, offset: 2}} sm={{size: 12, offset: 0}} xs={{size: 12, offset: 0}} className="d-flex px-0 mt-4 flex-column">
+                  <Col xl={{ size: 8, offset: 2 }} lg={{ size: 8, offset: 2 }} md={{ size: 8, offset: 2 }} sm={{ size: 12, offset: 0 }} xs={{ size: 12, offset: 0 }} className="d-flex px-0 mt-4 flex-column">
                     <Button onClick={this.validation} className="submitButton w-100">Submit</Button>
                     <p className="signUpSignInText">Already have an account? <NavLink to="login">Sign in</NavLink></p>
                     <p className="signUpSignInText d-xl-none d-lg-none d-md-none d-inline">Or Sign Up using Social Media</p>
                   </Col>
                 </Col>
-                <Col xl={{ size: 5 }} lg={{ size: 5}} md={{ size: 5 }} sm={{ size: 12 }}>
+                <Col xl={{ size: 5 }} lg={{ size: 5 }} md={{ size: 5 }} sm={{ size: 12 }}>
                   <SocialButton
                     provider='facebook'
                     appId={process.env.REACT_APP_FACEBOOK_API_KEY}
