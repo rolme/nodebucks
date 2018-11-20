@@ -47,27 +47,28 @@ class CoinInfo extends Component {
   }
 
   componentWillUnmount() {
-    const jsonLdText = JSON.stringify({
-      "@context": "http://schema.org",
-      "@type": "Corporation",
-      "name": "NodeBucks",
-      "alternateName": "NodeBucks.com",
-      "url": "https://nodebucks.com/",
-      "logo": "https://nodebucks.com/assets/images/nodebucks_beta.svg",
-      "sameAs": [
-        "https://www.facebook.com/nodebucks/",
-        "https://twitter.com/nodebucks"
-      ]
-    })
-    this.handleJsonLd(jsonLdText)
+    const existingScripts = document.querySelector('head').getElementsByTagName('script')
+    for ( let i = 0; i < existingScripts.length; i++ ) {
+      if ( existingScripts[ i ].type === 'application/ld+json' && (existingScripts[ i ].text).includes('BreadcrumbList') ) {
+          document.head.removeChild(existingScripts[ i ])
+      }
+    }
   }
 
   handleJsonLd(text) {
-    const existingScripts = document.querySelector('body').getElementsByTagName('script');
+    const existingScripts = document.querySelector('head').getElementsByTagName('script')
+    let wasFound = false
     for ( let i = 0; i < existingScripts.length; i++ ) {
-      if ( existingScripts[ i ].type === 'application/ld+json' ) {
+      if ( existingScripts[ i ].type === 'application/ld+json' && (existingScripts[ i ].text).includes('BreadcrumbList') ) {
         existingScripts[ i ].text = text
+        wasFound = true
       }
+    }
+    if ( !wasFound ) {
+      let script = document.createElement("script")
+      script.type = "application/ld+json"
+      script.text = text
+      document.head.appendChild(script);
     }
   }
 
