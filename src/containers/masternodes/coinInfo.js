@@ -50,7 +50,7 @@ class CoinInfo extends Component {
     const existingScripts = document.querySelector('head').getElementsByTagName('script')
     for ( let i = 0; i < existingScripts.length; i++ ) {
       if ( existingScripts[ i ].type === 'application/ld+json' && (existingScripts[ i ].text).includes('BreadcrumbList') ) {
-          document.head.removeChild(existingScripts[ i ])
+        document.head.removeChild(existingScripts[ i ])
       }
     }
   }
@@ -58,17 +58,22 @@ class CoinInfo extends Component {
   handleJsonLd(text) {
     const existingScripts = document.querySelector('head').getElementsByTagName('script')
     let wasFound = false
+    let firstScriptIndex = 0
     for ( let i = 0; i < existingScripts.length; i++ ) {
-      if ( existingScripts[ i ].type === 'application/ld+json' && (existingScripts[ i ].text).includes('BreadcrumbList') ) {
-        existingScripts[ i ].text = text
-        wasFound = true
+      if ( existingScripts[ i ].type === 'application/ld+json' ) {
+        if ( (existingScripts[ i ].text).includes('BreadcrumbList') ) {
+          existingScripts[ i ].text = text
+          wasFound = true
+        } else {
+          firstScriptIndex = i
+        }
       }
     }
     if ( !wasFound ) {
       let script = document.createElement("script")
       script.type = "application/ld+json"
       script.text = text
-      document.head.appendChild(script);
+      document.head.insertBefore(script, document.head.children[ firstScriptIndex + 1 ])
     }
   }
 
