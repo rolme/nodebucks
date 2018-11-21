@@ -34,6 +34,9 @@ class PriceHistoryChart extends Component {
       labels.push(moment(new Date(Object.keys(nodeSellPrice)[0])).format("MMM D YYYY"))
     })
 
+    data.push(this.props.node.value)
+    labels.push(moment(new Date()).format("MMM D YYYY"))
+
     datasets.push(
       {
         fill: false,
