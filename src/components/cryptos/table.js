@@ -16,6 +16,7 @@ class CryptoTable extends Component {
       sortedList: []
     }
 
+    this.onSelectMasternode = this.onSelectMasternode.bind(this)
     this.sortTable = this.sortTable.bind(this)
   }
 
@@ -45,6 +46,10 @@ class CryptoTable extends Component {
 
     this.setState({ sortedList, sortedColumnName: columnName, isDescending })
 
+  }
+
+  onSelectMasternode(slug) {
+    this.props.history.push(`/masternodes/${slug}`)
   }
 
   render() {
@@ -85,10 +90,9 @@ class CryptoTable extends Component {
       return (
         <tr key={item.slug}>
           <td>
-            <div className="d-flex justify-content-start align-items-center cryptosTableCoinCellContainer">
+            <div onClick={() => this.onSelectMasternode(item.slug)} className="d-flex justify-content-start align-items-center cryptosTableCoinCellContainer">
               <img alt="logo" src={`/assets/images/logos/${item.slug}.png`} width="40px"/>
               <p>{item.name}</p>
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="d-flex"><img alt="logo" src={`/assets/images/globe.png`} width="21px"/></a>
             </div>
           </td>
           <td className={`${sortedColumnName === 'annualRoiPercentage' ? 'cryptosTableSortedColumnCell' : ''} d-xl-table-cell d-lg-table-cell d-none text-right`}>{annualRoi}</td>

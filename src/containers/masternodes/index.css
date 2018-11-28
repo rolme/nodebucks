@@ -23,6 +23,10 @@
   padding: 30px;
 }
 
+.masternodesListingCoinInfoContainer > .masternodeNameSectionContainer {
+  cursor: pointer;
+}
+
 .masternodesListingCoinName {
   color: #000000;
   font-size: 26px;

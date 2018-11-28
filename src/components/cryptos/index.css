@@ -105,6 +105,10 @@
   box-shadow: none !important;
 }
 
+.cryptosTableCoinCellContainer {
+  cursor: pointer;
+}
+
 .cryptosTableCoinCellContainer > p {
   margin: 0 15px !important;
 }
