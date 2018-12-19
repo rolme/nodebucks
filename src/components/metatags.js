@@ -31,23 +31,23 @@ export default class Metatags extends Component {
     const { description, title, url, image, noIndex, canonical, siteName } = this.state
     return (
       <Helmet>
-        <meta name="keywords" content="masternodes masternode node blockchain"/>
+        <title>{title}</title>
         <meta name="description" content={description}/>
+        <meta name="keywords" content="masternodes masternode node blockchain"/>
+        <link rel="canonical" href={canonical}/>
+        <meta property="og:title" content={title}/>
+        <meta property="og:description" content={description}/>
         <meta property="og:locale" content="en_US"/>
         <meta property="og:type" content="website"/>
-        <meta property="og:title" content={title}/>
         <meta property="og:url" content={url}/>
         <meta property="og:site_name" content={siteName}/>
         <meta property="og:image" content={`https://nodebucks.com${image}`}/>
-        <meta property="og:description" content={description}/>
         <meta property="fb:app_id" content="252963548770422"/>
-        <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:title" content={title}/>
-        <meta name="twitter:image" content={`https://nodebucks.com${image}`}/>
         <meta name="twitter:description" content={description}/>
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:image" content={`https://nodebucks.com${image}`}/>
         {noIndex && <meta name="ROBOTS" content="NOINDEX"/>}
-        <link rel="canonical" href={canonical}/>
-        <title>{title}</title>
         {this.props.children}
       </Helmet>
     )
