@@ -137,6 +137,7 @@ export default (state = initialState, action) => {
     case PURCHASE_SUCCESS:
       return {
         ...state,
+        data: action.payload,
         purchased: action.payload,
         pending: false,
         error: false,
@@ -212,8 +213,13 @@ export function purchaseNode(paymentResponse, slug, callback) {
     axios.defaults.headers.common[ 'Authorization' ] = 'Bearer ' + localStorage.getItem('jwt-nodebucks')
     axios.patch(`/api/nodes/${slug}/purchase`, { payment_response: paymentResponse })
       .then((response) => {
-        dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
-        callback()
+        if (response.data.status !== 'error') {
+          dispatch({ type: PURCHASE_SUCCESS, payload: response.data })
+          callback()
+        } else {
+          dispatch({ type: PURCHASE_ERROR, payload: { message: response.message } })
+          console.log(response.message)
+        }
       }).catch((error) => {
       dispatch({ type: PURCHASE_ERROR, payload: { message: error.data } })
       console.log(error)

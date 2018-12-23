@@ -46,8 +46,8 @@ class NewNode extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    const { user, node, crypto, nodePending, refreshing, nodeMessage, nodeError } = nextProps
-    if ( nodeMessage === 'Purchase node successful.' ) {
+    const { user, node, crypto, nodePending, refreshing, nodeError } = nextProps
+    if ( node.status === 'new' ) {
       this.props.history.push('/purchase_success')
       return
     }
@@ -124,9 +124,7 @@ class NewNode extends Component {
   handlePurchase(paymentResponse) {
     const { node } = this.props
     this.togglePurchasingStatus()
-    this.props.purchaseNode(paymentResponse, node.slug, () => {
-      this.props.fetchNodes()
-    })
+    this.props.purchaseNode(paymentResponse, node.slug, () => {})
   }
 
   togglePurchasingStatus = () => {
