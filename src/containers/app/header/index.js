@@ -28,7 +28,6 @@ import { fetchWithdrawals } from '../../../reducers/withdrawals'
 import { reserveWithdrawal } from '../../../reducers/withdrawals'
 
 import './index.css'
-import SocialButton from "../../authenticate/socialButton";
 
 class Header extends Component {
   constructor(props) {
