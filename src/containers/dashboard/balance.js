@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { faBan } from '@fortawesome/fontawesome-free-solid'
+import { CSVLink } from 'react-csv'
 
 import { fetchBalance } from '../../reducers/user'
-import { valueFormat } from "../../lib/helpers";
+import { fetchRewards } from '../../reducers/rewards'
+import { valueFormat } from "../../lib/helpers"
 
 class Balance extends Component {
 
   componentWillMount() {
     this.props.fetchBalance()
+    this.props.fetchRewards()
   }
 
   render() {
@@ -61,21 +63,37 @@ class Balance extends Component {
             })}
             </tbody>
           </table>
+          {
+            this.props.rewards.length > 0 && <center>
+              <CSVLink filename="rewards.csv" data={this.generateRewardsCSV()}>Download Rewards History</CSVLink>
+            </center>
+          }
         </div>
       </div>
     )
+  }
+
+  generateRewardsCSV() {
+    const { rewards } = this.props
+    let csv = [["timestamp", "coin", "amount"]]
+    rewards.forEach(reward => {
+      csv.push([reward.timestamp, reward.crypto, reward.amount])
+    })
+    return csv
   }
 }
 
 const mapStateToProps = state => ({
   error: state.nodes.error,
   message: state.nodes.message,
+  rewards: state.rewards.list,
   pending: state.nodes.pending,
   user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchBalance
+  fetchBalance,
+  fetchRewards
 }, dispatch)
 
 export default connect(
