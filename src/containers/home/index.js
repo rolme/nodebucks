@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 
-import { fetchAnnouncement } from '../../reducers/announcements'
-import { disabledAnnouncements } from '../../lib/helpers'
+// import { fetchAnnouncement } from '../../reducers/announcements'
+// import { disabledAnnouncements } from '../../lib/helpers'
 import { Col, Alert, Button } from 'reactstrap'
 
 import './index.css'
@@ -41,10 +41,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchAnnouncement()
-    if ( !disabledAnnouncements() ) {
-      this.setState({ visibleAlert: true })
-    }
+    // this.props.fetchAnnouncement()
+    // if ( !disabledAnnouncements() ) {
+    //   this.setState({ visibleAlert: true })
+    // }
   }
 
   componentWillUnmount() {
@@ -231,7 +231,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchAnnouncement
+  // fetchAnnouncement
 }, dispatch)
 
 export default withRouter(connect(
