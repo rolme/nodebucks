@@ -63,12 +63,12 @@ class Balance extends Component {
             })}
             </tbody>
           </table>
-          {
-            this.props.rewards.length > 0 && <center>
-              <CSVLink filename="rewards.csv" data={this.generateRewardsCSV()}>Download Rewards History</CSVLink>
-            </center>
-          }
         </div>
+        {
+          this.props.rewards.length > 0 && <div className="pt-1 text-center">
+            <CSVLink style={{ fontSize: '11pt' }} filename="rewards.csv" data={this.generateRewardsCSV()}>Download Rewards History</CSVLink>
+          </div>
+        }
       </div>
     )
   }
