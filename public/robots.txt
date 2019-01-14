@@ -1,3 +1,2 @@
 User-agent: *
 Sitemap: https://nodebucks.com/sitemap.xml
-Sitemap: https://www.nodebucks.com/sitemap.xml
